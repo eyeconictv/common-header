@@ -3860,28 +3860,16 @@ angular.module("risevision.common.geodata", [])
         init: _init,
         switchCompany: _switchCompany,
         updateCompanySettings: function (company) {
-          if (company && _state.selectedCompany) {
+          if (company && company.id === _companyState.getSelectedCompanyId()) {
             objectHelper.clearAndCopy(company, _state.selectedCompany);
-            if (_state.userCompany.id === _state.selectedCompany.id) {
-              objectHelper.clearAndCopy(company, _state.userCompany);
-            }
-
-            $rootScope.$broadcast("risevision.company.updated", {
-              "companyId": company.id
-            });
           }
-        },
-        updateUserCompanySettings: function (company) {
-          if (company && _state.userCompany) {
+          if (company && company.id === _companyState.getUserCompanyId()) {
             objectHelper.clearAndCopy(company, _state.userCompany);
-            if (_state.userCompany.id === _state.selectedCompany.id) {
-              objectHelper.clearAndCopy(company, _state.selectedCompany);
-            }
-
-            $rootScope.$broadcast("risevision.company.updated", {
-              "companyId": company.id
-            });
           }
+
+          $rootScope.$broadcast("risevision.company.updated", {
+            "companyId": company.id
+          });
         },
         resetCompany: function () {
           objectHelper.clearAndCopy(_state.userCompany, _state.selectedCompany);
