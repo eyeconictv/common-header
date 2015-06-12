@@ -42,9 +42,24 @@ describe("Services: company state", function() {
         return deferred.promise;
       };
     }]);
+    
+    companyWithNewSettings = {
+      "id": "RV_parent_id",
+      "parentId": "fb788f1f",
+      "name": "Parent Company new name",
+      "country": "US"
+    };
+    
+    subCompanyWithNewSettings = {
+      "id": "RV_subcompany_id",
+      "parentId": "fb788f1f",
+      "name": "Sub Company new name",
+      "country": "US"
+    };
   }));
   
   var companyState, subCompany, apiCount, rootScope, broadcastSpy;
+  var companyWithNewSettings, subCompanyWithNewSettings;
   
   beforeEach(function() {
     apiCount = 0;
@@ -73,7 +88,6 @@ describe("Services: company state", function() {
       expect(companyState.init).to.be.ok;
       expect(companyState.switchCompany).to.be.ok;
       expect(companyState.updateCompanySettings).to.be.ok;
-      expect(companyState.updateUserCompanySettings).to.be.ok;
       ["init", "switchCompany", "updateCompanySettings", "resetCompany",
       "resetCompanyState", "getUserCompanyId", "getSelectedCompanyId", 
       "getSelectedCompanyName", "getSelectedCompanyCountry",
@@ -143,16 +157,12 @@ describe("Services: company state", function() {
       expect(companyState.isSubcompanySelected()).to.be.false;
     });
 
-    it("should update company settings", function(done) {
-      var companyWithNewSettings = {
-          "id": "RV_parent_id",
-          "parentId": "fb788f1f",
-          "name": "Parent Company new name",
-          "country": "US"
-      };
-      broadcastSpy.reset();
-      companyState.updateCompanySettings(companyWithNewSettings);
-      setTimeout(function() {
+    describe("updateCompanySettings: ", function(){
+
+      it("should update company settings", function(done) {
+        broadcastSpy.reset();
+        companyState.updateCompanySettings(companyWithNewSettings);
+        setTimeout(function() {
           broadcastSpy.should.have.been.calledWith("risevision.company.updated");
           expect(broadcastSpy.args[0][1].companyId).to.equal("RV_parent_id");
           broadcastSpy.should.have.been.calledOnce;
@@ -162,41 +172,21 @@ describe("Services: company state", function() {
           expect(companyState.getSelectedCompanyCountry()).to.equal("US");
           expect(companyState.isSubcompanySelected()).to.be.false;
           done();
-      },10);
-    });
+        },10);
+      });
 
-    it("should update selected company settings without loosing fields", function(done) {
-      var companyWithNewSettings = {
-          "id": "RV_parent_id",
-          "parentId": "fb788f1f",
-          "name": "Parent Company new name",
-          "country": "US"
-      };
-      companyState.updateCompanySettings(companyWithNewSettings);
-      var copyOfCompany = companyState.getCopyOfSelectedCompany(true);
-      copyOfCompany.country = "CA";
-      companyState.updateCompanySettings(copyOfCompany);
-      setTimeout(function() {
+      it("should update company settings without losing fields", function(done) {
+        companyState.updateCompanySettings(companyWithNewSettings);
+        var copyOfCompany = companyState.getCopyOfSelectedCompany(true);
+        copyOfCompany.country = "CA";
+        companyState.updateCompanySettings(copyOfCompany);
+        setTimeout(function() {
           expect(companyState.getSelectedCompanyId()).to.equal("RV_parent_id");
+          expect(companyState.getSelectedCompanyName()).to.equal("Parent Company new name");
           expect(companyState.getSelectedCompanyCountry()).to.equal("CA");
           done();
-      },10);
-    });
-
-    it("should update user company settings without loosing fields", function(done) {
-      var companyWithNewSettings = {
-          "id": "RV_parent_id",
-          "parentId": "fb788f1f",
-          "name": "Parent Company new name",
-          "country": "US"
-      };
-      companyState.updateUserCompanySettings(companyWithNewSettings);
-      var copyOfCompany = companyState.getCopyOfUserCompany(true);
-      companyState.updateUserCompanySettings(copyOfCompany);
-      setTimeout(function() {
-          expect(companyState.getUserCompanyId()).to.equal("RV_parent_id");
-          done();
-      },10);
+        },10);
+      });
     });
 
   });
@@ -248,6 +238,52 @@ describe("Services: company state", function() {
           done();
         },10);
       },10);
+    });
+    
+    describe("updateCompanySettings: ", function() {
+      beforeEach(function(done){
+        companyState.init();
+        
+        setTimeout(function() {
+          broadcastSpy.reset();
+          
+          done();
+        },10);
+      });
+
+      it("should only update user company settings", function(done) {
+        companyState.updateCompanySettings(companyWithNewSettings);
+
+        expect(companyState.getUserCompanyId()).to.equal("RV_parent_id");
+        expect(companyState.getUserCompanyName()).to.equal("Parent Company new name");
+        expect(companyState.getSelectedCompanyId()).to.equal("RV_subcompany_id");
+        expect(companyState.getSelectedCompanyName()).to.equal("Sub Company");
+        
+        setTimeout(function() {
+          broadcastSpy.should.have.been.calledWith("risevision.company.updated");
+          expect(broadcastSpy.args[0][1].companyId).to.equal("RV_parent_id");
+          broadcastSpy.should.have.been.once;
+
+          done();
+        },10);
+      });
+      
+      it("should only update selected company settings", function(done) {
+        companyState.updateCompanySettings(subCompanyWithNewSettings);
+
+        expect(companyState.getUserCompanyId()).to.equal("RV_parent_id");
+        expect(companyState.getUserCompanyName()).to.equal("Parent Company");
+        expect(companyState.getSelectedCompanyId()).to.equal("RV_subcompany_id");
+        expect(companyState.getSelectedCompanyName()).to.equal("Sub Company new name");
+
+        setTimeout(function() {
+          broadcastSpy.should.have.been.calledWith("risevision.company.updated");
+          expect(broadcastSpy.args[0][1].companyId).to.equal("RV_subcompany_id");
+          broadcastSpy.should.have.been.once;
+          
+          done();
+        },10);
+      });
     });
   });
 });
