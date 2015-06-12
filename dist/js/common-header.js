@@ -1438,10 +1438,10 @@ angular.module("risevision.common.header", [
   }
 ])
 
-.run(["segmentAnalytics", "analyticsEvents",
-  function (segmentAnalytics) {
+.run(["segmentAnalytics", "SEGMENT_API_KEY", "analyticsEvents",
+  function (segmentAnalytics, SEGMENT_API_KEY) {
     // calling "analyticsEvents" service to initialize
-    segmentAnalytics.load("AFtY3tN10BQj6RbnfpDDp9Hx8N1modKN");
+    segmentAnalytics.load(SEGMENT_API_KEY);
   }
 ])
 
@@ -3947,41 +3947,46 @@ angular.module("risevision.common.geodata", [])
   "use strict";
 
   angular.module("risevision.common.analytics", [])
-    .factory("segmentAnalytics", ["$rootScope", "$window", "$log",
-      function ($rootScope, $window, $log) {
-        var service = {};
 
-        $window.analytics = $window.analytics || [];
-        var analytics = $window.analytics;
+  .value("SEGMENT_API_KEY", "AFtY3tN10BQj6RbnfpDDp9Hx8N1modKN")
 
-        analytics.factory = function (t) {
-          return function () {
-            var e = Array.prototype.slice.call(arguments);
-            e.unshift(t);
-            $window.analytics.push(e);
+  .factory("segmentAnalytics", ["$rootScope", "$window", "$log",
+    function ($rootScope, $window, $log) {
+      var service = {};
+      var loaded;
 
-            $log.debug("Segment Tracker", e);
+      $window.analytics = $window.analytics || [];
+      var analytics = $window.analytics;
 
-            return $window.analytics;
-          };
+      analytics.factory = function (t) {
+        return function () {
+          var e = Array.prototype.slice.call(arguments);
+          e.unshift(t);
+          $window.analytics.push(e);
+
+          $log.debug("Segment Tracker", e);
+
+          return $window.analytics;
         };
-        analytics.methods = ["trackSubmit", "trackClick", "trackLink",
-          "trackForm",
-          "pageview", "identify", "group", "track", "ready", "alias",
-          "page",
-          "once", "off", "on"
-        ];
-        for (var i = 0; i < analytics.methods.length; i++) {
-          var method = analytics.methods[i];
-          service[method] = analytics.factory(method);
-        }
+      };
+      analytics.methods = ["trackSubmit", "trackClick", "trackLink",
+        "trackForm",
+        "pageview", "identify", "group", "track", "ready", "alias",
+        "page",
+        "once", "off", "on"
+      ];
+      for (var i = 0; i < analytics.methods.length; i++) {
+        var method = analytics.methods[i];
+        service[method] = analytics.factory(method);
+      }
 
-        /**
-         * @description
-         * Load Segment.io analytics script
-         * @param apiKey The key API to use
-         */
-        service.load = function (apiKey) {
+      /**
+       * @description
+       * Load Segment.io analytics script
+       * @param apiKey The key API to use
+       */
+      service.load = function (apiKey) {
+        if (apiKey && !loaded) {
           var e = document.createElement("script");
           e.type = "text/javascript";
           e.async = !0;
@@ -3990,11 +3995,14 @@ angular.module("risevision.common.geodata", [])
             "/analytics.min.js";
           var n = document.getElementsByTagName("script")[0];
           n.parentNode.insertBefore(e, n);
-        };
 
-        return service;
-      }
-    ])
+          loaded = true;
+        }
+      };
+
+      return service;
+    }
+  ])
 
   .factory("analyticsEvents", ["$rootScope", "segmentAnalytics",
     "userState", "$location",

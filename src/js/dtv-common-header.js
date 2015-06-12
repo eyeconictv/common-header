@@ -129,10 +129,10 @@ angular.module("risevision.common.header", [
   }
 ])
 
-.run(["segmentAnalytics", "analyticsEvents",
-  function (segmentAnalytics) {
+.run(["segmentAnalytics", "SEGMENT_API_KEY", "analyticsEvents",
+  function (segmentAnalytics, SEGMENT_API_KEY) {
     // calling "analyticsEvents" service to initialize
-    segmentAnalytics.load("AFtY3tN10BQj6RbnfpDDp9Hx8N1modKN");
+    segmentAnalytics.load(SEGMENT_API_KEY);
   }
 ])
 
