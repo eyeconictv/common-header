@@ -1,102 +1,5 @@
 angular.module("risevision.common.header")
 
-.controller("AddUserModalCtrl", ["$scope", "addUser", "$modalInstance",
-  "companyId", "userState", "userRoleMap", "humanReadableError", "$loading",
-  "segmentAnalytics",
-  function ($scope, addUser, $modalInstance, companyId, userState,
-    userRoleMap, humanReadableError, $loading, segmentAnalytics) {
-    $scope.isAdd = true;
-
-    //push roles into array
-    $scope.availableRoles = [];
-    angular.forEach(userRoleMap, function (v, k) {
-      $scope.availableRoles.push({
-        key: k,
-        name: v
-      });
-    });
-
-    //convert string to numbers
-    $scope.$watch("user.status", function (status) {
-      if (typeof $scope.user.status === "string") {
-        $scope.user.status = parseInt(status);
-      }
-    });
-
-    $scope.$watch("loading", function (loading) {
-      if (loading) {
-        $loading.start("user-settings-modal");
-      } else {
-        $loading.stop("user-settings-modal");
-      }
-    });
-
-    $scope.save = function () {
-
-      $scope.forms.userSettingsForm.email.$pristine = false;
-      $scope.forms.userSettingsForm.username.$pristine = false;
-      $scope.forms.userSettingsForm.firstName.$pristine = false;
-      $scope.forms.userSettingsForm.lastName.$pristine = false;
-
-      if (!$scope.forms.userSettingsForm.$invalid) {
-        $scope.loading = true;
-        addUser(companyId, $scope.user.username, $scope.user).then(
-          function () {
-            segmentAnalytics.track("User Created", {
-              userId: $scope.user.username,
-              companyId: companyId
-            });
-
-            $modalInstance.close("success");
-          },
-          function (error) {
-            alert("Error" + humanReadableError(error));
-          }
-        ).finally(function () {
-          $scope.loading = false;
-        });
-      }
-    };
-
-    $scope.closeModal = function () {
-      $modalInstance.dismiss("cancel");
-    };
-
-    $scope.editRoleAllowed = function (role) {
-      if (userState.isRiseAdmin()) {
-        return true;
-      } else if (userState.isUserAdmin()) {
-        if (role.key === "sa" || role.key === "ba") {
-          return false;
-        } else {
-          return true;
-        }
-      } else {
-        //do not allow user to check/uncheck role by default
-        return false;
-      }
-    };
-
-    $scope.editRoleVisible = function (role) {
-      if (userState.isRiseAdmin()) {
-        return true;
-      } else if (userState.isUserAdmin() || userState.isRiseVisionUser()) {
-        if (role.key === "sa" || role.key === "ba") {
-          return false;
-        } else {
-          return true;
-        }
-      } else {
-        // in practice should never reach here
-        return false;
-      }
-    };
-
-    $scope.forms = {};
-
-  }
-])
-
 .controller("UserSettingsModalCtrl", [
   "$scope", "$modalInstance", "updateUser", "getUserProfile", "deleteUser",
   "addUser", "username", "userRoleMap", "$log", "$loading", "userState",
@@ -175,7 +78,11 @@ angular.module("risevision.common.header")
       if (!$scope.forms.userSettingsForm.$invalid) {
         $scope.loading = true;
         updateUser(username, $scope.user).then(
-          function () {
+          function (resp) {
+            if (username === userState.getUsername()) {
+              userState.updateUserProfile(resp.item);
+            }
+
             segmentAnalytics.track("User Updated", {
               userId: $scope.username,
               companyId: userState.getSelectedCompanyId(),
@@ -189,11 +96,6 @@ angular.module("risevision.common.header")
             alert("Error: " + humanReadableError(error));
           }
         ).finally(function () {
-          if (username === userState.getUsername()) {
-            userState.refreshProfile().then(function () {
-              $rootScope.$broadcast("risevision.user.updated");
-            });
-          }
           $scope.loading = false;
         });
       }

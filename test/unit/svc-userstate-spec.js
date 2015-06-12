@@ -59,7 +59,8 @@ describe("Services: auth & user state", function() {
       "isSubcompanySelected", "getUserPicture", "inRVAFrame",
       "isRiseAdmin", "isRiseStoreAdmin", "isUserAdmin", "isPurchaser",
       "isSeller", "isRiseVisionUser", "isLoggedIn", "authenticate",
-      "signOut", "refreshProfile", "getAccessToken"].forEach(
+      "signOut", "updateUserProfile", "refreshProfile", 
+      "getAccessToken"].forEach(
       function (method) {
         expect(userState).to.have.property(method);
         expect(userState[method]).to.be.a("function");
@@ -358,5 +359,74 @@ describe("Services: auth & user state", function() {
           .then(null,done);
       });
     });
+  });
+  
+  describe("updateUserProfile: ", function(){
+    var userState, rootScope, broadcastSpy;
+    
+    beforeEach(function(done) {
+      gapi.setPendingSignInUser("michael.sanchez@awesome.io");
+      gapi.auth.authorize({immediate: false}, function() {});
+
+      inject(function($injector){
+        userState = $injector.get("userState");
+        rootScope = $injector.get("$rootScope");
+        broadcastSpy = sinon.spy(rootScope, "$broadcast");
+        
+        done();
+      });
+    });
+    
+    beforeEach(function(done) {
+      userState.authenticate().then(function() {
+        done();
+      });
+    });
+    
+    it("should get copyOfProfile", function() {
+      var profile = userState.getCopyOfProfile(true);
+
+      expect(profile).to.be.ok;
+      expect(profile.firstName).to.equal("Michael");
+      expect(userState.isPurchaser()).to.be.true;
+    });
+
+    it("should update profile", function() {
+      var profile = userState.getCopyOfProfile(true);
+
+      profile.lastName = "S.";
+      profile.roles.pop();
+      
+      userState.updateUserProfile(profile);
+      
+      var copyOfProfile = userState.getCopyOfProfile();
+      
+      expect(copyOfProfile.lastName).to.equal("S.");
+      expect(userState.isPurchaser()).to.be.false;
+      
+      setTimeout(function() {
+        broadcastSpy.should.have.been.calledWithExactly("risevision.user.updated");
+        broadcastSpy.should.have.been.once;
+      }, 10);
+    });
+    
+    it("should not update other user's profile", function() {
+      var profile = {
+        username: "someone@awesome.io",
+        firstName: "Someone",
+        lastName: "Else"
+      };
+
+      userState.updateUserProfile(profile);
+      
+      var copyOfProfile = userState.getCopyOfProfile();
+      
+      expect(copyOfProfile.lastName).to.equal("Sanchez");
+      
+      setTimeout(function() {
+        broadcastSpy.should.not.have.been.once;
+      }, 10);
+    });
+
   });
 });

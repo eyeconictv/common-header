@@ -182,17 +182,7 @@
         //populate profile if the current user is a rise vision user
         getUserProfile(_state.user.username, true).then(
           function (profile) {
-            objectHelper.clearAndCopy(angular.extend({
-              username: _state.user.username
-            }, profile), _state.profile);
-
-            //set role map
-            _state.roleMap = {};
-            if (_state.profile.roles) {
-              _state.profile.roles.forEach(function (val) {
-                _state.roleMap[val] = true;
-              });
-            }
+            userState.updateUserProfile(profile);
 
             //populate company info
             return companyState.init();
@@ -462,28 +452,20 @@
       };
 
       var userState = {
-        getUserCompanyId: companyState.getUserCompanyId,
-        getUserCompanyName: companyState.getUserCompanyName,
-        getSelectedCompanyId: companyState.getSelectedCompanyId,
-        getSelectedCompanyName: companyState.getSelectedCompanyName,
-        updateCompanySettings: companyState.updateCompanySettings,
-        updateUserCompanySettings: companyState.updateUserCompanySettings,
-        getSelectedCompanyCountry: companyState.getSelectedCompanyCountry,
+        // user getters
         getUsername: function () {
           return (_state.user && _state.user.username) || null;
         },
         getUserEmail: function () {
           return _state.profile.email;
         },
-        getCopyOfProfile: function () {
-          return objectHelper.follow(_state.profile);
+        getCopyOfProfile: function (noFollow) {
+          if (noFollow) {
+            return angular.extend({}, _state.profile);
+          } else {
+            return objectHelper.follow(_state.profile);
+          }
         },
-        resetCompany: companyState.resetCompany,
-        getCopyOfUserCompany: companyState.getCopyOfUserCompany,
-        getCopyOfSelectedCompany: companyState.getCopyOfSelectedCompany,
-        switchCompany: companyState.switchCompany,
-        isSubcompanySelected: companyState.isSubcompanySelected,
-        isTestCompanySelected: companyState.isTestCompanySelected,
         getUserPicture: function () {
           return _state.user.picture;
         },
@@ -506,10 +488,44 @@
         isSeller: companyState.isSeller,
         isRiseVisionUser: isRiseVisionUser,
         isLoggedIn: isLoggedIn,
+        getAccessToken: getAccessToken,
+        // user functions
+        updateUserProfile: function (user) {
+          if (user.username === userState.getUsername()) {
+            objectHelper.clearAndCopy(angular.extend({
+              username: _state.user.username
+            }, user), _state.profile);
+
+            //set role map
+            _state.roleMap = {};
+            if (_state.profile.roles) {
+              _state.profile.roles.forEach(function (val) {
+                _state.roleMap[val] = true;
+              });
+            }
+
+            $rootScope.$broadcast("risevision.user.updated");
+          }
+        },
         authenticate: _state.inRVAFrame ? authenticate : authenticateRedirect,
         signOut: signOut,
         refreshProfile: refreshProfile,
-        getAccessToken: getAccessToken,
+        // company getters
+        getUserCompanyId: companyState.getUserCompanyId,
+        getUserCompanyName: companyState.getUserCompanyName,
+        getSelectedCompanyId: companyState.getSelectedCompanyId,
+        getSelectedCompanyName: companyState.getSelectedCompanyName,
+        getSelectedCompanyCountry: companyState.getSelectedCompanyCountry,
+        getCopyOfUserCompany: companyState.getCopyOfUserCompany,
+        getCopyOfSelectedCompany: companyState.getCopyOfSelectedCompany,
+        isSubcompanySelected: companyState.isSubcompanySelected,
+        isTestCompanySelected: companyState.isTestCompanySelected,
+        // company functions
+        updateCompanySettings: companyState.updateCompanySettings,
+        updateUserCompanySettings: companyState.updateUserCompanySettings,
+        resetCompany: companyState.resetCompany,
+        switchCompany: companyState.switchCompany,
+        // private
         _restoreState: _restoreState,
         _setUserToken: function (token) {
           _state.userToken = token;
