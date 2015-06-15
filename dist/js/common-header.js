@@ -5956,7 +5956,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('search-filter/search-filter.html',
-    '<div class="input-group"><span class="input-group-addon" ng-click="doSearch()"><i class="fa fa-search"></i></span> <input type="text" class="form-control" placeholder="{{ filterConfig.placeholder | translate }}" ng-model="search.query" ng-enter="delay(doSearch, 0)" ng-change="delay(doSearch, 1000)"> <span class="input-group-addon" ng-click="reset()"><i class="fa fa-times"></i></span></div>');
+    '<div class="input-group"><span class="input-group-addon" ng-click="doSearch()"><i class="fa fa-search"></i></span> <input type="text" class="form-control" placeholder="{{ filterConfig.placeholder }}" ng-model="search.query" ng-enter="delay(doSearch, 0)" ng-change="delay(doSearch, 1000)"> <span class="input-group-addon" ng-click="reset()"><i class="fa fa-times"></i></span></div>');
 }]);
 })();
 
@@ -5969,7 +5969,7 @@ module.run(['$templateCache', function($templateCache) {
   ])
     .value("BaseList", function (maxCount) {
       this.list = [];
-      this.maxCount = maxCount ? maxCount : 20;
+      this.maxCount = maxCount ? maxCount : 40;
       this.cursor = null;
       this.endOfList = false;
 
