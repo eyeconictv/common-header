@@ -25,6 +25,9 @@ describe("Services: segment analytics", function() {
       return {
         path: function() {
           return "/somepath";
+        },
+        host: function() {
+          return "test.com";
         }
       };
     }]);
@@ -78,6 +81,15 @@ describe("Services: segment analytics", function() {
       
       done();
     }, 10);
+  });
+
+  it("should add url property", function() {
+    var res = segmentAnalytics.track("test", {});
+
+    var addedEvent = res.pop();
+    var eventProps = addedEvent[2];
+
+    expect(eventProps.url).to.equal("test.com");
   });
 
 });

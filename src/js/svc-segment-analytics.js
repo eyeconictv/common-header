@@ -6,8 +6,8 @@
 
   .value("SEGMENT_API_KEY", "AFtY3tN10BQj6RbnfpDDp9Hx8N1modKN")
 
-  .factory("segmentAnalytics", ["$rootScope", "$window", "$log",
-    function ($rootScope, $window, $log) {
+  .factory("segmentAnalytics", ["$rootScope", "$window", "$log", "$location",
+    function ($rootScope, $window, $log, $location) {
       var service = {};
       var loaded;
 
@@ -15,8 +15,15 @@
       var analytics = $window.analytics;
 
       analytics.factory = function (t) {
+        function addUrl(methodName, args) {
+          if ("track" === t && args && args.length > 1 && args[1] &&
+            typeof args[1] === "object") {
+            args[1].url = $location.host();
+          }
+        }
         return function () {
           var e = Array.prototype.slice.call(arguments);
+          addUrl(t, e);
           e.unshift(t);
           $window.analytics.push(e);
 
