@@ -3952,8 +3952,8 @@ angular.module("risevision.common.geodata", [])
 
   .value("SEGMENT_API_KEY", "AFtY3tN10BQj6RbnfpDDp9Hx8N1modKN")
 
-  .factory("segmentAnalytics", ["$rootScope", "$window", "$log",
-    function ($rootScope, $window, $log) {
+  .factory("segmentAnalytics", ["$rootScope", "$window", "$log", "$location",
+    function ($rootScope, $window, $log, $location) {
       var service = {};
       var loaded;
 
@@ -3961,8 +3961,15 @@ angular.module("risevision.common.geodata", [])
       var analytics = $window.analytics;
 
       analytics.factory = function (t) {
+        function addUrl(methodName, args) {
+          if ("track" === t && args && args.length > 1 && args[1] &&
+            typeof args[1] === "object") {
+            args[1].url = $location.host();
+          }
+        }
         return function () {
           var e = Array.prototype.slice.call(arguments);
+          addUrl(t, e);
           e.unshift(t);
           $window.analytics.push(e);
 
@@ -5973,7 +5980,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('search-filter/search-filter.html',
-    '<div class="input-group"><span class="input-group-addon" ng-click="doSearch()"><i class="fa fa-search"></i></span> <input type="text" class="form-control" placeholder="{{ filterConfig.placeholder }}" ng-model="search.query" ng-enter="delay(doSearch, 0)" ng-change="delay(doSearch, 1000)"> <span class="input-group-addon" ng-click="reset()"><i class="fa fa-times"></i></span></div>');
+    '<div class="input-group"><span class="input-group-addon" ng-click="doSearch()"><i class="fa fa-search"></i></span> <input id="{{ filterConfig.id }}" type="text" class="form-control" placeholder="{{ filterConfig.placeholder }}" ng-model="search.query" ng-enter="delay(doSearch, 0)" ng-change="delay(doSearch, 1000)"> <span class="input-group-addon" ng-click="reset()"><i class="fa fa-times"></i></span></div>');
 }]);
 })();
 
