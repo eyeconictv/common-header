@@ -1432,10 +1432,10 @@ angular.module("risevision.common.header", [
   }
 ])
 
-.run(["segmentAnalytics", "SEGMENT_API_KEY", "analyticsEvents",
-  function (segmentAnalytics, SEGMENT_API_KEY) {
+.run(["segmentAnalytics", "SEGMENT_API_KEY", "ENABLE_INTERCOM_MESSAGING",
+  function (segmentAnalytics, SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING) {
     // calling "analyticsEvents" service to initialize
-    segmentAnalytics.load(SEGMENT_API_KEY);
+    segmentAnalytics.load(SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING);
   }
 ])
 
@@ -3994,8 +3994,11 @@ angular.module("risevision.common.geodata", [])
        * Load Segment.io analytics script
        * @param apiKey The key API to use
        */
-      service.load = function (apiKey) {
+      service.load = function (apiKey, enableIntercomMessading) {
         if (apiKey && !loaded) {
+
+          configureIntercomMessading(enableIntercomMessading);
+
           var e = document.createElement("script");
           e.type = "text/javascript";
           e.async = !0;
@@ -4008,6 +4011,15 @@ angular.module("risevision.common.geodata", [])
           loaded = true;
         }
       };
+
+      function configureIntercomMessading(enableIntercomMessading) {
+        if (enableIntercomMessading) {
+          $window.intercomSettings = $window.intercomSettings || {};
+          $window.intercomSettings.widget = {
+            activator: "#IntercomDefaultWidget"
+          };
+        }
+      }
 
       return service;
     }
@@ -5600,6 +5612,7 @@ angular.module("risevision.common.header")
   }
 
   angular.module("risevision.common.config")
+    .value("ENABLE_INTERCOM_MESSAGING", false)
     .value("CORE_URL", "https://rvaserver2.appspot.com/_ah/api")
     .value("STORE_URL", "https://store.risevision.com")
     .value("STORE_ENDPOINT_URL",

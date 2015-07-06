@@ -48,8 +48,11 @@
        * Load Segment.io analytics script
        * @param apiKey The key API to use
        */
-      service.load = function (apiKey) {
+      service.load = function (apiKey, enableIntercomMessading) {
         if (apiKey && !loaded) {
+
+          configureIntercomMessading(enableIntercomMessading);
+
           var e = document.createElement("script");
           e.type = "text/javascript";
           e.async = !0;
@@ -62,6 +65,15 @@
           loaded = true;
         }
       };
+
+      function configureIntercomMessading(enableIntercomMessading) {
+        if (enableIntercomMessading) {
+          $window.intercomSettings = $window.intercomSettings || {};
+          $window.intercomSettings.widget = {
+            activator: "#IntercomDefaultWidget"
+          };
+        }
+      }
 
       return service;
     }
