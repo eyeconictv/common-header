@@ -130,10 +130,10 @@ angular.module("risevision.common.header", [
   }
 ])
 
-.run(["segmentAnalytics", "SEGMENT_API_KEY", "analyticsEvents",
-  function (segmentAnalytics, SEGMENT_API_KEY) {
+.run(["segmentAnalytics", "SEGMENT_API_KEY", "ENABLE_INTERCOM_MESSAGING",
+  function (segmentAnalytics, SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING) {
     // calling "analyticsEvents" service to initialize
-    segmentAnalytics.load(SEGMENT_API_KEY);
+    segmentAnalytics.load(SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING);
   }
 ])
 

@@ -18,6 +18,7 @@
   }
 
   angular.module("risevision.common.config")
+    .value("ENABLE_INTERCOM_MESSAGING", false)
     .value("CORE_URL", "https://rvacore-test.appspot.com/_ah/api")
     .value("STORE_URL", "https://store.risevision.com")
     .value("STORE_ENDPOINT_URL",
