@@ -1433,8 +1433,10 @@ angular.module("risevision.common.header", [
 ])
 
 .run(["segmentAnalytics", "SEGMENT_API_KEY", "ENABLE_INTERCOM_MESSAGING",
-  function (segmentAnalytics, SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING) {
-    // calling "analyticsEvents" service to initialize
+  "analyticsEvents",
+  function (segmentAnalytics, SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING,
+    analyticsEvents) {
+    analyticsEvents.initialize();
     segmentAnalytics.load(SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING);
   }
 ])
@@ -4045,19 +4047,21 @@ angular.module("risevision.common.geodata", [])
         });
       };
 
-      $rootScope.$on("risevision.user.authorized", function () {
-        if (userState.getUsername()) {
-          _identify();
-        }
-      });
+      service.initialize = function () {
+        $rootScope.$on("risevision.user.authorized", function () {
+          if (userState.getUsername()) {
+            _identify();
+          }
+        });
 
-      // Listening to $viewContentLoaded event to track pageview
-      $rootScope.$on("$viewContentLoaded", function () {
-        if (segmentAnalytics.location !== $location.path()) {
-          segmentAnalytics.location = $location.path();
-          segmentAnalytics.pageview(segmentAnalytics.location);
-        }
-      });
+        // Listening to $viewContentLoaded event to track pageview
+        $rootScope.$on("$viewContentLoaded", function () {
+          if (segmentAnalytics.location !== $location.path()) {
+            segmentAnalytics.location = $location.path();
+            segmentAnalytics.pageview(segmentAnalytics.location);
+          }
+        });
+      };
 
       return service;
     }

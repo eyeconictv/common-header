@@ -99,19 +99,21 @@
         });
       };
 
-      $rootScope.$on("risevision.user.authorized", function () {
-        if (userState.getUsername()) {
-          _identify();
-        }
-      });
+      service.initialize = function () {
+        $rootScope.$on("risevision.user.authorized", function () {
+          if (userState.getUsername()) {
+            _identify();
+          }
+        });
 
-      // Listening to $viewContentLoaded event to track pageview
-      $rootScope.$on("$viewContentLoaded", function () {
-        if (segmentAnalytics.location !== $location.path()) {
-          segmentAnalytics.location = $location.path();
-          segmentAnalytics.pageview(segmentAnalytics.location);
-        }
-      });
+        // Listening to $viewContentLoaded event to track pageview
+        $rootScope.$on("$viewContentLoaded", function () {
+          if (segmentAnalytics.location !== $location.path()) {
+            segmentAnalytics.location = $location.path();
+            segmentAnalytics.pageview(segmentAnalytics.location);
+          }
+        });
+      };
 
       return service;
     }

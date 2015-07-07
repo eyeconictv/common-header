@@ -131,8 +131,10 @@ angular.module("risevision.common.header", [
 ])
 
 .run(["segmentAnalytics", "SEGMENT_API_KEY", "ENABLE_INTERCOM_MESSAGING",
-  function (segmentAnalytics, SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING) {
-    // calling "analyticsEvents" service to initialize
+  "analyticsEvents",
+  function (segmentAnalytics, SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING,
+    analyticsEvents) {
+    analyticsEvents.initialize();
     segmentAnalytics.load(SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING);
   }
 ])
