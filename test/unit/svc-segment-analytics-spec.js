@@ -40,6 +40,7 @@ describe("Services: segment analytics", function() {
       
       segmentAnalytics = $injector.get("segmentAnalytics");
       analyticsEvents = $injector.get("analyticsEvents");
+      analyticsEvents.initialize();
     });
   });
   
