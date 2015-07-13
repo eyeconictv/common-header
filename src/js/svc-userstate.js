@@ -30,10 +30,12 @@
   // constants (you can override them in your app as needed)
   .value("DEFAULT_PROFILE_PICTURE",
     "http://api.randomuser.me/portraits/med/men/33.jpg")
-    .value("OAUTH2_SCOPES",
-      "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+
+  .value("OAUTH2_SCOPES",
+    "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
   )
-    .value("GOOGLE_OAUTH2_URL", "https://accounts.google.com/o/oauth2/auth")
+
+  .value("GOOGLE_OAUTH2_URL", "https://accounts.google.com/o/oauth2/auth")
 
   .run(["$location", "$window", "userState", "$log",
     function ($location, $window, userState, $log) {
