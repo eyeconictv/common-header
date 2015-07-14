@@ -1,16 +1,13 @@
-<div class="modal-body text-center" style="padding:15px 20px;">
-  <img src="//s3.amazonaws.com/rise-common/images/logo-small.png" class="text-center" width="113" height="42" alt="Rise Vision">
-  
-  <h1>Enterprise Digital Signage Platform</h1>
-  <p class="lead">Use it for Free</p>
-  
-  <h4 class="add-bottom"><a href="http://www.risevision.com" target="_blank">Learn More about Rise Vision</a></h4>
-  
-  <button class="btn-lg btn btn-primary" ng-click="login('registrationComplete')">
-    <i class="fa fa-google fa-lg icon-left"></i>
-    Start with a Google Account
-  </button>
-  
-  <p class="text-muted half-top">Don&apos;t Have a Google Account? <a href="https://accounts.google.com/SignUp" target="_blank">Get One Here.</a></p>
-  <p class="text-muted half-top">Already a Rise Vision User? <a ng-click="login('registrationComplete'); $event.stopPropagation();" ng-href="#">Sign In</a></p>
-</div>
+<div class="modal-body text-center">
+  <div class="signup-modal">
+    <div class="logo add-bottom">
+      <img style="width:120px" src="//s3.amazonaws.com/rise-common/images/logo-small.png" alt="Rise Vision">
+    </div>
+    <h2 class="modal-title">Digital Signage Content Management</h2>
+    <p class="text-muted">All you need is a Google Account. No credit card. No personal information. No risk.</p>
+
+    <a class="add-top btn btn-hg btn-primary" ng-click="login('registrationComplete')">Get Started with Google <i class="fa fa-google fa-lg icon-right"></i></a>
+    <p class="text-muted remove-bottom add-top">Don't have a Google Account? <a href="https://accounts.google.com/signup" target="_blank">Get One Here</a></p>
+    <p class="text-muted">Already a Rise Vision User? <a ng-click="login('registrationComplete'); $event.stopPropagation();" ng-href="#">Sign In</a></p>
+  </div><!--signup-modal-->
+</div><!--modal-body-->

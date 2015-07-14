@@ -1013,22 +1013,19 @@ catch(err) { app = angular.module("risevision.common.header.templates", []); }
 app.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("signup-modal.html",
-    "<div class=\"modal-body text-center\" style=\"padding:15px 20px;\">\n" +
-    "  <img src=\"//s3.amazonaws.com/rise-common/images/logo-small.png\" class=\"text-center\" width=\"113\" height=\"42\" alt=\"Rise Vision\">\n" +
-    "  \n" +
-    "  <h1>Enterprise Digital Signage Platform</h1>\n" +
-    "  <p class=\"lead\">Use it for Free</p>\n" +
-    "  \n" +
-    "  <h4 class=\"add-bottom\"><a href=\"http://www.risevision.com\" target=\"_blank\">Learn More about Rise Vision</a></h4>\n" +
-    "  \n" +
-    "  <button class=\"btn-lg btn btn-primary\" ng-click=\"login('registrationComplete')\">\n" +
-    "    <i class=\"fa fa-google fa-lg icon-left\"></i>\n" +
-    "    Start with a Google Account\n" +
-    "  </button>\n" +
-    "  \n" +
-    "  <p class=\"text-muted half-top\">Don&apos;t Have a Google Account? <a href=\"https://accounts.google.com/SignUp\" target=\"_blank\">Get One Here.</a></p>\n" +
-    "  <p class=\"text-muted half-top\">Already a Rise Vision User? <a ng-click=\"login('registrationComplete'); $event.stopPropagation();\" ng-href=\"#\">Sign In</a></p>\n" +
-    "</div>\n" +
+    "<div class=\"modal-body text-center\">\n" +
+    "  <div class=\"signup-modal\">\n" +
+    "    <div class=\"logo add-bottom\">\n" +
+    "      <img style=\"width:120px\" src=\"//s3.amazonaws.com/rise-common/images/logo-small.png\" alt=\"Rise Vision\">\n" +
+    "    </div>\n" +
+    "    <h2 class=\"modal-title\">Digital Signage Content Management</h2>\n" +
+    "    <p class=\"text-muted\">All you need is a Google Account. No credit card. No personal information. No risk.</p>\n" +
+    "\n" +
+    "    <a class=\"add-top btn btn-hg btn-primary\" ng-click=\"login('registrationComplete')\">Get Started with Google <i class=\"fa fa-google fa-lg icon-right\"></i></a>\n" +
+    "    <p class=\"text-muted remove-bottom add-top\">Don't have a Google Account? <a href=\"https://accounts.google.com/signup\" target=\"_blank\">Get One Here</a></p>\n" +
+    "    <p class=\"text-muted\">Already a Rise Vision User? <a ng-click=\"login('registrationComplete'); $event.stopPropagation();\" ng-href=\"#\">Sign In</a></p>\n" +
+    "  </div><!--signup-modal-->\n" +
+    "</div><!--modal-body-->\n" +
     "");
 }]);
 })();
@@ -3279,10 +3276,12 @@ angular.module("risevision.common.geodata", [])
   // constants (you can override them in your app as needed)
   .value("DEFAULT_PROFILE_PICTURE",
     "http://api.randomuser.me/portraits/med/men/33.jpg")
-    .value("OAUTH2_SCOPES",
-      "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+
+  .value("OAUTH2_SCOPES",
+    "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
   )
-    .value("GOOGLE_OAUTH2_URL", "https://accounts.google.com/o/oauth2/auth")
+
+  .value("GOOGLE_OAUTH2_URL", "https://accounts.google.com/o/oauth2/auth")
 
   .run(["$location", "$window", "userState", "$log",
     function ($location, $window, userState, $log) {
