@@ -23,8 +23,8 @@ angular.module("risevision.common.header", [
   "risevision.common.components.last-modified",
   "risevision.common.components.search-filter",
   "risevision.common.components.scrolling-list",
-  "risevision.common.svg",
-  "risevision.common.analytics"
+  "risevision.common.components.analytics",
+  "risevision.common.svg"
 ])
 
 .factory("bindToScopeWithWatch", [
