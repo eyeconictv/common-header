@@ -1023,7 +1023,7 @@ app.run(["$templateCache", function($templateCache) {
     "\n" +
     "    <a class=\"add-top btn btn-hg btn-primary\" ng-click=\"login('registrationComplete')\">Get Started with Google <i class=\"fa fa-google fa-lg icon-right\"></i></a>\n" +
     "    <p class=\"text-muted remove-bottom add-top\">Don't have a Google Account? <a href=\"https://accounts.google.com/signup\" target=\"_blank\">Get One Here</a></p>\n" +
-    "    <p class=\"text-muted\">Already a Rise Vision User? <a ng-click=\"login('registrationComplete'); $event.stopPropagation();\" ng-href=\"#\">Sign In</a></p>\n" +
+    "    <p class=\"text-muted\">Already a Rise Vision User? <a ng-click=\"$event.preventDefault(); login('registrationComplete');\" ng-href=\"#\">Sign In</a></p>\n" +
     "  </div><!--signup-modal-->\n" +
     "</div><!--modal-body-->\n" +
     "");
@@ -6088,6 +6088,7 @@ module.run(['$templateCache', function($templateCache) {
         if (apiKey && !loaded) {
 
           configureIntercomMessading(enableIntercomMessading);
+          trackPageviews();
 
           var e = document.createElement("script");
           e.type = "text/javascript";
@@ -6111,13 +6112,23 @@ module.run(['$templateCache', function($templateCache) {
         }
       }
 
+      function trackPageviews() {
+        // Listening to $viewContentLoaded event to track pageview
+        $rootScope.$on("$viewContentLoaded", function () {
+          if (service.location !== $location.path()) {
+            service.location = $location.path();
+            service.pageview(service.location);
+          }
+        });
+      }
+
       return service;
     }
   ])
 
   .factory("analyticsEvents", ["$rootScope", "segmentAnalytics",
-    "userState", "$location",
-    function ($rootScope, segmentAnalytics, userState, $location) {
+    "userState",
+    function ($rootScope, segmentAnalytics, userState) {
       var service = {};
 
       var _identify = function () {
@@ -6139,14 +6150,6 @@ module.run(['$templateCache', function($templateCache) {
         $rootScope.$on("risevision.user.authorized", function () {
           if (userState.getUsername()) {
             _identify();
-          }
-        });
-
-        // Listening to $viewContentLoaded event to track pageview
-        $rootScope.$on("$viewContentLoaded", function () {
-          if (segmentAnalytics.location !== $location.path()) {
-            segmentAnalytics.location = $location.path();
-            segmentAnalytics.pageview(segmentAnalytics.location);
           }
         });
       };
