@@ -1023,7 +1023,7 @@ app.run(["$templateCache", function($templateCache) {
     "\n" +
     "    <a class=\"add-top btn btn-hg btn-primary\" ng-click=\"login('registrationComplete')\">Get Started with Google <i class=\"fa fa-google fa-lg icon-right\"></i></a>\n" +
     "    <p class=\"text-muted remove-bottom add-top\">Don't have a Google Account? <a href=\"https://accounts.google.com/signup\" target=\"_blank\">Get One Here</a></p>\n" +
-    "    <p class=\"text-muted\">Already a Rise Vision User? <a ng-click=\"login('registrationComplete'); $event.stopPropagation();\" ng-href=\"#\">Sign In</a></p>\n" +
+    "    <p class=\"text-muted\">Already a Rise Vision User? <a ng-click=\"$event.preventDefault(); login('registrationComplete');\" ng-href=\"#\">Sign In</a></p>\n" +
     "  </div><!--signup-modal-->\n" +
     "</div><!--modal-body-->\n" +
     "");
