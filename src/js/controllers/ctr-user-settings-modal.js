@@ -38,7 +38,7 @@ angular.module("risevision.common.header")
     $scope.loading = true;
     getUserProfile(username).then(function (user) {
       $scope.user = user;
-      $scope.editingYourself = userState.getUsername() === user.username;
+      $scope.editingYourself = userState.checkUsername(user.username);
 
     }).finally(function () {
       $scope.loading = false;
@@ -55,10 +55,10 @@ angular.module("risevision.common.header")
             segmentAnalytics.track("User Deleted", {
               userId: $scope.username,
               companyId: userState.getSelectedCompanyId(),
-              isSelf: $scope.username === userState.getUsername()
+              isSelf: userState.checkUsername(username)
             });
 
-            if ($scope.username === userState.getUsername()) {
+            if (userState.checkUsername(username)) {
               userState.signOut().then().finally(function () {
                 uiFlowManager.invalidateStatus("registrationComplete");
               });
@@ -79,14 +79,14 @@ angular.module("risevision.common.header")
         $scope.loading = true;
         updateUser(username, $scope.user).then(
           function (resp) {
-            if (username === userState.getUsername()) {
+            if (userState.checkUsername(username)) {
               userState.updateUserProfile(resp.item);
             }
 
             segmentAnalytics.track("User Updated", {
               userId: $scope.username,
               companyId: userState.getSelectedCompanyId(),
-              isSelf: $scope.username === userState.getUsername()
+              isSelf: userState.checkUsername(username)
             });
 
             $modalInstance.close("success");
@@ -108,7 +108,7 @@ angular.module("risevision.common.header")
         if (role.key === "sa" || role.key === "ba") {
           return false;
         } else if (role.key === "ua" &&
-          userState.getUsername() === $scope.user.username) {
+          userState.checkUsername($scope.user.username)) {
           //cannot unassign oneself from ua
           return false;
         } else {

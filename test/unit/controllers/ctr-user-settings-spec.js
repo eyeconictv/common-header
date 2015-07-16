@@ -71,8 +71,8 @@ describe("controller: user settings", function() {
     savedUser = userProfile;
     userState = function(){
       return {
-        getUsername: function(){
-          return "user@example.io";
+        checkUsername: function(username){
+          return username === "user@example.io";
         },
         getAccessToken : function(){
           return{access_token: "TEST_TOKEN"};

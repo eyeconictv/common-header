@@ -59,7 +59,7 @@ describe("Services: auth & user state", function() {
       "isSubcompanySelected", "getUserPicture", "inRVAFrame",
       "isRiseAdmin", "isRiseStoreAdmin", "isUserAdmin", "isPurchaser",
       "isSeller", "isRiseVisionUser", "isLoggedIn", "authenticate",
-      "signOut", "updateUserProfile", "refreshProfile", 
+      "signOut", "checkUsername", "updateUserProfile", "refreshProfile", 
       "getAccessToken"].forEach(
       function (method) {
         expect(userState).to.have.property(method);
@@ -358,6 +358,39 @@ describe("Services: auth & user state", function() {
         })
           .then(null,done);
       });
+    });
+  });
+  
+  describe("checkUsername: ", function() {
+    var userState;
+    
+    beforeEach(function(done) {
+      gapi.setPendingSignInUser("michael.sanchez@awesome.io");
+      gapi.auth.authorize({immediate: false}, function() {});
+
+      inject(function($injector){
+        userState = $injector.get("userState");
+        
+        done();
+      });
+    });
+    
+    beforeEach(function(done) {
+      expect(userState.checkUsername("michael.sanchez@awesome.io")).to.be.false;
+
+      userState.authenticate().then(function() {
+        done();
+      });
+    });
+    
+    it("should ignore case", function() {
+      expect(userState.checkUsername("michael.sanchez@awesome.io")).to.be.true;
+      expect(userState.checkUsername("Michael.Sanchez@awesome.io")).to.be.true;
+    });
+    
+    it("should fail gracefully", function() {
+      expect(userState.checkUsername("someone@awesome.io")).to.be.false;
+      expect(userState.checkUsername()).to.be.false;
     });
   });
   
