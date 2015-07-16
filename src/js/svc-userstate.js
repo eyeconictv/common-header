@@ -492,8 +492,12 @@
         isLoggedIn: isLoggedIn,
         getAccessToken: getAccessToken,
         // user functions
+        checkUsername: function (username) {
+          return (username || false) && (userState.getUsername() || false) &&
+            username.toUpperCase() === userState.getUsername().toUpperCase();
+        },
         updateUserProfile: function (user) {
-          if (user.username === userState.getUsername()) {
+          if (userState.checkUsername(user.username)) {
             objectHelper.clearAndCopy(angular.extend({
               username: _state.user.username
             }, user), _state.profile);

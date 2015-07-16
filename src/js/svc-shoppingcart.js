@@ -127,7 +127,7 @@
       var cartManager = {
         get: function () {
 
-          if (loadReady !== null && username === userState.getUsername()) {
+          if (loadReady !== null && userState.checkUsername(username)) {
             return loadReady;
           }
 
