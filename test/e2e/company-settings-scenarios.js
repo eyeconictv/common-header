@@ -78,6 +78,7 @@
 
         it("Should sign me out when deleting company", function () {
           element(by.css("button.delete-company-button")).click();
+          browser.sleep(500);
           browser.switchTo().alert().then(function (prompt){ prompt.accept(); });
           assert.eventually.isTrue(element(by.css("button.sign-in")).isDisplayed(), "Should be signed out");
         });
