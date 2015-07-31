@@ -145,6 +145,7 @@ var env = process.env.NODE_ENV || "dev",
     "./components/rv-gapi-mock/gapi-mock-data/systemmessages.js",
     "./components/mustache/mustache.js",
     "./components/rv-gapi-mock/gapi-mock.js",
+    "./node_modules/widget-tester/mocks/segment-analytics-mock.js"
     ],
     injectorGenerator = function (srcFiles, id) {
       return gulpInject(
