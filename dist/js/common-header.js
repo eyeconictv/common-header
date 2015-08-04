@@ -498,14 +498,6 @@ app.run(["$templateCache", function($templateCache) {
     "    <option value=\"{{c[1]}}\" ng-repeat=\"c in timezones\">{{c[0]}}</option>\n" +
     "  </select>\n" +
     "</div>\n" +
-    "<div class=\"form-group\">\n" +
-    "  <label for=\"company-settings-monitoring\">\n" +
-    "    Send Monitoring Emails To\n" +
-    "  </label>\n" +
-    "  <input id=\"company-settings-monitoring\"\n" +
-    "    type=\"text\" class=\"form-control\" ng-list=\", \"\n" +
-    "     ng-model=\"company.notificationEmails\" placeholder=\"e.g. john.doe@company.com, jane.doe@company.com\"/>\n" +
-    "</div>\n" +
     "");
 }]);
 })();
@@ -4605,9 +4597,9 @@ angular.module("risevision.ui-flow", ["LocalStorageModule"])
     .constant("COMPANY_WRITABLE_FIELDS", [
       "name", "street", "unit", "city", "province", "country",
       "postalCode", "timeZoneOffset", "telephone", "fax", "companyStatus",
-      "notificationEmails", "mailSyncEnabled", "sellerId", "isTest",
-      "shipToUseCompanyAddress", "shipToName", "shipToStreet", "shipToUnit",
-      "shipToCity", "shipToProvince", "shipToPostalCode", "shipToCountry"
+      "mailSyncEnabled", "sellerId", "isTest", "shipToUseCompanyAddress", 
+      "shipToName", "shipToStreet", "shipToUnit", "shipToCity", 
+      "shipToProvince", "shipToPostalCode", "shipToCountry"
     ])
     .constant("COMPANY_SEARCH_FIELDS", [
       "name", "id", "street", "unit", "city", "province", "country",
