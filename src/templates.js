@@ -74,7 +74,7 @@ app.run(["$templateCache", function($templateCache) {
     "      </a>\n" +
     "    </div>\n" +
     "    <div class=\"menu-box pull-right\">\n" +
-    "      <a href=\"https://www.risevision.com/about-us/#\" target=\"_blank\" link-cid>\n" +
+    "      <a href=\"https://www.risevision.com/about/\" target=\"_blank\" link-cid>\n" +
     "        <svg-icon p=\"riseLogo\"></svg-icon>\n" +
     "        <span>About</span>\n" +
     "      </a>\n" +
