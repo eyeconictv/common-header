@@ -31,6 +31,7 @@
         it("logs in", function () {
           browser.executeScript("gapi.setPendingSignInUser('michael.sanchez@awesome.io')");
           element(by.css("button.sign-in")).click();
+          browser.sleep(500);
           assert.eventually.isFalse(element(by.css("button.sign-in")).isDisplayed(), "sign in button should not show");
         });
 
