@@ -42,6 +42,8 @@
         browser.executeScript("gapi.setPendingSignInUser('michael.sanchez@awesome.io')");
         element(by.css("button.sign-in")).click();
 
+        browser.sleep(500);
+
         assert.eventually.isTrue(element(by.id("buy-product-1")).isDisplayed(), "Product 1 button should show");
         assert.eventually.isTrue(element(by.id("buy-product-2")).isDisplayed(), "Product 2 button should show");
         assert.eventually.isTrue(element(by.id("buy-product-3")).isDisplayed(), "Product 3 button should show");
