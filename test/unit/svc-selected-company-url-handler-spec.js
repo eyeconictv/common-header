@@ -15,6 +15,8 @@ describe("Services: selected company url handler", function() {
         }
         return locationSearch;
       },
+      absUrl: function() {return "";},
+      destUrl: "",
       replace: function() {}
     });
     $provide.factory("userState", [function () {
