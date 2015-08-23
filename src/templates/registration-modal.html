@@ -14,7 +14,7 @@ rv-spinner-start-active="1">
   sign up for the newsletter below, and we won't share your email address
   with anyone else.</p>
 
-  <form novalidate role="form" name="forms.registrationForm">
+  <form id="registrationForm" novalidate role="form" name="forms.registrationForm">
     <!-- First Name -->
     <div class="form-group" ng-class="{ 'has-error' : forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine }">
       <label for="firstName">First Name</label>
@@ -64,10 +64,11 @@ rv-spinner-start-active="1">
     </div>
     <div class="form-group">
       <button ng-click="save()"
+        name="create-account"
         type="button"
         class="btn btn-success btn-fixed-width registration-save-button"
         ng-disabled="registering">
-        Save <i class="fa fa-white fa-check icon-right"></i>
+        Create Account <i class="fa fa-white fa-check icon-right"></i>
       </button>
       <button type="button" class="btn btn-default btn-fixed-width registration-cancel-button"
       ng-disabled="registering"
