@@ -562,7 +562,7 @@ app.run(["$templateCache", function($templateCache) {
     "  <h2 id=\"company-settings-label\" class=\"modal-title\">Company Settings</h2>\n" +
     "</div>\n" +
     "<div class=\"modal-body company-settings-modal\">\n" +
-    "  <form role=\"form\" name=\"forms.companyForm\">\n" +
+    "  <form id=\"companyForm\" role=\"form\" name=\"forms.companyForm\">\n" +
     "    <div ng-include=\"'company-fields.html'\"></div>\n" +
     "    <div class=\"form-group\">\n" +
     "      <label>\n" +
@@ -878,7 +878,7 @@ app.run(["$templateCache", function($templateCache) {
     "  sign up for the newsletter below, and we won't share your email address\n" +
     "  with anyone else.</p>\n" +
     "\n" +
-    "  <form novalidate role=\"form\" name=\"forms.registrationForm\">\n" +
+    "  <form id=\"registrationForm\" novalidate role=\"form\" name=\"forms.registrationForm\">\n" +
     "    <!-- First Name -->\n" +
     "    <div class=\"form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine }\">\n" +
     "      <label for=\"firstName\">First Name</label>\n" +
@@ -928,10 +928,11 @@ app.run(["$templateCache", function($templateCache) {
     "    </div>\n" +
     "    <div class=\"form-group\">\n" +
     "      <button ng-click=\"save()\"\n" +
+    "        name=\"create-account\"\n" +
     "        type=\"button\"\n" +
     "        class=\"btn btn-success btn-fixed-width registration-save-button\"\n" +
     "        ng-disabled=\"registering\">\n" +
-    "        Save <i class=\"fa fa-white fa-check icon-right\"></i>\n" +
+    "        Create Account <i class=\"fa fa-white fa-check icon-right\"></i>\n" +
     "      </button>\n" +
     "      <button type=\"button\" class=\"btn btn-default btn-fixed-width registration-cancel-button\"\n" +
     "      ng-disabled=\"registering\"\n" +
@@ -1013,7 +1014,7 @@ app.run(["$templateCache", function($templateCache) {
     "    <h2 class=\"modal-title\">Digital Signage Content Management</h2>\n" +
     "    <p class=\"text-muted\">All you need is a Google Account. No credit card. No personal information. No risk.</p>\n" +
     "\n" +
-    "    <a class=\"add-top btn btn-hg btn-primary\" ng-click=\"login('registrationComplete')\">Get Started with Google <i class=\"fa fa-google fa-lg icon-right\"></i></a>\n" +
+    "    <a class=\"add-top btn btn-hg btn-primary\" id=\"google-registration-button\" ng-click=\"login('registrationComplete')\">Get Started with Google <i class=\"fa fa-google fa-lg icon-right\"></i></a>\n" +
     "    <p class=\"text-muted remove-bottom add-top\">Don't have a Google Account? <a href=\"https://accounts.google.com/signup\" target=\"_blank\">Get One Here</a></p>\n" +
     "    <p class=\"text-muted\">Already a Rise Vision User? <a ng-click=\"$event.preventDefault(); login('registrationComplete');\" ng-href=\"#\">Sign In</a></p>\n" +
     "  </div><!--signup-modal-->\n" +
@@ -1166,7 +1167,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </h2>\n" +
     "</div>\n" +
     "<div class=\"modal-body user-settings-modal\">\n" +
-    "  <form role=\"form\" novalidate name=\"forms.userSettingsForm\">\n" +
+    "  <form id=\"userSettingsForm\" role=\"form\" novalidate name=\"forms.userSettingsForm\">\n" +
     "    <div class=\"form-group\"\n" +
     "      ng-class=\"{ 'has-error' : forms.userSettingsForm.username.$invalid && !forms.userSettingsForm.username.$pristine }\"\n" +
     "    >\n" +
@@ -1216,6 +1217,7 @@ app.run(["$templateCache", function($templateCache) {
     "      <input\n" +
     "        id=\"user-settings-phone\"\n" +
     "        type=\"tel\"\n" +
+    "        name=\"phone\"\n" +
     "        class=\"form-control\"\n" +
     "        ng-model=\"user.telephone\"\n" +
     "         />\n" +
