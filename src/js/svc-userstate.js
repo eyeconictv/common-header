@@ -44,8 +44,7 @@
       $log.debug("URL params", params);
       userState._restoreState();
       if (params.access_token) {
-        $log.debug("Setting token", params.access_token);
-        userState._setUserToken(params.access_token);
+        userState._setUserToken(params);
       }
       if (params.state) {
         var state = JSON.parse(decodeURIComponent(params.state));
@@ -137,12 +136,8 @@
 
       _addEventListenerVisibilityAPI();
 
-      var _getUserId = function () {
-        return _state.user ? _state.user.userId : null;
-      };
-
       var _setUserToken = function () {
-        _state.userToken = _getUserId();
+        _state.userToken = userState.getUsername();
         rvTokenStore.write(_state.userToken);
       };
 
@@ -204,6 +199,10 @@
             getBaseDomain()
         };
 
+        if (_state.userToken !== "dummy") {
+          opts.authuser = _state.userToken;
+        }
+
         if (attemptImmediate) {
           opts.immediate = true;
         } else {
@@ -212,9 +211,17 @@
 
         gapiLoader()
           .then(function (gApi) {
+            // Setting the gapi token with the chosen user token. This is a fix for the multiple account issue.
+            gApi.auth.setToken(_state.params);
+
             gApi.auth.authorize(opts, function (authResult) {
               $log.debug("authResult", authResult);
               if (authResult && !authResult.error) {
+                if (_state.params) {
+                  // clear token so we don't deal with expiry
+                  delete _state.params;
+                }
+
                 _scheduleAccessTokenAutoRefresh();
 
                 deferred.resolve(authResult);
@@ -533,8 +540,12 @@
         switchCompany: companyState.switchCompany,
         // private
         _restoreState: _restoreState,
-        _setUserToken: function (token) {
-          _state.userToken = token;
+        _setUserToken: function (params) {
+          // save params in state in case of redirect
+          _state.params = params;
+
+          // set fake user token to idicate user is logged in
+          _state.userToken = "dummy";
         },
         _persistState: function () {
           // persist user state

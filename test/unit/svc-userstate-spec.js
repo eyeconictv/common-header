@@ -103,7 +103,7 @@ describe("Services: auth & user state", function() {
         rootScope = $injector.get("$rootScope");
         broadcastSpy = sinon.spy(rootScope, "$broadcast");
         // Fake user token being stored locally
-        userState._setUserToken("1234");
+        userState._setUserToken();
       });
     });
     
@@ -242,7 +242,8 @@ describe("Services: auth & user state", function() {
                     });
                   }
                   callback({});
-                }
+                },
+                setToken: function() {}
               }
             });
           }
