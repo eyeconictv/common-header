@@ -19,7 +19,7 @@
 
   angular.module("risevision.common.userstate", [
     "risevision.common.companystate", "risevision.common.util",
-    "risevision.common.gapi", "risevision.common.localstorage",
+    "risevision.common.gapi", "LocalStorageModule",
     "risevision.common.config", "risevision.core.cache",
     "risevision.core.oauth2",
     "risevision.core.util", "risevision.core.userprofile",
