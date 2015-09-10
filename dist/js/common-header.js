@@ -337,6 +337,10 @@ app.run(["$templateCache", function($templateCache) {
     "	</div>\n" +
     "</nav>\n" +
     "\n" +
+    "<div ng-if=\"!cookieEnabled\" class=\"bg-warning add-padding text-center\">\n" +
+    "    <small><strong>Cookies Are Disabled.</strong> Rise Vision needs to use cookies to properly function. Please enable cookies on your web browser and refresh this page.</small>\n" +
+    "</div>\n" +
+    "\n" +
     "<ng-include\n" +
     "	replace-include\n" +
     "	ng-controller=\"GlobalAlertsCtrl\"\n" +
@@ -1298,7 +1302,7 @@ angular.module("risevision.common.header", [
   "risevision.core.cache",
   "risevision.core.company",
   "risevision.common.company",
-  "risevision.common.localstorage",
+  "LocalStorageModule",
   "risevision.common.header.templates",
   "risevision.common.loading",
   "risevision.ui-flow",
@@ -1337,15 +1341,16 @@ angular.module("risevision.common.header", [
 .directive("commonHeader", ["$modal", "$rootScope", "$q", "$loading",
   "$interval", "oauth2APILoader", "$log",
   "$templateCache", "userState", "$location", "bindToScopeWithWatch",
-  "$document",
+  "$document", "$window",
   function ($modal, $rootScope, $q, $loading, $interval,
     oauth2APILoader, $log, $templateCache, userState, $location,
-    bindToScopeWithWatch, $document) {
+    bindToScopeWithWatch, $document, $window) {
     return {
       restrict: "E",
       template: $templateCache.get("common-header.html"),
       scope: false,
       link: function ($scope, element, attr) {
+        $scope.cookieEnabled = $window.navigator.cookieEnabled;
         $scope.navCollapsed = true;
         $scope.inRVAFrame = userState.inRVAFrame();
 
@@ -3260,7 +3265,7 @@ angular.module("risevision.common.geodata", [])
 
   angular.module("risevision.common.userstate", [
     "risevision.common.companystate", "risevision.common.util",
-    "risevision.common.gapi", "risevision.common.localstorage",
+    "risevision.common.gapi", "LocalStorageModule",
     "risevision.common.config", "risevision.core.cache",
     "risevision.core.oauth2",
     "risevision.core.util", "risevision.core.userprofile",
@@ -4370,8 +4375,6 @@ angular.module("risevision.ui-flow", ["LocalStorageModule"])
 
   angular.module("risevision.core.cache", [])
 
-    .value("rvStorage", sessionStorage)
-
     .factory("userInfoCache", ["$cacheFactory", function ($cacheFactory) {
       return $cacheFactory("user-info-cache");
     }]);
@@ -5179,9 +5182,9 @@ angular.module("risevision.common.header")
     "risevision.common.userstate"
   ])
 
-  .factory("shoppingCart", ["rvStorage", "storeAPILoader", "$log", "$q",
+  .factory("shoppingCart", ["storeAPILoader", "$log", "$q",
     "userState",
-    function (rvStorage, storeAPILoader, $log, $q, userState) {
+    function (storeAPILoader, $log, $q, userState) {
       var _items = [];
       var _cart = {
         "items": _items,
@@ -5666,43 +5669,6 @@ angular.module("risevision.common.gapi", [])
       var baseUrl = $location.search().core_api_base_url ? $location.search().core_api_base_url + "/_ah/api": MONITORING_SERVICE_URL;
       return gapiClientLoaderGenerator("monitoring", "v0", baseUrl);
   }]);
-
-(function (angular) {
-
-  "use strict";
-
-  angular.module("risevision.common.localstorage", ["ngStorage"])
-    .factory("localStorageService", ["$localStorage", "$sessionStorage",
-      function ($localStorage, $sessionStorage) {
-
-        var storageImpl = localStorage ? localStorage : sessionStorage;
-        var storageImplWrapper = localStorage ? $localStorage :
-          $sessionStorage;
-
-        var factory = {};
-
-        factory.getStorage = function () {
-          return storageImplWrapper;
-        };
-
-        factory.setItemImmediate = function (key, value) {
-          storageImpl.setItem(key, value);
-        };
-
-        factory.removeItemImmediate = function (key) {
-          storageImpl.removeItem(key);
-        };
-
-        factory.getItem = function (key) {
-          return storageImpl.getItem(key);
-        };
-
-        return factory;
-
-      }
-    ]);
-
-})(angular);
 
 (function (angular) {
 

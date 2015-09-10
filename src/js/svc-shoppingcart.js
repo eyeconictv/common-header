@@ -5,9 +5,9 @@
     "risevision.common.userstate"
   ])
 
-  .factory("shoppingCart", ["rvStorage", "storeAPILoader", "$log", "$q",
+  .factory("shoppingCart", ["storeAPILoader", "$log", "$q",
     "userState",
-    function (rvStorage, storeAPILoader, $log, $q, userState) {
+    function (storeAPILoader, $log, $q, userState) {
       var _items = [];
       var _cart = {
         "items": _items,
