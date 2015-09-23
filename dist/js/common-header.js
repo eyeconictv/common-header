@@ -337,8 +337,8 @@ app.run(["$templateCache", function($templateCache) {
     "	</div>\n" +
     "</nav>\n" +
     "\n" +
-    "<div ng-if=\"!cookieEnabled\" class=\"bg-warning add-padding text-center\">\n" +
-    "    <small><strong>Cookies Are Disabled.</strong> Rise Vision needs to use cookies to properly function. Please enable cookies on your web browser and refresh this page.</small>\n" +
+    "<div ng-show=\"cookieEnabled === false\" class=\"bg-warning add-padding text-center\">\n" +
+    "    <small><strong>Cookies Are Disabled.</strong> Rise Vision needs to use cookies to properly function. Please enable Cookies and Third-Party Cookies on your web browser and refresh this page.</small>\n" +
     "</div>\n" +
     "\n" +
     "<ng-include\n" +
@@ -1302,6 +1302,7 @@ angular.module("risevision.common.header", [
   "risevision.core.cache",
   "risevision.core.company",
   "risevision.common.company",
+  "risevision.common.cookie",
   "LocalStorageModule",
   "risevision.common.header.templates",
   "risevision.common.loading",
@@ -1341,16 +1342,20 @@ angular.module("risevision.common.header", [
 .directive("commonHeader", ["$modal", "$rootScope", "$q", "$loading",
   "$interval", "oauth2APILoader", "$log",
   "$templateCache", "userState", "$location", "bindToScopeWithWatch",
-  "$document", "$window",
+  "$document", "cookieTester",
   function ($modal, $rootScope, $q, $loading, $interval,
     oauth2APILoader, $log, $templateCache, userState, $location,
-    bindToScopeWithWatch, $document, $window) {
+    bindToScopeWithWatch, $document, cookieTester) {
     return {
       restrict: "E",
       template: $templateCache.get("common-header.html"),
       scope: false,
       link: function ($scope, element, attr) {
-        $scope.cookieEnabled = $window.navigator.cookieEnabled;
+        cookieTester.checkCookies().then(function () {
+          $scope.cookieEnabled = true;
+        }, function () {
+          $scope.cookieEnabled = false;
+        });
         $scope.navCollapsed = true;
         $scope.inRVAFrame = userState.inRVAFrame();
 
@@ -5540,6 +5545,7 @@ angular.module("risevision.common.header")
   angular.module("risevision.common.config")
     .value("ENABLE_INTERCOM_MESSAGING", false)
     .value("CORE_URL", "https://rvaserver2.appspot.com/_ah/api")
+    .value("COOKIE_CHECK_URL", "//storage-dot-rvaserver2.appspot.com")
     .value("STORE_URL", "https://store.risevision.com")
     .value("STORE_ENDPOINT_URL",
       "https://store-dot-rvaserver2.appspot.com/_ah/api")
@@ -5784,6 +5790,57 @@ angular.module("risevision.store.data-gadgets", [])
         return deferred.promise;
       };
 
+    }
+  ]);
+
+"use strict";
+angular.module("risevision.common.cookie", ["risevision.common.config"])
+  .service("cookieTester", ["$q", "$document", "$http", "COOKIE_CHECK_URL",
+    function ($q, $document, $http, COOKIE_CHECK_URL) {
+      var svc = {};
+
+      svc.checkCookies = function () {
+        var deferred = $q.defer();
+        $q.all([svc.checkLocalCookiePermission(), svc.checkThirdPartyCookiePermission()])
+          .then(function () {
+            deferred.resolve();
+          }, function () {
+            deferred.reject();
+          });
+        return deferred.promise;
+      };
+
+      svc.checkLocalCookiePermission = function () {
+        $document[0].cookie = "rv-test-local-cookie=yes";
+        if ($document[0].cookie.indexOf("rv-test-local-cookie") > -1) {
+          return $q.when(true);
+        }
+
+        return $q.reject(false);
+      };
+
+      svc.checkThirdPartyCookiePermission = function () {
+        return $http.get(COOKIE_CHECK_URL + "/createThirdPartyCookie", {
+            withCredentials: true
+          })
+          .then(function () {
+            return $http.get(COOKIE_CHECK_URL + "/checkThirdPartyCookie", {
+              withCredentials: true
+            });
+          })
+          .then(function (resp) {
+            if (resp.data.check === "true") {
+              return true;
+            } else {
+              return $q.reject();
+            }
+          })
+          .then(null, function () {
+            return $q.reject(false);
+          });
+      };
+
+      return svc;
     }
   ]);
 

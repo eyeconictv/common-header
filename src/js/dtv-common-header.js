@@ -5,6 +5,7 @@ angular.module("risevision.common.header", [
   "risevision.core.cache",
   "risevision.core.company",
   "risevision.common.company",
+  "risevision.common.cookie",
   "LocalStorageModule",
   "risevision.common.header.templates",
   "risevision.common.loading",
@@ -44,16 +45,20 @@ angular.module("risevision.common.header", [
 .directive("commonHeader", ["$modal", "$rootScope", "$q", "$loading",
   "$interval", "oauth2APILoader", "$log",
   "$templateCache", "userState", "$location", "bindToScopeWithWatch",
-  "$document", "$window",
+  "$document", "cookieTester",
   function ($modal, $rootScope, $q, $loading, $interval,
     oauth2APILoader, $log, $templateCache, userState, $location,
-    bindToScopeWithWatch, $document, $window) {
+    bindToScopeWithWatch, $document, cookieTester) {
     return {
       restrict: "E",
       template: $templateCache.get("common-header.html"),
       scope: false,
       link: function ($scope, element, attr) {
-        $scope.cookieEnabled = $window.navigator.cookieEnabled;
+        cookieTester.checkCookies().then(function () {
+          $scope.cookieEnabled = true;
+        }, function () {
+          $scope.cookieEnabled = false;
+        });
         $scope.navCollapsed = true;
         $scope.inRVAFrame = userState.inRVAFrame();
 

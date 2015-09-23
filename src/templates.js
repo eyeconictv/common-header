@@ -337,8 +337,8 @@ app.run(["$templateCache", function($templateCache) {
     "	</div>\n" +
     "</nav>\n" +
     "\n" +
-    "<div ng-if=\"!cookieEnabled\" class=\"bg-warning add-padding text-center\">\n" +
-    "    <small><strong>Cookies Are Disabled.</strong> Rise Vision needs to use cookies to properly function. Please enable cookies on your web browser and refresh this page.</small>\n" +
+    "<div ng-show=\"cookieEnabled === false\" class=\"bg-warning add-padding text-center\">\n" +
+    "    <small><strong>Cookies Are Disabled.</strong> Rise Vision needs to use cookies to properly function. Please enable Cookies and Third-Party Cookies on your web browser and refresh this page.</small>\n" +
     "</div>\n" +
     "\n" +
     "<ng-include\n" +
