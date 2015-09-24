@@ -255,7 +255,7 @@ app.run(["$templateCache", function($templateCache) {
   $templateCache.put("common-header.html",
     "<!-- Common Header Navbar -->\n" +
     "<nav class=\"navbar navbar-default navbar-static-top\"\n" +
-    "	ng-class=\"{'double-margin': isSubcompanySelected}\" role=\"navigation\">\n" +
+    "	ng-class=\"{'active-banner': isSubcompanySelected() || isTestCompanySelected()}\" role=\"navigation\">\n" +
     "	<div class=\"container\">\n" +
     "\n" +
     "		<div class=\"navbar-header\" style=\"width: 100%;\">\n" +

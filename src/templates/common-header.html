@@ -1,6 +1,6 @@
 <!-- Common Header Navbar -->
 <nav class="navbar navbar-default navbar-static-top"
-	ng-class="{'double-margin': isSubcompanySelected}" role="navigation">
+	ng-class="{'active-banner': isSubcompanySelected() || isTestCompanySelected()}" role="navigation">
 	<div class="container">
 
 		<div class="navbar-header" style="width: 100%;">
