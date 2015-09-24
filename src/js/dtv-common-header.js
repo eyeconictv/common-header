@@ -61,6 +61,8 @@ angular.module("risevision.common.header", [
         });
         $scope.navCollapsed = true;
         $scope.inRVAFrame = userState.inRVAFrame();
+        $scope.isSubcompanySelected = userState.isSubcompanySelected;
+        $scope.isTestCompanySelected = userState.isTestCompanySelected;
 
         // If nav options not provided use defaults
         if (!$scope[attr.navOptions]) {
