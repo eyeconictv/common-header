@@ -5196,7 +5196,8 @@ angular.module("risevision.common.header")
       var _cart = {
         "items": _items,
         "useBillToAddress": false,
-        "shipToAttention": ""
+        "shipToAttention": "",
+        "couponCode": ""
       };
 
       var readFromStorage = function () {
@@ -5215,6 +5216,7 @@ angular.module("risevision.common.header")
                 _cart.useBillToAddress = resp.useBillToAddress;
                 _cart.shipToAttention = resp.shipToAttention ? resp.shipToAttention :
                   "";
+                _cart.couponCode = resp.couponCode;
                 deferred.resolve();
               } else {
                 $log.warn("Error loading cart items. Error: " + resp.error);
@@ -5241,7 +5243,8 @@ angular.module("risevision.common.header")
                   //"id": userState.getUsername(),
                   "jsonItems": getJsonItems(_items),
                   "shipToAttention": _cart.shipToAttention,
-                  "useBillToAddress": _cart.useBillToAddress
+                  "useBillToAddress": _cart.useBillToAddress,
+                  "couponCode": _cart.couponCode
                 }
               };
               var request = storeApi.cart.put(obj);
@@ -5269,6 +5272,7 @@ angular.module("risevision.common.header")
       var clearCart = function () {
         _cart.useBillToAddress = false;
         _cart.shipToAttention = "";
+        _cart.couponCode = "";
         clearItems();
       };
 
@@ -5353,6 +5357,15 @@ angular.module("risevision.common.header")
         setAddressFields: function (shipToAttention, useBillToAddress) {
           _cart.shipToAttention = shipToAttention;
           _cart.useBillToAddress = useBillToAddress;
+          return persistToStorage();
+        },
+        getCouponCode: function () {
+          return _cart.couponCode;
+        },
+        setCouponCode: function (couponCode) {
+          $log.debug("Setting coupon code", couponCode);
+          //check if they are pointing to the same object
+          _cart.couponCode = couponCode;
           return persistToStorage();
         },
         getItemCount: function () {

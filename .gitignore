@@ -30,3 +30,6 @@ dist/fonts
 
 .idea
 *.iml
+
+.project
+.tern-project
