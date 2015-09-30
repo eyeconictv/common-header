@@ -2,7 +2,6 @@
 <nav class="navbar navbar-default navbar-static-top"
 	ng-class="{'active-banner': isSubcompanySelected() || isTestCompanySelected()}" role="navigation">
 	<div class="container">
-
 		<div class="navbar-header" style="width: 100%;">
 			<a class="navbar-brand visible-md visible-lg"
 			  href="http://www.risevision.com/" target="{{newTabHome ? '_blank' : '_self'}}" ng-if="!inRVAFrame">
@@ -35,6 +34,13 @@
 					ng-controller="CloseFrameButtonCtrl"
 					src="'close-frame-button.html'"
 				></ng-include>
+				<!-- Help Dropdown -->
+				<ng-include
+					replace-include
+					ng-controller="HelpDropdownButtonCtrl"
+					src="'help-dropdown.html'"
+				></ng-include>
+				<!-- END Help Dropdown -->
 				<!-- Current App -->
 				<ng-include
 					ng-if="!inRVAFrame"

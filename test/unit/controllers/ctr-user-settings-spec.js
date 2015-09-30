@@ -4,7 +4,7 @@
 
 describe("controller: user settings", function() {
   beforeEach(module("risevision.common.header"));
-  beforeEach(module(function ($provide) {
+  beforeEach(module(function ($provide, $translateProvider) {
     $provide.service("userState",userState);
     $provide.service("$modalInstance",function(){
       return {
@@ -52,7 +52,17 @@ describe("controller: user settings", function() {
         load: function() {}
       };
     });
-    
+
+    $provide.factory("customLoader", function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      };
+    });
+
+    $translateProvider.useLoader("customLoader");
+
   }));
   var $scope, userProfile, savedUser, userState, $modalInstance, createUser,
   trackerCalled;
