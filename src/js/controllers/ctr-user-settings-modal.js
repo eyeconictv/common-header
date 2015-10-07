@@ -122,7 +122,12 @@ angular.module("risevision.common.header")
 
     $scope.editRoleVisible = function (role) {
       if (userState.isRiseAdmin()) {
-        return true;
+        if (userState.isSubcompanySelected() && (role.key === "sa" || role.key ===
+          "ba")) {
+          return false;
+        } else {
+          return true;
+        }
       } else if (userState.isUserAdmin() || userState.isRiseVisionUser()) {
         if (role.key === "sa" || role.key === "ba") {
           return false;
