@@ -1,99 +1,106 @@
 (function() {
 
   "use strict";
-
-  /* https://github.com/angular/protractor/blob/master/docs/getting-started.md */
-
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-
-  chai.use(chaiAsPromised);
-  var expect = chai.expect;
-  var assert = chai.assert;
-
-  var fs = require("fs");
+  
+  var expect = require('rv-common-e2e').expect;
+  var assert = require('rv-common-e2e').assert;
+  var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var CommonHeaderMenuPage = require('./pages/commonHeaderMenuPage.js');
+  var UserSettingsModalPage = require('./pages/userSettingsModalPage.js');
+  var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
 
   describe("User Settings", function() {
-      before(function() {
-        browser.driver.manage().deleteAllCookies();
-        browser.get("/test/e2e/index.html#/");
+    this.timeout(2000);// to allow for protactor to load the seperate page
+    var commonHeaderPage, 
+      commonHeaderMenuPage, 
+      userSettingsModalPage;
+      
+    before(function (){
+      commonHeaderPage = new CommonHeaderPage();
+      commonHeaderMenuPage = new CommonHeaderMenuPage();
+      userSettingsModalPage = new UserSettingsModalPage();
 
-        //clear local storage
-        browser.executeScript("localStorage.clear();");
-        browser.refresh();
-        element(by.id("reset-db")).click();
+      browser.get("http://localhost:8099/test/e2e");
+
+      //sign in, wait for spinner to go away
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader').then(function () {
+        commonHeaderPage.signin();
       });
+    });
 
-      it("should show user settings modal and update settings", function() {
-        //log in
-        browser.executeScript("gapi.setPendingSignInUser('michael.sanchez@awesome.io')");
-        element(by.css("button.sign-in")).click();
-        browser.sleep(500);
+    it("should show user settings modal", function() {
+      commonHeaderMenuPage.getProfilePic().click();
+      
+      assert.eventually.isTrue(commonHeaderMenuPage.getUserSettingsButton().isDisplayed(), "User settings menu item should show");
 
-        assert.eventually.isFalse(element(by.css("button.sign-in")).isDisplayed(), "sign in button should not show");
+      //click on user settings button
+      commonHeaderMenuPage.getUserSettingsButton().click();
+      
+      helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
 
-        element(by.css(".user-profile-dropdown img.profile-pic")).click();
-        assert.eventually.isTrue(element(by.css(".dropdown-menu .user-settings-button")).isDisplayed(), "User settings menu item should show");
+      assert.eventually.isTrue(userSettingsModalPage.getUserSettingsModal()
+        .isDisplayed(), "User settings modal should show after clicking on menu item");
+    });
+    
+    it("should update settings", function() {
+      userSettingsModalPage.getFirstNameField().clear();
+      userSettingsModalPage.getFirstNameField().sendKeys("John");
 
-        //click on user settings button
-        element(by.css(".dropdown-menu .user-settings-button")).click();
-        
-        browser.sleep(500);
+      userSettingsModalPage.getLastNameField().clear();
+      userSettingsModalPage.getLastNameField().sendKeys("Doe");
 
-        assert.eventually.isTrue(element(by.css(".user-settings-modal"))
-          .isDisplayed(), "User settings modal should show after clicking on menu item");
+      userSettingsModalPage.getPhoneField().clear();
+      userSettingsModalPage.getPhoneField().sendKeys("000-000-0000");
 
-        element(by.id("user-settings-first-name")).clear();
-        element(by.id("user-settings-first-name")).sendKeys("John");
+      userSettingsModalPage.getEmailField().clear();
+      userSettingsModalPage.getEmailField().sendKeys("testmail@testmail.com");
 
-        element(by.id("user-settings-last-name")).clear();
-        element(by.id("user-settings-last-name")).sendKeys("Doe");
+      if ( !userSettingsModalPage.getCeCheckbox().isSelected() )
+      {
+         userSettingsModalPage.getCeCheckbox().click();
+      }
 
-        element(by.id("user-settings-phone")).clear();
-        element(by.id("user-settings-phone")).sendKeys("000-000-0000");
+      if ( userSettingsModalPage.getPuCheckbox().isSelected() )
+      {
+         userSettingsModalPage.getPuCheckbox().click();
+      }
 
-        element(by.id("user-settings-email")).clear();
-        element(by.id("user-settings-email")).sendKeys("testmail@testmail.com");
+      if ( !userSettingsModalPage.getDaCheckbox().isSelected() )
+      {
+         userSettingsModalPage.getDaCheckbox().click();
+      }
 
-        if ( !element(by.id("user-settings-ce")).isSelected() )
-        {
-           element(by.id("user-settings-ce")).click();
-        }
+      //click save button
+      userSettingsModalPage.getSaveButton().click();
+      
+      helper.waitRemoved(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
+      
+    });
+    
+    it("should show updated information", function() {
+      commonHeaderMenuPage.getProfilePic().click();
+      commonHeaderMenuPage.getUserSettingsButton().click();
+      
+      helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
 
-        if ( element(by.id("user-settings-pu")).isSelected() )
-        {
-           element(by.id("user-settings-pu")).click();
-        }
+      expect(userSettingsModalPage.getFirstNameField().getAttribute('value')).to.eventually.equal("John");
+      expect(userSettingsModalPage.getLastNameField().getAttribute('value')).to.eventually.equal("Doe");
+      expect(userSettingsModalPage.getEmailField().getAttribute('value')).to.eventually.equal("testmail@testmail.com");
+      expect(userSettingsModalPage.getPhoneField().getAttribute('value')).to.eventually.equal("000-000-0000");
 
-        if ( !element(by.id("user-settings-da")).isSelected() )
-        {
-           element(by.id("user-settings-da")).click();
-        }
+      expect(userSettingsModalPage.getCeCheckbox().isSelected()).to.eventually.equal.true;
+      expect(userSettingsModalPage.getPuCheckbox().isSelected()).to.eventually.equal.false;
+      expect(userSettingsModalPage.getDaCheckbox().isSelected()).to.eventually.equal.true;
+    });
 
-        //click save button
-        element(by.id("save-button")).click();
-        assert.eventually.isFalse(element(by.css(".user-settings-modal"))
-          .isPresent(), "User settings modal should hide after saving");
-
-        var profilePromise = browser.executeScript(function () {
-            return window.gapi._fakeDb.users[0];
-          });
-        expect(profilePromise).to.eventually.have.property("firstName", "John");
-        expect(profilePromise).to.eventually.have.property("lastName", "Doe");
-        expect(profilePromise).to.eventually.have.property("email", "testmail@testmail.com");
-        expect(profilePromise).to.eventually.have.property("telephone", "000-000-0000");
-
-        //TODO test roles
-      });
-
-      // username should be shown here instead of email
-      // however that's not an editable field
-      xit("should immediately update fixes", function () {
-        assert.eventually.equal(element(
-          by.css("span.username")).getText(), "testmail@testmail.com",
-            "Username should update");
-      });
+    // username should be shown here instead of email
+    // however that's not an editable field
+    xit("should immediately update fixes", function () {
+      assert.eventually.equal(element(
+        by.css("span.username")).getText(), "testmail@testmail.com",
+          "Username should update");
+    });
   });
 })();

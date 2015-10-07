@@ -27,6 +27,7 @@ node_modules
 components
 reports
 dist/fonts
+src/js/config/config.js
 
 .idea
 *.iml

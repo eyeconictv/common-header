@@ -138,14 +138,6 @@ var env = process.env.NODE_ENV || "dev",
     "./components/angular-ui-sortable/sortable.js",
     "./components/angular-local-storage/dist/angular-local-storage.js"],
     gapiMockSrcFiles = [
-    "./components/rv-gapi-mock/observed-browser.js",
-    "./components/rv-gapi-mock/_mock-data.js",
-    "./components/rv-gapi-mock/gapi-mock-data/users.js",
-    "./components/rv-gapi-mock/gapi-mock-data/companies.js",
-    "./components/rv-gapi-mock/gapi-mock-data/accounts.js",
-    "./components/rv-gapi-mock/gapi-mock-data/systemmessages.js",
-    "./components/mustache/mustache.js",
-    "./components/rv-gapi-mock/gapi-mock.js",
     "./node_modules/widget-tester/mocks/segment-analytics-mock.js"
     ],
     injectorGenerator = function (srcFiles, id) {
@@ -312,7 +304,9 @@ gulp.task("server-close", factory.testServerClose());
 gulp.task("test:webdrive_update", factory.webdriveUpdate());
 gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
   browser: "chrome",
-  testFiles: ["./test/e2e/**/*-scenarios.js"]
+  loginUser: process.env.E2E_USER,
+  loginPass: process.env.E2E_PASS,
+  testFiles: process.env.TEST_FILES || ["./test/e2e/**/*-scenarios.js"]
 }));
 gulp.task("test:e2e", function (cb) {
   runSequence("server", "test:e2e:core", "server-close", cb);

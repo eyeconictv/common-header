@@ -381,15 +381,15 @@ app.run(["$templateCache", function($templateCache) {
     "    <p>{{username}}</p>\n" +
     "    <p><strong>{{selectedCompanyName}}</strong>\n" +
     "      <span class=\"text-muted\" ng-show=\"isRiseVisionUser && !isSubcompanySelected\">|</span>\n" +
-    "      <a href=\"\" ng-click=\"switchCompany()\" ng-show=\"isRiseVisionUser && !isSubcompanySelected\">Select Sub-Company</a>\n" +
+    "      <a id=\"select-subcompany-button\" href=\"\" ng-click=\"switchCompany()\" ng-show=\"isRiseVisionUser && !isSubcompanySelected\">Select Sub-Company</a>\n" +
     "    </p>\n" +
     "  </li>\n" +
     "\n" +
     "  <li class=\"dropdown-header sub-company-header\" ng-show=\"isSubcompanySelected\">\n" +
     "    <p>You are in Sub-Company <strong>{{selectedCompanyName}}</strong>\n" +
     "    <span class=\"text-muted\">|</span>\n" +
-    "     <a href=\"\" ng-click=\"switchCompany()\" ng-show=\"isRiseVisionUser\">Change</a></p>\n" +
-    "    <p><a href=\"\" ng-click=\"resetCompany()\">Switch to My Company</a></p>\n" +
+    "     <a id=\"change-subcompany-button\" href=\"\" ng-click=\"switchCompany()\" ng-show=\"isRiseVisionUser\">Change</a></p>\n" +
+    "    <p><a id=\"reset-subcompany-button\" href=\"\" ng-click=\"resetCompany()\">Switch to My Company</a></p>\n" +
     "  </li>\n" +
     "\n" +
     "  <li ng-show=\"isUserAdmin || isRiseAdmin\">\n" +
@@ -525,7 +525,7 @@ app.run(["$templateCache", function($templateCache) {
     "			Select Sub-Company\n" +
     "		</h2>\n" +
     "	</div>\n" +
-    "	<div class=\"modal-body\">\n" +
+    "	<div class=\"modal-body select-subcompany-modal\">\n" +
     "	  <!-- Search -->\n" +
     "		<search-filter filter-config=\"filterConfig\" search=\"search\" do-search=\"doSearch\"></search-filter> \n" +
     "\n" +
@@ -575,7 +575,7 @@ app.run(["$templateCache", function($templateCache) {
     "        Authentication Key\n" +
     "      </label>\n" +
     "      <a class=\"action-link ps-reset-auth-key\" href=\"\" ng-click=\"resetAuthKey()\">Reset</a>\n" +
-    "      <div clss=\"ps-auth-key\">\n" +
+    "      <div class=\"ps-auth-key\">\n" +
     "        {{company.authKey}}\n" +
     "      </div>\n" +
     "    </div>\n" +
@@ -681,7 +681,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </div>\n" +
     "  <div class=\"modal-footer\">\n" +
     "    <p class=\"visible-xs text-right\"><last-modified change-date=\"company.changeDate\" changed-by=\"company.changedBy\"></last-modified></p>\n" +
-    "    <button type=\"button\" class=\"btn btn-danger btn-fixed-width pull-left delete-company-button\"\n" +
+    "    <button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-fixed-width pull-left\"\n" +
     "      ng-show=\"!isDeletingCompany\" ng-click=\"deleteCompany()\">\n" +
     "      Delete <i class=\"fa fa-white fa-trash-o icon-right\"></i>\n" +
     "    </button>\n" +
@@ -690,13 +690,13 @@ app.run(["$templateCache", function($templateCache) {
     "    </button>\n" +
     "    <div class=\"pull-right\">\n" +
     "      <span class=\"hidden-xs\"><last-modified change-date=\"company.changeDate\" changed-by=\"company.changedBy\"></last-modified></span>\n" +
-    "      <button type=\"button\"\n" +
+    "      <button type=\"button\" id=\"save-button\"\n" +
     "        class=\"btn btn-primary btn-fixed-width\" ng-click=\"save()\"\n" +
     "        ng-disabled=\"forms.companyForm.$invalid\">Save\n" +
     "        <i class=\"fa fa-white fa-check icon-right\"></i>\n" +
     "      </button>\n" +
-    "      <button type=\"button\"\n" +
-    "        class=\"btn btn-default btn-fixed-width close-company-settings-button\" data-dismiss=\"modal\" ng-click=\"closeModal()\">Cancel\n" +
+    "      <button type=\"button\" id=\"close-button\"\n" +
+    "        class=\"btn btn-default btn-fixed-width\" data-dismiss=\"modal\" ng-click=\"closeModal()\">Cancel\n" +
     "        <i class=\"fa fa-white fa-times icon-right\"></i>\n" +
     "      </button>\n" +
     "    </div>\n" +
@@ -713,9 +713,6 @@ catch(err) { app = angular.module("risevision.common.header.templates", []); }
 app.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("company-users-modal.html",
-    "<div rv-spinner\n" +
-    "  rv-spinner-key=\"company-users-modal\"\n" +
-    "  rv-spinner-start-active=\"1\">\n" +
     "<div class=\"modal-header\">\n" +
     "  <button type=\"button\" class=\"close\" data-dismiss=\"modal\"\n" +
     "    aria-hidden=\"true\" ng-click=\"closeModal()\">\n" +
@@ -760,7 +757,6 @@ app.run(["$templateCache", function($templateCache) {
     "    Cancel <i class=\"fa fa-white fa-times icon-right\"></i>\n" +
     "  </button>\n" +
     "</div>\n" +
-    "</div> <!-- spinner -->\n" +
     "");
 }]);
 })();
@@ -1090,7 +1086,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </button>\n" +
     "  <h2 id=\"sub-company-label\" class=\"modal-title\">Add Sub-Company</h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body select-subcompany-modal pt-add-subcompany-modal\">\n" +
+    "<div class=\"modal-body add-subcompany-modal\">\n" +
     "  <form role=\"form\" name=\"forms.companyForm\">\n" +
     "    <div ng-include=\"'company-fields.html'\"></div>\n" +
     "    <div class=\"form-group\">\n" +
@@ -1308,7 +1304,7 @@ app.run(["$templateCache", function($templateCache) {
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
     "  <p class=\"text-right\"><last-modified change-date=\"user.changeDate\" changed-by=\"user.changedBy\"></last-modified></p>\n" +
-    "  <button type=\"button\" class=\"btn btn-danger btn-fixed-width pull-left\"\n" +
+    "  <button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-fixed-width pull-left\"\n" +
     "    ng-if=\"!isAdd\" ng-click=\"deleteUser()\">\n" +
     "    Delete <i class=\"fa fa-white fa-trash-o icon-right\"></i>\n" +
     "  </button>\n" +
