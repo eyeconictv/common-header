@@ -132,8 +132,10 @@ app.run(["$templateCache", function($templateCache) {
     "    </a>\n" +
     "  </li>\n" +
     "\n" +
+    "  <span ng-if=\"isLoggedIn && !isRiseVisionUser\" class=\"google-account\" class=\"username\">{{username}}</span>\n" +
+    "\n" +
     "  <li class=\"dropdown-footer text-right\" ng-show=\"isLoggedIn\">\n" +
-    "    <button class=\"sign-out-button btn btn-sm btn-default\" ng-click=\"logout()\">Sign Out <i class=\"fa fa-sign-out\"></i>\n" +
+    "    <button class=\"sign-out-button btn btn-sm btn-default\" ng-click=\"logout()\">Sign Out<i class=\"fa fa-sign-out icon-right\"></i>\n" +
     "  </li>\n" +
     "</ul>\n" +
     "");
@@ -148,11 +150,11 @@ app.run(["$templateCache", function($templateCache) {
   $templateCache.put("auth-buttons.html",
     "<!-- Desktop and tablet -->\n" +
     "<li\n" +
-    "  ng-show=\"isLoggedIn && !isRiseVisionUser && !undetermined && !loading\">\n" +
+    "  ng-show=\"isLoggedIn && !isRiseVisionUser && !loading\">\n" +
     "  <button type=\"button\" href=\"\" ng-click=\"register()\"\n" +
-    "    class=\"register-user-menu-button action top-auth-button\">\n" +
-    "    Create Account\n" +
-    "  </a>\n" +
+    "    class=\"btn btn-danger register-user-menu-button\">\n" +
+    "    Complete Registration\n" +
+    "  </button>\n" +
     "</li>\n" +
     "<li\n" +
     "  dropdown\n" +
@@ -161,8 +163,8 @@ app.run(["$templateCache", function($templateCache) {
     "  ng-show=\"isLoggedIn\"\n" +
     "  >\n" +
     "    <a href=\"\" dropdown-toggle class=\"dropdown-toggle\">\n" +
-    "      <div class=\"user-id pull-left add-right\">\n" +
-    "        <span class=\"username\">{{username}}</span>\n" +
+    "      <div class=\"user-id pull-left\">\n" +
+    "        <span ng-class=\"{'pending-registration' : isLoggedIn && !isRiseVisionUser && !loading}\" class=\"username\">{{username}}</span>\n" +
     "        <span><strong>{{companyName}}</strong></span>\n" +
     "      </div>\n" +
     "      <img ng-src=\"{{userPicture}}\"\n" +
@@ -185,8 +187,8 @@ app.run(["$templateCache", function($templateCache) {
     "    <a href=\"\" dropdown-toggle class=\"visible-xs dropdown-toggle\" action-sheet=\"'auth-buttons-menu.html'\"\n" +
     "      action-sheet-class=\"user-profile-dropdown\">\n" +
     "      <div class=\"user-id\">\n" +
-    "        <span style=\"max-width:90px\">{{username}}</span>\n" +
-    "        <span style=\"max-width:90px\"><strong>{{companyName}}</strong></span>\n" +
+    "        <span>{{username}}</span>\n" +
+    "        <span><strong>{{companyName}}</strong></span>\n" +
     "      </div>\n" +
     "    </a>\n" +
     "</li>\n" +
@@ -194,7 +196,7 @@ app.run(["$templateCache", function($templateCache) {
     "<li ng-show=\"!undetermined && isLoggedIn === false\" ng-controller=\"SignUpButtonCtrl\">\n" +
     "  <button type=\"button\" ng-click=\"openSignUpModal()\"\n" +
     "  class=\"btn-primary btn add-right\">\n" +
-    "  <i class=\"fa fa-google\"></i> Sign Up Free</button>\n" +
+    "   Sign Up Free</button>\n" +
     "</li>\n" +
     "<li ng-show=\"!undetermined && isLoggedIn === false\">\n" +
     "  <button type=\"button\" class=\"sign-in top-auth-button\" ng-click=\"login('registrationComplete')\">\n" +
@@ -870,81 +872,100 @@ app.run(["$templateCache", function($templateCache) {
     "rv-spinner-key=\"registration-modal\"\n" +
     "rv-spinner-start-active=\"1\">\n" +
     "<div class=\"modal-header\">\n" +
-    "  <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\" ng-click=\"closeModal()\">\n" +
+    "  <button type=\"button\" class=\"close registration-cancel-button\" data-dismiss=\"modal\" aria-hidden=\"true\" ng-click=\"closeModal()\">\n" +
     "    <i class=\"fa fa-times\"></i>\n" +
     "  </button>\n" +
-    "  <h2 class=\"modal-title\">Welcome To Rise Vision</h2>\n" +
+    "  <h2 class=\"modal-title\">Let's finish with your details</h2>\n" +
     "</div>\n" +
     "<div class=\"modal-body registration-modal\">\n" +
-    "  <p>We require an email address that we can reliably reach you at\n" +
-    "  for system notices and other critical information. We promise,\n" +
-    "   only system notices, we won't send you anything else unless you\n" +
-    "  sign up for the newsletter below, and we won't share your email address\n" +
-    "  with anyone else.</p>\n" +
+    "  \n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col-sm-8\">\n" +
     "\n" +
-    "  <form id=\"registrationForm\" novalidate role=\"form\" name=\"forms.registrationForm\">\n" +
-    "    <!-- First Name -->\n" +
-    "    <div class=\"form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine }\">\n" +
-    "      <label for=\"firstName\">First Name</label>\n" +
-    "      <input type=\"text\" class=\"form-control firstName\"\n" +
-    "      name=\"firstName\"\n" +
-    "      id=\"firstName\" required\n" +
-    "      ng-model=\"profile.firstName\">\n" +
-    "      <p ng-show=\"forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine\"\n" +
-    "        class=\"help-block validation-error-message-first-name\">Enter First Name.</p>\n" +
+    "      <form id=\"registrationForm\" novalidate role=\"form\" name=\"forms.registrationForm\">\n" +
+    "        <!-- First Name -->\n" +
+    "        <div class=\"form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine }\">\n" +
+    "          <label for=\"firstName\">First Name</label>\n" +
+    "          <input type=\"text\" class=\"form-control firstName\"\n" +
+    "          name=\"firstName\"\n" +
+    "          id=\"firstName\" required\n" +
+    "          ng-model=\"profile.firstName\">\n" +
+    "          <p ng-show=\"forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine\"\n" +
+    "            class=\"help-block validation-error-message-first-name\">Enter First Name.</p>\n" +
+    "        </div>\n" +
+    "        <!-- Last Name -->\n" +
+    "        <div class=\"form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine }\">\n" +
+    "          <label for=\"lastName\">Last Name</label>\n" +
+    "          <input type=\"text\" class=\"form-control lastName\"\n" +
+    "          name=\"lastName\"\n" +
+    "          id=\"lastName\" required\n" +
+    "          ng-model=\"profile.lastName\">\n" +
+    "          <p ng-show=\"forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine\"\n" +
+    "            class=\"help-block validation-error-message-last-name\">Enter Last Name.</p>\n" +
+    "        </div>\n" +
+    "        <!-- Email -->\n" +
+    "        <div class=\"form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.email.$invalid && !forms.registrationForm.email.$pristine }\">\n" +
+    "          <label for=\"email\">Email <span>(We'll only send you system notices and other critical information)</span></label>\n" +
+    "          <input type=\"email\" class=\"form-control email\"\n" +
+    "          name=\"email\"\n" +
+    "          id=\"email\" required\n" +
+    "          ng-model=\"profile.email\">\n" +
+    "          <p ng-show=\"forms.registrationForm.email.$invalid && !forms.registrationForm.email.$pristine\"\n" +
+    "            class=\"help-block validation-error-message-email\">Enter a valid email.</p>\n" +
+    "        </div>\n" +
+    "        <!-- Terms of Service and Privacy -->\n" +
+    "        <div class=\"checkbox form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.accepted.$invalid && !userForm.accepted.$pristine }\">\n" +
+    "          <label>\n" +
+    "          <input type=\"checkbox\" name=\"accepted\"\n" +
+    "            ng-model=\"profile.accepted\"\n" +
+    "            class=\"accept-terms-checkbox\" required />\n" +
+    "          I accept the terms of <a href=\"http://www.risevision.com/terms-service-privacy/\" target=\"_blank\">Service and Privacy</a>\n" +
+    "          <p ng-show=\"forms.registrationForm.accepted.$invalid && !forms.registrationForm.accepted.$pristine\"\n" +
+    "            class=\"help-block validation-error-message-accepted\">You must accept terms and condtions.</p>\n" +
+    "          </label>\n" +
+    "        </div>\n" +
+    "        <!-- Newsletter -->\n" +
+    "        <div class=\"checkbox form-group\">\n" +
+    "          <label>\n" +
+    "            <input type=\"checkbox\" class=\"sign-up-newsletter-checkbox\" ng-model=\"profile.mailSyncEnabled\"> Sign up for our newsletter\n" +
+    "          </label>\n" +
+    "        </div>\n" +
+    "        <div class=\"add-top\">\n" +
+    "          <button ng-click=\"save()\"\n" +
+    "            name=\"create-account\"\n" +
+    "            type=\"button\"\n" +
+    "            class=\"btn btn-lg btn-success btn-block registration-save-button\"\n" +
+    "            ng-disabled=\"registering\">\n" +
+    "            Create Account <i class=\"fa fa-white fa-check icon-right\"></i>\n" +
+    "          </button>\n" +
+    "          <button type=\"button\" class=\"btn hidden btn-lg btn-link btn-fixed-width\"\n" +
+    "          ng-disabled=\"registering\"\n" +
+    "          ng-click=\"closeModal()\">\n" +
+    "            Cancel\n" +
+    "          </button>\n" +
+    "        </div>\n" +
+    "      </form>\n" +
+    "\n" +
     "    </div>\n" +
-    "    <!-- Last Name -->\n" +
-    "    <div class=\"form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine }\">\n" +
-    "      <label for=\"lastName\">Last Name</label>\n" +
-    "      <input type=\"text\" class=\"form-control lastName\"\n" +
-    "      name=\"lastName\"\n" +
-    "      id=\"lastName\" required\n" +
-    "      ng-model=\"profile.lastName\">\n" +
-    "      <p ng-show=\"forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine\"\n" +
-    "        class=\"help-block validation-error-message-last-name\">Enter Last Name.</p>\n" +
+    "    <div class=\"col-sm-4\">\n" +
+    "      <div class=\"signup-counters\">\n" +
+    "        <div class=\"counter\">\n" +
+    "          <p>129</p>\n" +
+    "          <span>New Companies Added Yesterday</span>\n" +
+    "        </div>\n" +
+    "        <div class=\"counter\">\n" +
+    "          <p>18,700</p>\n" +
+    "          <span>Total Displays</span>\n" +
+    "        </div>\n" +
+    "        <div class=\"counter\">\n" +
+    "          <p>120</p>\n" +
+    "          <span>Countries with Active Displays</span>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
     "    </div>\n" +
-    "    <!-- Email -->\n" +
-    "    <div class=\"form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.email.$invalid && !forms.registrationForm.email.$pristine }\">\n" +
-    "      <label for=\"email\">Email</label>\n" +
-    "      <input type=\"email\" class=\"form-control email\"\n" +
-    "      name=\"email\"\n" +
-    "      id=\"email\" required\n" +
-    "      ng-model=\"profile.email\">\n" +
-    "      <p ng-show=\"forms.registrationForm.email.$invalid && !forms.registrationForm.email.$pristine\"\n" +
-    "        class=\"help-block validation-error-message-email\">Enter a valid email.</p>\n" +
-    "    </div>\n" +
-    "    <!-- Terms of Service and Privacy -->\n" +
-    "    <div class=\"checkbox form-group\" ng-class=\"{ 'has-error' : forms.registrationForm.accepted.$invalid && !userForm.accepted.$pristine }\">\n" +
-    "      <label>\n" +
-    "      <input type=\"checkbox\" name=\"accepted\"\n" +
-    "        ng-model=\"profile.accepted\"\n" +
-    "        class=\"accept-terms-checkbox\" required />\n" +
-    "      I accept the terms of <a href=\"http://www.risevision.com/terms-service-privacy/\" target=\"_blank\">Service and Privacy</a>\n" +
-    "      <p ng-show=\"forms.registrationForm.accepted.$invalid && !forms.registrationForm.accepted.$pristine\"\n" +
-    "        class=\"help-block validation-error-message-accepted\">You must accept terms and condtions.</p>\n" +
-    "      </label>\n" +
-    "    </div>\n" +
-    "    <!-- Newsletter -->\n" +
-    "    <div class=\"checkbox form-group\">\n" +
-    "      <label>\n" +
-    "        <input type=\"checkbox\" class=\"sign-up-newsletter-checkbox\" ng-model=\"profile.mailSyncEnabled\"> Sign up for our newsletter\n" +
-    "      </label>\n" +
-    "    </div>\n" +
-    "    <div class=\"form-group\">\n" +
-    "      <button ng-click=\"save()\"\n" +
-    "        name=\"create-account\"\n" +
-    "        type=\"button\"\n" +
-    "        class=\"btn btn-success btn-fixed-width registration-save-button\"\n" +
-    "        ng-disabled=\"registering\">\n" +
-    "        Create Account <i class=\"fa fa-white fa-check icon-right\"></i>\n" +
-    "      </button>\n" +
-    "      <button type=\"button\" class=\"btn btn-default btn-fixed-width registration-cancel-button\"\n" +
-    "      ng-disabled=\"registering\"\n" +
-    "      ng-click=\"closeModal()\">\n" +
-    "        Cancel <i class=\"fa fa-white fa-times icon-right\"></i>\n" +
-    "      </button>\n" +
-    "    </div>\n" +
-    "  </form>\n" +
+    "  </div>  \n" +
+    "\n" +
+    "  \n" +
     "</div>\n" +
     "</div>\n" +
     "");
@@ -1012,16 +1033,28 @@ app.run(["$templateCache", function($templateCache) {
   $templateCache.put("signup-modal.html",
     "<div class=\"modal-body text-center\">\n" +
     "  <div class=\"signup-modal\">\n" +
-    "    <div class=\"logo add-bottom\">\n" +
+    "    <div class=\"logo add-bottom hidden\">\n" +
     "      <img style=\"width:120px\" src=\"//s3.amazonaws.com/Rise-Images/UI/logo.svg\" alt=\"Rise Vision\">\n" +
     "    </div>\n" +
-    "    <h2 class=\"modal-title\">Digital Signage Content Management</h2>\n" +
-    "    <p class=\"text-muted\">All you need is a Google Account. No credit card. No personal information. No risk.</p>\n" +
+    "    <h1 class=\"modal-title add-top remove-bottom\">New to Rise Vision?</h1>\n" +
+    "    <p class=\"text-muted\">CREATE A FREE ACCOUNT</p>\n" +
     "\n" +
-    "    <a class=\"add-top btn btn-hg btn-primary\" id=\"google-registration-button\" ng-click=\"login('registrationComplete')\">Get Started with Google <i class=\"fa fa-google fa-lg icon-right\"></i></a>\n" +
-    "    <p class=\"text-muted remove-bottom add-top\">Don't have a Google Account? <a href=\"https://accounts.google.com/signup\" target=\"_blank\">Get One Here</a></p>\n" +
-    "    <p class=\"text-muted\">Already a Rise Vision User? <a ng-click=\"$event.preventDefault(); login('registrationComplete');\" ng-href=\"#\">Sign In</a></p>\n" +
-    "  </div><!--signup-modal-->\n" +
+    "    <a class=\"add-top btn btn-hg btn-google-auth\" id=\"google-registration-button\" ng-click=\"login('registrationComplete')\"><strong>Sign Up with Google</strong> <i class=\"fa fa-google fa-lg icon-right\"></i></a>\n" +
+    "    <p class=\"text-muted remove-bottom half-top\"><a href=\"https://accounts.google.com/signup\" target=\"_blank\">I don't have a Google Account</a></p>\n" +
+    "    <p class=\"text-muted hidden\">Already a Rise Vision User? <a ng-click=\"$event.preventDefault(); login('registrationComplete');\" ng-href=\"#\">Sign In</a></p>\n" +
+    "\n" +
+    "    <div class=\"signup-offer\">\n" +
+    "      <p>Get <strong>Unlimited Access To All Features</strong> Including Our Most Popular Widgets</p>\n" +
+    "      <ul class=\"list-unstyled widgets-offer\">\n" +
+    "        <li><img src=\"https://s3.amazonaws.com/Rise-Images/Experimental/web.png\"><span>Web <br>Page</span></li>\n" +
+    "        <li><img src=\"https://s3.amazonaws.com/Rise-Images/Experimental/spreadsheet.png\"><span>Google Spreadsheet</span></li>\n" +
+    "        <li><img src=\"https://s3.amazonaws.com/Rise-Images/Experimental/calendar.png\"><span>Google Calendar</span></li>\n" +
+    "        <li><img src=\"https://s3.amazonaws.com/Rise-Images/Experimental/rss.png\"><span>RSS <br>Feed</span></li>\n" +
+    "        <li><img src=\"https://s3.amazonaws.com/Rise-Images/Experimental/news.png\"><span>News <br>Headlines</span></li>\n" +
+    "        <li><img src=\"https://s3.amazonaws.com/Rise-Images/Experimental/video.png\"><span>Video <br>Folder</span></li>\n" +
+    "      </ul>\n" +
+    "    </div>\n" +
+    "  </div><!--signup-modal-->  \n" +
     "</div><!--modal-body-->\n" +
     "");
 }]);

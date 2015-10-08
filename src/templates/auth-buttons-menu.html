@@ -11,7 +11,9 @@
     </a>
   </li>
 
+  <span ng-if="isLoggedIn && !isRiseVisionUser" class="google-account" class="username">{{username}}</span>
+
   <li class="dropdown-footer text-right" ng-show="isLoggedIn">
-    <button class="sign-out-button btn btn-sm btn-default" ng-click="logout()">Sign Out <i class="fa fa-sign-out"></i>
+    <button class="sign-out-button btn btn-sm btn-default" ng-click="logout()">Sign Out<i class="fa fa-sign-out icon-right"></i>
   </li>
 </ul>
