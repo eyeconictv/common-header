@@ -2,74 +2,61 @@
 
   "use strict";
 
-  /* https://github.com/angular/protractor/blob/master/docs/getting-started.md */
-
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-
-  chai.use(chaiAsPromised);
-  var expect = chai.expect;
-  var assert = chai.assert;
-
-  var fs = require("fs");
+  var expect = require('rv-common-e2e').expect;
+  var assert = require('rv-common-e2e').assert;
+  var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var CommonHeaderMenuPage = require('./pages/commonHeaderMenuPage.js');
+  var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
 
   describe("Authentication", function() {
+    this.timeout(2000);// to allow for protactor to load the seperate page
+    var commonHeaderPage, commonHeaderMenuPage;
+    before(function (){
+      commonHeaderPage = new CommonHeaderPage();
+      commonHeaderMenuPage = new CommonHeaderMenuPage();
 
-    before(function() {
-      browser.driver.manage().deleteAllCookies();
-      browser.get("/test/e2e/index.html");
-
-      //clear local storage
-      browser.executeScript("localStorage.clear();");
-      element(by.id("server-delay")).clear();
-      element(by.id("server-delay")).sendKeys("0");
-      browser.refresh();
-
-      element(by.id("reset-db")).click();
+      browser.get("http://localhost:8099/test/e2e");
     });
 
-    it("should authorize", function() {
-      assert.eventually.isTrue(element(by.css("button.sign-in")).isDisplayed(), "Sign in button should show");
-      //click on sign in button
-      browser.executeScript("gapi.setPendingSignInUser('michael.sanchez@awesome.io')");
-      element(by.css("button.sign-in")).click();
+    it("should show sign in button", function() {
+      assert.eventually.isTrue(commonHeaderPage.getSignInButton().isDisplayed(), "Sign in button should show");
+    });
+    
+    it("should sign in user", function() {
+      //wait for spinner to go away.
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader').then(function () {
+        commonHeaderPage.signin();
+      });
     });
 
     it("should retain auth status upon refresh", function () {
       browser.refresh();
       
-      browser.sleep(500);
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
 
-      assert.eventually.isFalse(element(by.css("button.sign-in")).isDisplayed(), "sign in button should not show");
-      assert.eventually.isTrue(element(by.css(".user-profile-dropdown img.profile-pic")).isDisplayed(), "profile pic should show");
-      assert.eventually.isFalse((element(by.css(".dropdown-menu .sign-out-button")).isDisplayed()), "sign out button should not show");
+      assert.eventually.isFalse(commonHeaderPage.getSignInButton().isDisplayed(), "sign in button should not show");
+      assert.eventually.isTrue(commonHeaderMenuPage.getProfilePic().isDisplayed(), "profile pic should show");
+      assert.eventually.isFalse(commonHeaderMenuPage.getSignOutButton().isDisplayed(), "sign out button should not show");
     });
 
     it("should log out", function() {
-
-      // browser.takeScreenshot().then(function(png) {
-      // var stream = fs.createWriteStream("/tmp/screenshot.png");
-      //   stream.write(new Buffer(png, "base64"));
-      //   stream.end();
-      // });
-      //
-      element(by.css(".user-profile-dropdown img.profile-pic")).click();
+      commonHeaderMenuPage.getProfilePic().click();
 
       //shows sign-out menu item
-      expect(element(by.css(".dropdown-menu .sign-out-button")).isDisplayed()).to.eventually.equal(true);
+      expect(commonHeaderMenuPage.getSignOutButton().isDisplayed()).to.eventually.be.true;
 
       //click sign out
-      element(by.css(".dropdown-menu .sign-out-button")).click();
+      commonHeaderMenuPage.getSignOutButton().click();
       
-      browser.sleep(500);
+      helper.wait(commonHeaderMenuPage.getSignOutModal(), 'Sign Out Modal');
       
-      assert.eventually.isTrue(element(by.css(".sign-out-modal")).isDisplayed(), "sign-out dialog should show");
-      element(by.css(".sign-out-modal .sign-out-rv-only-button")).click();
+      assert.eventually.isTrue(commonHeaderMenuPage.getSignOutModal().isDisplayed(), "sign-out dialog should show");
+      commonHeaderMenuPage.getSignOutRvOnlyButton().click();
 
       //signed out; sign-in button shows
-      expect(element(by.css("button.sign-in")).isDisplayed()).to.eventually.equal(true);
+      expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.equal(true);
 
     });
 

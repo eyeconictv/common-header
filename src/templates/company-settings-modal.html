@@ -16,7 +16,7 @@
         Authentication Key
       </label>
       <a class="action-link ps-reset-auth-key" href="" ng-click="resetAuthKey()">Reset</a>
-      <div clss="ps-auth-key">
+      <div class="ps-auth-key">
         {{company.authKey}}
       </div>
     </div>
@@ -122,7 +122,7 @@
   </div>
   <div class="modal-footer">
     <p class="visible-xs text-right"><last-modified change-date="company.changeDate" changed-by="company.changedBy"></last-modified></p>
-    <button type="button" class="btn btn-danger btn-fixed-width pull-left delete-company-button"
+    <button type="button" id="delete-button" class="btn btn-danger btn-fixed-width pull-left"
       ng-show="!isDeletingCompany" ng-click="deleteCompany()">
       Delete <i class="fa fa-white fa-trash-o icon-right"></i>
     </button>
@@ -131,13 +131,13 @@
     </button>
     <div class="pull-right">
       <span class="hidden-xs"><last-modified change-date="company.changeDate" changed-by="company.changedBy"></last-modified></span>
-      <button type="button"
+      <button type="button" id="save-button"
         class="btn btn-primary btn-fixed-width" ng-click="save()"
         ng-disabled="forms.companyForm.$invalid">Save
         <i class="fa fa-white fa-check icon-right"></i>
       </button>
-      <button type="button"
-        class="btn btn-default btn-fixed-width close-company-settings-button" data-dismiss="modal" ng-click="closeModal()">Cancel
+      <button type="button" id="close-button"
+        class="btn btn-default btn-fixed-width" data-dismiss="modal" ng-click="closeModal()">Cancel
         <i class="fa fa-white fa-times icon-right"></i>
       </button>
     </div>

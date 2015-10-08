@@ -2,82 +2,110 @@
 
   "use strict";
 
-  /* https://github.com/angular/protractor/blob/master/docs/getting-started.md */
-
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-
-  chai.use(chaiAsPromised);
-  var expect = chai.expect;
-  var assert = chai.assert;
-
-  var fs = require("fs");
+  var expect = require('rv-common-e2e').expect;
+  var assert = require('rv-common-e2e').assert;
+  var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var CommonHeaderMenuPage = require('./pages/commonHeaderMenuPage.js');
+  var CompanyUsersModalPage = require('./pages/companyUsersModalPage.js');
+  var UserSettingsModalPage = require('./pages/userSettingsModalPage.js');
+  var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
 
   describe("Companies", function() {
-      before(function() {
-        browser.driver.manage().deleteAllCookies();
-        browser.get("/test/e2e/index.html#/shopping-cart");
+    this.timeout(2000);// to allow for protactor to load the seperate page
+    var commonHeaderPage, 
+      commonHeaderMenuPage, 
+      companyUsersModalPage,
+      userSettingsModalPage;
+      
+    before(function (){
+      commonHeaderPage = new CommonHeaderPage();
+      commonHeaderMenuPage = new CommonHeaderMenuPage();
+      companyUsersModalPage = new CompanyUsersModalPage();
+      userSettingsModalPage = new UserSettingsModalPage();
 
-        //clear local storage
-        browser.executeScript("localStorage.clear();");
+      browser.get("http://localhost:8099/test/e2e");
 
-        browser.refresh();
-        element(by.id("reset-db")).click();
+      //sign in, wait for spinner to go away
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader').then(function () {
+        commonHeaderPage.signin();
+      });
+    });
+
+    describe("Company Users", function () {
+      it("Opens Company Users Dialog and load company users", function() {
+        commonHeaderMenuPage.getProfilePic().click();
+
+        assert.eventually.isTrue(commonHeaderMenuPage.getCompanyUsersButton().isDisplayed(),
+          "Company users menu item should present");
+        commonHeaderMenuPage.getCompanyUsersButton().click();
+
+        helper.wait(companyUsersModalPage.getCompanyUsersModal(), "Comapny Users Modal");
+
+        assert.eventually.isTrue(companyUsersModalPage.getCompanyUsersModal().isDisplayed(),
+          "Company users dialog should show");
       });
 
-      describe("Company Users", function () {
-        it("logs in", function () {
-          browser.executeScript("gapi.setPendingSignInUser('michael.sanchez@awesome.io')");
-          element(by.css("button.sign-in")).click();
-          browser.sleep(500);
-          assert.eventually.isFalse(element(by.css("button.sign-in")).isDisplayed(), "sign in button should not show");
-        });
-
-        it("Opens Company Users Dialog and load company users", function() {
-          element(by.css(".user-profile-dropdown img.profile-pic")).click();
-          assert.eventually.isTrue(element(by.css(".dropdown-menu .company-users-menu-button")).isDisplayed(),
-            "Company users menu item should present");
-          element(by.css(".dropdown-menu .company-users-menu-button")).click();
-
-          browser.sleep(500);
-
-          assert.eventually.isTrue(element(by.css(".company-users-modal")).isDisplayed(),
-            "Company users dialog should show");
-        });
-
-        it("loads up a list of users for the company", function () {
-          assert.eventually.strictEqual(element.all(by.css(".company-users-list-item")).count(), 34,
-            "Loads up 34 users");
-        });
-
-        it("opens up Add User dialog", function () {
-          element(by.css("button.add-company-user-button")).click();
-          
-          browser.sleep(500);
-
-          assert.eventually.isTrue(element(by.css(".user-settings-modal")).isPresent(), "Add user dialog should show");
-        });
-
-        it("adds a user", function () {
-          element(by.id("user-settings-username")).sendKeys("noobuser@somecompany.com");
-          element(by.id("user-settings-first-name")).sendKeys("John");
-          element(by.id("user-settings-last-name")).sendKeys("Noob");
-          element(by.id("user-settings-phone")).sendKeys("000-000-0000");
-          element(by.id("user-settings-email")).sendKeys("noobuser@somecompany.com");
-          element(by.id("save-button")).click();
-          assert.eventually.isFalse(element(by.css(".user-settings-modal")).isPresent(), "Add user dialog should hide");
-
-          assert.eventually.strictEqual(element.all(by.css(".company-users-list-item")).count(), 35,
-            "Loads up 35 users");
-        });
-
-        it("Company Users Dialog Should Close", function () {
-          element(by.css("button.close-company-users-button")).click();
-          assert.eventually.isFalse(element(by.css(".company-users-modal")).isPresent(),
-            "Company Users dialog should hide");
-        });
+      it("loads up a list of users for the company", function () {
+        helper.waitDisappear(companyUsersModalPage.getLoader(), "Load Company Users");
+        
+        expect(companyUsersModalPage.getUsersList().count()).to.eventually.be.above(0);
       });
+
+      it("opens up Add User dialog", function () {
+        companyUsersModalPage.getAddUserButton().click();
+        
+        helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
+
+        assert.eventually.isTrue(userSettingsModalPage.getUserSettingsModal().isPresent(), "Add user dialog should show");
+      });
+
+      it("adds a user", function () {
+        var modal = userSettingsModalPage.getUserSettingsModal();
+        
+        userSettingsModalPage.getUsernameField().sendKeys("aaa.user@somecompany.com");
+        userSettingsModalPage.getFirstNameField().sendKeys("John");
+        userSettingsModalPage.getLastNameField().sendKeys("test");
+        userSettingsModalPage.getPhoneField().sendKeys("000-000-0000");
+        userSettingsModalPage.getEmailField().sendKeys("aaa.user@somecompany.com");
+        userSettingsModalPage.getSaveButton().click();
+        
+        helper.waitRemoved(modal, "User Settings Modal");        
+      });
+      
+      it("selects a user", function() {
+
+        helper.waitDisappear(companyUsersModalPage.getLoader(), "Load Company Users");
+
+        // assume first user
+        companyUsersModalPage.getUsers().get(0).click();
+        
+        helper.waitDisappear(userSettingsModalPage.getLoader(), "User Settings Modal");
+
+        expect(userSettingsModalPage.getFirstNameField().getAttribute('value')).to.eventually.equal("John");
+        expect(userSettingsModalPage.getLastNameField().getAttribute('value')).to.eventually.equal("test");
+        expect(userSettingsModalPage.getEmailField().getAttribute('value')).to.eventually.equal("aaa.user@somecompany.com");
+      });
+
+      it("deletes a user", function() {
+        var modal = userSettingsModalPage.getUserSettingsModal();
+        userSettingsModalPage.getDeleteButton().click();
+        
+        browser.switchTo().alert().accept();  // Use to accept (simulate clicking ok)
+        
+        helper.waitRemoved(modal, "User Settings Modal");
+      });
+      
+      it("Company Users Dialog Should Close", function () {
+        helper.waitDisappear(companyUsersModalPage.getLoader(), "Load Company Users");
+
+        companyUsersModalPage.getCloseButton().click();
+        
+        assert.eventually.isFalse(companyUsersModalPage.getCompanyUsersModal().isPresent(),
+          "Company Users dialog should hide");
+      });
+      
+    });
   });
 })();

@@ -2,87 +2,89 @@
 
   "use strict";
 
-  /* https://github.com/angular/protractor/blob/master/docs/getting-started.md */
-
-  var chai = require("chai");
-  var chaiAsPromised = require("chai-as-promised");
-
-  chai.use(chaiAsPromised);
-  var expect = chai.expect;
-  var assert = chai.assert;
-
-  var fs = require("fs");
+  var expect = require('rv-common-e2e').expect;
+  var assert = require('rv-common-e2e').assert;
+  var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var CommonHeaderMenuPage = require('./pages/commonHeaderMenuPage.js');
+  var CompanySettingsModalPage = require('./pages/companySettingsModalPage.js');
+  var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
 
   describe("Companies Settings", function() {
-      before(function() {
-        browser.driver.manage().deleteAllCookies();
-        browser.get("/test/e2e/index.html#/shopping-cart");
+    this.timeout(2000);// to allow for protactor to load the seperate page
+    var commonHeaderPage, 
+      commonHeaderMenuPage, 
+      companySettingsModalPage;
+      
+    before(function (){
+      commonHeaderPage = new CommonHeaderPage();
+      commonHeaderMenuPage = new CommonHeaderMenuPage();
+      companySettingsModalPage = new CompanySettingsModalPage();
 
-        //clear local storage
-        browser.executeScript("localStorage.clear();");
+      browser.get("http://localhost:8099/test/e2e");
 
-        browser.refresh();
-        element(by.id("reset-db")).click();
+      //sign in, wait for spinner to go away
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader').then(function () {
+        commonHeaderPage.signin();
+      });
+    });
+
+    describe("Company Settings", function () {
+      it("Opens Company Settings Dialog", function() {
+        commonHeaderMenuPage.getProfilePic().click();
+
+        assert.eventually.isTrue(commonHeaderMenuPage.getCompanySettingsButton().isDisplayed(),
+          "Company settings menu item should present");
+        commonHeaderMenuPage.getCompanySettingsButton().click();
+        
+        helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");
+        
+        assert.eventually.isTrue(companySettingsModalPage.getCompanySettingsModal().isDisplayed(),
+          "Company settings dialog should show");
+      });
+      
+      it("Loads company settings", function() {
+        helper.waitDisappear(companySettingsModalPage.getLoader(), "Load Company Settings");
+        
+        expect(companySettingsModalPage.getNameField().getAttribute('value')).to.eventually.be.ok;
       });
 
-
-      describe("Company Settings", function () {
-        it("logs in", function () {
-          browser.executeScript("gapi.setPendingSignInUser('michael.sanchez@awesome.io')");
-          element(by.css("button.sign-in")).click();
-          browser.sleep(500);
-          assert.eventually.isFalse(element(by.css("button.sign-in")).isDisplayed(), "sign in button should not show");
-        });
-
-        it("Opens Company Settings Dialog", function() {
-          element(by.css(".user-profile-dropdown img.profile-pic")).click();
-          assert.eventually.isTrue(element(by.css(".dropdown-menu .company-settings-menu-button")).isDisplayed(),
-            "Company settings menu item should present");
-          element(by.css(".dropdown-menu .company-settings-menu-button")).click();
-          browser.sleep(500);
-          assert.eventually.isTrue(element(by.css(".company-settings-modal")).isDisplayed(),
-            "Company settings dialog should show");
-        });
-
-        xit("Resets auth key", function() {
-          element(by.css(".ps-reset-auth-key")).click();
-          browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //confirm reset
-          browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //acknowledge reset message
-        });
-
-        xit("Resets claim id", function() {
-          element(by.css(".ps-reset-claim-id")).click();
-          browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //confirm reset
-          browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //acknowledge reset message
-        });
-
-        it("Company Settings Dialog Should Close", function () {
-          element(by.css("button.close-company-settings-button")).click();
-          assert.eventually.isFalse(element(by.css(".company-settings-modal")).isPresent(),
-            "Company Settings dialog should hide");
-        });
+      it("Resets auth key", function() {
+        var authKey = companySettingsModalPage.getAuthKeyField().getText();
+        
+        companySettingsModalPage.getResetAuthKeyButton().click();
+        browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //confirm reset
+        
+        helper.waitForAlert("Auth Key reset");
+        
+        browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //acknowledge reset message
+        
+        expect(companySettingsModalPage.getAuthKeyField().getText()).to.eventually.be.ok;
+        expect(companySettingsModalPage.getAuthKeyField().getText()).to.eventually.not.equal(authKey);
       });
 
-      describe("Delete Company", function () {
-        it("Opens Company Settings Dialog", function() {
-          element(by.css(".user-profile-dropdown img.profile-pic")).click();
-          assert.eventually.isTrue(element(by.css(".dropdown-menu .company-settings-menu-button")).isDisplayed(),
-            "Company settings menu item should present");
-          element(by.css(".dropdown-menu .company-settings-menu-button")).click();
-          browser.sleep(500);
-          assert.eventually.isTrue(element(by.css(".company-settings-modal")).isDisplayed(),
-            "Company settings dialog should show");
-        });
-
-        it("Should sign me out when deleting company", function () {
-          element(by.css("button.delete-company-button")).click();
-          browser.sleep(500);
-          browser.switchTo().alert().then(function (prompt){ prompt.accept(); });
-          assert.eventually.isTrue(element(by.css("button.sign-in")).isDisplayed(), "Should be signed out");
-        });
+      it("Resets claim id", function() {
+        var claimId = companySettingsModalPage.getClaimIdField().getText();
+        
+        companySettingsModalPage.getResetClaimIdButton().click();
+        browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //confirm reset
+        
+        helper.waitForAlert("Claim Id reset");
+        
+        browser.switchTo().alert().then(function (prompt){ prompt.accept(); }); //acknowledge reset message
+        
+        expect(companySettingsModalPage.getClaimIdField().getText()).to.eventually.be.ok;
+        expect(companySettingsModalPage.getClaimIdField().getText()).to.eventually.not.equal(claimId);
       });
+
+      it("Company Settings Dialog Should Close", function () {
+        companySettingsModalPage.getCloseButton().click();
+        
+        assert.eventually.isFalse(companySettingsModalPage.getCompanySettingsModal().isPresent(),
+          "Company Settings dialog should hide");
+      });
+    });
 
   });
 })();

@@ -15,10 +15,8 @@ angular.module("risevision.common.header")
 
     $scope.$watch("loading", function (loading) {
       if (loading) {
-        $loading.start("company-users-modal");
         $loading.start("company-users-list");
       } else {
-        $loading.stop("company-users-modal");
         $loading.stop("company-users-list");
       }
     });
