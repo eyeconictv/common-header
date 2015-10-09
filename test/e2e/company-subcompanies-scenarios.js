@@ -9,6 +9,7 @@
   var AddSubcompanyModalPage = require('./pages/addSubcompanyModalPage.js');
   var SelectSubcompanyModalPage = require('./pages/selectSubcompanyModalPage.js');
   var CompanySettingsModalPage = require('./pages/companySettingsModalPage.js');
+  var MoveCompanyModalPage = require('./pages/moveCompanyModalPage.js');
   var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
@@ -19,7 +20,10 @@
       commonHeaderMenuPage,
       addSubcompanyModalPage,
       selectSubcompanyModalPage,
-      companySettingsModalPage;
+      companySettingsModalPage,
+      moveCompanyModalPage;
+      
+    var companyUrl, subCompanyUrl, subCompanyCount;  
       
     before(function (){
       commonHeaderPage = new CommonHeaderPage();
@@ -27,6 +31,7 @@
       addSubcompanyModalPage = new AddSubcompanyModalPage();
       selectSubcompanyModalPage = new SelectSubcompanyModalPage();
       companySettingsModalPage = new CompanySettingsModalPage();
+      moveCompanyModalPage = new MoveCompanyModalPage();
 
       browser.get("http://localhost:8099/test/e2e");
 
@@ -37,6 +42,14 @@
     });
     
     describe("Add subcompany", function () {
+      before("Get company url", function(done) {
+        browser.getCurrentUrl().then(function(value) {
+          companyUrl = value;
+          
+          done();
+        });  
+      });
+      
       it("Opens Add Subcompany dialog", function () {
         commonHeaderMenuPage.getProfilePic().click();
         
@@ -51,16 +64,15 @@
       });
       
       it("Add new company", function() {
-        var modal = addSubcompanyModalPage.getAddSubcompanyModal();
         addSubcompanyModalPage.getNameField().sendKeys("e2e test sub-company");
         addSubcompanyModalPage.getSaveButton().click();
         
-        helper.waitRemoved(modal, "Sub-Company modal should hide");
+        helper.waitRemoved(addSubcompanyModalPage.getAddSubcompanyModal(), "Sub-Company modal should hide");
       });
     });
 
     describe("Select Subcompany", function () {
-      it("Opens select subcompany dialog", function () {
+      it("Opens select subcompany dialog", function (done) {
         commonHeaderMenuPage.getProfilePic().click();
 
         assert.eventually.isTrue(commonHeaderMenuPage.getSelectSubcompanyButton().isDisplayed(),
@@ -71,21 +83,31 @@
 
         assert.eventually.isTrue(selectSubcompanyModalPage.getSelectSubcompanyModal().isDisplayed(),
           "Select subcompany dialog should show");
-      });
-      
-      it("Switches to subcompany", function () {
-        var currentUrl = browser.getCurrentUrl();
-        
+          
         helper.waitDisappear(selectSubcompanyModalPage.getLoader(), "Load Companies");
 
-        // assume first user
+        selectSubcompanyModalPage.getCompanies().count().then(function(count) {
+          subCompanyCount = count;
+          
+          done();            
+        });
+      });
+      
+      it("Switches to subcompany", function (done) {
+        // assume first Company
         selectSubcompanyModalPage.getCompanies().get(0).click();
         
         helper.wait(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
 
         assert.eventually.isTrue(commonHeaderMenuPage.getSubcompanyAlert().isDisplayed(),
           "Sub-company alert should show");
-        expect(browser.getCurrentUrl()).to.eventually.not.equal("currentUrl:" + currentUrl);
+        expect(browser.getCurrentUrl()).to.eventually.not.equal(companyUrl);
+        
+        browser.getCurrentUrl().then(function(value) {
+          subCompanyUrl = value;
+          
+          done();
+        });
       });
       
       it("Shows sub-company details", function() {
@@ -97,33 +119,182 @@
           "Change subcompany menu item should be present");
         assert.eventually.isTrue(commonHeaderMenuPage.getResetSubcompanyButton().isDisplayed(),
           "Reset subcompany menu item should be present");
-          
-        commonHeaderMenuPage.getProfilePic().click();  
       });
 
-      xit("Switches back to parent company", function () {
-        //TODO
+      it("Switches back to parent company", function () {
+        commonHeaderMenuPage.getResetSubcompanyButton().click();
+        
+        helper.waitDisappear(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
+
+        assert.eventually.isFalse(commonHeaderMenuPage.getSubcompanyAlert().isDisplayed(),
+          "Sub-company alert should hide");
+
+        expect(browser.getCurrentUrl()).to.eventually.equal(companyUrl);
       });
 
-      xit("can specify subcompany via URL parameter", function () {
+      it("Can specify subcompany via URL parameter", function () {
+        browser.get(subCompanyUrl);
+        
+        helper.wait(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
 
-        browser.get("/test/e2e/index.html#/shopping-cart?cid=" +
-          "bfaf9b18-fd5b-475b-afe1-a511cd73662f");
-        assert.eventually.isTrue(element(by.css(".common-header-alert.sub-company-alert")).isDisplayed(),
-          "subcompany alert should show");
-        assert.eventually.isFalse(element(by.css(".sub-company-alert.test-company-alert")).isDisplayed(),
-          "test company alert should not show");
+        assert.eventually.isTrue(commonHeaderMenuPage.getSubcompanyAlert().isDisplayed(),
+          "Sub-company alert should show");
+        assert.eventually.isFalse(commonHeaderMenuPage.getTestCompanyAlert().isDisplayed(),
+          "Test company alert should not show");
+      });
+    });
+    
+    describe("Move company", function () {
+      var subCompanyClaimId;
+      
+      it("Add another sub company", function(done) {
+        helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
+
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getAddSubcompanyButton().click();
+
+        helper.wait(addSubcompanyModalPage.getAddSubcompanyModal(), "Add Subcompany Modal");
+
+        addSubcompanyModalPage.getNameField().sendKeys("e2e test sub-sub-company");
+        addSubcompanyModalPage.getSaveButton().click();
+        
+        helper.waitRemoved(addSubcompanyModalPage.getAddSubcompanyModal(), "Sub-Company modal should hide");
+        
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getChangeSubcompanyButton().click();
+        
+        helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
+        helper.waitDisappear(selectSubcompanyModalPage.getLoader(), "Load Companies");
+
+        // assume first
+        selectSubcompanyModalPage.getCompanies().get(0).click();
+        
+        helper.wait(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
+        
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getCompanySettingsButton().click();
+        
+        helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");        
+        helper.waitDisappear(companySettingsModalPage.getLoader(), "Load Company Settings");
+        
+        companySettingsModalPage.getAuthKeyField().getText().then(function(value) {
+          subCompanyClaimId = value;
           
-        browser.get("/test/e2e/index.html#/shopping-cart");
-        browser.refresh();
+          browser.get(companyUrl);
+          
+          done();
+        });        
+      });
+      
+      it("Opens Move Company Dialog", function() {
+        helper.waitDisappear(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
+        helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
+
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getAddSubcompanyButton().click();
+
+        helper.wait(addSubcompanyModalPage.getAddSubcompanyModal(), "Add Subcompany Modal");
+
+        assert.eventually.isTrue(addSubcompanyModalPage.getMoveButton().isDisplayed(),
+          "Move company button should show");
+
         browser.sleep(500);
-        assert.eventually.isFalse(element(by.css(".common-header-alert.sub-company-alert")).isPresent() &&
-          element(by.css(".common-header-alert.sub-company-alert")).isDisplayed(),
-          "subcompany alert should hide");
+
+        addSubcompanyModalPage.getMoveButton().click();
+        
+        helper.wait(moveCompanyModalPage.getMoveCompanyModal(), "Move Company Modal");
+
+        assert.eventually.isTrue(moveCompanyModalPage.getMoveCompanyModal().isDisplayed(),
+          "Move company dialog should show");
+      });
+
+      it("Shows error on invalid auth key", function () {
+        moveCompanyModalPage.getAuthKeyField().clear();
+        moveCompanyModalPage.getAuthKeyField().sendKeys("invalid-auth-key");
+        
+        moveCompanyModalPage.getRetrieveDetailsButton().click();
+        
+        helper.waitDisappear(moveCompanyModalPage.getLoader(), "Move Company Loader");
+        
+        assert.eventually.isTrue(moveCompanyModalPage.getNotFoundMessage().isDisplayed(),
+          "Error message should show");
+        assert.eventually.isFalse(moveCompanyModalPage.getMoveButton().isDisplayed(),
+          "Move company button should hide");
+      });
+
+      it("Retrieves Company Info", function () {
+        moveCompanyModalPage.getAuthKeyField().clear();
+        moveCompanyModalPage.getAuthKeyField().sendKeys(subCompanyClaimId);
+
+        moveCompanyModalPage.getRetrieveDetailsButton().click();
+        
+        helper.waitDisappear(moveCompanyModalPage.getLoader(), "Move Company Loader");
+        
+        assert.eventually.isFalse(moveCompanyModalPage.getNotFoundMessage().isPresent(),
+          "Error message should not show");
+        assert.eventually.isTrue(moveCompanyModalPage.getMoveButton().isDisplayed(),
+          "Move company button should show");
+        assert.eventually.isTrue(moveCompanyModalPage.getCompanyDetailsMessage().isDisplayed(),
+          "Company details info should show");
+      });
+      
+      it("Should Move Company", function () {
+        moveCompanyModalPage.getMoveButton().click();
+
+        helper.waitDisappear(moveCompanyModalPage.getLoader(), "Move Company Loader");
+
+        assert.eventually.isTrue(moveCompanyModalPage.getSuccessMessage().isDisplayed(),
+          "Success message should show");
+        assert.eventually.isFalse(moveCompanyModalPage.getMoveButton().isDisplayed(),
+          "Move company button should hide");
+      });
+
+      it("Move Company Dialog Should Close", function () {
+        moveCompanyModalPage.getCloseButton().click();
+        
+        helper.waitDisappear(moveCompanyModalPage.getMoveCompanyModal(), "Move Company Modal");
+        
+        assert.eventually.isFalse(moveCompanyModalPage.getMoveCompanyModal().isPresent(),
+          "Move company dialog should hide");
+      });
+
+      it("Closes Add subcompany Dialog", function () {
+        addSubcompanyModalPage.getCloseButton().click();
+        
+        assert.eventually.isFalse(addSubcompanyModalPage.getAddSubcompanyModal().isPresent(),
+          "Add subcompany dialog should hide");
+      });
+
+      it("Verify there are 2 sub-companies", function() {
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getSelectSubcompanyButton().click();
+        
+        helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
+        helper.waitDisappear(selectSubcompanyModalPage.getLoader(), "Load Companies");
+
+        assert.eventually.equal(selectSubcompanyModalPage.getCompanies().count(), subCompanyCount + 1,
+          "Company should now have 2 sub-companies");
+      });
+
+      after("Close sub-company modal dialog", function() {
+        selectSubcompanyModalPage.getCloseButton().click();
       });
     });
     
     describe("Delete Company", function () {
+      it("Switch to sub-company", function() {
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getSelectSubcompanyButton().click();
+        
+        helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
+        helper.waitDisappear(selectSubcompanyModalPage.getLoader(), "Load Companies");
+
+        // pick first
+        selectSubcompanyModalPage.getCompanies().get(0).click();
+
+        helper.wait(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
+      });
+      
       it("Opens Company Settings Dialog", function() {
         commonHeaderMenuPage.getProfilePic().click();
         
@@ -153,52 +324,33 @@
       });
     });
 
-    xdescribe("Move company", function () {
-      it("Opens Move Company Dialog", function() {
-        element(by.css(".move-subcompany-button")).click();
-        browser.sleep(500);
-        assert.eventually.isTrue(element(by.css(".move-company-modal")).isDisplayed(),
-          "Move company dialog should show");
-      });
-
-      it("Shows error on invalid auth key", function () {
-        element(by.id("auth-key")).clear();
-        element(by.id("auth-key")).sendKeys("invalid-auth-key");
-        element(by.css(".retrieve-company-details-button")).click();
-        assert.eventually.isTrue(element(by.css(".alert.alert-danger")).isDisplayed(),
-          "Error message should show");
-      });
-
-      it("Retrieves Company Info", function () {
-        element(by.id("auth-key")).clear();
-        element(by.id("auth-key")).sendKeys("3509cd9b-e9ba-47d2-84bb-f954db4641b1");
-        element(by.css(".retrieve-company-details-button")).click();
-
-        assert.eventually.isTrue(element(by.css(".company-details-info")).isDisplayed(),
-          "Company details info should show");
-      });
-      
-      it("Should Move Company", function () {
-        element(by.css(".move-company-button")).click();
-        browser.sleep(500);
-        assert.eventually.isTrue(element(by.css(".alert.alert-success")).isDisplayed(),
-          "Success message should show");
-        assert.eventually.isFalse(element(by.css(".move-company-button")).isDisplayed(),
-          "Move company button should hide");
-
-      });
-
-      it("Move Company Dialog Should Close", function () {
-        element(by.css("button.close-move-company-button")).click();
-        assert.eventually.isFalse(element(by.css(".move-company-modal")).isPresent(),
-          "Move company dialog should hide");
-      });
-
-      it("Closes Add subcompany Dialog", function () {
-        element(by.css(".cancel-add-subcompany-button")).click();
-        assert.eventually.isFalse(element(by.css(".add-subcompany-modal")).isPresent(),
-          "Add subcompany dialog should hide");
-      });
+    after("Clean up remaining companies", function() {
+      for (var i = 0; i < subCompanyCount - 1; i++) {
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getSelectSubcompanyButton().click();
+        
+        helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
+        helper.waitDisappear(selectSubcompanyModalPage.getLoader(), "Load Companies");
+    
+        // pick first
+        selectSubcompanyModalPage.getCompanies().get(0).click();
+        
+        helper.wait(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
+    
+        commonHeaderMenuPage.getProfilePic().click();
+        commonHeaderMenuPage.getCompanySettingsButton().click();        
+        
+        helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");
+        helper.waitDisappear(companySettingsModalPage.getLoader(), "Load Company Settings");
+        
+        companySettingsModalPage.getDeleteButton().click();
+    
+        // confirm delete
+        browser.switchTo().alert().then(function (prompt){ prompt.accept(); });
+    
+        helper.waitDisappear(commonHeaderMenuPage.getSubcompanyAlert(), "Subcompany Alert");
+      }
     });
+
   });
 })();

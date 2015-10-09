@@ -17,6 +17,7 @@
     var systemMessagesBadge = element(by.css(".dropdown .system-messages-badge"));
     
     var subcompanyAlert = element(by.css(".common-header-alert.sub-company-alert"));
+    var testCompanyAlert = element(by.css(".sub-company-alert.test-company-alert"));
     
     var signOutButton = element(by.css(".dropdown-menu .sign-out-button"));
     var signOutModal = element(by.css(".sign-out-modal"));
@@ -64,6 +65,10 @@
     
     this.getSubcompanyAlert = function() {
       return subcompanyAlert;
+    };
+    
+    this.getTestCompanyAlert = function() {
+      return testCompanyAlert;
     };
     
     this.getSignOutButton = function() {
