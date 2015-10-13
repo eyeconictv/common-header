@@ -950,8 +950,8 @@ app.run(["$templateCache", function($templateCache) {
     "          <span>New Companies Added Yesterday</span>\n" +
     "        </div>\n" +
     "        <div class=\"counter\">\n" +
-    "          <p>18,700</p>\n" +
-    "          <span>Total Displays</span>\n" +
+    "          <p>72,990</p>\n" +
+    "          <span>Total Companies</span>\n" +
     "        </div>\n" +
     "        <div class=\"counter\">\n" +
     "          <p>120</p>\n" +
