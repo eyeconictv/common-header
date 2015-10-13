@@ -5,17 +5,20 @@
   var expect = require('rv-common-e2e').expect;
   var assert = require('rv-common-e2e').assert;
   var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var HomePage = require('./pages/homepage.js');
   var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
 
   describe("Shopping Cart", function() {
     this.timeout(2000);// to allow for protactor to load the seperate page
-    var commonHeaderPage;
+    var commonHeaderPage,
+      homepage;
     before(function (){
       commonHeaderPage = new CommonHeaderPage();
+      homepage = new HomePage();
 
-      browser.get("http://localhost:8099/test/e2e");
+      homepage.get();
     });
 
     it("should not function when user is not signed in", function() {

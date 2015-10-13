@@ -5,7 +5,7 @@
   var expect = require('rv-common-e2e').expect;
   var assert = require('rv-common-e2e').assert;
   var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
-  var CommonHeaderMenuPage = require('./pages/commonHeaderMenuPage.js');
+  var HomePage = require('./pages/homepage.js');
   var RegistrationModalPage = require('./pages/registrationModalPage.js');
   var CompanySettingsModalPage = require('./pages/companySettingsModalPage.js');
   var helper = require('rv-common-e2e').helper;
@@ -15,7 +15,7 @@
   describe("Registration", function() {
     this.timeout(2000);// to allow for protactor to load the seperate page
     var commonHeaderPage, 
-      commonHeaderMenuPage, 
+      homepage, 
       registrationModalPage,
       companySettingsModalPage;
       
@@ -24,15 +24,19 @@
       
     before(function (){
       commonHeaderPage = new CommonHeaderPage();
-      commonHeaderMenuPage = new CommonHeaderMenuPage();
+      homepage = new HomePage();
       registrationModalPage = new RegistrationModalPage();
       companySettingsModalPage = new CompanySettingsModalPage();
 
-      browser.get("http://localhost:8099/test/e2e");
+      homepage.get();
 
     });
 
-    it("should show T&C Dialog on new Google Account", function() {      
+    it("should show T&C Dialog on new Google Account", function() {
+      // verify secondary credentials are present
+      assert.isDefined(username, "username should exist");
+      assert.isDefined(password, "password should exist");
+      
       //sign in, wait for spinner to go away
       helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader').then(function () {
         commonHeaderPage.signin(username, password);
@@ -60,8 +64,8 @@
     });
 
     it("allow me to register when I've changed my mind", function() {
-      assert.eventually.isTrue(commonHeaderMenuPage.getRegisterUserButton().isDisplayed(), "Create Account button should show");
-      commonHeaderMenuPage.getRegisterUserButton().click();
+      assert.eventually.isTrue(homepage.getRegisterUserButton().isDisplayed(), "Create Account button should show");
+      homepage.getRegisterUserButton().click();
       
       helper.wait(registrationModalPage.getRegistrationModal(), "Registration Modal");
       
@@ -96,12 +100,12 @@
     });
 
     it("should update auth button", function () {
-      assert.eventually.isTrue(commonHeaderMenuPage.getProfilePic().isDisplayed(), "profile pic should show");
+      assert.eventually.isTrue(homepage.getProfilePic().isDisplayed(), "profile pic should show");
     });
 
     it("Deletes company", function() {
-      commonHeaderMenuPage.getProfilePic().click();
-      commonHeaderMenuPage.getCompanySettingsButton().click();        
+      homepage.getProfilePic().click();
+      homepage.getCompanySettingsButton().click();        
       
       helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");
       helper.waitDisappear(companySettingsModalPage.getLoader(), "Load Company Settings");

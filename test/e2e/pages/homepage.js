@@ -3,6 +3,8 @@
   'use strict';
 
   var CommonHeaderMenuPage = function () {
+    var url = "http://localhost:8099/test/e2e";
+    
     var registerUserButton = element(by.css(".register-user-menu-button"));
     var profilePic = element(by.css(".user-profile-dropdown img.profile-pic"));
     
@@ -23,6 +25,10 @@
     var signOutButton = element(by.css(".dropdown-menu .sign-out-button"));
     var signOutModal = element(by.css(".sign-out-modal"));
     var signOutRvOnlyButton = element(by.css(".sign-out-modal .sign-out-rv-only-button"));
+
+    this.get = function() {
+      browser.get(url);
+    };
 
     this.getRegisterUserButton = function() {
       return registerUserButton;

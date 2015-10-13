@@ -5,7 +5,7 @@
   var expect = require('rv-common-e2e').expect;
   var assert = require('rv-common-e2e').assert;
   var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
-  var CommonHeaderMenuPage = require('./pages/commonHeaderMenuPage.js');
+  var HomePage = require('./pages/homepage.js');
   var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
@@ -13,13 +13,13 @@
   describe("Superman (uiFlowManager tester)", function() {
     this.timeout(2000);// to allow for protactor to load the seperate page
     var commonHeaderPage, 
-      commonHeaderMenuPage;
+      homepage;
       
     before(function (){
       commonHeaderPage = new CommonHeaderPage();
-      commonHeaderMenuPage = new CommonHeaderMenuPage();
+      homepage = new HomePage();
 
-      browser.get("http://localhost:8099/test/e2e");
+      homepage.get();
 
       //sign in, wait for spinner to go away
       helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
@@ -43,18 +43,18 @@
     });
 
     it("should hide superman identity when user is logged out", function() {
-      commonHeaderMenuPage.getProfilePic().click();
+      homepage.getProfilePic().click();
 
       //shows sign-out menu item
-      expect(commonHeaderMenuPage.getSignOutButton().isDisplayed()).to.eventually.be.true;
+      expect(homepage.getSignOutButton().isDisplayed()).to.eventually.be.true;
 
       //click sign out
-      commonHeaderMenuPage.getSignOutButton().click();
+      homepage.getSignOutButton().click();
       
-      helper.wait(commonHeaderMenuPage.getSignOutModal(), 'Sign Out Modal');
+      helper.wait(homepage.getSignOutModal(), 'Sign Out Modal');
       
-      assert.eventually.isTrue(commonHeaderMenuPage.getSignOutModal().isDisplayed(), "sign-out dialog should show");
-      commonHeaderMenuPage.getSignOutRvOnlyButton().click();
+      assert.eventually.isTrue(homepage.getSignOutModal().isDisplayed(), "sign-out dialog should show");
+      homepage.getSignOutRvOnlyButton().click();
 
       //signed out; sign-in button shows
       expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.equal(true);
