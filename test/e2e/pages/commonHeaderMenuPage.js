@@ -3,6 +3,7 @@
   'use strict';
 
   var CommonHeaderMenuPage = function () {
+    var registerUserButton = element(by.css(".register-user-menu-button"));
     var profilePic = element(by.css(".user-profile-dropdown img.profile-pic"));
     
     var userSettingsButton = element(by.css(".dropdown-menu .user-settings-button"));
@@ -23,6 +24,10 @@
     var signOutModal = element(by.css(".sign-out-modal"));
     var signOutRvOnlyButton = element(by.css(".sign-out-modal .sign-out-rv-only-button"));
 
+    this.getRegisterUserButton = function() {
+      return registerUserButton;
+    };
+    
     this.getProfilePic = function() {
       return profilePic;
     };
