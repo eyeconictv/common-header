@@ -5,80 +5,119 @@
   var expect = require('rv-common-e2e').expect;
   var assert = require('rv-common-e2e').assert;
   var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var CommonHeaderMenuPage = require('./pages/commonHeaderMenuPage.js');
+  var RegistrationModalPage = require('./pages/registrationModalPage.js');
+  var CompanySettingsModalPage = require('./pages/companySettingsModalPage.js');
   var helper = require('rv-common-e2e').helper;
 
   browser.driver.manage().window().setSize(1280, 768);
 
-  xdescribe("Registration", function() {
-    before(function() {
-      browser.driver.manage().deleteAllCookies();
-      browser.get("/test/e2e/#/shopping-cart");
+  describe("Registration", function() {
+    this.timeout(2000);// to allow for protactor to load the seperate page
+    var commonHeaderPage, 
+      commonHeaderMenuPage, 
+      registrationModalPage,
+      companySettingsModalPage;
+      
+    var username = browser.params.login.user2;
+    var password = browser.params.login.pass2;
+      
+    before(function (){
+      commonHeaderPage = new CommonHeaderPage();
+      commonHeaderMenuPage = new CommonHeaderMenuPage();
+      registrationModalPage = new RegistrationModalPage();
+      companySettingsModalPage = new CompanySettingsModalPage();
 
-      //clear local storage
-      browser.executeScript("localStorage.clear();");
-      browser.refresh();
+      browser.get("http://localhost:8099/test/e2e");
+
     });
 
-    it("should show T&C Dialog on new Google Account", function() {
-
-      element(by.id("reset-db")).click();
-
-      expect(element(by.css("button.sign-in")).isDisplayed()).to.eventually.equal(true);
-      //click on sign in button
-      browser.executeScript("gapi.setPendingSignInUser('john.doe@awesome.io')");
-      element(by.css("button.sign-in")).click();
+    it("should show T&C Dialog on new Google Account", function() {      
+      //sign in, wait for spinner to go away
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader').then(function () {
+        commonHeaderPage.signin(username, password);
+      });
       
-      browser.sleep(500);
+      helper.wait(registrationModalPage.getRegistrationModal(), "Registration Modal");
       
       //dialog shows
-      assert.eventually.isTrue(element(by.css(".registration-modal")).isPresent(), "registration dialog should show");
+      assert.eventually.isTrue(registrationModalPage.getRegistrationModal().isPresent(), 
+        "registration dialog should show");
 
       //fill in email address
     });
 
     it("should not bug me again when I click 'cancel', even after a refresh (limbo state)", function() {
-      element(by.css(".registration-cancel-button")).click();
+      registrationModalPage.getCancelButton().click();
       browser.refresh();
-      assert.eventually.isFalse(element(by.css("button.sign-in")).isDisplayed(), "sign in button should not show");
-      assert.eventually.isFalse(element(by.css(".registration-modal")).isPresent(), "registration dialog should hide");
+      
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
+      
+      assert.eventually.isFalse(commonHeaderPage.getSignInButton().isDisplayed(), 
+        "sign in button should not show");
+      assert.eventually.isFalse(registrationModalPage.getRegistrationModal().isPresent(), 
+        "registration dialog should hide");
     });
 
     it("allow me to register when I've changed my mind", function() {
-      assert.eventually.isTrue(element(by.css(".register-user-menu-button")).isDisplayed(), "Create Account button should show");
-      element(by.css(".register-user-menu-button")).click();
-      browser.sleep(500);
-      assert.eventually.isTrue(element(by.css(".registration-modal")).isPresent(), "registration dialog should show");
+      assert.eventually.isTrue(commonHeaderMenuPage.getRegisterUserButton().isDisplayed(), "Create Account button should show");
+      commonHeaderMenuPage.getRegisterUserButton().click();
+      
+      helper.wait(registrationModalPage.getRegistrationModal(), "Registration Modal");
+      
+      //dialog shows
+      assert.eventually.isTrue(registrationModalPage.getRegistrationModal().isPresent(), 
+        "registration dialog should show");
     });
 
     it("should show validation errors if i have not agreed to terms and entered an email", function () {
-      element(by.css(".registration-save-button")).click();
-      assert.eventually.isTrue(element(by.css(".validation-error-message-accepted")).isPresent(), "t&c validation error should show");
-      assert.eventually.isTrue(element(by.css(".validation-error-message-first-name")).isPresent(), "first name validation error should show");
-      assert.eventually.isTrue(element(by.css(".validation-error-message-last-name")).isPresent(), "last name validation error should show");
-      assert.eventually.isTrue(element(by.css(".validation-error-message-email")).isPresent(), "email validation error should show");
+      registrationModalPage.getSaveButton().click();
+      
+      assert.eventually.isTrue(registrationModalPage.getValidationTermsAccepted().isPresent(), "t&c validation error should show");
+      assert.eventually.isTrue(registrationModalPage.getValidationFirstName().isPresent(), "first name validation error should show");
+      assert.eventually.isTrue(registrationModalPage.getValidationLastName().isPresent(), "last name validation error should show");
+      assert.eventually.isTrue(registrationModalPage.getValidationEmail().isPresent(), "email validation error should show");
     });
 
     it("should complete the registration process", function () {
-      element(by.css(".registration-modal .firstName")).sendKeys("John");
-      element(by.css(".registration-modal .lastName")).sendKeys("Doe");
-      element(by.css(".registration-modal .email")).sendKeys("john.doe@awesomecompany.io");
+      registrationModalPage.getFirstNameField().sendKeys("John");
+      registrationModalPage.getLastNameField().sendKeys("Doe");
+      registrationModalPage.getEmailField().sendKeys("john.doe@awesomecompany.io");
       //click authorize
-      element(by.css(".accept-terms-checkbox")).click();
-      element(by.css(".sign-up-newsletter-checkbox")).click();
-      element(by.css(".registration-save-button")).click();
-      assert.eventually.isFalse(element(by.css(".registration-modal")).isPresent(), "registration dialog should hide");
+      registrationModalPage.getTermsCheckbox().click();
+      
+      // No need to sign up for newsletter
+      // registrationModalPage.getNewsletterCheckbox().click();
+      registrationModalPage.getSaveButton().click();
+      
+      helper.waitRemoved(registrationModalPage.getRegistrationModal(), "Registration Modal");
+
+      assert.eventually.isFalse(registrationModalPage.getRegistrationModal().isPresent(), "registration dialog should hide");
     });
 
     it("should update auth button", function () {
-      assert.eventually.isTrue(element(by.css(".desktop-menu-item img.profile-pic")).isDisplayed(), "profile pic should show");
+      assert.eventually.isTrue(commonHeaderMenuPage.getProfilePic().isDisplayed(), "profile pic should show");
     });
 
-    it("should sign up newsletter in db", function () {
-      var profilePromise = browser.executeScript(function () {
-          return _.find(window.gapi._fakeDb.users, function (user) {return user.username === "john.doe@awesome.io";});
-        });
-      expect(profilePromise).to.eventually.have.property("mailSyncEnabled", true);
-      expect(profilePromise).to.eventually.have.property("email", "john.doe@awesomecompany.io");
+    it("Deletes company", function() {
+      commonHeaderMenuPage.getProfilePic().click();
+      commonHeaderMenuPage.getCompanySettingsButton().click();        
+      
+      helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");
+      helper.waitDisappear(companySettingsModalPage.getLoader(), "Load Company Settings");
+      
+      companySettingsModalPage.getDeleteButton().click();
+  
+      // confirm delete
+      browser.switchTo().alert().then(function (prompt){ prompt.accept(); });
+      
+      helper.waitRemoved(companySettingsModalPage.getCompanySettingsModal(), "Company Settings Modal");
+    });
+    
+    it("Signs user out when deleting company", function() {
+      helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
+      
+      assert.eventually.isTrue(commonHeaderPage.getSignInButton().isDisplayed(), "Should be signed out");
     });
   });
 })();
