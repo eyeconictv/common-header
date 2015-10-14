@@ -13,9 +13,8 @@
   var helper = require('rv-common-e2e').helper;
 
   var CompanySubcompaniesScenarios = function() {
-    browser.driver.manage().window().setSize(1280, 768);
 
-    describe("Companies Settings", function() {
+    describe("Subcompanies", function() {
       this.timeout(2000);// to allow for protactor to load the seperate page
       var commonHeaderPage, 
         homepage,
@@ -52,7 +51,7 @@
         });
         
         it("Opens Add Subcompany dialog", function () {
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           
           assert.eventually.isTrue(homepage.getAddSubcompanyButton().isDisplayed(),
             "Add subcompany menu item should show");
@@ -74,7 +73,7 @@
 
       describe("Select Subcompany", function () {
         it("Opens select subcompany dialog", function (done) {
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
 
           assert.eventually.isTrue(homepage.getSelectSubcompanyButton().isDisplayed(),
             "Select subcompany menu item should present");
@@ -112,7 +111,7 @@
         });
         
         it("Shows sub-company details", function() {
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
 
           assert.eventually.isFalse(homepage.getSelectSubcompanyButton().isDisplayed(),
             "Select subcompany menu item should not be present");
@@ -148,10 +147,10 @@
       describe("Move company", function () {
         var subCompanyClaimId;
         
-        it("Add another sub company", function(done) {
+        it("Add another sub company", function() {
           helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
 
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           homepage.getAddSubcompanyButton().click();
 
           helper.wait(addSubcompanyModalPage.getAddSubcompanyModal(), "Add Subcompany Modal");
@@ -160,8 +159,10 @@
           addSubcompanyModalPage.getSaveButton().click();
           
           helper.waitRemoved(addSubcompanyModalPage.getAddSubcompanyModal(), "Sub-Company modal should hide");
-          
-          homepage.getProfilePic().click();
+        });
+        
+        it("Switch to sub-sub-company", function() {
+          commonHeaderPage.getProfilePic().click();
           homepage.getChangeSubcompanyButton().click();
           
           helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
@@ -170,9 +171,13 @@
           // assume first
           selectSubcompanyModalPage.getCompanies().get(0).click();
           
-          helper.wait(homepage.getSubcompanyAlert(), "Subcompany Alert");
+          helper.waitForElementTextToChange(homepage.getSubcompanyAlert(), 
+            "You're in Sub-Company e2e test sub-sub-company  Switch to My Company",
+            "Subcompany Alert");          
+        });
           
-          homepage.getProfilePic().click();
+        it("Get Company Auth Key", function(done) {
+          commonHeaderPage.getProfilePic().click();
           homepage.getCompanySettingsButton().click();
           
           helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");        
@@ -180,18 +185,18 @@
           
           companySettingsModalPage.getAuthKeyField().getText().then(function(value) {
             subCompanyClaimId = value;
-            
-            browser.get(companyUrl);
-            
+                        
             done();
           });        
         });
         
         it("Opens Move Company Dialog", function() {
+          browser.get(companyUrl);
+
           helper.waitDisappear(homepage.getSubcompanyAlert(), "Subcompany Alert");
           helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
 
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           homepage.getAddSubcompanyButton().click();
 
           helper.wait(addSubcompanyModalPage.getAddSubcompanyModal(), "Add Subcompany Modal");
@@ -267,7 +272,7 @@
         });
 
         it("Verify there are 2 sub-companies", function() {
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           homepage.getSelectSubcompanyButton().click();
           
           helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
@@ -284,7 +289,7 @@
       
       describe("Delete Company", function () {
         it("Switch to sub-company", function() {
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           homepage.getSelectSubcompanyButton().click();
           
           helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
@@ -297,7 +302,7 @@
         it("Opens Company Settings Dialog", function() {
           helper.wait(homepage.getSubcompanyAlert(), "Subcompany Alert");
 
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           
           homepage.getCompanySettingsButton().click();        
           
@@ -327,7 +332,7 @@
 
       after("Clean up remaining companies", function() {
         for (var i = 0; i < subCompanyCount - 1; i++) {
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           homepage.getSelectSubcompanyButton().click();
           
           helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
@@ -338,7 +343,7 @@
           
           helper.wait(homepage.getSubcompanyAlert(), "Subcompany Alert");
       
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
           homepage.getCompanySettingsButton().click();        
           
           helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");

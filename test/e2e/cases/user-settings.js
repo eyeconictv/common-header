@@ -10,7 +10,6 @@
   var helper = require('rv-common-e2e').helper;
 
   var UserSettingsScenarios = function() {
-    browser.driver.manage().window().setSize(1280, 768);
 
     describe("User Settings", function() {
       this.timeout(2000);// to allow for protactor to load the seperate page
@@ -32,7 +31,7 @@
       });
 
       it("should show user settings modal", function() {
-        homepage.getProfilePic().click();
+        commonHeaderPage.getProfilePic().click();
         
         assert.eventually.isTrue(homepage.getUserSettingsButton().isDisplayed(), "User settings menu item should show");
 
@@ -81,7 +80,7 @@
       });
       
       it("should show updated information", function() {
-        homepage.getProfilePic().click();
+        commonHeaderPage.getProfilePic().click();
         homepage.getUserSettingsButton().click();
         
         helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");

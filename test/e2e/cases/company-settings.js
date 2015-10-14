@@ -10,7 +10,6 @@
   var helper = require('rv-common-e2e').helper;
 
   var CompanySettingsScenarios = function() {
-    browser.driver.manage().window().setSize(1280, 768);
 
     describe("Companies Settings", function() {
       this.timeout(2000);// to allow for protactor to load the seperate page
@@ -33,7 +32,7 @@
 
       describe("Company Settings", function () {
         it("Opens Company Settings Dialog", function() {
-          homepage.getProfilePic().click();
+          commonHeaderPage.getProfilePic().click();
 
           assert.eventually.isTrue(homepage.getCompanySettingsButton().isDisplayed(),
             "Company settings menu item should present");
