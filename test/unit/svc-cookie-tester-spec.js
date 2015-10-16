@@ -56,13 +56,13 @@ describe("Services: Cookies", function() {
   describe("With failed $http", function() {
     beforeEach(module(mockHttp("failed")));
 
-    it("should reject", function(done) {
+    it("should not reject", function(done) {
       var cookieService = getService("cookieTester");
-      cookieService.checkThirdPartyCookiePermission().then(function() {
-        done(new Error("Promise should not be resolved"));
-      }, function(resp) {
+      cookieService.checkThirdPartyCookiePermission().then(function(resp) {
         expect(resp).to.equal(false);
         done();
+      }, function() {
+        done(new Error("Promise should be resolved"));
       });
     });
   });
