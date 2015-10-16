@@ -25,9 +25,11 @@ angular.module("risevision.common.cookie", ["risevision.common.config"])
       };
 
       svc.checkThirdPartyCookiePermission = function () {
-        return $http.get(COOKIE_CHECK_URL + "/createThirdPartyCookie", {
-            withCredentials: true
-          })
+        var deferred = $q.defer();
+
+        $http.get(COOKIE_CHECK_URL + "/createThirdPartyCookie", {
+          withCredentials: true
+        })
           .then(function () {
             return $http.get(COOKIE_CHECK_URL + "/checkThirdPartyCookie", {
               withCredentials: true
@@ -35,14 +37,17 @@ angular.module("risevision.common.cookie", ["risevision.common.config"])
           })
           .then(function (resp) {
             if (resp.data.check === "true") {
-              return true;
+              deferred.resolve(true);
             } else {
-              return $q.reject();
+              deferred.reject(false);
             }
           })
           .then(null, function () {
-            return $q.reject(false);
+            // Resolve on API failures
+            deferred.resolve(false);
           });
+
+        return deferred.promise;
       };
 
       return svc;
