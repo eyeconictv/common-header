@@ -304,11 +304,9 @@ gulp.task("server-close", factory.testServerClose());
 gulp.task("test:webdrive_update", factory.webdriveUpdate());
 gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
   browser: "chrome",
-  loginUser: process.env.E2E_USER,
-  loginPass: process.env.E2E_PASS,
-  loginUser2: process.env.E2E_USER2,
-  loginPass2: process.env.E2E_PASS2,
-  testFiles: process.env.TEST_FILES || ["./test/e2e/**/*-scenarios.js"]
+  loginUser: process.env.E2E_USER2,
+  loginPass: process.env.E2E_PASS2,
+  testFiles: process.env.TEST_FILES || ["./test/e2e/**/*.scenarios.js"]
 }));
 gulp.task("test:e2e", function (cb) {
   runSequence("server", "test:e2e:core", "server-close", cb);

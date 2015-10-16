@@ -2,11 +2,10 @@
 (function(module) {
   'use strict';
 
-  var CommonHeaderMenuPage = function () {
+  var HomePage = function () {
     var url = "http://localhost:8099/test/e2e";
     
     var registerUserButton = element(by.css(".register-user-menu-button"));
-    var profilePic = element(by.css(".user-profile-dropdown img.profile-pic"));
     
     var userSettingsButton = element(by.css(".dropdown-menu .user-settings-button"));
     var companyUsersButton = element(by.css(".dropdown-menu .company-users-menu-button"));
@@ -21,10 +20,6 @@
     
     var subcompanyAlert = element(by.css(".common-header-alert.sub-company-alert"));
     var testCompanyAlert = element(by.css(".sub-company-alert.test-company-alert"));
-    
-    var signOutButton = element(by.css(".dropdown-menu .sign-out-button"));
-    var signOutModal = element(by.css(".sign-out-modal"));
-    var signOutRvOnlyButton = element(by.css(".sign-out-modal .sign-out-rv-only-button"));
 
     this.get = function() {
       browser.get(url);
@@ -32,10 +27,6 @@
 
     this.getRegisterUserButton = function() {
       return registerUserButton;
-    };
-    
-    this.getProfilePic = function() {
-      return profilePic;
     };
     
     this.getUserSettingsButton = function() {
@@ -81,20 +72,8 @@
     this.getTestCompanyAlert = function() {
       return testCompanyAlert;
     };
-    
-    this.getSignOutButton = function() {
-      return signOutButton;
-    };
-    
-    this.getSignOutModal = function() {
-      return signOutModal;
-    };
-    
-    this.getSignOutRvOnlyButton = function() {
-      return signOutRvOnlyButton;
-    };
 
   };
 
-  module.exports = CommonHeaderMenuPage;
+  module.exports = HomePage;
 })(module);
