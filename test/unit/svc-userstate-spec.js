@@ -41,6 +41,12 @@ describe("Services: auth & user state", function() {
         }
       };
     }]);
+    $provide.factory("externalLogging", [function () {
+      return {
+        logEvent: function(){
+        }
+      };
+    }]);
     $provide.value("$loading", {
       startGlobal: function(){},
       stopGlobal: function(){}
@@ -70,12 +76,16 @@ describe("Services: auth & user state", function() {
   });
   
   describe("user not logged in: ",function(){
-    var userState, rootScope, broadcastSpy;
+    var userState, rootScope, broadcastSpy,externalLoggingSpy;
 
     beforeEach(function() {      
       inject(function($injector){
         userState = $injector.get("userState");
         rootScope = $injector.get("$rootScope");
+        var $window = $injector.get("$window");
+        $window.performance = {timing: {navigationStart:0}};
+        var externalLogging = $injector.get("externalLogging");
+        externalLoggingSpy = sinon.spy(externalLogging, "logEvent");
         broadcastSpy = sinon.spy(rootScope, "$broadcast");
       });
     });
@@ -89,10 +99,18 @@ describe("Services: auth & user state", function() {
       })
       .then(null,done);
     });
+
+    it("should log page speed for unauthenticated user", function(done) {
+      userState.authenticate().then(done, function() {
+        externalLoggingSpy.should.have.been.calledWith("page load time","unauthenticated user");
+        done();    
+      })
+      .then(null,done);
+    });
   });
   
   describe("should remember user: ", function(){
-    var userState, rootScope, broadcastSpy;
+    var userState, rootScope, broadcastSpy, externalLoggingSpy;
     
     beforeEach(function() {
       gapi.setPendingSignInUser("michael.sanchez@awesome.io");
@@ -101,6 +119,10 @@ describe("Services: auth & user state", function() {
       inject(function($injector){
         userState = $injector.get("userState");
         rootScope = $injector.get("$rootScope");
+        var $window = $injector.get("$window");
+        $window.performance = {timing: {navigationStart:0}};
+        var externalLogging = $injector.get("externalLogging");
+        externalLoggingSpy = sinon.spy(externalLogging, "logEvent");
         broadcastSpy = sinon.spy(rootScope, "$broadcast");
         // Fake user token being stored locally
         userState._setUserToken();
@@ -117,6 +139,15 @@ describe("Services: auth & user state", function() {
         done();
       }, function(err) {
         done(err || "error");
+      })
+      .then(null,done);
+    });
+
+
+    it("should log page speed for authenticated user", function(done) {
+      userState.authenticate().then(done, function() {
+        externalLoggingSpy.should.have.been.calledWith("page load time","authenticated user");
+        done();    
       })
       .then(null,done);
     });
