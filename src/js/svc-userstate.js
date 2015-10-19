@@ -24,7 +24,7 @@
     "risevision.core.oauth2",
     "risevision.core.util", "risevision.core.userprofile",
     "risevision.common.loading", "risevision.ui-flow",
-    "risevision.common.rvtokenstore"
+    "risevision.common.rvtokenstore", "risevision.common.logging"
   ])
 
   // constants (you can override them in your app as needed)
@@ -71,13 +71,13 @@
     "getOAuthUserInfo", "getUserProfile", "companyState", "objectHelper",
     "$rootScope", "$interval", "$loading", "$window", "GOOGLE_OAUTH2_URL",
     "localStorageService", "$document", "uiFlowManager", "getBaseDomain",
-    "rvTokenStore",
+    "rvTokenStore", "externalLogging",
     function ($q, $log, $location, CLIENT_ID,
       gapiLoader, OAUTH2_SCOPES, userInfoCache,
       getOAuthUserInfo, getUserProfile, companyState, objectHelper,
       $rootScope, $interval, $loading, $window, GOOGLE_OAUTH2_URL,
       localStorageService, $document, uiFlowManager, getBaseDomain,
-      rvTokenStore) {
+      rvTokenStore, externalLogging) {
       //singleton factory that represents userState throughout application
 
       var _state = {
@@ -91,6 +91,21 @@
       var _accessTokenRefreshHandler = null;
 
       var _authenticateDeferred;
+
+      var _shouldLogPageLoad = true;
+
+      var _logPageLoad = function (details) {
+        if (_shouldLogPageLoad) {
+          _shouldLogPageLoad = false;
+          try {
+            var duration = new Date().getTime() - $window.performance.timing
+              .navigationStart;
+            externalLogging.logEvent("page load time", details, duration);
+          } catch (e) {
+            $log.debug("Error logging load time");
+          }
+        }
+      };
 
       var _detectUserOrAuthChange = function () {
         var token = rvTokenStore.read();
@@ -384,6 +399,7 @@
               .finally(function () {
                 $loading.stopGlobal(
                   "risevision.user.authenticate");
+                _logPageLoad("authenticated user");
               });
           } else {
             var msg = "user is not authenticated";
@@ -392,6 +408,7 @@
             authenticateDeferred.reject(msg);
             objectHelper.clearObj(_state.user);
             $loading.stopGlobal("risevision.user.authenticate");
+            _logPageLoad("unauthenticated user");
           }
         };
         _proceed();
