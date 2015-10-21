@@ -5,83 +5,50 @@ app.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("app-nav-buttons-menu.html",
     "<ul>\n" +
-    "  <li>\n" +
-    "    <div class=\"menu-box pull-right\">\n" +
-    "      <a href=\"https://store.risevision.com/\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseStore\"></svg-icon>\n" +
-    "        <span>Store</span>\n" +
-    "      </a>\n" +
-    "    </div>\n" +
-    "    \n" +
-    "    <div class=\"menu-box pull-right\">\n" +
+    "  <li class=\"new-apps-intro\">\n" +
+    "    <h3>Try Our New UI</h3>\n" +
+    "    <p>Simplified and Responsive</p>\n" +
+    "  </li>  \n" +
+    "  <li class=\"new-app\">  \n" +
+    "      <a class=\"new-app-link\" href=\"https://editor.risevision.com/\">New UI</a>\n" +
     "      <a href=\"https://rva.risevision.com/#PRESENTATIONS\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseEditor\"></svg-icon>\n" +
+    "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/editor-image.png\"></div>\n" +
     "        <span>Editor</span>\n" +
     "      </a>\n" +
-    "    </div>\n" +
-    "    \n" +
     "  </li>\n" +
-    "  <li>\n" +
-    "    <div class=\"menu-box pull-left\">\n" +
-    "      <a href=\"https://storage.risevision.com/\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseStorage\"></svg-icon>\n" +
-    "        <span>Storage</span>\n" +
-    "      </a>\n" +
-    "    </div>\n" +
-    "    \n" +
-    "    <div class=\"menu-box pull-left\">\n" +
-    "      <a href=\"https://rva.risevision.com/#DISPLAYS\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseDisplays\"></svg-icon>\n" +
-    "        <span>Displays</span>\n" +
-    "      </a>\n" +
-    "    </div>\n" +
-    "    \n" +
-    "  </li>\n" +
-    "  <li>\n" +
-    "    <div class=\"menu-box pull-left\">\n" +
+    "\n" +
+    "  <li class=\"new-app\">\n" +
+    "      <a class=\"new-app-link\" href=\"https://schedules.risevision.com/\">New UI</a>\n" +
     "      <a href=\"https://rva.risevision.com/#SCHEDULES\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseSchedules\"></svg-icon>\n" +
+    "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/schedule-image.png\"></div>\n" +
     "        <span>Schedules</span>\n" +
     "      </a>\n" +
-    "    </div>\n" +
-    "    \n" +
-    "    <div class=\"menu-box pull-right\">\n" +
-    "      <a href=\"https://support.risevision.com/#/\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseSupport\"></svg-icon>\n" +
-    "        <span>Support</span>\n" +
-    "      </a>\n" +
-    "    </div>\n" +
     "  </li>\n" +
+    "  \n" +
+    "  <li class=\"new-app\">\n" +
+    "      <a class=\"new-app-link\" href=\"https://displays.risevision.com/\">New UI</a>  \n" +
+    "      <a href=\"https://rva.risevision.com/#DISPLAYS\" target=\"_blank\" link-cid>\n" +
+    "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/displays-image.png\"></div>\n" +
+    "        <span>Displays</span>\n" +
+    "      </a>\n" +
+    "  </li>\n" +
+    "\n" +
     "  <li>\n" +
-    "    <div class=\"menu-box pull-left\">\n" +
-    "      <a href=\"https://community.risevision.com/rise_vision_inc\" target=\"_blank\">\n" +
-    "        <svg-icon p=\"riseCommunity\"></svg-icon>\n" +
-    "        <span>Community</span>\n" +
+    "      <a href=\"https://store.risevision.com/\" target=\"_blank\" link-cid>\n" +
+    "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/store-image.png\"></div>\n" +
+    "        <span>Store</span>\n" +
     "      </a>\n" +
-    "    </div>\n" +
-    "    <div class=\"menu-box pull-right\">\n" +
-    "      <a href=\"https://help.risevision.com/\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseDocumentation\"></svg-icon>\n" +
-    "        <span>Documentation</span>\n" +
-    "      </a>\n" +
-    "    </div>\n" +
     "  </li>\n" +
+    "\n" +
     "  <li>\n" +
-    "    <div class=\"menu-box pull-left\">\n" +
-    "      <a href=\"https://developer.risevision.com/\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseDevelopers\"></svg-icon>\n" +
-    "        <span>Developer</span>\n" +
+    "      <a href=\"https://storage.risevision.com/\" target=\"_blank\" link-cid>\n" +
+    "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/storage-image.png\"></div>\n" +
+    "        <span>Storage</span>\n" +
     "      </a>\n" +
-    "    </div>\n" +
-    "    <div class=\"menu-box pull-right\">\n" +
-    "      <a href=\"https://www.risevision.com/about/\" target=\"_blank\" link-cid>\n" +
-    "        <svg-icon p=\"riseLogo\"></svg-icon>\n" +
-    "        <span>About</span>\n" +
-    "      </a>\n" +
-    "    </div>\n" +
     "  </li>\n" +
-    "</ul>\n" +
-    "");
+    "\n" +
+    " \n" +
+    "</ul>");
 }]);
 })();
 
@@ -92,7 +59,7 @@ app.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("app-nav-buttons.html",
     "<li dropdown class=\"dropdown hidden-xs\">\n" +
-    "  <a href=\"\" dropdown-toggle class=\"dropdown-toggle\"><i class=\"fa fa-th\"></i></a>\n" +
+    "  <button dropdown-toggle class=\"dropdown-toggle btn btn-link\"><i class=\"fa fa-lg fa-th\"></i></button>\n" +
     "  <div class=\"dropdown-menu app-navigation\" role=\"menu\">\n" +
     "    <ng-include \n" +
     "      replace-include\n" +
@@ -259,7 +226,6 @@ app.run(["$templateCache", function($templateCache) {
     "<nav class=\"navbar navbar-default navbar-static-top\"\n" +
     "	ng-class=\"{'active-banner': isSubcompanySelected() || isTestCompanySelected()}\" role=\"navigation\">\n" +
     "	<div class=\"container\">\n" +
-    "\n" +
     "		<div class=\"navbar-header\" style=\"width: 100%;\">\n" +
     "			<a class=\"navbar-brand visible-md visible-lg\"\n" +
     "			  href=\"http://www.risevision.com/\" target=\"{{newTabHome ? '_blank' : '_self'}}\" ng-if=\"!inRVAFrame\">\n" +
@@ -292,6 +258,13 @@ app.run(["$templateCache", function($templateCache) {
     "					ng-controller=\"CloseFrameButtonCtrl\"\n" +
     "					src=\"'close-frame-button.html'\"\n" +
     "				></ng-include>\n" +
+    "				<!-- Help Dropdown -->\n" +
+    "				<ng-include\n" +
+    "					replace-include\n" +
+    "					ng-controller=\"HelpDropdownButtonCtrl\"\n" +
+    "					src=\"'help-dropdown.html'\"\n" +
+    "				></ng-include>\n" +
+    "				<!-- END Help Dropdown -->\n" +
     "				<!-- Current App -->\n" +
     "				<ng-include\n" +
     "					ng-if=\"!inRVAFrame\"\n" +
@@ -779,6 +752,169 @@ app.run(["$templateCache", function($templateCache) {
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("risevision.common.header.templates"); }
+catch(err) { app = angular.module("risevision.common.header.templates", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("help-dropdown-menu.html",
+    "<ul>\n" +
+    "  <li><a id=\"askCommunityButton\" href=\"https://community.risevision.com/rise_vision_inc\" target=\"_blank\">Ask the Community</a></li>\n" +
+    "  <li>\n" +
+    "      <a ng-if=\"isLoggedIn === false\" ng-controller=\"SignUpButtonCtrl\" id=\"prioritySupportButton\" href=\"\" ng-click=\"openSignUpModal()\">Priority Support <span class=\"text-green\">Fastest</span></a>\n" +
+    "      <a ng-if=\"isLoggedIn === true\" id=\"prioritySupportButton\" href=\"\" ng-click=\"openPrioritySupport()\">Priority Support <span class=\"text-green\">Fastest</span></a>\n" +
+    "  </li>\n" +
+    "  <li><a id=\"sendUsANoteButton\" href=\"\" ng-click=\"openSendUsANote()\">Send Us a Note</a></li>\n" +
+    "  <li><a id=\"signUpForTrainingButton\" href=\"https://store.risevision.com/product/30/rise-training\" target=\"_blank\">Sign Up for Training</a></li>\n" +
+    "  <li><a id=\"documentationButton\" href=\"https://help.risevision.com/user\" target=\"_blank\">Documentation</a></li>\n" +
+    "</ul>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("risevision.common.header.templates"); }
+catch(err) { app = angular.module("risevision.common.header.templates", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("help-dropdown.html",
+    "<li ng-show=\"!isLoggedIn || (isLoggedIn && isRiseVisionUser)\" dropdown class=\"dropdown hidden-xs\">\n" +
+    "  <button id=\"helpDropdownButton\" dropdown-toggle class=\"dropdown-toggle btn btn-primary\"><span class=\"hidden-xs\">Need Help</span><i class=\"fa fa-question icon-white\"></i></button>\n" +
+    "  <div class=\"dropdown-menu app-navigation\" role=\"menu\">\n" +
+    "      <ng-include\n" +
+    "              replace-include\n" +
+    "              src=\"'help-dropdown-menu.html'\">\n" +
+    "      </ng-include>\n" +
+    "  </div>\n" +
+    "</li>\n" +
+    "\n" +
+    "<!-- Mobile -->\n" +
+    "<li ng-show=\"!isLoggedIn || (isLoggedIn && isRiseVisionUser)\" class=\"visible-xs-inline-block\" >\n" +
+    "    <button class=\"dropdown-toggle btn btn-primary\"\n" +
+    "       action-sheet=\"'help-dropdown-menu.html'\"\n" +
+    "       action-sheet-class=\"app-navigation\">\n" +
+    "        <i class=\"fa fa-question icon-white\"></i>\n" +
+    "    </button>\n" +
+    "</li>\n" +
+    "\n" +
+    "");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("risevision.common.header.templates"); }
+catch(err) { app = angular.module("risevision.common.header.templates", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("help-priority-support-modal.html",
+    "<div id=\"prioritySupportModal\">\n" +
+    "    <div class=\"modal-header\">\n" +
+    "        <button id=\"prioritySupportModalCloseButton\" ng-click=\"dismiss()\" type=\"button\" class=\"close\">\n" +
+    "            <i class=\"fa fa-times\"></i>\n" +
+    "        </button>\n" +
+    "        <h2 class=\"modal-title\">Priority Support</h2>\n" +
+    "    </div>\n" +
+    "    <div class=\"modal-body\">\n" +
+    "\n" +
+    "        <div class=\"add-bottom blank-state\">\n" +
+    "            <div class=\"product-graphic\" ng-show=\"['trial-available', 'not-subscribed'].indexOf(subscriptionStatus.statusCode) >= 0\">\n" +
+    "                <img itemprop=\"image\" class=\"img-responsive\" src=\"https://s3.amazonaws.com/Store-Products/Rise-Vision/support_image.png\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div ng-show=\"['on-trial', 'trial-expired', 'cancelled', 'suspended'].indexOf(subscriptionStatus.statusCode) >= 0\">\n" +
+    "\n" +
+    "                <p class=\"lead\">\n" +
+    "                <strong>Need help fast?</strong>\n" +
+    "                Check out Priority Support and have a response in <strong>10 minutes</strong>. We are online 8-5 CST Monday through Friday.\n" +
+    "                </p>\n" +
+    "\n" +
+    "                <div ng-show=\"subscriptionStatus.statusCode === 'on-trial'\" class=\"subscription-status trial\">\n" +
+    "                    <span  ng-bind-html=\"'subscription-status.expanded-' + subscriptionStatus.statusCode + subscriptionStatus.plural | translate:subscriptionStatus | to_trusted\"></span>\n" +
+    "                    <a class=\"btn btn-primary add-left\" href=\"{{supportProductUrl}}\" ng-click=\"dismiss()\" target=\"_blank\">\n" +
+    "                        <span>Subscribe Now!</span>\n" +
+    "                    </a>\n" +
+    "                </div>\n" +
+    "                <div ng-show=\"subscriptionStatus.statusCode === 'trial-expired'\" class=\"subscription-status expired\">\n" +
+    "                    <span translate=\"subscription-status.expanded-expired\"></span>\n" +
+    "                    <a class=\"btn btn-primary add-left\" href=\"{{supportProductUrl}}\" ng-click=\"dismiss()\" target=\"_blank\">\n" +
+    "                        <span>Subscribe Now!</span>\n" +
+    "                    </a>\n" +
+    "                </div>\n" +
+    "                <div ng-show=\"subscriptionStatus.statusCode === 'cancelled'\" class=\"subscription-status cancelled\">\n" +
+    "                    <span translate=\"subscription-status.expanded-cancelled\"></span>\n" +
+    "                    <a class=\"btn btn-primary add-left\" href=\"{{supportProductUrl}}\" ng-click=\"dismiss()\" target=\"_blank\">\n" +
+    "                        <span>Subscribe Now!</span>\n" +
+    "                    </a>\n" +
+    "                </div>\n" +
+    "                <div ng-show=\"subscriptionStatus.statusCode === 'suspended'\" class=\"subscription-status suspended\">\n" +
+    "                    <span translate=\"subscription-status.expanded-suspended\"></span>\n" +
+    "                    <a class=\"btn btn-primary add-left\" href=\"{{supportProductUrl}}\" ng-click=\"dismiss()\" target=\"_blank\">\n" +
+    "                        <span>Subscribe Now!</span>\n" +
+    "                    </a>\n" +
+    "                </div>\n" +
+    "            </div><!--content-box-body-->\n" +
+    "\n" +
+    "            <div class=\"content-box-body\" ng-show=\"['trial-available', 'not-subscribed'].indexOf(subscriptionStatus.statusCode) >= 0\">\n" +
+    "                <div class=\"product-intro\">\n" +
+    "                    <h1>Priority Support</h1>\n" +
+    "                    <p class=\"lead\">Get the help you need in 10 minutes or less, 8-5 CST Monday through Friday, or let us remotely connect, diagnose and correct display problems all without the need for you to intervene!</p>\n" +
+    "                    <p class=\"lead\">$75 per Company per Month.</p>\n" +
+    "                    <button ng-show=\"subscriptionStatus.statusCode === 'trial-available'\" type=\"button\" class=\"btn btn-hg btn-primary\" ng-click=\"startTrial()\">Start Your Free Trial</button>\n" +
+    "                    <a ng-show=\"['not-subscribed'].indexOf(subscriptionStatus.statusCode) >= 0\" class=\"btn btn-hg btn-primary\" href=\"{{supportProductUrl}}\" ng-click=\"dismiss()\" target=\"_blank\">\n" +
+    "                        <span>Subscribe Now!</span>\n" +
+    "                    </a>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div><!--blank-state-->\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("risevision.common.header.templates"); }
+catch(err) { app = angular.module("risevision.common.header.templates", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("help-send-us-a-note-modal.html",
+    "<div id=\"sendUsANoteModal\">\n" +
+    "    <div class=\"modal-header\">\n" +
+    "        <button id=\"sendUsANoteModalCloseButton\" ng-click=\"dismiss()\" type=\"button\" class=\"close\">\n" +
+    "            <i class=\"fa fa-times\"></i>\n" +
+    "        </button>\n" +
+    "        <h2 class=\"modal-title\"></h2>\n" +
+    "    </div>\n" +
+    "    <div class=\"modal-body text-center\">\n" +
+    "        <p class=\"lead\"><strong>Something else in mind?</strong> Send us a note and we will typically get back to you next business day.</p>\n" +
+    "        <button class=\"btn btn-primary btn-lg\" ng-click=\"sendUsANote()\">\n" +
+    "            Send Us a Note\n" +
+    "        </button>\n" +
+    "\n" +
+    "        <div class=\"content-box add-top remove-bottom\">\n" +
+    "          <div class=\"content-box-body\">\n" +
+    "            <p class=\"lead add-left add-right\">\n" +
+    "                <strong>Need help fast?</strong>\n" +
+    "                Check out Priority Support and have a response in <strong>10 minutes</strong>. We are online 8-5 CST Monday through Friday.\n" +
+    "            </p>\n" +
+    "            <button ng-if=\"subscriptionStatus.statusCode === 'trial-available'\" class=\"btn btn-primary btn-lg\" ng-click=\"startTrial()\">\n" +
+    "                Start Your Free Trial\n" +
+    "            </button>\n" +
+    "\n" +
+    "            <a ng-if=\"!subscriptionStatus.statusCode || ['not-subscribed', 'trial-expired', 'cancelled', 'suspended'].indexOf(subscriptionStatus.statusCode) >= 0\" class=\"btn btn-primary btn-lg\" href=\"{{supportProductUrl}}\" ng-click=\"dismiss();\" target=\"_blank\">\n" +
+    "                Subscribe Now\n" +
+    "            </a>\n" +
+    "            <button ng-if=\"['on-trial', 'subscribed'].indexOf(subscriptionStatus.statusCode) >= 0\" class=\"btn btn-primary btn-lg\" ng-click=\"prioritySupport()\">\n" +
+    "                Use Priority Support\n" +
+    "            </button>\n" +
+    "      </div><!--content-box-body-->\n" +
+    "    </div>\n" +
     "</div>\n" +
     "");
 }]);

@@ -15,6 +15,8 @@
   
   var AccountRemovalScenarios = require('./cases/account-removal.js');
 
+  var HelpScenarios = require('./cases/help.js');
+
   browser.driver.manage().window().setSize(1280, 768);
 
   describe("Common Header ", function() {
@@ -29,8 +31,12 @@
     var companySubcompaniesScenarios = new CompanySubcompaniesScenarios();
     var companyUsersSenarios = new CompanyUsersScenarios();
     var userSettingsScenarios = new UserSettingsScenarios();
+
+    var helpScenarios = new HelpScenarios();
     
     var accountRemovalScenarios = new AccountRemovalScenarios();
+
+
   });
   
 })();

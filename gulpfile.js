@@ -55,16 +55,24 @@ var env = process.env.NODE_ENV || "dev",
     "components/rv-gapi-mock/_mock-data.js",
     "components/rv-gapi-mock/gapi-mock-data/*.js",
     "components/rv-gapi-mock/gapi-mock.js",
-    "src/js/config/config.js",
+    "components/component-subscription-status/dist/js/subscription-status.js",
+    "components/widget-settings-ui-core/dist/widget-settings-ui-core.js",
+    "components/angular-translate/angular-translate.js",
+    "components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
+    "components/rv-common-i18n/dist/i18n.js",
     "test/unit/fixtures/*.js",
     "src/templates.js",
     "src/js/**/*.js",
+    "src/js/config/config.js",
     "test/unit/**/*spec.js"
     ],
     commonHeaderSrcFiles = ["./src/templates.js", "./src/js/dtv-common-header.js",
     "./src/js/directives/dtv-integer-parser.js",
     "./src/js/directives/dtv-company-buttons.js",
     "./src/js/controllers/ctr-global-alerts.js",
+    "./src/js/controllers/ctr-help-buttons.js",
+    "./src/js/controllers/ctr-help-priority-support-modal.js",
+    "./src/js/controllers/ctr-help-send-us-a-note-modal.js",
     "./src/js/controllers/ctr-auth-buttons.js",
     "./src/js/controllers/ctr-signup-modal.js",
     "./src/js/controllers/ctr-signup-button.js",
@@ -93,6 +101,7 @@ var env = process.env.NODE_ENV || "dev",
     "./components/angular-ui-flow-manager/src/js/svc-ui-flow.js",
     "./src/js/svc-account.js",
     "./src/js/svc-registration.js",
+    "./src/js/svc-support-factory.js",
     "./components/ng-core-api-client/src/js/svc-cache.js",
     "./components/ng-core-api-client/src/js/svc-core-util.js",
     "./components/ng-core-api-client/src/js/svc-user.js",
@@ -117,7 +126,12 @@ var env = process.env.NODE_ENV || "dev",
     "./components/rv-common-app-components/dist/js/last-modified.js",
     "./components/rv-common-app-components/dist/js/search-filter.js",
     "./components/rv-common-app-components/dist/js/scrolling-list.js",
-    "./components/rv-common-app-components/dist/js/segment-analytics.js"
+    "./components/rv-common-app-components/dist/js/segment-analytics.js",
+    "./components/component-subscription-status/dist/js/subscription-status.js",
+    "./components/widget-settings-ui-core/dist/widget-settings-ui-core.js",
+    "./components/angular-translate/angular-translate.js",
+    "./components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
+    "./components/rv-common-i18n/dist/i18n.js"
     ],
     dependencySrcFiles = ["./components/jquery/dist/jquery.js",
     "./components/angular/angular.js",
@@ -180,6 +194,15 @@ gulp.task("html", ["coerce-prod-env", "html-inject", "html2js", "lint"], functio
 
 gulp.task("build", ["html"]);
 
+var localeFiles = [
+  "components/rv-common-i18n/dist/locales/**/*"
+];
+
+gulp.task("locales", function() {
+  return gulp.src(localeFiles)
+    .pipe(gulp.dest("dist/locales"));
+});
+
 gulp.task("fonts-copy", function () {
   //TODO This is a temporary solution. Dulpicate files. Not recommended
 
@@ -192,7 +215,7 @@ gulp.task("fonts-copy", function () {
     .pipe(gulp.dest("./dist/fonts"));
 });
 
-gulp.task("lint", ["config", "fonts-copy", "pretty"], function() {
+gulp.task("lint", ["config", "locales", "fonts-copy", "pretty"], function() {
   return gulp.src([
       "src/js/**/*.js",
       "test/**/*.js"

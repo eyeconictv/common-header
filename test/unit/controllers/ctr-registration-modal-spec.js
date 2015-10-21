@@ -5,7 +5,7 @@
 
 describe("controller: registration modal", function() {
   beforeEach(module("risevision.common.header"));
-  beforeEach(module(function ($provide) {
+  beforeEach(module(function ($provide, $translateProvider) {
     $provide.service("$modalInstance",function(){
       return {
         _dismissed : false,
@@ -87,6 +87,16 @@ describe("controller: registration modal", function() {
         load: function() {}
       };
     });
+
+    $provide.factory("customLoader", function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      };
+    });
+
+    $translateProvider.useLoader("customLoader");
         
   }));
   var $scope, userProfile, userState, $modalInstance, cookieStored, newUser;
