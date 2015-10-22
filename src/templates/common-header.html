@@ -14,6 +14,13 @@
 			<!-- If User Authenticated -->
 			<!-- Action Nav -->
 			<ul class="nav navbar-nav navbar-right actions-nav pull-right">
+				<!-- Help Dropdown -->
+				<ng-include
+					replace-include
+					ng-controller="HelpDropdownButtonCtrl"
+					src="'help-dropdown.html'"
+				></ng-include>
+				<!-- END Help Dropdown -->
 				<!-- Notifications -->
 				<ng-include
 					replace-include
@@ -34,13 +41,6 @@
 					ng-controller="CloseFrameButtonCtrl"
 					src="'close-frame-button.html'"
 				></ng-include>
-				<!-- Help Dropdown -->
-				<ng-include
-					replace-include
-					ng-controller="HelpDropdownButtonCtrl"
-					src="'help-dropdown.html'"
-				></ng-include>
-				<!-- END Help Dropdown -->
 				<!-- Current App -->
 				<ng-include
 					ng-if="!inRVAFrame"

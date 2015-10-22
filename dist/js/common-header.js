@@ -238,6 +238,13 @@ app.run(["$templateCache", function($templateCache) {
     "			<!-- If User Authenticated -->\n" +
     "			<!-- Action Nav -->\n" +
     "			<ul class=\"nav navbar-nav navbar-right actions-nav pull-right\">\n" +
+    "				<!-- Help Dropdown -->\n" +
+    "				<ng-include\n" +
+    "					replace-include\n" +
+    "					ng-controller=\"HelpDropdownButtonCtrl\"\n" +
+    "					src=\"'help-dropdown.html'\"\n" +
+    "				></ng-include>\n" +
+    "				<!-- END Help Dropdown -->\n" +
     "				<!-- Notifications -->\n" +
     "				<ng-include\n" +
     "					replace-include\n" +
@@ -258,13 +265,6 @@ app.run(["$templateCache", function($templateCache) {
     "					ng-controller=\"CloseFrameButtonCtrl\"\n" +
     "					src=\"'close-frame-button.html'\"\n" +
     "				></ng-include>\n" +
-    "				<!-- Help Dropdown -->\n" +
-    "				<ng-include\n" +
-    "					replace-include\n" +
-    "					ng-controller=\"HelpDropdownButtonCtrl\"\n" +
-    "					src=\"'help-dropdown.html'\"\n" +
-    "				></ng-include>\n" +
-    "				<!-- END Help Dropdown -->\n" +
     "				<!-- Current App -->\n" +
     "				<ng-include\n" +
     "					ng-if=\"!inRVAFrame\"\n" +
