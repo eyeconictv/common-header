@@ -1630,18 +1630,6 @@ angular.module("risevision.common.header", [
         element.on(attr.stopEvent, function (e) {
           e.stopPropagation();
         });
-
-        event.preventDefault();
-      }
-    };
-  })
-  .directive("stopEvent", function () {
-    return {
-      restrict: "A",
-      link: function (scope, element, attr) {
-        element.on(attr.stopEvent, function (e) {
-          e.stopPropagation();
-        });
       }
     };
   });
