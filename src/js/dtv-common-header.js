@@ -24,6 +24,7 @@ angular.module("risevision.common.header", [
   "risevision.common.components.last-modified",
   "risevision.common.components.search-filter",
   "risevision.common.components.scrolling-list",
+  "risevision.common.components.stop-event",
   "risevision.common.components.analytics",
   "risevision.common.svg",
   "risevision.common.support"
@@ -159,15 +160,5 @@ angular.module("risevision.common.header", [
           event.preventDefault();
         }
       });
-    };
-  })
-  .directive("stopEvent", function () {
-    return {
-      restrict: "A",
-      link: function (scope, element, attr) {
-        element.on(attr.stopEvent, function (e) {
-          e.stopPropagation();
-        });
-      }
     };
   });

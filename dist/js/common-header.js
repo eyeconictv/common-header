@@ -186,6 +186,7 @@ app.run(["$templateCache", function($templateCache) {
     "  	</button>\n" +
     "</div>\n" +
     "<div class=\"modal-body authorization-modal\"\n" +
+    "  stop-event=\"touchend\"\n" +
     "  rv-spinner=\"spinnerOptions\"\n" +
     "  rv-spinner-key=\"authenticate-button\"\n" +
     "  rv-spinner-start-active=\"0\"\n" +
@@ -498,7 +499,7 @@ app.run(["$templateCache", function($templateCache) {
     "			Select Sub-Company\n" +
     "		</h2>\n" +
     "	</div>\n" +
-    "	<div class=\"modal-body select-subcompany-modal\">\n" +
+    "	<div class=\"modal-body select-subcompany-modal\" stop-event=\"touchend\">\n" +
     "	  <!-- Search -->\n" +
     "		<search-filter filter-config=\"filterConfig\" search=\"search\" do-search=\"doSearch\"></search-filter> \n" +
     "\n" +
@@ -540,7 +541,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </button>\n" +
     "  <h2 id=\"company-settings-label\" class=\"modal-title\">Company Settings</h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body company-settings-modal\">\n" +
+    "<div class=\"modal-body company-settings-modal\" stop-event=\"touchend\">\n" +
     "  <form id=\"companyForm\" role=\"form\" name=\"forms.companyForm\">\n" +
     "    <div ng-include=\"'company-fields.html'\"></div>\n" +
     "    <div class=\"form-group\">\n" +
@@ -693,7 +694,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </button>\n" +
     "  <h2 id=\"company-users-label\" class=\"modal-title\">Company Users</h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body company-users-modal\">\n" +
+    "<div class=\"modal-body company-users-modal\" stop-event=\"touchend\">\n" +
     "  <!-- CSV Button -->\n" +
     "  <div class=\"row action-bar add-bottom\" ng-if=\"false\">\n" +
     "    <button class=\"btn btn-secondary\" ng-csv=\"users\"\n" +
@@ -821,7 +822,7 @@ app.run(["$templateCache", function($templateCache) {
     "        </button>\n" +
     "        <h2 class=\"modal-title\">Priority Support</h2>\n" +
     "    </div>\n" +
-    "    <div class=\"modal-body\">\n" +
+    "    <div class=\"modal-body\" stop-event=\"touchend\">\n" +
     "\n" +
     "        <div class=\"add-bottom blank-state\">\n" +
     "            <div class=\"product-graphic\" ng-show=\"['trial-available', 'not-subscribed'].indexOf(subscriptionStatus.statusCode) >= 0\">\n" +
@@ -891,7 +892,7 @@ app.run(["$templateCache", function($templateCache) {
     "        </button>\n" +
     "        <h2 class=\"modal-title\"></h2>\n" +
     "    </div>\n" +
-    "    <div class=\"modal-body text-center\">\n" +
+    "    <div class=\"modal-body text-center\" stop-event=\"touchend\">\n" +
     "        <p class=\"lead\"><strong>Something else in mind?</strong> Send us a note and we will typically get back to you next business day.</p>\n" +
     "        <button class=\"btn btn-primary btn-lg\" ng-click=\"sendUsANote()\">\n" +
     "            Send Us a Note\n" +
@@ -935,7 +936,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </button>\n" +
     "  <h2 id=\"move-company-label\" class=\"modal-title\">Move Company</h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body move-company-modal\">\n" +
+    "<div class=\"modal-body move-company-modal\" stop-event=\"touchend\">\n" +
     "  <form role=\"form\">\n" +
     "    <div class=\"form-group\">\n" +
     "      <label for=\"auth-key\">\n" +
@@ -1009,7 +1010,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </button>\n" +
     "  <h2 class=\"modal-title\">Let's finish with your details</h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body registration-modal\">\n" +
+    "<div class=\"modal-body registration-modal\" stop-event=\"touchend\">\n" +
     "  \n" +
     "  <div class=\"row\">\n" +
     "    <div class=\"col-sm-8\">\n" +
@@ -1133,7 +1134,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </button>\n" +
     "  <h2 id=\"sign-out-label\" class=\"modal-title\">Sign Out</h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body sign-out-modal\">\n" +
+    "<div class=\"modal-body sign-out-modal\" stop-event=\"touchend\">\n" +
     "  <form role=\"form\">\n" +
     "    <p>\n" +
     "      Signing out does not sign you out of your Google Account.\n" +
@@ -1163,7 +1164,7 @@ catch(err) { app = angular.module("risevision.common.header.templates", []); }
 app.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("signup-modal.html",
-    "<div class=\"modal-body text-center\">\n" +
+    "<div class=\"modal-body text-center\" stop-event=\"touchend\">\n" +
     "  <div class=\"signup-modal\">\n" +
     "    <div class=\"logo add-bottom hidden\">\n" +
     "      <img style=\"width:120px\" src=\"//s3.amazonaws.com/Rise-Images/UI/logo.svg\" alt=\"Rise Vision\">\n" +
@@ -1222,7 +1223,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </button>\n" +
     "  <h2 id=\"sub-company-label\" class=\"modal-title\">Add Sub-Company</h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body add-subcompany-modal\">\n" +
+    "<div class=\"modal-body add-subcompany-modal\" stop-event=\"touchend\">\n" +
     "  <form role=\"form\" name=\"forms.companyForm\">\n" +
     "    <div ng-include=\"'company-fields.html'\"></div>\n" +
     "    <div class=\"form-group\">\n" +
@@ -1335,7 +1336,7 @@ app.run(["$templateCache", function($templateCache) {
     "  <span ng-if=\"isAdd\">Add User</span>\n" +
     "  </h2>\n" +
     "</div>\n" +
-    "<div class=\"modal-body user-settings-modal\">\n" +
+    "<div class=\"modal-body user-settings-modal\" stop-event=\"touchend\">\n" +
     "  <form id=\"userSettingsForm\" role=\"form\" novalidate name=\"forms.userSettingsForm\">\n" +
     "    <div class=\"form-group\"\n" +
     "      ng-class=\"{ 'has-error' : forms.userSettingsForm.username.$invalid && !forms.userSettingsForm.username.$pristine }\"\n" +
@@ -1486,6 +1487,7 @@ angular.module("risevision.common.header", [
   "risevision.common.components.last-modified",
   "risevision.common.components.search-filter",
   "risevision.common.components.scrolling-list",
+  "risevision.common.components.stop-event",
   "risevision.common.components.analytics",
   "risevision.common.svg",
   "risevision.common.support"
@@ -1621,16 +1623,6 @@ angular.module("risevision.common.header", [
           event.preventDefault();
         }
       });
-    };
-  })
-  .directive("stopEvent", function () {
-    return {
-      restrict: "A",
-      link: function (scope, element, attr) {
-        element.on(attr.stopEvent, function (e) {
-          e.stopPropagation();
-        });
-      }
     };
   });
 
@@ -6671,6 +6663,20 @@ module.run(['$templateCache', function($templateCache) {
     ]);
 
 })(angular);
+
+"use strict";
+
+angular.module("risevision.common.components.stop-event", [])
+  .directive("stopEvent", function () {
+    return {
+      restrict: "A",
+      link: function (scope, element, attr) {
+        element.on(attr.stopEvent, function (e) {
+          e.stopPropagation();
+        });
+      }
+    };
+  });
 
 (function (angular) {
 

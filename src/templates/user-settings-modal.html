@@ -10,7 +10,7 @@ rv-spinner-start-active="1">
   <span ng-if="isAdd">Add User</span>
   </h2>
 </div>
-<div class="modal-body user-settings-modal">
+<div class="modal-body user-settings-modal" stop-event="touchend">
   <form id="userSettingsForm" role="form" novalidate name="forms.userSettingsForm">
     <div class="form-group"
       ng-class="{ 'has-error' : forms.userSettingsForm.username.$invalid && !forms.userSettingsForm.username.$pristine }"
