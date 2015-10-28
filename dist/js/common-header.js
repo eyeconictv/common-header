@@ -1768,9 +1768,9 @@ angular.module("risevision.common.header")
 angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
     "userState", "$loading", "cookieStore",
-    "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
+    "$log", "uiFlowManager", "gapiLoader", "bindToScopeWithWatch",
     function ($scope, $modal, $templateCache, userState,
-      $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
+      $loading, cookieStore, $log, uiFlowManager, gapiLoader,
       bindToScopeWithWatch) {
 
       window.$loading = $loading; //DEBUG
@@ -1928,7 +1928,7 @@ angular.module("risevision.common.header")
       };
 
       $loading.startGlobal("auth-buttons-silent");
-      oauth2APILoader() //force loading oauth api on startup
+      gapiLoader() //force loading oauth api on startup
       //to avoid popup blocker
       .then().finally(function () {
         userState.authenticate(false).then().finally(function () {
@@ -3578,15 +3578,15 @@ angular.module("risevision.common.geodata", [])
 
   .factory("userState", [
     "$q", "$log", "$location", "CLIENT_ID",
-    "gapiLoader", "OAUTH2_SCOPES", "userInfoCache",
+    "gapiLoader", "auth2APILoader", "userInfoCache",
     "getOAuthUserInfo", "getUserProfile", "companyState", "objectHelper",
-    "$rootScope", "$interval", "$loading", "$window", "GOOGLE_OAUTH2_URL",
+    "$rootScope", "$interval", "$loading", "$window",
     "localStorageService", "$document", "uiFlowManager", "getBaseDomain",
     "rvTokenStore", "externalLogging",
     function ($q, $log, $location, CLIENT_ID,
-      gapiLoader, OAUTH2_SCOPES, userInfoCache,
+      gapiLoader, auth2APILoader, userInfoCache,
       getOAuthUserInfo, getUserProfile, companyState, objectHelper,
-      $rootScope, $interval, $loading, $window, GOOGLE_OAUTH2_URL,
+      $rootScope, $interval, $loading, $window,
       localStorageService, $document, uiFlowManager, getBaseDomain,
       rvTokenStore, externalLogging) {
       //singleton factory that represents userState throughout application
@@ -3674,17 +3674,6 @@ angular.module("risevision.common.geodata", [])
         rvTokenStore.clear();
       };
 
-      var _scheduleAccessTokenAutoRefresh = function () {
-        //cancel any existing $interval(s)
-        $interval.cancel(_accessTokenRefreshHandler);
-        _accessTokenRefreshHandler = $interval(function () {
-          //cancel current $interval. It will be re-sheduled if authentication succeeds
-          $interval.cancel(_accessTokenRefreshHandler);
-          //refresh Access Token
-          _authorize(true);
-        }, 55 * 60 * 1000); //refresh every 55 minutes
-      };
-
       var _cancelAccessTokenAutoRefresh = function () {
         $interval.cancel(_accessTokenRefreshHandler);
         _accessTokenRefreshHandler = null;
@@ -3718,47 +3707,45 @@ angular.module("risevision.common.geodata", [])
       var _gapiAuthorize = function (attemptImmediate) {
         var deferred = $q.defer();
 
+        var cookiePolicy = $location.protocol() + "://" +
+          $location.host();
+        var DEFAULT_PORTS = [80, 443];
+        cookiePolicy += ($location.port() && DEFAULT_PORTS.indexOf(
+          $location.port()) === -1) ?
+          ":" + $location.port() : "";
+
         var opts = {
           client_id: CLIENT_ID,
-          scope: OAUTH2_SCOPES,
-          cookie_policy: $location.protocol() + "://" +
-            getBaseDomain()
+          cookie_policy: cookiePolicy
         };
+        console.debug("cookie_policy", opts.cookie_policy);
 
-        if (_state.userToken !== "dummy") {
-          opts.authuser = _state.userToken;
-        }
+        var _authInstance;
 
-        if (attemptImmediate) {
-          opts.immediate = true;
-        } else {
-          opts.prompt = "select_account";
-        }
+        auth2APILoader(opts)
+          .then(function (auth2) {
+            _authInstance = auth2.getAuthInstance();
 
-        gapiLoader()
-          .then(function (gApi) {
-            // Setting the gapi token with the chosen user token. This is a fix for the multiple account issue.
-            gApi.auth.setToken(_state.params);
-
-            gApi.auth.authorize(opts, function (authResult) {
-              $log.debug("authResult", authResult);
-              if (authResult && !authResult.error) {
-                if (_state.params) {
-                  // clear token so we don't deal with expiry
-                  delete _state.params;
-                }
-
-                _scheduleAccessTokenAutoRefresh();
-
-                deferred.resolve(authResult);
-              } else {
-                _clearUserToken();
-
-                deferred.reject(authResult.error ||
-                  "failed to authorize user");
-              }
-            });
-          }).then(null, deferred.reject); //gapiLoader
+            if (!attemptImmediate) {
+              return _authInstance.signIn({
+                prompt: "select_account"
+              });
+            } else {
+              return null;
+            }
+          })
+          .then(function () {
+            if (_authInstance.isSignedIn.get()) {
+              deferred.resolve(_authInstance.currentUser.get());
+            } else {
+              deferred.reject("User is not authorized");
+              _logPageLoad("unauthenticated user");
+            }
+          })
+          .then(null, function () {
+            deferred.reject("Failed to authorize user");
+            _logPageLoad("unauthenticated user");
+          });
 
         return deferred.promise;
       };
@@ -3770,12 +3757,8 @@ angular.module("risevision.common.geodata", [])
       var _authorize = function (attemptImmediate) {
         var authorizeDeferred = $q.defer();
 
-        var authResult;
-
         _gapiAuthorize(attemptImmediate)
-          .then(function (res) {
-            authResult = res;
-
+          .then(function () {
             return getOAuthUserInfo();
           })
           .then(function (oauthUserInfo) {
@@ -3793,15 +3776,18 @@ angular.module("risevision.common.geodata", [])
 
               refreshProfile()
                 .finally(function () {
-                  authorizeDeferred.resolve(authResult);
-                  $rootScope.$broadcast("risevision.user.authorized");
+                  authorizeDeferred.resolve({});
+                  $rootScope.$broadcast(
+                    "risevision.user.authorized");
                   if (!attemptImmediate) {
                     $rootScope.$broadcast(
                       "risevision.user.userSignedIn");
                   }
                 });
             } else {
-              authorizeDeferred.resolve(authResult);
+              authorizeDeferred.resolve({
+                error: "error"
+              });
             }
           })
           .then(null, function (err) {
@@ -3810,57 +3796,6 @@ angular.module("risevision.common.geodata", [])
           });
 
         return authorizeDeferred.promise;
-      };
-
-      var authenticateRedirect = function (forceAuth) {
-
-        if (!forceAuth) {
-          return authenticate(forceAuth);
-        } else {
-          var loc, path, search, state;
-
-          // Redirect to full URL path
-          if ($rootScope.redirectToRoot === false) {
-            loc = $window.location.href.substr(0, $window.location.href.indexOf(
-              "#")) || $window.location.href;
-          }
-          // Redirect to the URL root and append pathname back to the URL
-          // on Authentication success
-          // This prevents Domain authentication errors for sub-folders
-          // Warning: Root folder must have CH available for this to work,
-          // otherwise no redirect is performed!
-          else {
-            loc = $window.location.origin + "/";
-            // Remove first character (/) from path since we're adding it to loc
-            path = $window.location.pathname ? $window.location.pathname.substring(
-              1) : "";
-            search = $window.location.search;
-          }
-
-          // double encode since response gets decoded once!
-          state = encodeURIComponent(encodeURIComponent(JSON.stringify({
-            p: path,
-            u: $window.location.hash,
-            s: search
-          })));
-
-          localStorageService.set("risevision.common.userState", _state);
-          uiFlowManager.persist();
-
-          $window.location.href = GOOGLE_OAUTH2_URL +
-            "?response_type=token" +
-            "&scope=" + encodeURIComponent(OAUTH2_SCOPES) +
-            "&client_id=" + CLIENT_ID +
-            "&redirect_uri=" + encodeURIComponent(loc) +
-          //http://stackoverflow.com/a/14393492
-          "&prompt=select_account" +
-            "&state=" + state;
-
-          var deferred = $q.defer();
-          // returns a promise that never get fulfilled since we are redirecting
-          // to that google oauth2 page
-          return deferred.promise;
-        }
       };
 
       var authenticate = function (forceAuth) {
@@ -3885,47 +3820,34 @@ angular.module("risevision.common.geodata", [])
         $log.debug("authentication called");
 
         var _proceed = function () {
-          // This flag indicates a potentially authenticated user.
-          var userAuthed = (angular.isDefined(_state.userToken) &&
-            _state.userToken !== null);
-          $log.debug("userAuthed", userAuthed);
-
-          if (forceAuth || userAuthed === true) {
-            _authorize(!forceAuth)
-              .then(function (authResult) {
-                if (authResult && !authResult.error) {
-                  authenticateDeferred.resolve();
-                } else {
-                  _clearUserToken();
-                  $log.debug("Authentication Error: " +
-                    authResult.error);
-                  authenticateDeferred.reject(
-                    "Authentication Error: " + authResult.error);
-                }
-              })
-              .then(null, function (err) {
+          _authorize(!forceAuth)
+            .then(function (authResult) {
+              if (authResult && !authResult.error) {
+                authenticateDeferred.resolve();
+              } else {
                 _clearUserToken();
-                authenticateDeferred.reject(err);
-              })
-              .finally(function () {
-                $loading.stopGlobal(
-                  "risevision.user.authenticate");
-                _logPageLoad("authenticated user");
-              });
-          } else {
-            var msg = "user is not authenticated";
-            $log.debug(msg);
-            //  _clearUserToken();
-            authenticateDeferred.reject(msg);
-            objectHelper.clearObj(_state.user);
-            $loading.stopGlobal("risevision.user.authenticate");
-            _logPageLoad("unauthenticated user");
-          }
+                $log.debug("Authentication Error: " +
+                  authResult.error);
+                authenticateDeferred.reject(
+                  "Authentication Error: " +
+                  authResult.error);
+              }
+            })
+            .then(null, function (err) {
+              _clearUserToken();
+              authenticateDeferred.reject(err);
+            })
+            .finally(function () {
+              $loading.stopGlobal(
+                "risevision.user.authenticate");
+              _logPageLoad("authenticated user");
+            });
         };
         _proceed();
 
         if (forceAuth) {
-          $loading.startGlobal("risevision.user.authenticate");
+          $loading.startGlobal(
+            "risevision.user.authenticate");
         }
 
         return authenticateDeferred.promise;
@@ -3933,27 +3855,33 @@ angular.module("risevision.common.geodata", [])
 
       var signOut = function (signOutGoogle) {
         var deferred = $q.defer();
-        userInfoCache.removeAll();
-        gapiLoader().then(function (gApi) {
-          if (signOutGoogle) {
-            $window.logoutFrame.location =
-              "https://accounts.google.com/Logout";
-          }
-          gApi.auth.signOut();
-          // The flag the indicates a user is potentially
-          // authenticated already, must be destroyed.
-          _clearUserToken();
-          //clear auth token
-          // The majority of state is in here
-          _resetUserState();
-          objectHelper.clearObj(_state.user);
-          //call google api to sign out
-          $rootScope.$broadcast("risevision.user.signedOut");
-          $log.debug("User is signed out.");
-          deferred.resolve();
-        }, function () {
-          deferred.reject();
-        });
+        auth2APILoader()
+          .then(function (auth2) {
+            return auth2.getAuthInstance().signOut();
+          })
+          .then(function () {
+            if (signOutGoogle) {
+              $window.logoutFrame.location =
+                "https://accounts.google.com/Logout";
+            }
+            userInfoCache.removeAll();
+            // The flag the indicates a user is potentially
+            // authenticated already, must be destroyed.
+            _clearUserToken();
+            //clear auth token
+            // The majority of state is in here
+            _resetUserState();
+            objectHelper.clearObj(_state.user);
+            //call google api to sign out
+            $rootScope.$broadcast(
+              "risevision.user.signedOut");
+            $log.debug("User is signed out.");
+            deferred.resolve();
+          })
+          .then(null, function () {
+            deferred.reject("failed to signout user");
+          });
+
         return deferred.promise;
       };
 
@@ -3975,7 +3903,8 @@ angular.module("risevision.common.geodata", [])
       };
 
       var getAccessToken = function () {
-        return $window.gapi ? $window.gapi.auth.getToken() : null;
+        return $window.gapi ? $window.gapi.auth.getToken() :
+          null;
       };
 
       var _restoreState = function () {
@@ -3983,15 +3912,18 @@ angular.module("risevision.common.geodata", [])
           "risevision.common.userState");
         if (sFromStorage) {
           angular.extend(_state, sFromStorage);
-          localStorageService.remove("risevision.common.userState"); //clear
-          $log.debug("userState restored with", sFromStorage);
+          localStorageService.remove(
+            "risevision.common.userState"); //clear
+          $log.debug("userState restored with",
+            sFromStorage);
         }
       };
 
       var userState = {
         // user getters
         getUsername: function () {
-          return (_state.user && _state.user.username) || null;
+          return (_state.user && _state.user.username) ||
+            null;
         },
         getUserEmail: function () {
           return _state.profile.email;
@@ -4028,8 +3960,10 @@ angular.module("risevision.common.geodata", [])
         getAccessToken: getAccessToken,
         // user functions
         checkUsername: function (username) {
-          return (username || false) && (userState.getUsername() || false) &&
-            username.toUpperCase() === userState.getUsername().toUpperCase();
+          return (username || false) && (userState.getUsername() ||
+              false) &&
+            username.toUpperCase() === userState.getUsername()
+            .toUpperCase();
         },
         updateUserProfile: function (user) {
           if (userState.checkUsername(user.username)) {
@@ -4048,7 +3982,7 @@ angular.module("risevision.common.geodata", [])
             $rootScope.$broadcast("risevision.user.updated");
           }
         },
-        authenticate: _state.inRVAFrame ? authenticate : authenticateRedirect,
+        authenticate: authenticate,
         signOut: signOut,
         refreshProfile: refreshProfile,
         // company getters
@@ -4077,7 +4011,8 @@ angular.module("risevision.common.geodata", [])
         },
         _persistState: function () {
           // persist user state
-          localStorageService.set("risevision.common.userState", _state);
+          localStorageService.set(
+            "risevision.common.userState", _state);
         }
       };
 
@@ -6028,6 +5963,15 @@ var handleClientJSLoad = function() {
 angular.module("risevision.common.gapi", [])
   .factory("gapiLoader", ["$q", "$window", function ($q, $window) {
     var deferred = $q.defer();
+    
+    var _addScript = function(src) {
+      var fileref = document.createElement("script");
+      fileref.setAttribute("type","text/javascript");
+      fileref.setAttribute("src", src);
+      if (typeof fileref!=="undefined") {
+        document.getElementsByTagName("body")[0].appendChild(fileref);
+      }
+    }
 
     return function () {
       var gapiLoaded;
@@ -6039,13 +5983,9 @@ angular.module("risevision.common.gapi", [])
       else if(!$window.gapiLoadingStatus) {
         $window.gapiLoadingStatus = "loading";
 
-        var src = $window.gapiSrc || "//apis.google.com/js/client.js?onload=handleClientJSLoad";
-        var fileref = document.createElement("script");
-        fileref.setAttribute("type","text/javascript");
-        fileref.setAttribute("src", src);
-        if (typeof fileref!=="undefined") {
-          document.getElementsByTagName("body")[0].appendChild(fileref);
-        }
+        var src = $window.gapiSrc || "//apis.google.com/js/platform.js?onload=handleClientJSLoad";
+        _addScript(src);
+        _addScript("//apis.google.com/js/client.js?onload=handleClientJSLoad");
 
         gapiLoaded = function () {
           deferred.resolve($window.gapi);
@@ -6085,6 +6025,64 @@ angular.module("risevision.common.gapi", [])
         });
         return deferred.promise;
       };
+    };
+  }])
+  
+  .factory("gapiPlatformLoaderGenerator", ["$q", "gapiLoader", "$log",
+    function ($q, gapiLoader, $log) {
+    return function (libName) {
+      var deferred = $q.defer();
+      gapiLoader().then(function (gApi) {
+        if(gApi[libName]){
+          //already loaded. return right away
+          deferred.resolve(gApi[libName]);
+        }
+        else {
+          gApi.load(libName, function () {
+            if (gApi[libName]) {
+              $log.debug(libName + " Loaded");
+              
+              deferred.resolve(gApi[libName]);
+            } else {
+              var errMsg = libName + " Load Failed";
+              $log.error(errMsg);
+              deferred.reject(errMsg);
+            }
+          });
+        }
+      });
+      return deferred.promise;
+    };
+  }])
+
+  .factory("auth2APILoader", ["gapiPlatformLoaderGenerator", "$q", "$location",
+    function(gapiPlatformLoaderGenerator, $q, $location) {
+      var _auth2;
+      
+      return function(opts) {
+        var deferred = $q.defer();
+        
+        if(_auth2) {
+          deferred.resolve(_auth2);
+        }
+        else {
+          gapiPlatformLoaderGenerator("auth2")
+            .then(function(auth2) {
+              _auth2 = auth2;
+              
+              auth2.init(opts);
+              
+              return auth2.getAuthInstance().then();
+            })
+            .then(function() {
+              deferred.resolve(_auth2);
+            })
+            .then(null, function(e) {
+              deferred.reject(e);
+            });
+        }
+        
+      return deferred.promise;
     };
   }])
 
@@ -6663,20 +6661,6 @@ module.run(['$templateCache', function($templateCache) {
     ]);
 
 })(angular);
-
-"use strict";
-
-angular.module("risevision.common.components.stop-event", [])
-  .directive("stopEvent", function () {
-    return {
-      restrict: "A",
-      link: function (scope, element, attr) {
-        element.on(attr.stopEvent, function (e) {
-          e.stopPropagation();
-        });
-      }
-    };
-  });
 
 (function (angular) {
 

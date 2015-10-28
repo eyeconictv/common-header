@@ -11,6 +11,9 @@ describe("Services: auth & user state", function() {
     //stub services
     $provide.service("$q", function() {return Q;});
     $provide.value("$location", {
+      host: function () {
+        return "domain";
+      },
       search: function () {
         return {};
       },
@@ -19,6 +22,9 @@ describe("Services: auth & user state", function() {
       },
       protocol: function () {
         return "protocol";
+      },
+      port: function () {
+        return 9999;
       }
     });
     $provide.service("getBaseDomain", [function() {
@@ -51,8 +57,57 @@ describe("Services: auth & user state", function() {
       startGlobal: function(){},
       stopGlobal: function(){}
     });
+
+    $provide.service("auth2APILoader", function () {
+      return function() {
+        var deferred = Q.defer();
+
+        if (failAuth2APILoader) {
+          deferred.reject("auth2API loader failed");
+        }
+
+        deferred.resolve({
+          getAuthInstance : function () {
+            return {
+              signIn: function () {
+               var deferred2 = Q.defer();
+                if(signInOk) {
+                  deferred2.resolve();
+                } else{
+                  deferred2.reject();
+                }
+                return deferred2.promise;
+              },
+              isSignedIn: {
+                get: function () {
+                  return isSignedIn;
+                }
+              },
+              currentUser: {
+                get: function () {
+                  return "user@email.com";
+                }
+              },
+              signOut: function () {
+                var deferred3 = Q.defer();
+                if(signOutOk) {
+                  deferred3.resolve();
+                } else{
+                  deferred3.reject();
+                }
+                return deferred3.promise;
+              }
+            };
+          }
+        });
+
+        return deferred.promise;
+      };
+    });
   }));
-  
+
+  var signInOk, signOutOk, isSignedIn, failAuth2APILoader;
+
   it("should exist, also methods", function(done) {
     inject(function(userState) {
       expect(userState.authenticate).to.be.ok;
@@ -91,9 +146,10 @@ describe("Services: auth & user state", function() {
     });
     
     it("should not be authenticated", function(done) {
+      isSignedIn = false;
       userState.authenticate().then(done, function(msg) {
         expect(userState.isLoggedIn()).to.be.false;
-        expect(msg).to.equal("user is not authenticated");
+        expect(msg).to.equal("User is not authorized");
         broadcastSpy.should.not.have.been.calledWith("risevision.user.authorized");
         done();
       })
@@ -101,6 +157,7 @@ describe("Services: auth & user state", function() {
     });
 
     it("should log page speed for unauthenticated user", function(done) {
+      isSignedIn = false;
       userState.authenticate().then(done, function() {
         externalLoggingSpy.should.have.been.calledWith("page load time","unauthenticated user");
         done();    
@@ -115,7 +172,8 @@ describe("Services: auth & user state", function() {
     beforeEach(function() {
       gapi.setPendingSignInUser("michael.sanchez@awesome.io");
       gapi.auth.authorize({immediate: false}, function() {});
-
+      isSignedIn = true;
+      signOutOk = true;
       inject(function($injector){
         userState = $injector.get("userState");
         rootScope = $injector.get("$rootScope");
@@ -256,32 +314,6 @@ describe("Services: auth & user state", function() {
   
   describe("handle api failures: ", function() {
     beforeEach(module(function ($provide) {
-      $provide.service("gapiLoader", function () {
-        return function() {
-          var deferred = Q.defer();
-          
-          if (failGapiLoader) {
-            deferred.reject("gapi loader failed");
-          }
-          else {
-            deferred.resolve({
-              auth: {
-                authorize: function(opts, callback) {
-                  if (failAuthorize) {
-                    callback({
-                      error: "authorize failure"
-                    });
-                  }
-                  callback({});
-                },
-                setToken: function() {}
-              }
-            });
-          }
-          
-          return deferred.promise;
-        };
-      });
       $provide.service("getOAuthUserInfo", function() {
         return function() {
           var deferred = Q.defer();
@@ -302,17 +334,15 @@ describe("Services: auth & user state", function() {
       });
     }));
     
-    var failGapiLoader, failAuthorize, failOAuthUser;
+    var failAuthorize, failOAuthUser;
     
     it("should throw error if gapi loader fails", function(done) {
-      failGapiLoader = true;
-
       inject(function(userState,$rootScope){
         var broadcastSpy = sinon.spy($rootScope, "$broadcast");
         userState.authenticate().then(done, function(err) {
           expect(userState.isLoggedIn()).to.be.false;
           broadcastSpy.should.not.have.been.calledWith("risevision.user.authorized");
-          expect(err).to.equal("gapi loader failed");
+          expect(err).to.equal("Failed to authorize user");
           
           done();
         })
@@ -321,7 +351,6 @@ describe("Services: auth & user state", function() {
     });
     
     it("should throw error if gapi.auth.authorize fails", function(done) {
-      failGapiLoader = false;
       failAuthorize = true;
     
       inject(function(userState,$rootScope){
@@ -338,7 +367,6 @@ describe("Services: auth & user state", function() {
     });
       
     it("should throw error on oauth failure", function(done) {
-      failGapiLoader = false;
       failAuthorize = false;
       failOAuthUser = true;
     
@@ -361,6 +389,9 @@ describe("Services: auth & user state", function() {
     beforeEach( module( function($provide) {
       $provide.service("$q", function() {return Q;});
       $provide.value("$location", {
+        host: function () {
+          return "domain";
+        },
         search: function () {
           return {inRVA : ""};
         },
@@ -369,6 +400,9 @@ describe("Services: auth & user state", function() {
         },
         protocol: function () {
           return "protocol";
+        },
+        port: function () {
+          return 9999;
         }
       });
     }));
@@ -378,6 +412,7 @@ describe("Services: auth & user state", function() {
       inject(function(userState,$rootScope){
         gapi.setPendingSignInUser("michael.sanchez@awesome.io");
         gapi.auth.authorize({immediate: true}, function() {});
+        signInOk = true;
         var broadcastSpy = sinon.spy($rootScope, "$broadcast");
         userState.authenticate(true).then(function() {
           expect(userState.isLoggedIn()).to.be.true;
