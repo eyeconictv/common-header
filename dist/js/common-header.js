@@ -787,7 +787,7 @@ app.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("help-dropdown.html",
     "<li ng-show=\"!isLoggedIn || (isLoggedIn && isRiseVisionUser)\" dropdown class=\"dropdown hidden-xs\">\n" +
-    "  <button id=\"helpDropdownButton\" dropdown-toggle class=\"dropdown-toggle btn btn-primary\"><span class=\"hidden-xs\">Need Help</span><i class=\"fa fa-question icon-white\"></i></button>\n" +
+    "  <button id=\"helpDropdownButton\" dropdown-toggle class=\"dropdown-toggle btn btn-primary\"><span class=\"hidden-sm hidden-xs hidden-md\">Need Help</span><i class=\"fa fa-question icon-white\"></i></button>\n" +
     "  <div class=\"dropdown-menu app-navigation\" role=\"menu\">\n" +
     "      <ng-include\n" +
     "              replace-include\n" +
