@@ -1,9 +1,9 @@
 angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
     "userState", "$loading", "cookieStore",
-    "$log", "uiFlowManager", "gapiLoader", "bindToScopeWithWatch",
+    "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
     function ($scope, $modal, $templateCache, userState,
-      $loading, cookieStore, $log, uiFlowManager, gapiLoader,
+      $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
       bindToScopeWithWatch) {
 
       window.$loading = $loading; //DEBUG
@@ -161,7 +161,7 @@ angular.module("risevision.common.header")
       };
 
       $loading.startGlobal("auth-buttons-silent");
-      gapiLoader() //force loading oauth api on startup
+      oauth2APILoader() //force loading oauth api on startup
       //to avoid popup blocker
       .then().finally(function () {
         userState.authenticate(false).then().finally(function () {
