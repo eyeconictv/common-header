@@ -1,4 +1,4 @@
-Rise Vision Common Header [![Circle CI](https://circleci.com/gh/Rise-Vision/common-header.svg?style=svg)](https://circleci.com/gh/Rise-Vision/common-header)
+Rise Vision Common Header [![Circle CI](https://circleci.com/gh/Rise-Vision/common-header.svg?style=svg)](https://circleci.com/gh/Rise-Vision/common-header)  [![Coverage Status](https://coveralls.io/repos/Rise-Vision/common-header/badge.svg?branch=&service=github)](https://coveralls.io/github/Rise-Vision/common-header?branch=)
 ==============
 ![](screenshots/header.png)
 
