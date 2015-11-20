@@ -23,15 +23,15 @@
       });
 
       it("should not function when user is not signed in", function() {
-        assert.eventually.isTrue(commonHeaderPage.getSignInButton().isDisplayed(), "Sign in button should show");
+        expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.be.true;
 
-        assert.eventually.isTrue(element(by.id("buy-product-1")).isDisplayed(), "Product 1 button should show");
-        assert.eventually.isTrue(element(by.id("buy-product-2")).isDisplayed(), "Product 2 button should show");
-        assert.eventually.isTrue(element(by.id("buy-product-3")).isDisplayed(), "Product 3 button should show");
+        expect(element(by.id("buy-product-1")).isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("buy-product-2")).isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("buy-product-3")).isDisplayed()).to.eventually.be.true;
 
-        assert.eventually.isFalse(element(by.css(".shopping-cart-button")).isDisplayed(), "Cart button should not show");
+        expect(element(by.css(".shopping-cart-button")).isDisplayed()).to.eventually.be.false;
         element(by.id("buy-product-2")).click();
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "", "Should not add to cart");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("");
 
       });
 
@@ -39,21 +39,21 @@
         //log in
         commonHeaderPage.signin();
         
-        assert.eventually.isTrue(element(by.id("buy-product-1")).isDisplayed(), "Product 1 button should show");
-        assert.eventually.isTrue(element(by.id("buy-product-2")).isDisplayed(), "Product 2 button should show");
-        assert.eventually.isTrue(element(by.id("buy-product-3")).isDisplayed(), "Product 3 button should show");
+        expect(element(by.id("buy-product-1")).isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("buy-product-2")).isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("buy-product-3")).isDisplayed()).to.eventually.be.true;
 
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "", "Cart badge should display nothing");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("");
 
         //add to cart
         element(by.id("buy-product-2")).click();
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "1", "Cart badge should display 1");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("1");
         element(by.id("buy-product-3")).click();
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "2", "Cart badge should display 2");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("2");
         element(by.id("buy-product-1")).click();
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "3", "Cart badge should display 3");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("3");
         element(by.id("buy-product-3")).click();
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "3", "Cart badge should display 3");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("3");
 
       });
 
@@ -64,29 +64,29 @@
         
         helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
         
-        assert.eventually.isTrue(element(by.css(".shopping-cart-button")).isDisplayed(), "Cart button should show");
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "3", "Cart badge should display 3");
+        expect(element(by.css(".shopping-cart-button")).isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("3");
       });
 
       it("should clear cart", function() {
         element(by.id("clear-cart")).click();
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "", "Cart should be cleared out");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("");
       });
 
       xit("should persist cart on log out and then log in", function() {
         element(by.id("buy-product-2")).click();
         element(by.id("buy-product-3")).click();
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "2", "Cart badge should display 2");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("2");
 
         element(by.css(".desktop-menu-item img.profile-pic")).click();
         //shows sign-out menu item
-        expect(element(by.css(".dropdown-menu .sign-out-button")).isDisplayed()).to.eventually.equal(true);
+        expect(element(by.css(".dropdown-menu .sign-out-button")).isDisplayed()).to.eventually.be.true;
         //click sign out
         element(by.css(".dropdown-menu .sign-out-button")).click();
-        assert.eventually.isTrue(element(by.css(".sign-out-modal")).isDisplayed(), "sign-out dialog should show");
+        expect(element(by.css(".sign-out-modal")).isDisplayed()).to.eventually.be.true;
         element(by.css(".sign-out-modal .sign-out-rv-only-button")).click();
 
-        assert.eventually.isTrue(element(by.css("button.sign-in")).isDisplayed(), "Sign in button should show");
+        expect(element(by.css("button.sign-in")).isDisplayed()).to.eventually.be.true;
 
         //log in
         browser.executeScript("gapi.setPendingSignInUser('michael.sanchez@awesome.io')");
@@ -94,7 +94,7 @@
         
         browser.sleep(500);
         
-        assert.eventually.strictEqual(element(by.id("cartBadge")).getText(), "2", "Cart badge should display 2");
+        expect(element(by.id("cartBadge")).getText()).to.eventually.equal("2");
       });
       
     });

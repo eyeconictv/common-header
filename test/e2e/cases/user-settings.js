@@ -33,15 +33,14 @@
       it("should show user settings modal", function() {
         commonHeaderPage.getProfilePic().click();
         
-        assert.eventually.isTrue(homepage.getUserSettingsButton().isDisplayed(), "User settings menu item should show");
+        expect(homepage.getUserSettingsButton().isDisplayed()).to.eventually.be.true;
 
         //click on user settings button
         homepage.getUserSettingsButton().click();
         
         helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
 
-        assert.eventually.isTrue(userSettingsModalPage.getUserSettingsModal()
-          .isDisplayed(), "User settings modal should show after clicking on menu item");
+        expect(userSettingsModalPage.getUserSettingsModal().isDisplayed()).to.eventually.be.true;
       });
       
       it("should update settings", function() {
@@ -98,9 +97,8 @@
       // username should be shown here instead of email
       // however that's not an editable field
       xit("should immediately update fixes", function () {
-        assert.eventually.equal(element(
-          by.css("span.username")).getText(), "testmail@testmail.com",
-            "Username should update");
+        expect(element(
+          by.css("span.username")).getText()).to.eventually.equal("testmail@testmail.com");
       });
     });
   };

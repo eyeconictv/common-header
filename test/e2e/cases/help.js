@@ -24,7 +24,7 @@
       });
 
       it("should show the help dropdown button", function () {
-        assert.eventually.isTrue(helpDropdownPage.getHelpDropdownButton().isDisplayed(), "Help dropdown button should show");
+        expect(helpDropdownPage.getHelpDropdownButton().isDisplayed()).to.eventually.be.true;
       });
 
       describe("Given a user clicks on the help dropdown button", function () {
@@ -34,23 +34,23 @@
         });
 
         it("should show the ask the community button", function () {
-          assert.eventually.isTrue(helpDropdownPage.getAskCommunityButton().isDisplayed(), "Ask the Community button should show");
+          expect(helpDropdownPage.getAskCommunityButton().isDisplayed()).to.eventually.be.true;
         });
 
         it("should show the priority support button", function () {
-          assert.eventually.isTrue(helpDropdownPage.getPrioritySupportButton().isDisplayed(), "Priority Support button should show");
+          expect(helpDropdownPage.getPrioritySupportButton().isDisplayed()).to.eventually.be.true;
         });
 
         it("should show the send us a note button", function () {
-          assert.eventually.isTrue(helpDropdownPage.getSendUsANoteButton().isDisplayed(), "Send Us a Note button should show");
+          expect(helpDropdownPage.getSendUsANoteButton().isDisplayed()).to.eventually.be.true;
         });
 
         it("should show the sign up for training button", function () {
-          assert.eventually.isTrue(helpDropdownPage.getSignUpForTrainingButton().isDisplayed(), "Sign Up for Training button should show");
+          expect(helpDropdownPage.getSignUpForTrainingButton().isDisplayed()).to.eventually.be.true;
         });
 
         it("should show the documentation button", function () {
-          assert.eventually.isTrue(helpDropdownPage.getDocumentationButton().isDisplayed(), "Documentation button should show");
+          expect(helpDropdownPage.getDocumentationButton().isDisplayed()).to.eventually.be.true;
         });
 
         describe("Given a user clicks on the Ask The Community button", function () {
@@ -82,11 +82,11 @@
           });
 
           it("should open the priority support modal", function () {
-            assert.eventually.isTrue(helpDropdownPage.getPrioritySupportModal().isDisplayed(), "Priority Support Modal should show");
+            expect(helpDropdownPage.getPrioritySupportModal().isDisplayed()).to.eventually.be.true;
           });
 
           xit("should open the intercom messenger", function () {
-            assert.eventually.isTrue(helpDropdownPage.getIntercomMessenger().isDisplayed(), "Intercom Messenger should show");
+            expect(helpDropdownPage.getIntercomMessenger().isDisplayed()).to.eventually.be.true;
           });
 
           after(function () {
@@ -101,7 +101,7 @@
           });
 
           xit("should open the intercom messenger", function () {
-            assert.eventually.isTrue(helpDropdownPage.getIntercomMessenger().isDisplayed(), "Intercom Messenger should show");
+            expect(helpDropdownPage.getIntercomMessenger().isDisplayed()).to.eventually.be.true;
           });
 
           after(function () {

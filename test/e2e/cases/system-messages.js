@@ -22,10 +22,10 @@
       });
 
       it("should not show system message icon when not logged in", function() {
-        assert.eventually.isTrue(commonHeaderPage.getSignInButton().isDisplayed(), "Sign in button should show");
+        expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.be.true;
 
-        assert.eventually.isFalse(homepage.getSystemMessagesButton().isDisplayed(), "Should not show system messages icon");
-        assert.eventually.strictEqual(homepage.getSystemMessagesBadge().getText(), "", "Should not show system message badge");
+        expect(homepage.getSystemMessagesButton().isDisplayed()).to.eventually.be.false;
+        expect(homepage.getSystemMessagesBadge().getText()).to.eventually.equal("");
       });
 
       // No system messages - should mock API response
@@ -35,8 +35,8 @@
           commonHeaderPage.signin();
         });
 
-        assert.eventually.isTrue(homepage.getSystemMessagesButton().isDisplayed(), "Should show system messages icon");
-        assert.eventually.strictEqual(homepage.getSystemMessagesBadge().getText(), "14", "Badge should show correct number of system messages");
+        expect(homepage.getSystemMessagesButton().isDisplayed()).to.eventually.be.true;
+        expect(homepage.getSystemMessagesBadge().getText()).to.eventually.equal("14");
       });
 
       xit("should hide system messages icon when there are no messages", function() {
@@ -45,7 +45,7 @@
         
         helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
 
-        assert.eventually.isFalse(homepage.getSystemMessagesButton().isDisplayed(), "Should hide system messages icon");
+        expect(homepage.getSystemMessagesButton().isDisplayed()).to.eventually.be.false;
       });
     });
   };

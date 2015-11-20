@@ -50,7 +50,7 @@
       it("Signs user out when deleting company", function() {
         helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
         
-        assert.eventually.isTrue(commonHeaderPage.getSignInButton().isDisplayed(), "Should be signed out");
+        expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.be.true;
       });
     });
   };
