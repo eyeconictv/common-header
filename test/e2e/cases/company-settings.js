@@ -34,14 +34,12 @@
         it("Opens Company Settings Dialog", function() {
           commonHeaderPage.getProfilePic().click();
 
-          assert.eventually.isTrue(homepage.getCompanySettingsButton().isDisplayed(),
-            "Company settings menu item should present");
+          expect(homepage.getCompanySettingsButton().isDisplayed()).to.eventually.be.true;
           homepage.getCompanySettingsButton().click();
           
           helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");
           
-          assert.eventually.isTrue(companySettingsModalPage.getCompanySettingsModal().isDisplayed(),
-            "Company settings dialog should show");
+          expect(companySettingsModalPage.getCompanySettingsModal().isDisplayed()).to.eventually.be.true;
         });
         
         it("Loads company settings", function() {
@@ -81,8 +79,7 @@
         it("Company Settings Dialog Should Close", function () {
           companySettingsModalPage.getCloseButton().click();
           
-          assert.eventually.isFalse(companySettingsModalPage.getCompanySettingsModal().isPresent(),
-            "Company Settings dialog should hide");
+          expect(companySettingsModalPage.getCompanySettingsModal().isPresent()).to.eventually.be.false;
         });
       });
 

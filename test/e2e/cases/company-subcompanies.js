@@ -53,14 +53,12 @@
         it("Opens Add Subcompany dialog", function () {
           commonHeaderPage.getProfilePic().click();
           
-          assert.eventually.isTrue(homepage.getAddSubcompanyButton().isDisplayed(),
-            "Add subcompany menu item should show");
+          expect(homepage.getAddSubcompanyButton().isDisplayed()).to.eventually.be.true;
           homepage.getAddSubcompanyButton().click();
 
           helper.wait(addSubcompanyModalPage.getAddSubcompanyModal(), "Add Subcompany Modal");
 
-          assert.eventually.isTrue(addSubcompanyModalPage.getAddSubcompanyModal().isDisplayed(),
-            "Add subcompany dialog should show");
+          expect(addSubcompanyModalPage.getAddSubcompanyModal().isDisplayed()).to.eventually.be.true;
         });
         
         it("Add new company", function() {
@@ -75,14 +73,12 @@
         it("Opens select subcompany dialog", function (done) {
           commonHeaderPage.getProfilePic().click();
 
-          assert.eventually.isTrue(homepage.getSelectSubcompanyButton().isDisplayed(),
-            "Select subcompany menu item should present");
+          expect(homepage.getSelectSubcompanyButton().isDisplayed()).to.eventually.be.true;
           homepage.getSelectSubcompanyButton().click();
           
           helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
 
-          assert.eventually.isTrue(selectSubcompanyModalPage.getSelectSubcompanyModal().isDisplayed(),
-            "Select subcompany dialog should show");
+          expect(selectSubcompanyModalPage.getSelectSubcompanyModal().isDisplayed()).to.eventually.be.true;
             
           helper.waitDisappear(selectSubcompanyModalPage.getLoader(), "Load Companies");
 
@@ -99,8 +95,7 @@
           
           helper.wait(homepage.getSubcompanyAlert(), "Subcompany Alert");
 
-          assert.eventually.isTrue(homepage.getSubcompanyAlert().isDisplayed(),
-            "Sub-company alert should show");
+          expect(homepage.getSubcompanyAlert().isDisplayed()).to.eventually.be.true;
           expect(browser.getCurrentUrl()).to.eventually.not.equal(companyUrl);
           
           browser.getCurrentUrl().then(function(value) {
@@ -113,12 +108,9 @@
         it("Shows sub-company details", function() {
           commonHeaderPage.getProfilePic().click();
 
-          assert.eventually.isFalse(homepage.getSelectSubcompanyButton().isDisplayed(),
-            "Select subcompany menu item should not be present");
-          assert.eventually.isTrue(homepage.getChangeSubcompanyButton().isDisplayed(),
-            "Change subcompany menu item should be present");
-          assert.eventually.isTrue(homepage.getResetSubcompanyButton().isDisplayed(),
-            "Reset subcompany menu item should be present");
+          expect(homepage.getSelectSubcompanyButton().isDisplayed()).to.eventually.be.false;
+          expect(homepage.getChangeSubcompanyButton().isDisplayed()).to.eventually.be.true;
+          expect(homepage.getResetSubcompanyButton().isDisplayed()).to.eventually.be.true;
         });
 
         it("Switches back to parent company", function () {
@@ -126,8 +118,7 @@
           
           helper.waitDisappear(homepage.getSubcompanyAlert(), "Subcompany Alert");
 
-          assert.eventually.isFalse(homepage.getSubcompanyAlert().isDisplayed(),
-            "Sub-company alert should hide");
+          expect(homepage.getSubcompanyAlert().isDisplayed()).to.eventually.be.false;
 
           expect(browser.getCurrentUrl()).to.eventually.equal(companyUrl);
         });
@@ -137,10 +128,8 @@
           
           helper.wait(homepage.getSubcompanyAlert(), "Subcompany Alert");
 
-          assert.eventually.isTrue(homepage.getSubcompanyAlert().isDisplayed(),
-            "Sub-company alert should show");
-          assert.eventually.isFalse(homepage.getTestCompanyAlert().isDisplayed(),
-            "Test company alert should not show");
+          expect(homepage.getSubcompanyAlert().isDisplayed()).to.eventually.be.true;
+          expect(homepage.getTestCompanyAlert().isDisplayed()).to.eventually.be.false;
         });
       });
       
@@ -201,8 +190,7 @@
 
           helper.wait(addSubcompanyModalPage.getAddSubcompanyModal(), "Add Subcompany Modal");
 
-          assert.eventually.isTrue(addSubcompanyModalPage.getMoveButton().isDisplayed(),
-            "Move company button should show");
+          expect(addSubcompanyModalPage.getMoveButton().isDisplayed()).to.eventually.be.true;
 
           browser.sleep(500);
 
@@ -210,8 +198,7 @@
           
           helper.wait(moveCompanyModalPage.getMoveCompanyModal(), "Move Company Modal");
 
-          assert.eventually.isTrue(moveCompanyModalPage.getMoveCompanyModal().isDisplayed(),
-            "Move company dialog should show");
+          expect(moveCompanyModalPage.getMoveCompanyModal().isDisplayed()).to.eventually.be.true;
         });
 
         it("Shows error on invalid auth key", function () {
@@ -222,10 +209,8 @@
           
           helper.waitDisappear(moveCompanyModalPage.getLoader(), "Move Company Loader");
           
-          assert.eventually.isTrue(moveCompanyModalPage.getNotFoundMessage().isDisplayed(),
-            "Error message should show");
-          assert.eventually.isFalse(moveCompanyModalPage.getMoveButton().isDisplayed(),
-            "Move company button should hide");
+          expect(moveCompanyModalPage.getNotFoundMessage().isDisplayed()).to.eventually.be.true;
+          expect(moveCompanyModalPage.getMoveButton().isDisplayed()).to.eventually.be.false;
         });
 
         it("Retrieves Company Info", function () {
@@ -236,12 +221,9 @@
           
           helper.waitDisappear(moveCompanyModalPage.getLoader(), "Move Company Loader");
           
-          assert.eventually.isFalse(moveCompanyModalPage.getNotFoundMessage().isPresent(),
-            "Error message should not show");
-          assert.eventually.isTrue(moveCompanyModalPage.getMoveButton().isDisplayed(),
-            "Move company button should show");
-          assert.eventually.isTrue(moveCompanyModalPage.getCompanyDetailsMessage().isDisplayed(),
-            "Company details info should show");
+          expect(moveCompanyModalPage.getNotFoundMessage().isPresent()).to.eventually.be.false;
+          expect(moveCompanyModalPage.getMoveButton().isDisplayed()).to.eventually.be.true;
+          expect(moveCompanyModalPage.getCompanyDetailsMessage().isDisplayed()).to.eventually.be.true;
         });
         
         it("Should Move Company", function () {
@@ -249,10 +231,8 @@
 
           helper.waitDisappear(moveCompanyModalPage.getLoader(), "Move Company Loader");
 
-          assert.eventually.isTrue(moveCompanyModalPage.getSuccessMessage().isDisplayed(),
-            "Success message should show");
-          assert.eventually.isFalse(moveCompanyModalPage.getMoveButton().isDisplayed(),
-            "Move company button should hide");
+          expect(moveCompanyModalPage.getSuccessMessage().isDisplayed()).to.eventually.be.true;
+          expect(moveCompanyModalPage.getMoveButton().isDisplayed()).to.eventually.be.false;
         });
 
         it("Move Company Dialog Should Close", function () {
@@ -260,15 +240,13 @@
           
           helper.waitDisappear(moveCompanyModalPage.getMoveCompanyModal(), "Move Company Modal");
           
-          assert.eventually.isFalse(moveCompanyModalPage.getMoveCompanyModal().isPresent(),
-            "Move company dialog should hide");
+          expect(moveCompanyModalPage.getMoveCompanyModal().isPresent()).to.eventually.be.false;
         });
 
         it("Closes Add subcompany Dialog", function () {
           addSubcompanyModalPage.getCloseButton().click();
           
-          assert.eventually.isFalse(addSubcompanyModalPage.getAddSubcompanyModal().isPresent(),
-            "Add subcompany dialog should hide");
+          expect(addSubcompanyModalPage.getAddSubcompanyModal().isPresent()).to.eventually.be.false;
         });
 
         it("Verify there are 2 sub-companies", function() {
@@ -278,8 +256,7 @@
           helper.wait(selectSubcompanyModalPage.getSelectSubcompanyModal(), "Select Subcompany Modal");
           helper.waitDisappear(selectSubcompanyModalPage.getLoader(), "Load Companies");
 
-          assert.eventually.equal(selectSubcompanyModalPage.getCompanies().count(), subCompanyCount + 1,
-            "Company should now have 2 sub-companies");
+          expect(selectSubcompanyModalPage.getCompanies().count()).to.eventually.equal(subCompanyCount + 1);
         });
 
         after("Close sub-company modal dialog", function() {
@@ -308,13 +285,11 @@
           
           helper.wait(companySettingsModalPage.getCompanySettingsModal(), "Comapny Settings Modal");
           
-          assert.eventually.isTrue(companySettingsModalPage.getCompanySettingsModal().isDisplayed(),
-            "Company settings dialog should show");
+          expect(companySettingsModalPage.getCompanySettingsModal().isDisplayed()).to.eventually.be.true;
             
           helper.waitDisappear(companySettingsModalPage.getLoader(), "Load Company Settings");
           
-          assert.eventually.equal(companySettingsModalPage.getNameField().getAttribute('value'), "e2e test sub-company",
-            "Should have correct name");
+          expect(companySettingsModalPage.getNameField().getAttribute('value')).to.eventually.equal("e2e test sub-company");
         });
         
         it("Should delete the company and return to parent company", function() {
@@ -325,8 +300,7 @@
 
           helper.waitDisappear(homepage.getSubcompanyAlert(), "Subcompany Alert");
 
-          assert.eventually.isFalse(homepage.getSubcompanyAlert().isDisplayed(),
-            "Sub-company alert should be hidden");
+          expect(homepage.getSubcompanyAlert().isDisplayed()).to.eventually.be.false;
         });
       });
 

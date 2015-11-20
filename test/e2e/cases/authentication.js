@@ -22,7 +22,7 @@
       });
 
       it("should show sign in button", function() {
-        assert.eventually.isTrue(commonHeaderPage.getSignInButton().isDisplayed(), "Sign in button should show");
+        expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.be.true;
       });
       
       it("should sign in user", function() {
@@ -37,9 +37,9 @@
         
         helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
 
-        assert.eventually.isFalse(commonHeaderPage.getSignInButton().isDisplayed(), "sign in button should not show");
-        assert.eventually.isTrue(commonHeaderPage.getProfilePic().isDisplayed(), "profile pic should show");
-        assert.eventually.isFalse(commonHeaderPage.getSignOutButton().isDisplayed(), "sign out button should not show");
+        expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.be.false;
+        expect(commonHeaderPage.getProfilePic().isDisplayed()).to.eventually.be.true;
+        expect(commonHeaderPage.getSignOutButton().isDisplayed()).to.eventually.be.false;
       });
 
       it("should log out", function() {
@@ -53,7 +53,7 @@
         
         helper.wait(commonHeaderPage.getSignOutModal(), 'Sign Out Modal');
         
-        assert.eventually.isTrue(commonHeaderPage.getSignOutModal().isDisplayed(), "sign-out dialog should show");
+        expect(commonHeaderPage.getSignOutModal().isDisplayed()).to.eventually.be.true;
         commonHeaderPage.getSignOutRvOnlyButton().click();
 
         //signed out; sign-in button shows

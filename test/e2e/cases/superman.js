@@ -24,9 +24,9 @@
       });
 
       it("should show become superman button when not logged in", function() {
-        assert.eventually.isTrue(commonHeaderPage.getSignInButton().isDisplayed(), "Sign in button should show");
-        assert.eventually.isTrue(element(by.id("ps-become-superman")).isDisplayed(), "Should show Become Superman button");
-        assert.eventually.isFalse(element(by.id("ps-superman-badge")).isDisplayed(), "Should not show Superman badge");
+        expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("ps-become-superman")).isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("ps-superman-badge")).isDisplayed()).to.eventually.be.false;
       });
 
       it("should become superman when signed in as a rise vision user", function() {
@@ -35,9 +35,9 @@
         
         element(by.id("ps-become-superman")).click();
 
-        assert.eventually.isFalse(element(by.id("ps-become-superman")).isDisplayed(), "Should show Become Superman button");
+        expect(element(by.id("ps-become-superman")).isDisplayed()).to.eventually.be.false;
         //superman!
-        assert.eventually.isTrue(element(by.id("ps-superman-badge")).isDisplayed(), "Should show Superman badge");
+        expect(element(by.id("ps-superman-badge")).isDisplayed()).to.eventually.be.true;
       });
 
       it("should hide superman identity when user is logged out", function() {
@@ -46,8 +46,8 @@
         //signed out; sign-in button shows
         expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.equal(true);
 
-        assert.eventually.isTrue(element(by.id("ps-become-superman")).isDisplayed(), "Should show Become Superman button");
-        assert.eventually.isFalse(element(by.id("ps-superman-badge")).isDisplayed(), "Should not show Superman badge");
+        expect(element(by.id("ps-become-superman")).isDisplayed()).to.eventually.be.true;
+        expect(element(by.id("ps-superman-badge")).isDisplayed()).to.eventually.be.false;
 
       });      
     });

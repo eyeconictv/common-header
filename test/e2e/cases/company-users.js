@@ -37,14 +37,12 @@
         it("Opens Company Users Dialog and load company users", function() {
           commonHeaderPage.getProfilePic().click();
 
-          assert.eventually.isTrue(homepage.getCompanyUsersButton().isDisplayed(),
-            "Company users menu item should present");
+          expect(homepage.getCompanyUsersButton().isDisplayed()).to.eventually.be.true;
           homepage.getCompanyUsersButton().click();
 
           helper.wait(companyUsersModalPage.getCompanyUsersModal(), "Comapny Users Modal");
 
-          assert.eventually.isTrue(companyUsersModalPage.getCompanyUsersModal().isDisplayed(),
-            "Company users dialog should show");
+          expect(companyUsersModalPage.getCompanyUsersModal().isDisplayed()).to.eventually.be.true;
         });
 
         it("loads up a list of users for the company", function () {
@@ -58,7 +56,7 @@
           
           helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
 
-          assert.eventually.isTrue(userSettingsModalPage.getUserSettingsModal().isPresent(), "Add user dialog should show");
+          expect(userSettingsModalPage.getUserSettingsModal().isPresent()).to.eventually.be.true;
         });
 
         it("adds a user", function () {
@@ -102,8 +100,7 @@
 
           companyUsersModalPage.getCloseButton().click();
           
-          assert.eventually.isFalse(companyUsersModalPage.getCompanyUsersModal().isPresent(),
-            "Company Users dialog should hide");
+          expect(companyUsersModalPage.getCompanyUsersModal().isPresent()).to.eventually.be.false;
         });
         
       });

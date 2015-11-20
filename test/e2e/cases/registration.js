@@ -34,8 +34,7 @@
         helper.wait(registrationModalPage.getRegistrationModal(), "Registration Modal");
         
         //dialog shows
-        assert.eventually.isTrue(registrationModalPage.getRegistrationModal().isPresent(), 
-          "registration dialog should show");
+        expect(registrationModalPage.getRegistrationModal().isPresent()).to.eventually.be.true;
 
         //fill in email address
       });
@@ -46,30 +45,27 @@
         
         helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader');
         
-        assert.eventually.isFalse(commonHeaderPage.getSignInButton().isDisplayed(), 
-          "sign in button should not show");
-        assert.eventually.isFalse(registrationModalPage.getRegistrationModal().isPresent(), 
-          "registration dialog should hide");
+        expect(commonHeaderPage.getSignInButton().isDisplayed()).to.eventually.be.false;
+        expect(registrationModalPage.getRegistrationModal().isPresent()).to.eventually.be.false;
       });
 
       it("allow me to register when I've changed my mind", function() {
-        assert.eventually.isTrue(homepage.getRegisterUserButton().isDisplayed(), "Create Account button should show");
+        expect(homepage.getRegisterUserButton().isDisplayed(), "Create Account button should show").to.eventually.be.true;
         homepage.getRegisterUserButton().click();
         
         helper.wait(registrationModalPage.getRegistrationModal(), "Registration Modal");
         
         //dialog shows
-        assert.eventually.isTrue(registrationModalPage.getRegistrationModal().isPresent(), 
-          "registration dialog should show");
+        expect(registrationModalPage.getRegistrationModal().isPresent()).to.eventually.be.true;
       });
 
       it("should show validation errors if i have not agreed to terms and entered an email", function () {
         registrationModalPage.getSaveButton().click();
         
-        assert.eventually.isTrue(registrationModalPage.getValidationTermsAccepted().isPresent(), "t&c validation error should show");
-        assert.eventually.isTrue(registrationModalPage.getValidationFirstName().isPresent(), "first name validation error should show");
-        assert.eventually.isTrue(registrationModalPage.getValidationLastName().isPresent(), "last name validation error should show");
-        assert.eventually.isTrue(registrationModalPage.getValidationEmail().isPresent(), "email validation error should show");
+        expect(registrationModalPage.getValidationTermsAccepted().isPresent()).to.eventually.be.true;
+        expect(registrationModalPage.getValidationFirstName().isPresent()).to.eventually.be.true;
+        expect(registrationModalPage.getValidationLastName().isPresent()).to.eventually.be.true;
+        expect(registrationModalPage.getValidationEmail().isPresent()).to.eventually.be.true;
       });
 
       it("should complete the registration process", function () {
@@ -85,11 +81,11 @@
         
         helper.waitRemoved(registrationModalPage.getRegistrationModal(), "Registration Modal");
 
-        assert.eventually.isFalse(registrationModalPage.getRegistrationModal().isPresent(), "registration dialog should hide");
+        expect(registrationModalPage.getRegistrationModal().isPresent()).to.eventually.be.false;
       });
 
       it("should update auth button", function () {
-        assert.eventually.isTrue(commonHeaderPage.getProfilePic().isDisplayed(), "profile pic should show");
+        expect(commonHeaderPage.getProfilePic().isDisplayed()).to.eventually.be.true;
       });
 
     });
