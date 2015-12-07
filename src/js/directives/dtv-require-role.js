@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives")
   .directive("requireRole", ["userState",
     function (userState) {
       return {

@@ -8,6 +8,7 @@ angular.module("risevision.common.header", [
   "risevision.common.cookie",
   "LocalStorageModule",
   "risevision.common.header.templates",
+  "risevision.common.header.directives",
   "risevision.common.loading",
   "risevision.ui-flow",
   "risevision.common.systemmessages", "risevision.core.systemmessages",
@@ -162,3 +163,5 @@ angular.module("risevision.common.header", [
       });
     };
   });
+
+angular.module("risevision.common.header.directives", []);

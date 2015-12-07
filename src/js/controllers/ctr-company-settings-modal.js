@@ -147,8 +147,8 @@ angular.module("risevision.common.header")
         company.sellerId = company.isSeller ? "yes" : null;
       } else {
         //exclude fields from API call
-        company.sellerId = undefined;
-        company.isTest = undefined;
+        delete company.sellerId;
+        delete company.isTest;
       }
     }
 

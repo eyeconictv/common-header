@@ -1,4 +1,4 @@
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives")
   .directive("linkCid", ["userState",
     function (userState) {
       return {

@@ -437,8 +437,8 @@ app.run(["$templateCache", function($templateCache) {
     "        Country\n" +
     "      </label>\n" +
     "      <select id=\"company-settings-country\" class=\"form-control selectpicker\"\n" +
-    "        ng-model=\"company.country\" ng-options=\"c.code as c.name for c in countries\">\n" +
-    "        <option value=\"\">&lt; Select Country &gt;</option>\n" +
+    "        ng-model=\"company.country\" ng-options=\"c.code as c.name for c in countries\" empty-select-parser>\n" +
+    "        <option ng-show=\"false\" value=\"\">&lt; Select Country &gt;</option>\n" +
     "      </select>\n" +
     "    </div>\n" +
     "  </div>\n" +
@@ -448,11 +448,11 @@ app.run(["$templateCache", function($templateCache) {
     "        State/Province/Region\n" +
     "      </label>\n" +
     "      <input id=\"company-settings-state\" type=\"text\" class=\"form-control\" ng-model=\"company.province\" ng-hide=\"company.country == 'US' || company.country == 'CA'\" />\n" +
-    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsCA\" ng-show=\"company.country == 'CA'\">\n" +
-    "        <option value=\"\">&lt; Select Province &gt;</option>\n" +
+    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsCA\" ng-show=\"company.country == 'CA'\" empty-select-parser>\n" +
+    "        <option ng-show=\"false\" value=\"\">&lt; Select Province &gt;</option>\n" +
     "      </select>\n" +
-    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsUS\" ng-show=\"company.country == 'US'\">\n" +
-    "        <option value=\"\">&lt; Select State &gt;</option>\n" +
+    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsUS\" ng-show=\"company.country == 'US'\" empty-select-parser>\n" +
+    "        <option ng-show=\"false\" value=\"\">&lt; Select State &gt;</option>\n" +
     "      </select>\n" +
     "    </div>\n" +
     "  </div>\n" +
@@ -474,7 +474,7 @@ app.run(["$templateCache", function($templateCache) {
     "<div class=\"form-group\">\n" +
     "  <label for=\"company-settings-timezone\" class=\"control-label\">Time Zone</label>\n" +
     "  <select class=\"form-control\" ng-model=\"company.timeZoneOffset\" integer-parser>\n" +
-    "    <option value=\"\">&lt; Select Time Zone &gt;</option>\n" +
+    "    <option ng-show=\"false\" value=\"\">&lt; Select Time Zone &gt;</option>\n" +
     "    <option value=\"{{c[1]}}\" ng-repeat=\"c in timezones\">{{c[0]}}</option>\n" +
     "  </select>\n" +
     "</div>\n" +
@@ -1471,6 +1471,7 @@ angular.module("risevision.common.header", [
   "risevision.common.cookie",
   "LocalStorageModule",
   "risevision.common.header.templates",
+  "risevision.common.header.directives",
   "risevision.common.loading",
   "risevision.ui-flow",
   "risevision.common.systemmessages", "risevision.core.systemmessages",
@@ -1626,7 +1627,9 @@ angular.module("risevision.common.header", [
     };
   });
 
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives", []);
+
+angular.module("risevision.common.header.directives")
   .directive("integerParser", [
 
     function () {
@@ -1641,9 +1644,24 @@ angular.module("risevision.common.header")
     }
   ]);
 
+angular.module("risevision.common.header.directives")
+  .directive("emptySelectParser", [
+
+    function () {
+      return {
+        require: "ngModel",
+        link: function (scope, ele, attr, ctrl) {
+          ctrl.$parsers.unshift(function (value) {
+            return value === null ? "" : value;
+          });
+        }
+      };
+    }
+  ]);
+
 "use strict";
 
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives")
   .directive("companyButtons", ["$templateCache",
     function ($templateCache) {
       return {
@@ -1658,7 +1676,7 @@ angular.module("risevision.common.header")
 
 "use strict";
 
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives")
   .directive("requireRole", ["userState",
     function (userState) {
       return {
@@ -2521,8 +2539,8 @@ angular.module("risevision.common.header")
         company.sellerId = company.isSeller ? "yes" : null;
       } else {
         //exclude fields from API call
-        company.sellerId = undefined;
-        company.isTest = undefined;
+        delete company.sellerId;
+        delete company.isTest;
       }
     }
 
@@ -5526,7 +5544,7 @@ function ($q, $http, $document, $timeout, GSFP_URL, $log) {
 
   }]);
 
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives")
   .directive("fastpass", ["loadFastpass", "userState",
     function (loadFastpass, userState) {
       return {
@@ -5545,7 +5563,7 @@ angular.module("risevision.common.header")
     }
   ]);
 
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives")
   .directive("linkCid", ["userState",
     function (userState) {
       return {
@@ -7369,9 +7387,9 @@ angular.module("risevision.widget.common.subscription-status")
 }());
 
 (function(module) {
-try { app = angular.module("risevision.widget.common.subscription-status"); }
-catch(err) { app = angular.module("risevision.widget.common.subscription-status", []); }
-app.run(["$templateCache", function($templateCache) {
+try { module = angular.module("risevision.widget.common.subscription-status"); }
+catch(err) { module = angular.module("risevision.widget.common.subscription-status", []); }
+module.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("app-subscription-status-template.html",
     "<a id=\"app-subscription-status\" href=\"\"\n" +
@@ -7389,9 +7407,9 @@ app.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
-try { app = angular.module("risevision.widget.common.subscription-status"); }
-catch(err) { app = angular.module("risevision.widget.common.subscription-status", []); }
-app.run(["$templateCache", function($templateCache) {
+try { module = angular.module("risevision.widget.common.subscription-status"); }
+catch(err) { module = angular.module("risevision.widget.common.subscription-status", []); }
+module.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("store-account-modal-template.html",
     "<div class=\"widget\" ng-show=\"showStoreAccountModal\">\n" +
@@ -7408,9 +7426,9 @@ app.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
-try { app = angular.module("risevision.widget.common.subscription-status"); }
-catch(err) { app = angular.module("risevision.widget.common.subscription-status", []); }
-app.run(["$templateCache", function($templateCache) {
+try { module = angular.module("risevision.widget.common.subscription-status"); }
+catch(err) { module = angular.module("risevision.widget.common.subscription-status", []); }
+module.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("store-modal-template.html",
     "<div class=\"widget\" ng-show=\"showStoreModal\">\n" +
@@ -7427,9 +7445,9 @@ app.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
-try { app = angular.module("risevision.widget.common.subscription-status"); }
-catch(err) { app = angular.module("risevision.widget.common.subscription-status", []); }
-app.run(["$templateCache", function($templateCache) {
+try { module = angular.module("risevision.widget.common.subscription-status"); }
+catch(err) { module = angular.module("risevision.widget.common.subscription-status", []); }
+module.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("subscription-status-template.html",
     "<div ng-show=\"!expandedFormat\">\n" +
