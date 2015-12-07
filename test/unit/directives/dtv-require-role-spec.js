@@ -6,7 +6,7 @@ describe("directive: requireRole", function() {
       parentElement,
       roles;
 
-  beforeEach(module("risevision.common.header"));
+  beforeEach(module("risevision.common.header.directives"));
   beforeEach(module(function ($provide) {
     $provide.service("userState", function() {
       return {

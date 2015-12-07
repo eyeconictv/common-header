@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("risevision.common.header")
+angular.module("risevision.common.header.directives")
   .directive("companyButtons", ["$templateCache",
     function ($templateCache) {
       return {

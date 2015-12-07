@@ -437,8 +437,8 @@ app.run(["$templateCache", function($templateCache) {
     "        Country\n" +
     "      </label>\n" +
     "      <select id=\"company-settings-country\" class=\"form-control selectpicker\"\n" +
-    "        ng-model=\"company.country\" ng-options=\"c.code as c.name for c in countries\">\n" +
-    "        <option value=\"\">&lt; Select Country &gt;</option>\n" +
+    "        ng-model=\"company.country\" ng-options=\"c.code as c.name for c in countries\" empty-select-parser>\n" +
+    "        <option ng-show=\"false\" value=\"\">&lt; Select Country &gt;</option>\n" +
     "      </select>\n" +
     "    </div>\n" +
     "  </div>\n" +
@@ -448,11 +448,11 @@ app.run(["$templateCache", function($templateCache) {
     "        State/Province/Region\n" +
     "      </label>\n" +
     "      <input id=\"company-settings-state\" type=\"text\" class=\"form-control\" ng-model=\"company.province\" ng-hide=\"company.country == 'US' || company.country == 'CA'\" />\n" +
-    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsCA\" ng-show=\"company.country == 'CA'\">\n" +
-    "        <option value=\"\">&lt; Select Province &gt;</option>\n" +
+    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsCA\" ng-show=\"company.country == 'CA'\" empty-select-parser>\n" +
+    "        <option ng-show=\"false\" value=\"\">&lt; Select Province &gt;</option>\n" +
     "      </select>\n" +
-    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsUS\" ng-show=\"company.country == 'US'\">\n" +
-    "        <option value=\"\">&lt; Select State &gt;</option>\n" +
+    "      <select class=\"form-control selectpicker\" ng-model=\"company.province\" ng-options=\"c[1] as c[0] for c in regionsUS\" ng-show=\"company.country == 'US'\" empty-select-parser>\n" +
+    "        <option ng-show=\"false\" value=\"\">&lt; Select State &gt;</option>\n" +
     "      </select>\n" +
     "    </div>\n" +
     "  </div>\n" +
@@ -474,7 +474,7 @@ app.run(["$templateCache", function($templateCache) {
     "<div class=\"form-group\">\n" +
     "  <label for=\"company-settings-timezone\" class=\"control-label\">Time Zone</label>\n" +
     "  <select class=\"form-control\" ng-model=\"company.timeZoneOffset\" integer-parser>\n" +
-    "    <option value=\"\">&lt; Select Time Zone &gt;</option>\n" +
+    "    <option ng-show=\"false\" value=\"\">&lt; Select Time Zone &gt;</option>\n" +
     "    <option value=\"{{c[1]}}\" ng-repeat=\"c in timezones\">{{c[0]}}</option>\n" +
     "  </select>\n" +
     "</div>\n" +

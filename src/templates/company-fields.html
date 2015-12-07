@@ -40,8 +40,8 @@
         Country
       </label>
       <select id="company-settings-country" class="form-control selectpicker"
-        ng-model="company.country" ng-options="c.code as c.name for c in countries">
-        <option value="">&lt; Select Country &gt;</option>
+        ng-model="company.country" ng-options="c.code as c.name for c in countries" empty-select-parser>
+        <option ng-show="false" value="">&lt; Select Country &gt;</option>
       </select>
     </div>
   </div>
@@ -51,11 +51,11 @@
         State/Province/Region
       </label>
       <input id="company-settings-state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" />
-      <select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'">
-        <option value="">&lt; Select Province &gt;</option>
+      <select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'" empty-select-parser>
+        <option ng-show="false" value="">&lt; Select Province &gt;</option>
       </select>
-      <select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
-        <option value="">&lt; Select State &gt;</option>
+      <select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'" empty-select-parser>
+        <option ng-show="false" value="">&lt; Select State &gt;</option>
       </select>
     </div>
   </div>
@@ -77,7 +77,7 @@
 <div class="form-group">
   <label for="company-settings-timezone" class="control-label">Time Zone</label>
   <select class="form-control" ng-model="company.timeZoneOffset" integer-parser>
-    <option value="">&lt; Select Time Zone &gt;</option>
+    <option ng-show="false" value="">&lt; Select Time Zone &gt;</option>
     <option value="{{c[1]}}" ng-repeat="c in timezones">{{c[0]}}</option>
   </select>
 </div>
