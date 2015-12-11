@@ -5,29 +5,22 @@ app.run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("app-nav-buttons-menu.html",
     "<ul>\n" +
-    "  <li class=\"new-apps-intro\">\n" +
-    "    <h3>Try Our New UI</h3>\n" +
-    "    <p>Simplified and Responsive</p>\n" +
-    "  </li>  \n" +
     "  <li class=\"new-app\">  \n" +
-    "      <a class=\"new-app-link\" href=\"https://editor.risevision.com/\">New UI</a>\n" +
-    "      <a href=\"https://rva.risevision.com/#PRESENTATIONS\" target=\"_blank\" link-cid>\n" +
+    "      <a href=\"https://apps.risevision.com/editor\" target=\"_blank\" link-cid>\n" +
     "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/editor-image.png\"></div>\n" +
     "        <span>Editor</span>\n" +
     "      </a>\n" +
     "  </li>\n" +
     "\n" +
     "  <li class=\"new-app\">\n" +
-    "      <a class=\"new-app-link\" href=\"https://schedules.risevision.com/\">New UI</a>\n" +
-    "      <a href=\"https://rva.risevision.com/#SCHEDULES\" target=\"_blank\" link-cid>\n" +
+    "      <a href=\"https://apps.risevision.com/schedules\" target=\"_blank\" link-cid>\n" +
     "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/schedule-image.png\"></div>\n" +
     "        <span>Schedules</span>\n" +
     "      </a>\n" +
     "  </li>\n" +
     "  \n" +
-    "  <li class=\"new-app\">\n" +
-    "      <a class=\"new-app-link\" href=\"https://displays.risevision.com/\">New UI</a>  \n" +
-    "      <a href=\"https://rva.risevision.com/#DISPLAYS\" target=\"_blank\" link-cid>\n" +
+    "  <li class=\"new-app\"> \n" +
+    "      <a href=\"https://apps.risevision.com/displays\" target=\"_blank\" link-cid>\n" +
     "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/displays-image.png\"></div>\n" +
     "        <span>Displays</span>\n" +
     "      </a>\n" +
@@ -47,8 +40,16 @@ app.run(["$templateCache", function($templateCache) {
     "      </a>\n" +
     "  </li>\n" +
     "\n" +
+    "   <li>\n" +
+    "      <a href=\"https://rva.risevision.com/#PRESENTATIONS\" target=\"_blank\" class=\"old-app\" link-cid>\n" +
+    "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/editor-image-gray.png\"></div>\n" +
+    "        <span>Classic Editor</span>\n" +
+    "      </a>\n" +
+    "  </li>\n" +
+    "\n" +
     " \n" +
-    "</ul>");
+    "</ul>\n" +
+    "");
 }]);
 })();
 
