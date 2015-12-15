@@ -30,6 +30,8 @@ dist/fonts
 dist/locales
 src/js/config/config.js
 
+dist/*.html
+
 .idea
 *.iml
 
