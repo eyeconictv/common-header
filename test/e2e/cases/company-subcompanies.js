@@ -10,6 +10,7 @@
   var SelectSubcompanyModalPage = require('./../pages/selectSubcompanyModalPage.js');
   var CompanySettingsModalPage = require('./../pages/companySettingsModalPage.js');
   var MoveCompanyModalPage = require('./../pages/moveCompanyModalPage.js');
+  var SafeDeleteModalPage = require('./../pages/safeDeleteModalPage.js');
   var helper = require('rv-common-e2e').helper;
 
   var CompanySubcompaniesScenarios = function() {
@@ -21,7 +22,8 @@
         addSubcompanyModalPage,
         selectSubcompanyModalPage,
         companySettingsModalPage,
-        moveCompanyModalPage;
+        moveCompanyModalPage,
+        safeDeleteModalPage;
         
       var companyUrl, subCompanyUrl, subCompanyCount;  
         
@@ -32,6 +34,7 @@
         selectSubcompanyModalPage = new SelectSubcompanyModalPage();
         companySettingsModalPage = new CompanySettingsModalPage();
         moveCompanyModalPage = new MoveCompanyModalPage();
+        safeDeleteModalPage = new SafeDeleteModalPage();
 
         homepage.get();
 
@@ -291,12 +294,27 @@
           
           expect(companySettingsModalPage.getNameField().getAttribute('value')).to.eventually.equal("e2e test sub-company");
         });
-        
-        it("Should delete the company and return to parent company", function() {
+
+        it("Should open safe delete dialog",function(){
           companySettingsModalPage.getDeleteButton().click();
 
-          // confirm delete
-          browser.switchTo().alert().then(function (prompt){ prompt.accept(); });
+          helper.wait(safeDeleteModalPage.getSafeDeleteModal(), "Safe Delete Modal");
+
+          expect(safeDeleteModalPage.getSafeDeleteModal().isDisplayed()).to.eventually.be.true;
+        });
+
+        it("should disable Delete Forever Button until DELETE is typed", function(){
+          expect(safeDeleteModalPage.getDeleteForeverButton().isEnabled()).to.eventually.be.false;
+
+          safeDeleteModalPage.getSafeDeleteInput().sendKeys('DEL');
+          expect(safeDeleteModalPage.getDeleteForeverButton().isEnabled()).to.eventually.be.false;
+
+          safeDeleteModalPage.getSafeDeleteInput().sendKeys('ETE');
+          expect(safeDeleteModalPage.getDeleteForeverButton().isEnabled()).to.eventually.be.true;
+        });
+        
+        it("Should delete the company and return to parent company", function() {
+          safeDeleteModalPage.getDeleteForeverButton().click();
 
           helper.waitDisappear(homepage.getSubcompanyAlert(), "Subcompany Alert");
 
@@ -326,8 +344,10 @@
           companySettingsModalPage.getDeleteButton().click();
       
           // confirm delete
-          browser.switchTo().alert().then(function (prompt){ prompt.accept(); });
-      
+          helper.wait(safeDeleteModalPage.getSafeDeleteModal(), "Safe Delete Modal");
+          safeDeleteModalPage.getSafeDeleteInput().sendKeys('DELETE');
+          safeDeleteModalPage.getDeleteForeverButton().click();
+
           helper.waitDisappear(homepage.getSubcompanyAlert(), "Subcompany Alert");
         }
       });
