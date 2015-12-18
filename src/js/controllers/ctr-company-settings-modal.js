@@ -2,15 +2,13 @@ angular.module("risevision.common.header")
 
 .controller("CompanySettingsModalCtrl", ["$scope", "$modalInstance",
   "updateCompany", "companyId", "countries", "REGIONS_CA", "REGIONS_US",
-  "TIMEZONES",
-  "getCompany", "regenerateCompanyField", "$window", "$loading",
-  "humanReadableError",
-  "userState", "deleteCompany", "segmentAnalytics",
+  "TIMEZONES", "getCompany", "regenerateCompanyField", "$window", "$loading",
+  "humanReadableError", "userState", "deleteCompany", "segmentAnalytics",
+  "$modal", "$templateCache",
   function ($scope, $modalInstance, updateCompany, companyId,
     countries, REGIONS_CA, REGIONS_US, TIMEZONES, getCompany,
-    regenerateCompanyField,
-    $window, $loading, humanReadableError, userState, deleteCompany,
-    segmentAnalytics) {
+    regenerateCompanyField, $window, $loading, humanReadableError, userState,
+    deleteCompany, segmentAnalytics, $modal, $templateCache) {
 
     $scope.company = {
       id: companyId
@@ -77,9 +75,12 @@ angular.module("risevision.common.header")
         });
     };
     $scope.deleteCompany = function () {
-      if (confirm("Are you sure you want to delete this company?")) {
+      var instance = $modal.open({
+        template: $templateCache.get("safe-delete-modal.html"),
+        controller: "SafeDeleteModalCtrl"
+      });
+      instance.result.then(function () {
         $scope.loading = true;
-
         deleteCompany($scope.company.id)
           .then(
             function () {
@@ -91,7 +92,8 @@ angular.module("risevision.common.header")
 
               if (userState.getUserCompanyId() === $scope.company.id) {
                 userState.signOut();
-              } else if (userState.getSelectedCompanyId() === $scope.company.id) {
+              } else if (userState.getSelectedCompanyId() === $scope.company
+                .id) {
                 userState.resetCompany();
               }
               $modalInstance.close("success");
@@ -103,7 +105,7 @@ angular.module("risevision.common.header")
           .finally(function () {
             $scope.loading = false;
           });
-      }
+      });
     };
     $scope.resetAuthKey = function () {
       if ($window.confirm(

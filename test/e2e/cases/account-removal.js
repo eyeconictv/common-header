@@ -7,6 +7,7 @@
   var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
   var HomePage = require('./../pages/homepage.js');
   var CompanySettingsModalPage = require('./../pages/companySettingsModalPage.js');
+  var SafeDeleteModalPage = require('./../pages/safeDeleteModalPage.js');
   var helper = require('rv-common-e2e').helper;
 
   var AccountRemoval = function() {
@@ -15,7 +16,8 @@
       this.timeout(2000);// to allow for protactor to load the seperate page
       var commonHeaderPage, 
         homepage, 
-        companySettingsModalPage;
+        companySettingsModalPage,
+        safeDeleteModalPage;
         
       var username = browser.params.login.user2;
       var password = browser.params.login.pass2;
@@ -24,6 +26,8 @@
         commonHeaderPage = new CommonHeaderPage();
         homepage = new HomePage();
         companySettingsModalPage = new CompanySettingsModalPage();
+        safeDeleteModalPage = new SafeDeleteModalPage();
+
 
         homepage.get();
         
@@ -42,7 +46,9 @@
         companySettingsModalPage.getDeleteButton().click();
     
         // confirm delete
-        browser.switchTo().alert().then(function (prompt){ prompt.accept(); });
+        helper.wait(safeDeleteModalPage.getSafeDeleteModal(), "Safe Delete Modal");
+        safeDeleteModalPage.getSafeDeleteInput().sendKeys('DELETE');
+        safeDeleteModalPage.getDeleteForeverButton().click();
         
         helper.waitRemoved(companySettingsModalPage.getCompanySettingsModal(), "Company Settings Modal");
       });

@@ -1111,6 +1111,36 @@ try { app = angular.module("risevision.common.header.templates"); }
 catch(err) { app = angular.module("risevision.common.header.templates", []); }
 app.run(["$templateCache", function($templateCache) {
   "use strict";
+  $templateCache.put("safe-delete-modal.html",
+    "<form id=\"safeDeleteForm\">\n" +
+    "  <div class=\"modal-header\">\n" +
+    "    <button type=\"button\" class=\"close\" ng-click=\"dismiss()\" data-dismiss=\"modal\" aria-hidden=\"true\">\n" +
+    "      <i class=\"fa fa-times\"></i>\n" +
+    "    </button>\n" +
+    "    <h3 class=\"modal-title\" translate>common.safeDelete.title</h3>\n" +
+    "  </div>\n" +
+    "  <div class=\"modal-body\" stop-event=\"touchend\">\n" +
+    "    <p translate>common.safeDelete.message</p>\n" +
+    "    <input id=\"safeDeleteInput\" type=\"text\" ng-model=\"inputText\" class=\"form-control\" />\n" +
+    "  </div>\n" +
+    "  <div class=\"modal-footer\">\n" +
+    "    <button id=\"deleteForeverButton\" class=\"btn btn-primary\" ng-click=\"confirm()\" ng-disabled=\"!canConfirm\">\n" +
+    "      <span translate>common.delete-forever</span> <i class=\"fa fa-white fa-check icon-right\"></i>\n" +
+    "    </button>\n" +
+    "    <button class=\"btn btn-default btn-fixed-width\" ng-click=\"cancel()\">\n" +
+    "      <span translate>common.cancel</span> <i class=\"fa fa-white fa-times icon-right\"></i>\n" +
+    "    </button>\n" +
+    "  </div>\n" +
+    "</form>\n" +
+    "");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("risevision.common.header.templates"); }
+catch(err) { app = angular.module("risevision.common.header.templates", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
   $templateCache.put("shoppingcart-button.html",
     "<li class=\"shopping-cart\" ng-show=\"!hideShoppingCart && isRiseVisionUser\">\n" +
     "<a href=\"{{shoppingCartUrl}}\" class=\"shopping-cart-button\">\n" +
