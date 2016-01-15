@@ -22,6 +22,7 @@
     "gulp-usemin": "0.3.8",
     "gulp-watch": "^0.6.9",
     "jshint-stylish": "^0.4.0",
+    "jshint": "2.8.0",
     "run-sequence": "^0.3.6",
     "widget-tester": "git://github.com/Rise-Vision/widget-tester.git#0.2.1",
     "rv-common-e2e": "git://github.com/Rise-Vision/rv-common-e2e.git#0.0.3"

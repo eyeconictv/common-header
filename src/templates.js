@@ -6,10 +6,10 @@ app.run(["$templateCache", function($templateCache) {
   $templateCache.put("app-nav-buttons-menu.html",
     "<ul>\n" +
     "  <li class=\"new-app\">  \n" +
-    "      <a href=\"https://apps.risevision.com/editor\" target=\"_blank\" link-cid>\n" +
-    "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/editor-image.png\"></div>\n" +
-    "        <span>Editor</span>\n" +
-    "      </a>\n" +
+    "    <a href=\"https://apps.risevision.com/editor\" target=\"_blank\" link-cid>\n" +
+    "      <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/editor-image.png\"></div>\n" +
+    "      <span>Presentations</span>\n" +
+    "    </a>\n" +
     "  </li>\n" +
     "\n" +
     "  <li class=\"new-app\">\n" +
