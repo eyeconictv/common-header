@@ -4,24 +4,37 @@
 
   angular.module("risevision.common.company", [])
 
-  .service("selectedCompanyUrlHandler", ["$location", "userState",
-    function ($location, userState) {
+  .service("selectedCompanyUrlHandler", ["$state", "$stateParams",
+    "$location", "userState",
+    function ($state, $stateParams, $location, userState) {
+      // Called when the selectedCompanyId is changed
       this.updateUrl = function () {
         var selectedCompanyId = userState.getSelectedCompanyId();
         // This parameter is only appended to the url if the user is logged in
+        // Do not apply during $state.trasition (handler will)
         if (selectedCompanyId && $location.search().cid !==
-          selectedCompanyId) {
+          selectedCompanyId && !$state.transition) {
+          $stateParams.cid = selectedCompanyId;
+          $state.params.cid = selectedCompanyId;
+
           $location.search("cid", selectedCompanyId);
         }
       };
 
       this.updateSelectedCompanyFromUrl = function () {
         var newCompanyId = $location.search().cid;
+
         if (newCompanyId && userState.getUserCompanyId() &&
           newCompanyId !== userState.getSelectedCompanyId()) {
+          // The CID is changed in the URL; switch company
           userState.switchCompany(newCompanyId);
         } else if (!newCompanyId && userState.getSelectedCompanyId()) {
+          // The CID is missing in the URL; add it
           var currentURL = $location.absUrl();
+
+          $stateParams.cid = userState.getSelectedCompanyId();
+          $state.params.cid = userState.getSelectedCompanyId();
+
           $location.search("cid", userState.getSelectedCompanyId());
           if (currentURL === $location.destUrl) {
             // see explanation below

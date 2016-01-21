@@ -32,11 +32,23 @@ describe("Services: selected company url handler", function() {
         }
       };
     }]);
+    $provide.factory("$stateParams", function() {
+      return $stateParams;
+    });
+    $provide.factory("$state", function() {
+      return $state;
+    });
+
   }));
   
-  var selectedCompanyUrlHandler, locationSearch, userCompanyId, selectedCompanyId;
+  var selectedCompanyUrlHandler, locationSearch, $stateParams, $state, userCompanyId, selectedCompanyId;
   beforeEach(function(){
     locationSearch = {"cid": null};
+    $stateParams = {};
+    $state = {
+      transition: false,
+      params: {}
+    };
     userCompanyId = "user_company_id";
     selectedCompanyId = "user_company_id";
     
@@ -50,10 +62,12 @@ describe("Services: selected company url handler", function() {
     expect(selectedCompanyUrlHandler.updateSelectedCompanyFromUrl).to.be.ok;
   });
 
-  describe("updateUrl method: ",function(){    
+  describe("updateUrl method: ",function() {
     it("should update the URL if userCompany = selectedCompany", function() {
       selectedCompanyUrlHandler.updateUrl();
       
+      expect($stateParams.cid).to.equal("user_company_id");
+      expect($state.params.cid).to.equal("user_company_id");
       expect(locationSearch.cid).to.equal("user_company_id");
     });
     
@@ -62,6 +76,8 @@ describe("Services: selected company url handler", function() {
       
       selectedCompanyUrlHandler.updateUrl();
       
+      expect($stateParams.cid).to.equal("user_company_id");
+      expect($state.params.cid).to.equal("user_company_id");
       expect(locationSearch.cid).to.equal("user_company_id");
     });
     
@@ -71,6 +87,8 @@ describe("Services: selected company url handler", function() {
       
       selectedCompanyUrlHandler.updateUrl();
       
+      expect($stateParams.cid).to.equal("selected_company_id");
+      expect($state.params.cid).to.equal("selected_company_id");
       expect(locationSearch.cid).to.equal("selected_company_id");
     });
     
@@ -80,14 +98,30 @@ describe("Services: selected company url handler", function() {
       
       selectedCompanyUrlHandler.updateUrl();
       
+      expect($stateParams.cid).to.equal("selected_company_id");
+      expect($state.params.cid).to.equal("selected_company_id");
       expect(locationSearch.cid).to.equal("selected_company_id");
+    });
+    
+    it("should not update during $state.transition", function() {
+      $state.transition = true;
+      selectedCompanyId = "selected_company_id";
+      locationSearch = {"cid": null};
+      
+      selectedCompanyUrlHandler.updateUrl();
+      
+      expect($stateParams.cid).to.be.undefined;
+      expect($state.params.cid).to.be.undefined;
+      expect(locationSearch.cid).to.be.null;
     });
   });
   
-  describe("updateSelectedCompanyFromUrl method: ",function(){    
+  describe("updateSelectedCompanyFromUrl method: ",function() {
     it("should update the URL with user company", function() {
       selectedCompanyUrlHandler.updateSelectedCompanyFromUrl();
       
+      expect($stateParams.cid).to.equal("user_company_id");
+      expect($state.params.cid).to.equal("user_company_id");
       expect(locationSearch.cid).to.equal("user_company_id");
       expect(selectedCompanyId).to.equal("user_company_id");
     });
@@ -97,6 +131,8 @@ describe("Services: selected company url handler", function() {
       
       selectedCompanyUrlHandler.updateSelectedCompanyFromUrl();
       
+      expect($stateParams.cid).to.equal("selected_company_id");
+      expect($state.params.cid).to.equal("selected_company_id");
       expect(locationSearch.cid).to.equal("selected_company_id");
       expect(selectedCompanyId).to.equal("selected_company_id");
     });
@@ -109,7 +145,7 @@ describe("Services: selected company url handler", function() {
       
       expect(locationSearch.cid).to.equal("selected_company_id");
       expect(selectedCompanyId).to.equal("selected_company_id");
-    });
+    });      
   });
 
 });
