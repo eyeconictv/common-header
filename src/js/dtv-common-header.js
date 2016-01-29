@@ -1,4 +1,5 @@
 angular.module("risevision.common.header", [
+  "ui.router",
   "risevision.common.userstate",
   "risevision.common.account",
   "risevision.common.gapi",
@@ -126,9 +127,7 @@ angular.module("risevision.common.header", [
 
 .run(["$rootScope", "userState", "selectedCompanyUrlHandler",
   function ($rootScope, userState, selectedCompanyUrlHandler) {
-    $rootScope.$watch(function () {
-        return userState.getSelectedCompanyId();
-      },
+    $rootScope.$on("risevision.company.selectedCompanyChanged",
       function (newCompanyId) {
         if (newCompanyId) {
           selectedCompanyUrlHandler.updateUrl();

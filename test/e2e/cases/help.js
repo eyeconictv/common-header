@@ -59,12 +59,14 @@
             helpDropdownPage.getAskCommunityButton().click();
           });
 
-          it("should open the Community homepage in a new tab", function () {
+          it("should open the Community homepage in a new tab", function (done) {
             browser.getAllWindowHandles().then(function (handles) {
               oldWindowHandle = handles[0];
               newWindowHandle = handles[1];
               browser.switchTo().window(newWindowHandle).then(function () {
                 expect(browser.driver.getCurrentUrl()).to.eventually.equal("https://community.risevision.com/rise_vision_inc");
+                
+                done();
               });
             });
           });
@@ -116,12 +118,14 @@
             helpDropdownPage.getSignUpForTrainingButton().click();
           });
 
-          it("should open the training product page on store in a new tab", function () {
+          it("should open the training product page on store in a new tab", function (done) {
             browser.getAllWindowHandles().then(function (handles) {
               oldWindowHandle = handles[0];
               newWindowHandle = handles[1];
               browser.switchTo().window(newWindowHandle).then(function () {
                 expect(browser.driver.getCurrentUrl()).to.eventually.contain("https://store.risevision.com/product/30/rise-training");
+                
+                done();
               });
             });
           });
@@ -139,12 +143,14 @@
             helpDropdownPage.getDocumentationButton().click();
           });
 
-          it("should open the user documentation on a new tab", function () {
+          it("should open the user documentation on a new tab", function (done) {
             browser.getAllWindowHandles().then(function (handles) {
               oldWindowHandle = handles[0];
               newWindowHandle = handles[1];
               browser.switchTo().window(newWindowHandle).then(function () {
                 expect(browser.driver.getCurrentUrl()).to.eventually.contain("https://help.risevision.com/user");
+                
+                done();
               });
             });
           });
