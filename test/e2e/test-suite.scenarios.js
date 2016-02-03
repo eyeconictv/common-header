@@ -31,11 +31,10 @@
     var companySubcompaniesScenarios = new CompanySubcompaniesScenarios();
     var companyUsersSenarios = new CompanyUsersScenarios();
     var userSettingsScenarios = new UserSettingsScenarios();
-
-    var helpScenarios = new HelpScenarios();
     
     var accountRemovalScenarios = new AccountRemovalScenarios();
 
+    var helpScenarios = new HelpScenarios();
 
   });
   

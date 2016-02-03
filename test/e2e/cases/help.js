@@ -35,6 +35,8 @@
 
         it("should show the ask the community button", function () {
           expect(helpDropdownPage.getAskCommunityButton().isDisplayed()).to.eventually.be.true;
+          expect(helpDropdownPage.getAskCommunityButton().getAttribute('href')).to.eventually.equal("https://community.risevision.com/rise_vision_inc");
+          expect(helpDropdownPage.getAskCommunityButton().getAttribute('target')).to.eventually.equal("_blank");
         });
 
         it("should show the priority support button", function () {
@@ -47,13 +49,17 @@
 
         it("should show the sign up for training button", function () {
           expect(helpDropdownPage.getSignUpForTrainingButton().isDisplayed()).to.eventually.be.true;
+          expect(helpDropdownPage.getSignUpForTrainingButton().getAttribute('href')).to.eventually.equal("https://store.risevision.com/product/30/rise-training");
+          expect(helpDropdownPage.getSignUpForTrainingButton().getAttribute('target')).to.eventually.equal("_blank");
         });
 
         it("should show the documentation button", function () {
           expect(helpDropdownPage.getDocumentationButton().isDisplayed()).to.eventually.be.true;
+          expect(helpDropdownPage.getDocumentationButton().getAttribute('href')).to.eventually.equal("https://help.risevision.com/user");
+          expect(helpDropdownPage.getDocumentationButton().getAttribute('target')).to.eventually.equal("_blank");
         });
 
-        describe("Given a user clicks on the Ask The Community button", function () {
+        xdescribe("Given a user clicks on the Ask The Community button", function () {
           var newWindowHandle, oldWindowHandle;
           before(function () {
             helpDropdownPage.getAskCommunityButton().click();
@@ -97,7 +103,7 @@
           });
         });
 
-        describe("Given a user clicks on the Send us a note button", function () {
+        xdescribe("Given a user clicks on the Send us a note button", function () {
           before(function () {
             helpDropdownPage.getSendUsANoteButton().click();
           });
@@ -112,7 +118,7 @@
           });
         });
 
-        describe("Given a user clicks on the Sign Up for Training button", function () {
+        xdescribe("Given a user clicks on the Sign Up for Training button", function () {
           var newWindowHandle, oldWindowHandle;
           before(function () {
             helpDropdownPage.getSignUpForTrainingButton().click();
@@ -137,7 +143,7 @@
           });
         });
 
-        describe("Given a user clicks on the Documentation button", function () {
+        xdescribe("Given a user clicks on the Documentation button", function () {
           var newWindowHandle, oldWindowHandle;
           before(function () {
             helpDropdownPage.getDocumentationButton().click();
