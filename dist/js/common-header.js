@@ -3710,7 +3710,7 @@ angular.module("risevision.common.geodata", [])
 
       var _accessTokenRefreshHandler = null;
 
-      var _authenticateDeferred;
+      var _authorizeDeferred, _authenticateDeferred;
 
       var _shouldLogPageLoad = true;
 
@@ -3877,7 +3877,11 @@ angular.module("risevision.common.geodata", [])
        *
        */
       var _authorize = function (attemptImmediate) {
-        var authorizeDeferred = $q.defer();
+        if (_authorizeDeferred) {
+          return _authorizeDeferred.promise;
+        }
+
+        _authorizeDeferred = $q.defer();
 
         var authResult;
 
@@ -3902,23 +3906,29 @@ angular.module("risevision.common.geodata", [])
 
               refreshProfile()
                 .finally(function () {
-                  authorizeDeferred.resolve(authResult);
+                  _authorizeDeferred.resolve(authResult);
                   $rootScope.$broadcast("risevision.user.authorized");
                   if (!attemptImmediate) {
                     $rootScope.$broadcast(
                       "risevision.user.userSignedIn");
                   }
+
+                  _authorizeDeferred = undefined;
                 });
             } else {
-              authorizeDeferred.resolve(authResult);
+              _authorizeDeferred.resolve(authResult);
+
+              _authorizeDeferred = undefined;
             }
           })
           .then(null, function (err) {
             objectHelper.clearObj(_state.user);
-            authorizeDeferred.reject(err);
+            _authorizeDeferred.reject(err);
+
+            _authorizeDeferred = undefined;
           });
 
-        return authorizeDeferred.promise;
+        return _authorizeDeferred.promise;
       };
 
       var authenticateRedirect = function (forceAuth) {
