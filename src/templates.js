@@ -103,7 +103,7 @@ app.run(["$templateCache", function($templateCache) {
     "  <span ng-if=\"isLoggedIn && !isRiseVisionUser\" class=\"google-account\" class=\"username\">{{username}}</span>\n" +
     "\n" +
     "  <li class=\"dropdown-footer text-right\" ng-show=\"isLoggedIn\">\n" +
-    "    <button class=\"sign-out-button btn btn-sm btn-default\" ng-click=\"logout()\">Sign Out<i class=\"fa fa-sign-out icon-right\"></i>\n" +
+    "    <button class=\"sign-out-button btn btn-sm btn-default\" ng-controller=\"SignOutButtonCtrl\" ng-click=\"logout()\">Sign Out<i class=\"fa fa-sign-out icon-right\"></i>\n" +
     "  </li>\n" +
     "</ul>\n" +
     "");
@@ -119,7 +119,7 @@ app.run(["$templateCache", function($templateCache) {
     "<!-- Desktop and tablet -->\n" +
     "<li\n" +
     "  ng-show=\"isLoggedIn && !isRiseVisionUser && !loading\">\n" +
-    "  <button type=\"button\" href=\"\" ng-click=\"register()\"\n" +
+    "  <button type=\"button\" ng-controller=\"RegisterButtonCtrl\" ng-click=\"register()\"\n" +
     "    class=\"btn btn-danger register-user-menu-button\">\n" +
     "    Complete Registration\n" +
     "  </button>\n" +
