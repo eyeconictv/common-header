@@ -1,7 +1,7 @@
 <!-- Desktop and tablet -->
 <li
   ng-show="isLoggedIn && !isRiseVisionUser && !loading">
-  <button type="button" href="" ng-click="register()"
+  <button type="button" ng-controller="RegisterButtonCtrl" ng-click="register()"
     class="btn btn-danger register-user-menu-button">
     Complete Registration
   </button>

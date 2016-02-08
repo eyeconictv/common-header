@@ -16,11 +16,6 @@ angular.module("risevision.common.header")
         radius: 10
       };
 
-      $scope.register = function () {
-        cookieStore.remove("surpressRegistration");
-        uiFlowManager.invalidateStatus("registrationComplete");
-      };
-
       //clear state where user registration is surpressed
       $scope.$on("risevision.user.signedOut", function () {
         cookieStore.remove("surpressRegistration");
@@ -124,21 +119,6 @@ angular.module("risevision.common.header")
         userState.authenticate(true).then().finally(function () {
           $loading.stopGlobal("auth-buttons-login");
           uiFlowManager.invalidateStatus(endStatus);
-        });
-      };
-
-      $scope.logout = function () {
-        $scope.confirmSignOut();
-      };
-
-      $scope.confirmSignOut = function (size) {
-        var modalInstance = $modal.open({
-          template: $templateCache.get("signout-modal.html"),
-          controller: "SignOutModalCtrl",
-          size: size
-        });
-        modalInstance.result.finally(function () {
-          uiFlowManager.invalidateStatus("registrationComplete");
         });
       };
 
