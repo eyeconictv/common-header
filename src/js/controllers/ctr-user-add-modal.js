@@ -18,7 +18,7 @@ angular.module("risevision.common.header")
 
     //convert string to numbers
     $scope.$watch("user.status", function (status) {
-      if (typeof $scope.user.status === "string") {
+      if ($scope.user && typeof $scope.user.status === "string") {
         $scope.user.status = parseInt(status);
       }
     });
@@ -79,7 +79,12 @@ angular.module("risevision.common.header")
 
     $scope.editRoleVisible = function (role) {
       if (userState.isRiseAdmin()) {
-        return true;
+        if (userState.isSubcompanySelected() && (role.key === "sa" || role.key ===
+          "ba")) {
+          return false;
+        } else {
+          return true;
+        }
       } else if (userState.isUserAdmin() || userState.isRiseVisionUser()) {
         if (role.key === "sa" || role.key === "ba") {
           return false;

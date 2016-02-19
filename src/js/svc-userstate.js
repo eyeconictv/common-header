@@ -510,10 +510,10 @@
           return _state.inRVAFrame;
         },
         isRiseAdmin: function () {
-          return hasRole("sa");
+          return hasRole("sa") && companyState.isRootCompany();
         },
         isRiseStoreAdmin: function () {
-          return hasRole("ba");
+          return hasRole("ba") && companyState.isRootCompany();
         },
         isUserAdmin: function () {
           return hasRole("ua");
@@ -560,6 +560,7 @@
         getCopyOfSelectedCompany: companyState.getCopyOfSelectedCompany,
         isSubcompanySelected: companyState.isSubcompanySelected,
         isTestCompanySelected: companyState.isTestCompanySelected,
+        isRootCompany: companyState.isRootCompany,
         // company functions
         updateCompanySettings: companyState.updateCompanySettings,
         updateUserCompanySettings: companyState.updateUserCompanySettings,
