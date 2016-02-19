@@ -4367,7 +4367,7 @@ angular.module("risevision.common.geodata", [])
             true : false;
         },
         isRootCompany: function () {
-          return _state.userCompany && _state.userCompany.Parent;
+          return _state.userCompany && !_state.userCompany.Parent;
         }
       };
 
