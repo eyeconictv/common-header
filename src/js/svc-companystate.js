@@ -145,6 +145,9 @@
           return (_state.selectedCompany && _state.selectedCompany.sellerId) ?
             true : false;
         },
+        isRootCompany: function () {
+          return _state.userCompany && !_state.userCompany.parentId;
+        }
       };
 
       return _companyState;

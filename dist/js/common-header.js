@@ -2843,7 +2843,7 @@ angular.module("risevision.common.header")
 
     //convert string to numbers
     $scope.$watch("user.status", function (status) {
-      if (typeof $scope.user.status === "string") {
+      if ($scope.user && typeof $scope.user.status === "string") {
         $scope.user.status = parseInt(status);
       }
     });
@@ -2904,7 +2904,12 @@ angular.module("risevision.common.header")
 
     $scope.editRoleVisible = function (role) {
       if (userState.isRiseAdmin()) {
-        return true;
+        if (userState.isSubcompanySelected() && (role.key === "sa" || role.key ===
+          "ba")) {
+          return false;
+        } else {
+          return true;
+        }
       } else if (userState.isUserAdmin() || userState.isRiseVisionUser()) {
         if (role.key === "sa" || role.key === "ba") {
           return false;
@@ -4137,10 +4142,10 @@ angular.module("risevision.common.geodata", [])
           return _state.inRVAFrame;
         },
         isRiseAdmin: function () {
-          return hasRole("sa");
+          return hasRole("sa") && companyState.isRootCompany();
         },
         isRiseStoreAdmin: function () {
-          return hasRole("ba");
+          return hasRole("ba") && companyState.isRootCompany();
         },
         isUserAdmin: function () {
           return hasRole("ua");
@@ -4187,6 +4192,7 @@ angular.module("risevision.common.geodata", [])
         getCopyOfSelectedCompany: companyState.getCopyOfSelectedCompany,
         isSubcompanySelected: companyState.isSubcompanySelected,
         isTestCompanySelected: companyState.isTestCompanySelected,
+        isRootCompany: companyState.isRootCompany,
         // company functions
         updateCompanySettings: companyState.updateCompanySettings,
         updateUserCompanySettings: companyState.updateUserCompanySettings,
@@ -4360,6 +4366,9 @@ angular.module("risevision.common.geodata", [])
           return (_state.selectedCompany && _state.selectedCompany.sellerId) ?
             true : false;
         },
+        isRootCompany: function () {
+          return _state.userCompany && !_state.userCompany.parentId;
+        }
       };
 
       return _companyState;
@@ -7492,6 +7501,7 @@ module.run(["$templateCache", function($templateCache) {
 }]);
 })();
 
+
 angular.module("risevision.widget.common", []);
 
 angular.module("risevision.widget.common")
@@ -7636,6 +7646,18 @@ angular.module("risevision.widget.common")
 angular.module("risevision.widget.common")
   .factory("gadgetsApi", ["$window", function ($window) {
     return $window.gadgets;
+  }]);
+
+angular.module("risevision.widget.common")
+  .factory("googleFontLoader", ["$http", function ($http) {
+    var factory = {
+      getPopularFonts: function() {
+        return $http.get("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBXxVK_IOV7LNQMuVVo_l7ZvN53ejN86zY&sort=popularity",
+          { cache: true });
+      }
+    };
+
+    return factory;
   }]);
 
 angular.module("risevision.widget.common")
