@@ -24,7 +24,8 @@
     "risevision.core.oauth2",
     "risevision.core.util", "risevision.core.userprofile",
     "risevision.common.loading", "risevision.ui-flow",
-    "risevision.common.rvtokenstore", "risevision.common.logging"
+    "risevision.common.rvtokenstore", "risevision.common.logging",
+    "risevision.common.bqLogging"
   ])
 
   // constants (you can override them in your app as needed)
@@ -100,7 +101,8 @@
           try {
             var duration = new Date().getTime() - $window.performance.timing
               .navigationStart;
-            externalLogging.logEvent("page load time", details, duration);
+            externalLogging.logEvent("page load time", details, duration,
+              userState.getUsername(), userState.getSelectedCompanyId());
           } catch (e) {
             $log.debug("Error logging load time");
           }
