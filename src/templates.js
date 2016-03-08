@@ -290,7 +290,8 @@ app.run(["$templateCache", function($templateCache) {
     "			<div class=\"navbar-collapse navbar-left hidden-xs hidden-sm\">\n" +
     "				<ul class=\"nav navbar-nav\">\n" +
     "					<li ng-repeat=\"opt in navOptions\">\n" +
-    "						<a ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\" ng-class=\"{'selected': opt.states && opt.states.indexOf(navSelected) > -1}\">{{opt.title}}</a>\n" +
+    "						<a ng-if=\"opt.cid\" ng-href=\"{{opt.link}}\" link-cid target=\"{{opt.target}}\" ng-class=\"{'selected': opt.states && opt.states.indexOf(navSelected) > -1}\">{{opt.title}}</a>\n" +
+    "						<a ng-if=\"!opt.cid\" ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\" ng-class=\"{'selected': opt.states && opt.states.indexOf(navSelected) > -1}\">{{opt.title}}</a>\n" +
     "					</li>\n" +
     "					<li ng-if=\"!inRVAFrame && !hideHelpMenu\">\n" +
     "						<a href=\"http://www.risevision.com/help/\" target=\"_blank\">\n" +
@@ -333,7 +334,8 @@ app.run(["$templateCache", function($templateCache) {
     "  		<img src=\"//s3.amazonaws.com/rise-common/images/logo-small.png\" class=\"img-responsive logo-small\" width=\"113\" height=\"42\" alt=\"Rise Vision\">\n" +
     "  	</li>\n" +
     "    <li ng-repeat=\"opt in navOptions\">\n" +
-    "			<a ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\">{{opt.title}}</a>\n" +
+    "			<a ng-if=\"opt.cid\" ng-href=\"{{opt.link}}\" link-cid target=\"{{opt.target}}\">{{opt.title}}</a>\n" +
+    "			<a ng-if=\"!opt.cid\" ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\">{{opt.title}}</a>\n" +
     "		</li>\n" +
     "		<li ng-if=\"!hideHelpMenu\">\n" +
     "			<a target=\"_blank\" href=\"http://www.risevision.com/help\">Help</a>\n" +

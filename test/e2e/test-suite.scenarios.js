@@ -4,6 +4,7 @@
 
   var RegistrationScenarios = require('./cases/registration.js');
   var AuthenticationScenarios = require('./cases/authentication.js');
+  var NavMenuScenarios = require('./cases/nav-menu.js');
   var ShoppingCartScenarios = require('./cases/shopping-cart.js');
   var SupermanScenarios = require('./cases/superman.js');
   var SystemMessagesScenarios = require('./cases/system-messages.js');
@@ -23,6 +24,7 @@
     var registrationScenarios = new RegistrationScenarios();
     
     var authenticationScenarios = new AuthenticationScenarios();
+    var navMenuScenarios = new NavMenuScenarios();
     var shoppingCartScenarios = new ShoppingCartScenarios();
     var supermanScenarios = new SupermanScenarios();
     var systemMessagesScenarios = new SystemMessagesScenarios();
