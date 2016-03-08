@@ -5,6 +5,8 @@
   var HomePage = function () {
     var url = "http://localhost:8099/test/e2e";
     
+    var navMenuItems = element.all(by.repeater('opt in navOptions'));
+    
     var registerUserButton = element(by.css(".register-user-menu-button"));
     
     var userSettingsButton = element(by.css(".dropdown-menu .user-settings-button"));
@@ -23,6 +25,10 @@
 
     this.get = function() {
       browser.get(url);
+    };
+
+    this.getNavMenuOptions = function() {
+      return navMenuItems;
     };
 
     this.getRegisterUserButton = function() {

@@ -290,7 +290,8 @@ app.run(["$templateCache", function($templateCache) {
     "			<div class=\"navbar-collapse navbar-left hidden-xs hidden-sm\">\n" +
     "				<ul class=\"nav navbar-nav\">\n" +
     "					<li ng-repeat=\"opt in navOptions\">\n" +
-    "						<a ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\" ng-class=\"{'selected': opt.states && opt.states.indexOf(navSelected) > -1}\">{{opt.title}}</a>\n" +
+    "						<a ng-if=\"opt.cid\" ng-href=\"{{opt.link}}\" link-cid target=\"{{opt.target}}\" ng-class=\"{'selected': opt.states && opt.states.indexOf(navSelected) > -1}\">{{opt.title}}</a>\n" +
+    "						<a ng-if=\"!opt.cid\" ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\" ng-class=\"{'selected': opt.states && opt.states.indexOf(navSelected) > -1}\">{{opt.title}}</a>\n" +
     "					</li>\n" +
     "					<li ng-if=\"!inRVAFrame && !hideHelpMenu\">\n" +
     "						<a href=\"http://www.risevision.com/help/\" target=\"_blank\">\n" +
@@ -333,7 +334,8 @@ app.run(["$templateCache", function($templateCache) {
     "  		<img src=\"//s3.amazonaws.com/rise-common/images/logo-small.png\" class=\"img-responsive logo-small\" width=\"113\" height=\"42\" alt=\"Rise Vision\">\n" +
     "  	</li>\n" +
     "    <li ng-repeat=\"opt in navOptions\">\n" +
-    "			<a ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\">{{opt.title}}</a>\n" +
+    "			<a ng-if=\"opt.cid\" ng-href=\"{{opt.link}}\" link-cid target=\"{{opt.target}}\">{{opt.title}}</a>\n" +
+    "			<a ng-if=\"!opt.cid\" ng-href=\"{{opt.link}}\" target=\"{{opt.target}}\">{{opt.title}}</a>\n" +
     "		</li>\n" +
     "		<li ng-if=\"!hideHelpMenu\">\n" +
     "			<a target=\"_blank\" href=\"http://www.risevision.com/help\">Help</a>\n" +
@@ -7649,13 +7651,81 @@ angular.module("risevision.widget.common")
   }]);
 
 angular.module("risevision.widget.common")
-  .factory("googleFontLoader", ["$http", function ($http) {
-    var factory = {
-      getPopularFonts: function() {
-        return $http.get("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBXxVK_IOV7LNQMuVVo_l7ZvN53ejN86zY&sort=popularity",
-          { cache: true });
+  .factory("googleFontLoader", ["$http", "angularLoad", function ($http, angularLoad) {
+
+    var factory = {},
+      allFonts = [];
+
+    factory.getGoogleFonts = function() {
+      if (allFonts.length === 0) {
+        // Get list of Google fonts sorted alphabetically.
+        return $http.get("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBXxVK_IOV7LNQMuVVo_l7ZvN53ejN86zY&sort=alpha", { cache: true })
+          .then(function(resp) {
+            if (resp.data && resp.data.items) {
+              // Save all Google fonts.
+              for (var i = 0, length = resp.data.items.length; i < length; i++) {
+                allFonts.push(resp.data.items[i].family);
+              }
+
+              return loadFonts();
+            }
+          });
+      }
+      else {
+        return loadFonts();
       }
     };
+
+    /* Filter list of fonts to only return those that are Google fonts. */
+    factory.getFontsUsed = function(familyList) {
+      var fontsUsed = [];
+
+      angular.forEach(allFonts, function (family) {
+        if (familyList.indexOf(family) !== -1) {
+          fontsUsed.push(family);
+        }
+      });
+
+      return fontsUsed;
+    };
+
+    /* Load the Google fonts. */
+    function loadFonts() {
+      var family = "",
+        fonts = "",
+        url = "",
+        urls = [],
+        spaces = false,
+        fallback = ",sans-serif;",
+        fontBaseUrl = "//fonts.googleapis.com/css?family=",
+        exclude = ["Buda", "Coda Caption", "Open Sans Condensed", "UnifrakturCook", "Molle"];
+
+      for (var i = 0; i < allFonts.length; i++) {
+        family = allFonts[i];
+
+        if (exclude.indexOf(family) === -1) {
+          url = fontBaseUrl + family;
+
+          angularLoad.loadCSS(url);
+          urls.push(url);
+
+          // check for spaces in family name
+          if (/\s/.test(family)) {
+            spaces = true;
+          }
+
+          if (spaces) {
+            // wrap family name in single quotes
+            fonts += family + "='" + family + "'" + fallback;
+          }
+          else {
+            fonts += family + "=" + family + fallback;
+          }
+        }
+      }
+
+      return { fonts: fonts, urls: urls };
+    }
 
     return factory;
   }]);
