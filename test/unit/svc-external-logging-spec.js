@@ -2,10 +2,11 @@
 
 describe("Services: externalLogging", function() {
   beforeEach(module("risevision.common.logging"));
-  var externalLogging, httpResp, httpCalls, postUrl, postData, postConfig, forceHttpError;
+  var externalLogging, httpResp, httpCalls, postUrl, postData, postConfig, forceHttpError, clock;
   var providedToken = "123";
 
   beforeEach(module(function($provide) {
+    $provide.value("ENABLE_EXTERNAL_LOGGING", true);
     $provide.service("$q", function() {return Q;});
     $provide.factory("$http", [function () {
       return {
@@ -27,7 +28,8 @@ describe("Services: externalLogging", function() {
     }]);
   }));
 
-  beforeEach(function() {      
+  beforeEach(function() { 
+    clock = sinon.useFakeTimers(new Date(2015,8,4).getTime());     
     inject(function($injector){
       httpCalls = 0;
       forceHttpError = false;
@@ -65,11 +67,12 @@ describe("Services: externalLogging", function() {
   describe("logEvent:", function(){
     it("should POST to big query",function(done){
       externalLogging.logEvent("eventName","details",1).then(function(){
-        expect(postUrl).to.contain("https://www.googleapis.com/bigquery/v2/projects/client-side-events/datasets/Apps_Events/tables/events");
+        expect(postUrl).to.equal("https://www.googleapis.com/bigquery/v2/projects/client-side-events/datasets/Apps_Events/tables/apps_events/insertAll");
 
         expect(postData.rows[0].json.event).to.equal("eventName");
         expect(postData.rows[0].json.event_details).to.equal("details");
         expect(postData.rows[0].json.event_value).to.equal(1);
+        clock.restore();
         done();
       }).then(null,done);
     });
@@ -90,6 +93,18 @@ describe("Services: externalLogging", function() {
         done();
       }).then(null,done);
     });
+
+    it("should use correct templatePrefix",function(done){
+      externalLogging.logEvent("eventName","details",1).then(function(){
+        expect(postUrl).to.equal("https://www.googleapis.com/bigquery/v2/projects/client-side-events/datasets/Apps_Events/tables/apps_events/insertAll");
+        expect(postData.templateSuffix).to.equal("20150904");
+        done();
+      }).then(null,done);
+    });
   }); 
+
+  afterEach(function(){
+    clock.restore();
+  });
 
 });

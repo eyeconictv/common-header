@@ -10,53 +10,65 @@ angular.module("risevision.common.logging", [])
     "client_secret=nlZyrcPLg6oEwO9f9Wfn29Wh&refresh_token=1/xzt4kwzE1H7W9VnKB8cAaCx6zb4Es4nKEoqaYHdTD15IgOrJDtdun6zK6XiATCKT&" +
     "grant_type=refresh_token"
 )
-  .constant("EXTERNAL_LOGGER_INSERT_SCHEMA", {
-    "kind": "bigquery#tableDataInsertAllRequest",
-    "skipInvalidRows": false,
-    "ignoreUnknownValues": false,
-    "rows": [{
-      "insertId": "",
-      "json": {
-        "event": "",
-        "event_details": "",
-        "event_value": 0,
-        "host": "",
-        "ts": 0
-      }
-    }]
-  })
   .factory("externalLogging", ["$http", "$window", "$q", "$log",
-    "EXTERNAL_LOGGER_REFRESH_URL", "EXTERNAL_LOGGER_INSERT_SCHEMA",
-    "EXTERNAL_LOGGER_SERVICE_URL",
+    "EXTERNAL_LOGGER_REFRESH_URL", "EXTERNAL_LOGGER_SERVICE_URL",
+    "ENABLE_EXTERNAL_LOGGING",
     function ($http, $window, $q, $log, EXTERNAL_LOGGER_REFRESH_URL,
-      EXTERNAL_LOGGER_INSERT_SCHEMA, EXTERNAL_LOGGER_SERVICE_URL) {
+      EXTERNAL_LOGGER_SERVICE_URL, ENABLE_EXTERNAL_LOGGING) {
       var factory = {};
+
+      var _getSuffix = function () {
+        var date = new Date();
+        var year = date.getUTCFullYear();
+        var month = date.getUTCMonth() + 1;
+        var day = date.getUTCDate();
+        if (month < 10) {
+          month = "0" + month;
+        }
+        if (day < 10) {
+          day = "0" + day;
+        }
+        return year.toString() + month.toString() + day.toString();
+      };
+
+      var EXTERNAL_LOGGER_INSERT_SCHEMA = {
+        "kind": "bigquery#tableDataInsertAllRequest",
+        "skipInvalidRows": false,
+        "ignoreUnknownValues": false,
+        "templateSuffix": _getSuffix(),
+        "rows": [{
+          "insertId": "",
+          "json": {
+            "event": "",
+            "event_details": "",
+            "event_value": 0,
+            "host": "",
+            "ts": 0,
+            "user_id": "",
+            "company_id": ""
+          }
+        }]
+      };
 
       var _token, _tokenRefreshedAt;
 
-      factory.logEvent = function (eventName, eventDetails, eventValue) {
-        $log.debug("BQ log", eventName, eventDetails, eventValue);
+      factory.logEvent = function (eventName, eventDetails, eventValue,
+        userId, companyId) {
+        $log.debug("BQ log", eventName, eventDetails, eventValue, userId,
+          companyId);
+
+        if (ENABLE_EXTERNAL_LOGGING === false) {
+          $log.debug("External Logging DISABLED");
+          return;
+        }
 
         var deferred = $q.defer();
 
         factory.getToken().then(function (token) {
-          var date = new Date(),
-            year = date.getUTCFullYear(),
-            month = date.getUTCMonth() + 1,
-            day = date.getUTCDate(),
-            insertData = JSON.parse(JSON.stringify(
-              EXTERNAL_LOGGER_INSERT_SCHEMA)),
-            serviceUrl;
-
-          if (month < 10) {
-            month = "0" + month;
-          }
-          if (day < 10) {
-            day = "0" + day;
-          }
-
-          serviceUrl = EXTERNAL_LOGGER_SERVICE_URL.replace("TABLE_ID",
-            "events" + year + month + day);
+          var insertData = JSON.parse(JSON.stringify(
+            EXTERNAL_LOGGER_INSERT_SCHEMA));
+          var serviceUrl = EXTERNAL_LOGGER_SERVICE_URL.replace("TABLE_ID",
+            "apps_events");
 
           insertData.rows[0].insertId = Math.random().toString(36).substr(2)
             .toUpperCase();
@@ -67,6 +79,8 @@ angular.module("risevision.common.logging", [])
           if (eventValue) {
             insertData.rows[0].json.event_value = eventValue;
           }
+          insertData.rows[0].json.user_id = userId || "";
+          insertData.rows[0].json.company_id = companyId || "";
           insertData.rows[0].json.host = $window.location.hostname;
           insertData.rows[0].json.ts = new Date().toISOString();
 

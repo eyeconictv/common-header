@@ -88,6 +88,14 @@ describe("controller: registration modal", function() {
       };
     });
 
+    $provide.service("bigQueryLogging", function() { 
+      return {
+        logEvent: function(name) {
+          bqCalled = name;
+        }
+      };
+    });
+
     $provide.factory("customLoader", function ($q) {
       return function () {
         var deferred = $q.defer();
@@ -100,11 +108,12 @@ describe("controller: registration modal", function() {
         
   }));
   var $scope, userProfile, userState, $modalInstance, cookieStored, newUser;
-  var registerUser, account, trackerCalled;
+  var registerUser, account, trackerCalled, bqCalled;
   
   beforeEach(function() {
     registerUser = true;
     trackerCalled = undefined;
+    bqCalled = undefined;
     userProfile = {
       id : "RV_user_id",
       firstName : "first",
@@ -174,6 +183,7 @@ describe("controller: registration modal", function() {
       setTimeout(function() {
         expect(newUser).to.be.true;
         expect(trackerCalled).to.equal("User Registered");
+        expect(bqCalled).to.equal("User Registered");
         expect($scope.registering).to.be.false;
         expect($modalInstance._closed).to.be.true;
 
@@ -192,6 +202,7 @@ describe("controller: registration modal", function() {
       setTimeout(function(){
         expect(newUser).to.be.true;
         expect(trackerCalled).to.not.be.ok;
+        expect(bqCalled).to.not.be.ok;
         expect($scope.registering).to.be.false;
         expect($modalInstance._closed).to.be.false;
 
@@ -223,6 +234,7 @@ describe("controller: registration modal", function() {
       setTimeout(function() {
         expect(newUser).to.be.false;
         expect(trackerCalled).to.equal("User Registered");
+        expect(bqCalled).to.equal("User Registered");
         expect($scope.registering).to.be.false;
         expect($modalInstance._closed).to.be.true;
 
@@ -241,6 +253,7 @@ describe("controller: registration modal", function() {
       setTimeout(function(){
         expect(newUser).to.be.false;
         expect(trackerCalled).to.not.be.ok;
+        expect(bqCalled).to.not.be.ok;
         expect($scope.registering).to.be.false;
         expect($modalInstance._closed).to.be.false;
 
