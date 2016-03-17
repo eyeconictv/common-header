@@ -6151,6 +6151,8 @@ angular.module("risevision.common.header.directives")
       "https://store-dot-rvaserver2.appspot.com")
     .value("STORE_ENDPOINT_URL",
       "https://store-dot-rvaserver2.appspot.com/_ah/api")
+    .value("STORAGE_ENDPOINT_URL",
+      "https://storage-dot-rvaserver2.appspot.com/_ah/api")
     .value("GSFP_URL", "https://gsfp-dot-rvaserver2.appspot.com/fp")
     .value("SUPPORT_PRODUCT_CODE", "4c8c2f1a481d0ad84c6b16a9c6e90e2fc2252944")
     .value("SUPPORT_PRODUCT_ID", "14")
@@ -6270,6 +6272,13 @@ angular.module("risevision.common.gapi", [])
     return gapiClientLoaderGenerator("store", "v0.01", baseUrl);
   }])
 
+  .factory('storageAPILoader', ['STORAGE_ENDPOINT_URL', 'gapiClientLoaderGenerator', '$location',
+    function (STORAGE_ENDPOINT_URL, gapiClientLoaderGenerator, $location) {
+      var baseUrl = $location.search().storage_api_base_url ? $location.search().storage_api_base_url + '/_ah/api' : STORAGE_ENDPOINT_URL;
+      return gapiClientLoaderGenerator('storage', 'v0.01', baseUrl);
+    }
+  ])
+  
   .factory("discoveryAPILoader", ["CORE_URL", "gapiClientLoaderGenerator", "$location",
     function (CORE_URL, gapiClientLoaderGenerator, $location) {
         var baseUrl = $location.search().core_api_base_url ? $location.search().core_api_base_url + "/_ah/api": CORE_URL;
