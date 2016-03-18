@@ -1,6 +1,6 @@
 {
   "name": "rise-vision-common-header",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "homepage": "https://github.com/Rise-Vision/common-header",
   "authors": [
     "Xiyang Chen <settinghead@gmail.com>"
@@ -32,7 +32,7 @@
     "lodash": "~2.4.1",
     "jquery": "~1.11.1",
     "angular-ui-flow-manager": "https://github.com/Rise-Vision/angular-ui-flow-manager.git",
-    "ng-gapi-loader": "https://github.com/Rise-Vision/ng-gapi-loader.git#v1.0.0",
+    "ng-gapi-loader": "https://github.com/Rise-Vision/ng-gapi-loader.git#v1.2.0",
     "ng-core-api-client": "https://github.com/Rise-Vision/ng-core-api-client.git",
     "rv-common-style": "https://github.com/Rise-Vision/common-style.git#v1.3.41",
     "rv-loading": "https://github.com/Rise-Vision/rv-loading.git",
