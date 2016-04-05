@@ -34,7 +34,7 @@ app.run(["$templateCache", function($templateCache) {
     "  </li>\n" +
     "\n" +
     "  <li>\n" +
-    "      <a href=\"https://storage.risevision.com/\" target=\"_blank\" link-cid>\n" +
+    "      <a href=\"https://apps.risevision.com/storage\" target=\"_blank\" link-cid>\n" +
     "        <div class=\"image\"><img src=\"https://s3.amazonaws.com/Rise-Images/landing-page/storage-image.png\"></div>\n" +
     "        <span>Storage</span>\n" +
     "      </a>\n" +
