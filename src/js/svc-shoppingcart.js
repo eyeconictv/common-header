@@ -2,7 +2,7 @@
   "use strict";
 
   angular.module("risevision.common.shoppingcart", ["risevision.common.gapi",
-    "risevision.common.userstate"
+    "risevision.common.components.userstate"
   ])
 
   .factory("shoppingCart", ["storeAPILoader", "$log", "$q",
