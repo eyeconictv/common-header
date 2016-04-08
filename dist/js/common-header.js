@@ -6444,6 +6444,9 @@ angular.module("risevision.common.components.logging")
             }
           },
           authenticate: _state.inRVAFrame ? authenticate : authenticateRedirect,
+          authenticatePopup: function () {
+            return authenticate(true);
+          },
           signOut: signOut,
           refreshProfile: refreshProfile,
           // company getters
