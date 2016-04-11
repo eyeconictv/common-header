@@ -4,7 +4,6 @@ angular.module("risevision.common.header", [
   "risevision.common.gapi",
   "risevision.core.cache",
   "risevision.core.company",
-  "risevision.common.company",
   "risevision.common.cookie",
   "risevision.common.header.templates",
   "risevision.common.header.directives",
@@ -120,22 +119,6 @@ angular.module("risevision.common.header", [
         $document[0].getElementsByTagName("head")[0].appendChild(viewPortTag);
       }
     };
-  }
-])
-
-.run(["$rootScope", "userState", "selectedCompanyUrlHandler",
-  function ($rootScope, userState, selectedCompanyUrlHandler) {
-    $rootScope.$on("risevision.company.selectedCompanyChanged",
-      function (newCompanyId) {
-        if (newCompanyId) {
-          selectedCompanyUrlHandler.updateUrl();
-        }
-      });
-
-    //detect selectCompany changes on route UI
-    $rootScope.$on("$stateChangeSuccess", selectedCompanyUrlHandler.updateSelectedCompanyFromUrl);
-    $rootScope.$on("$routeChangeSuccess", selectedCompanyUrlHandler.updateSelectedCompanyFromUrl);
-    $rootScope.$on("$locationChangeSuccess", selectedCompanyUrlHandler.locationChangeSuccess);
   }
 ])
 
