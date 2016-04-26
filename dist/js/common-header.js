@@ -2558,12 +2558,11 @@ angular.module("risevision.common.header")
 angular.module("risevision.common.header")
   .controller("SubCompanyModalCtrl", ["$scope", "$modalInstance", "$modal",
     "$templateCache", "createCompany", "countries", "REGIONS_CA",
-    "REGIONS_US",
-    "TIMEZONES", "userState", "$loading", "humanReadableError",
-    "segmentAnalytics",
+    "REGIONS_US", "TIMEZONES", "userState", "$loading", "humanReadableError",
+    "segmentAnalytics", "bigQueryLogging",
     function ($scope, $modalInstance, $modal, $templateCache,
       createCompany, countries, REGIONS_CA, REGIONS_US, TIMEZONES, userState,
-      $loading, humanReadableError, segmentAnalytics) {
+      $loading, humanReadableError, segmentAnalytics, bigQueryLogging) {
 
       $scope.company = {};
       $scope.countries = countries;
@@ -2592,6 +2591,8 @@ angular.module("risevision.common.header")
             companyId: company.id,
             companyName: company.name
           });
+          bigQueryLogging.logEvent("Company Created", company.name, null,
+            userState.getUsername(), company.id);
 
           $modalInstance.close("success");
         }, function (err) {
@@ -5466,9 +5467,11 @@ angular.module("risevision.common.components.logging")
     function (externalLogging, userState) {
       var factory = {};
 
-      factory.logEvent = function (eventName, eventDetails, eventValue) {
+      factory.logEvent = function (eventName, eventDetails, eventValue,
+        username, companyId) {
         return externalLogging.logEvent(eventName, eventDetails, eventValue,
-          userState.getUsername(), userState.getSelectedCompanyId());
+          username || userState.getUsername(), companyId || userState.getSelectedCompanyId()
+        );
       };
 
       return factory;
@@ -7688,10 +7691,19 @@ angular.module("risevision.widget.common")
         // Get list of Google fonts sorted alphabetically.
         return $http.get("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBXxVK_IOV7LNQMuVVo_l7ZvN53ejN86zY&sort=alpha", { cache: true })
           .then(function(resp) {
+            var item = null;
+
             if (resp.data && resp.data.items) {
-              // Save all Google fonts.
               for (var i = 0, length = resp.data.items.length; i < length; i++) {
-                allFonts.push(resp.data.items[i].family);
+                item = resp.data.items[i];
+
+                // Don't return those fonts that have a subset of "khmer".
+                if (item.subsets && (item.subsets.length === 1) &&
+                  (item.subsets[0].toLowerCase() === "khmer")) {
+                    continue;
+                }
+
+                allFonts.push(item.family);
               }
 
               return loadFonts();
