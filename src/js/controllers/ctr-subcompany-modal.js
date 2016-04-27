@@ -1,12 +1,11 @@
 angular.module("risevision.common.header")
   .controller("SubCompanyModalCtrl", ["$scope", "$modalInstance", "$modal",
     "$templateCache", "createCompany", "countries", "REGIONS_CA",
-    "REGIONS_US",
-    "TIMEZONES", "userState", "$loading", "humanReadableError",
-    "segmentAnalytics",
+    "REGIONS_US", "TIMEZONES", "userState", "$loading", "humanReadableError",
+    "segmentAnalytics", "bigQueryLogging",
     function ($scope, $modalInstance, $modal, $templateCache,
       createCompany, countries, REGIONS_CA, REGIONS_US, TIMEZONES, userState,
-      $loading, humanReadableError, segmentAnalytics) {
+      $loading, humanReadableError, segmentAnalytics, bigQueryLogging) {
 
       $scope.company = {};
       $scope.countries = countries;
@@ -35,6 +34,8 @@ angular.module("risevision.common.header")
             companyId: company.id,
             companyName: company.name
           });
+          bigQueryLogging.logEvent("Company Created", company.name, null,
+            userState.getUsername(), company.id);
 
           $modalInstance.close("success");
         }, function (err) {
