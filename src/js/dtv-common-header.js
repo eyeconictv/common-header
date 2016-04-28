@@ -123,25 +123,51 @@ angular.module("risevision.common.header", [
 ])
 
 .run(["segmentAnalytics", "SEGMENT_API_KEY", "ENABLE_INTERCOM_MESSAGING",
-  "analyticsEvents",
+  "analyticsEvents", "$document",
   function (segmentAnalytics, SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING,
-    analyticsEvents) {
+    analyticsEvents, $document) {
     analyticsEvents.initialize();
     segmentAnalytics.load(SEGMENT_API_KEY, ENABLE_INTERCOM_MESSAGING);
+
+    $document.on("keydown", function (event) {
+      var doPrevent = false;
+      if (event.keyCode === 8) {
+        var d = event.srcElement || event.target;
+        if ((d.tagName.toUpperCase() === "INPUT" &&
+            (
+              d.type.toUpperCase() === "TEXT" ||
+              d.type.toUpperCase() === "PASSWORD" ||
+              d.type.toUpperCase() === "FILE" ||
+              d.type.toUpperCase() === "SEARCH" ||
+              d.type.toUpperCase() === "EMAIL" ||
+              d.type.toUpperCase() === "NUMBER" ||
+              d.type.toUpperCase() === "DATE")
+          ) ||
+          d.tagName.toUpperCase() === "TEXTAREA") {
+          doPrevent = d.readOnly || d.disabled;
+        } else {
+          doPrevent = true;
+        }
+      }
+      if (doPrevent) {
+        event.preventDefault();
+      }
+    });
   }
 ])
-  .directive("ngEnter", function () {
-    return function (scope, element, attrs) {
-      element.bind("keydown keypress", function (event) {
-        if (event.which === 13) {
-          scope.$apply(function () {
-            scope.$eval(attrs.ngEnter);
-          });
 
-          event.preventDefault();
-        }
-      });
-    };
-  });
+.directive("ngEnter", function () {
+  return function (scope, element, attrs) {
+    element.bind("keydown keypress", function (event) {
+      if (event.which === 13) {
+        scope.$apply(function () {
+          scope.$eval(attrs.ngEnter);
+        });
+
+        event.preventDefault();
+      }
+    });
+  };
+});
 
 angular.module("risevision.common.header.directives", []);
