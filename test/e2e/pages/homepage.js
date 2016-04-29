@@ -4,6 +4,7 @@
 
   var HomePage = function () {
     var url = "http://localhost:8099/test/e2e";
+    var urlFakePage = url + "/#/fake-page";
     
     var navMenuItems = element.all(by.repeater('opt in navOptions'));
     
@@ -25,6 +26,10 @@
 
     this.get = function() {
       browser.get(url);
+    };
+
+    this.getFakePage = function() {
+      browser.get(urlFakePage);
     };
 
     this.getNavMenuOptions = function() {

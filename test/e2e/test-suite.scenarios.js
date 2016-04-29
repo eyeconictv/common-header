@@ -17,6 +17,7 @@
   var AccountRemovalScenarios = require('./cases/account-removal.js');
 
   var HelpScenarios = require('./cases/help.js');
+  var DisableDeleteKeyScenarios = require('./cases/disable-delete-key.js');
 
   browser.driver.manage().window().setSize(1280, 768);
 
@@ -28,7 +29,8 @@
     var shoppingCartScenarios = new ShoppingCartScenarios();
     var supermanScenarios = new SupermanScenarios();
     var systemMessagesScenarios = new SystemMessagesScenarios();
-    
+    var disableDeleteKeyScenarios = new DisableDeleteKeyScenarios();
+
     var companySettingsScenarios = new CompanySettingsScenarios();
     var companySubcompaniesScenarios = new CompanySubcompaniesScenarios();
     var companyUsersSenarios = new CompanyUsersScenarios();
@@ -37,7 +39,6 @@
     var accountRemovalScenarios = new AccountRemovalScenarios();
 
     var helpScenarios = new HelpScenarios();
-
   });
   
 })();
