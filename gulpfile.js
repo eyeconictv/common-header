@@ -145,9 +145,7 @@ var env = process.env.NODE_ENV || "dev",
     "./components/rv-loading/loading.js",
     "./components/ng-biscuit/dist/ng-biscuit.js",
     "./components/lodash/dist/lodash.js",
-    "./components/jquery-ui/ui/jquery-ui.js",
     "./components/ng-csv/build/ng-csv.js",
-    "./components/angular-ui-sortable/sortable.js",
     "./components/angular-local-storage/dist/angular-local-storage.js"],
     gapiMockSrcFiles = [
     "./node_modules/widget-tester/mocks/segment-analytics-mock.js"
