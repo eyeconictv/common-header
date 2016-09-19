@@ -507,7 +507,7 @@ app.run(["$templateCache", function($templateCache) {
     "		<search-filter filter-config=\"filterConfig\" search=\"search\" do-search=\"doSearch\"></search-filter> \n" +
     "\n" +
     "		<!-- List of Companies -->\n" +
-    "		<div class=\"list-group scrollable-list half-top\"\n" +
+    "		<div class=\"panel panel-default scrollable-list half-top\"\n" +
     "		  scrolling-list=\"loadCompanies()\"\n" +
     "		  rv-spinner rv-spinner-key=\"company-selector-modal-list\"\n" +
     "			rv-spinner-start-active=\"1\"\n" +
