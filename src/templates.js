@@ -462,7 +462,7 @@ app.run(["$templateCache", function($templateCache) {
     "  <div class=\"col-md-3\">\n" +
     "    <div class=\"form-group\">\n" +
     "      <label for=\"company-settings-zip\" class=\"control-label\">\n" +
-    "        Zip/Postal Code\n" +
+    "        ZIP/Postal Code\n" +
     "      </label>\n" +
     "      <input id=\"company-settings-zip\" type=\"text\" class=\"form-control\" ng-model=\"company.postalCode\" />\n" +
     "    </div>\n" +
