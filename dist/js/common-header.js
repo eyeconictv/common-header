@@ -7048,17 +7048,22 @@ angular.module("risevision.common.components.stop-event", [])
 
       var _identify = function () {
         var profile = userState.getCopyOfProfile();
-        segmentAnalytics.identify(userState.getUsername(), {
+
+        var properties = {
           email: profile.email,
           firstName: profile.firstName ? profile.firstName : "",
           lastName: profile.lastName ? profile.lastName : "",
-          companyId: userState.getUserCompanyId(),
-          companyName: userState.getUserCompanyName(),
-          company: {
+        };
+        if (userState.getUserCompanyId()) {
+          properties.companyId = userState.getUserCompanyId();
+          properties.companyName = userState.getUserCompanyName();
+          properties.company = {
             id: userState.getUserCompanyId(),
             name: userState.getUserCompanyName()
-          }
-        });
+          };
+        }
+
+        segmentAnalytics.identify(userState.getUsername(), properties);
       };
 
       service.initialize = function () {
