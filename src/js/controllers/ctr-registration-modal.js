@@ -4,10 +4,11 @@ angular.module("risevision.common.header")
     "$loading", "registerAccount", "$log", "cookieStore",
     "userState", "pick", "uiFlowManager", "humanReadableError",
     "agreeToTermsAndUpdateUser", "account", "segmentAnalytics",
-    "bigQueryLogging",
+    "bigQueryLogging", "analyticsEvents",
     function ($scope, $modalInstance, $loading, registerAccount, $log,
       cookieStore, userState, pick, uiFlowManager, humanReadableError,
-      agreeToTermsAndUpdateUser, account, segmentAnalytics, bigQueryLogging) {
+      agreeToTermsAndUpdateUser, account, segmentAnalytics, bigQueryLogging,
+      analyticsEvents) {
 
       var newUser = !account;
 
@@ -78,6 +79,7 @@ angular.module("risevision.common.header")
             function () {
               userState.refreshProfile().then()
                 .finally(function () {
+                  analyticsEvents.identify();
                   segmentAnalytics.track("User Registered", {
                     "companyId": userState.getUserCompanyId(),
                     "companyName": userState.getUserCompanyName(),

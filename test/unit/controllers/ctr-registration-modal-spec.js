@@ -96,6 +96,13 @@ describe("controller: registration modal", function() {
       };
     });
 
+    $provide.service("analyticsEvents", function() { 
+      return {
+        initialize: function() {},
+        identify: function() {}
+      };
+    });
+
     $provide.factory("customLoader", function ($q) {
       return function () {
         var deferred = $q.defer();
@@ -108,7 +115,7 @@ describe("controller: registration modal", function() {
         
   }));
   var $scope, userProfile, userState, $modalInstance, cookieStored, newUser;
-  var registerUser, account, trackerCalled, bqCalled;
+  var registerUser, account, trackerCalled, bqCalled, identifySpy;
   
   beforeEach(function() {
     registerUser = true;
@@ -125,6 +132,8 @@ describe("controller: registration modal", function() {
     inject(function($injector,$rootScope, $controller){
       $scope = $rootScope.$new();
       $modalInstance = $injector.get("$modalInstance");
+      var analyticsEvents = $injector.get("analyticsEvents");
+      identifySpy = sinon.spy(analyticsEvents,"identify");
       userState = $injector.get("userState");
       $controller("RegistrationModalCtrl", {
         $scope : $scope,
@@ -182,6 +191,7 @@ describe("controller: registration modal", function() {
       var profileSpy = sinon.spy(userState, "refreshProfile");
       setTimeout(function() {
         expect(newUser).to.be.true;
+        identifySpy.should.have.been.called;
         expect(trackerCalled).to.equal("User Registered");
         expect(bqCalled).to.equal("User Registered");
         expect($scope.registering).to.be.false;
@@ -201,6 +211,7 @@ describe("controller: registration modal", function() {
       var profileSpy = sinon.spy(userState, "refreshProfile");
       setTimeout(function(){
         expect(newUser).to.be.true;
+        identifySpy.should.not.have.been.called;
         expect(trackerCalled).to.not.be.ok;
         expect(bqCalled).to.not.be.ok;
         expect($scope.registering).to.be.false;
@@ -233,6 +244,7 @@ describe("controller: registration modal", function() {
       var profileSpy = sinon.spy(userState, "refreshProfile");
       setTimeout(function() {
         expect(newUser).to.be.false;
+        identifySpy.should.have.been.called;
         expect(trackerCalled).to.equal("User Registered");
         expect(bqCalled).to.equal("User Registered");
         expect($scope.registering).to.be.false;
