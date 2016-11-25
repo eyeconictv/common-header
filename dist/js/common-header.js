@@ -94,9 +94,23 @@ app.run(["$templateCache", function($templateCache) {
     "\n" +
     "<ul>\n" +
     "  <li ng-show=\"isRiseVisionUser\">\n" +
+    "    <a href=\"\" ng-click=\"alertSettings()\" class=\"alert-settings-button action\">\n" +
+    "      <i class=\"fa fa-bullhorn\"></i>\n" +
+    "      <span class=\"item-name\">Alert Settings</span>\n" +
+    "    </a>\n" +
+    "  </li>\n" +
+    "\n" +
+    "  <li ng-show=\"isRiseVisionUser\">\n" +
     "    <a href=\"\" ng-click=\"userSettings()\" class=\"user-settings-button action\">\n" +
     "      <i class=\"fa fa-user\"></i>\n" +
     "      <span class=\"item-name\">User Settings</span>\n" +
+    "    </a>\n" +
+    "  </li>\n" +
+    "\n" +
+    "  <li ng-show=\"isRiseVisionUser\">\n" +
+    "    <a href=\"https://store.risevision.com/account\" target=\"_blank\" link-cid>\n" +
+    "      <i class=\"fa fa-shopping-cart\"></i>\n" +
+    "      <span class=\"item-name\">Store Account</span>\n" +
     "    </a>\n" +
     "  </li>\n" +
     "\n" +
@@ -1498,6 +1512,7 @@ angular.module("risevision.common.header", [
   "ui.router",
   "risevision.common.account",
   "risevision.common.gapi",
+  "risevision.common.config",
   "risevision.core.cache",
   "risevision.core.company",
   "risevision.common.cookie",
@@ -1857,9 +1872,10 @@ angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
     "userState", "$loading", "cookieStore",
     "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
+    "$window", "APPS_URL",
     function ($scope, $modal, $templateCache, userState,
       $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
-      bindToScopeWithWatch) {
+      bindToScopeWithWatch, $window, APPS_URL) {
 
       window.$loading = $loading; //DEBUG
 
@@ -1975,6 +1991,13 @@ angular.module("risevision.common.header")
           $loading.stopGlobal("auth-buttons-login");
           uiFlowManager.invalidateStatus(endStatus);
         });
+      };
+
+      // Show Alert Settings page
+      $scope.alertSettings = function () {
+        var alertsUrl = APPS_URL + "/alerts?cid=" + userState.getSelectedCompanyId();
+
+        $window.location.href = alertsUrl;
       };
 
       // Show User Settings Modal
@@ -5154,7 +5177,8 @@ angular.module("risevision.common.header.directives")
     .value("SUPPORT_PRODUCT_CODE", "4c8c2f1a481d0ad84c6b16a9c6e90e2fc2252944")
     .value("SUPPORT_PRODUCT_ID", "14")
     .value("SUPPORT_PRODUCT_URL",
-      "https://store.risevision.com/product/14/rise-priority-support");
+      "https://store.risevision.com/product/14/rise-priority-support")
+    .value("APPS_URL", "https://apps.risevision.com");
 })(angular);
 
 /* jshint ignore:start */

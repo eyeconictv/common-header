@@ -2,9 +2,10 @@ angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
     "userState", "$loading", "cookieStore",
     "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
+    "$window", "APPS_URL",
     function ($scope, $modal, $templateCache, userState,
       $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
-      bindToScopeWithWatch) {
+      bindToScopeWithWatch, $window, APPS_URL) {
 
       window.$loading = $loading; //DEBUG
 
@@ -120,6 +121,13 @@ angular.module("risevision.common.header")
           $loading.stopGlobal("auth-buttons-login");
           uiFlowManager.invalidateStatus(endStatus);
         });
+      };
+
+      // Show Alert Settings page
+      $scope.alertSettings = function () {
+        var alertsUrl = APPS_URL + "/alerts?cid=" + userState.getSelectedCompanyId();
+
+        $window.location.href = alertsUrl;
       };
 
       // Show User Settings Modal

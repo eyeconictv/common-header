@@ -24,6 +24,8 @@
     var subcompanyAlert = element(by.css(".common-header-alert.sub-company-alert"));
     var testCompanyAlert = element(by.css(".sub-company-alert.test-company-alert"));
 
+    var alertSettingsButton = element(by.css(".alert-settings-button"));
+
     this.get = function() {
       browser.get(url);
     };
@@ -82,6 +84,10 @@
     
     this.getTestCompanyAlert = function() {
       return testCompanyAlert;
+    };
+    
+    this.getAlertSettingsButton = function() {
+      return alertSettingsButton;
     };
 
   };

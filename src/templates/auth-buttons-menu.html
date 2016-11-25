@@ -5,9 +5,23 @@
 
 <ul>
   <li ng-show="isRiseVisionUser">
+    <a href="" ng-click="alertSettings()" class="alert-settings-button action">
+      <i class="fa fa-bullhorn"></i>
+      <span class="item-name">Alert Settings</span>
+    </a>
+  </li>
+
+  <li ng-show="isRiseVisionUser">
     <a href="" ng-click="userSettings()" class="user-settings-button action">
       <i class="fa fa-user"></i>
       <span class="item-name">User Settings</span>
+    </a>
+  </li>
+
+  <li ng-show="isRiseVisionUser">
+    <a href="https://store.risevision.com/account" target="_blank" link-cid>
+      <i class="fa fa-shopping-cart"></i>
+      <span class="item-name">Store Account</span>
     </a>
   </li>
 
