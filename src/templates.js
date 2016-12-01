@@ -94,9 +94,23 @@ app.run(["$templateCache", function($templateCache) {
     "\n" +
     "<ul>\n" +
     "  <li ng-show=\"isRiseVisionUser\">\n" +
+    "    <a href=\"\" ng-click=\"alertSettings()\" class=\"alert-settings-button action\">\n" +
+    "      <i class=\"fa fa-bullhorn\"></i>\n" +
+    "      <span class=\"item-name\">Alert Settings</span>\n" +
+    "    </a>\n" +
+    "  </li>\n" +
+    "\n" +
+    "  <li ng-show=\"isRiseVisionUser\">\n" +
     "    <a href=\"\" ng-click=\"userSettings()\" class=\"user-settings-button action\">\n" +
     "      <i class=\"fa fa-user\"></i>\n" +
     "      <span class=\"item-name\">User Settings</span>\n" +
+    "    </a>\n" +
+    "  </li>\n" +
+    "\n" +
+    "  <li ng-show=\"isRiseVisionUser\">\n" +
+    "    <a href=\"https://store.risevision.com/account\" target=\"_blank\" link-cid>\n" +
+    "      <i class=\"fa fa-shopping-cart\"></i>\n" +
+    "      <span class=\"item-name\">Store Account</span>\n" +
     "    </a>\n" +
     "  </li>\n" +
     "\n" +

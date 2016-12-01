@@ -2,6 +2,7 @@ angular.module("risevision.common.header", [
   "ui.router",
   "risevision.common.account",
   "risevision.common.gapi",
+  "risevision.common.config",
   "risevision.core.cache",
   "risevision.core.company",
   "risevision.common.cookie",

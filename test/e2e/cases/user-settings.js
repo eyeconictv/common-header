@@ -101,8 +101,37 @@
           by.css("span.username")).getText()).to.eventually.equal("testmail@testmail.com");
       });
     });
+
+    describe("Alerts link", function() {
+      this.timeout(2000);// to allow for protactor to load the seperate page
+      var commonHeaderPage,
+          homepage;
+
+      before(function (){
+        commonHeaderPage = new CommonHeaderPage();
+        homepage = new HomePage();
+
+        homepage.get();
+
+        //sign in, wait for spinner to go away
+        helper.waitDisappear(commonHeaderPage.getLoader(), 'CH spinner loader').then(function () {
+          commonHeaderPage.signin();
+        });
+      });
+
+      it("should show alert settings page", function() {
+        commonHeaderPage.getProfilePic().click();
+
+        expect(homepage.getAlertSettingsButton().isDisplayed()).to.eventually.be.true;
+
+        //click on alert settings button
+        homepage.getAlertSettingsButton().click();
+
+        expect(browser.driver.getCurrentUrl()).to.eventually.contain("alerts");
+      });
+    });
   };
-  
+
   module.exports = UserSettingsScenarios;
-  
+
 })();
