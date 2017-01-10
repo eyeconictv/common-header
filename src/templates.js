@@ -1479,7 +1479,7 @@ app.run(["$templateCache", function($templateCache) {
     "        Status\n" +
     "      </label>\n" +
     "      <select id=\"user-settings-status\"\n" +
-    "        class=\"form-control selectpicker\" ng-model=\"user.status\">\n" +
+    "        class=\"form-control selectpicker\" ng-model=\"user.status\" integer-parser>\n" +
     "        <option value=\"1\">Active</option>\n" +
     "        <option value=\"0\">Inactive</option>\n" +
     "      </select>\n" +
