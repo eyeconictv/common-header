@@ -1,10 +1,11 @@
 angular.module("risevision.common.header")
 
-.controller("AddUserModalCtrl", ["$scope", "addUser", "$modalInstance",
-  "companyId", "userState", "userRoleMap", "humanReadableError", "$loading",
-  "segmentAnalytics",
-  function ($scope, addUser, $modalInstance, companyId, userState,
-    userRoleMap, humanReadableError, $loading, segmentAnalytics) {
+.controller("AddUserModalCtrl", ["$scope", "$filter", "addUser",
+  "$modalInstance", "companyId", "userState", "userRoleMap",
+  "humanReadableError", "messageBox", "$loading", "segmentAnalytics",
+  function ($scope, $filter, addUser, $modalInstance, companyId, userState,
+    userRoleMap, humanReadableError, messageBox, $loading,
+    segmentAnalytics) {
     $scope.isAdd = true;
 
     //push roles into array
@@ -50,7 +51,16 @@ angular.module("risevision.common.header")
             $modalInstance.close("success");
           },
           function (error) {
-            alert("Error" + humanReadableError(error));
+
+            var errorMessage = "Error: " + humanReadableError(error);
+            if (error.code === 409) {
+              errorMessage = $filter("translate")(
+                "common-header.user.error.duplicate-user", {
+                  "username": $scope.user.username
+                });
+            }
+
+            messageBox("common-header.user.error.add-user", errorMessage);
           }
         ).finally(function () {
           $scope.loading = false;

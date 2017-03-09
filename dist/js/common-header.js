@@ -1471,6 +1471,7 @@ angular.module("risevision.common.header", [
   "risevision.common.header.templates",
   "risevision.common.header.directives",
   "risevision.common.loading",
+  "risevision.common.i18n",
   "risevision.ui-flow",
   "risevision.common.systemmessages", "risevision.core.systemmessages",
   "risevision.core.countries",
@@ -1488,6 +1489,7 @@ angular.module("risevision.common.header", [
   "risevision.common.components.scrolling-list",
   "risevision.common.components.stop-event",
   "risevision.common.components.analytics",
+  "risevision.common.components.message-box",
   "risevision.common.svg",
   "risevision.common.support"
 ])
@@ -2820,11 +2822,12 @@ angular.module("risevision.common.header")
 
 angular.module("risevision.common.header")
 
-.controller("AddUserModalCtrl", ["$scope", "addUser", "$modalInstance",
-  "companyId", "userState", "userRoleMap", "humanReadableError", "$loading",
-  "segmentAnalytics",
-  function ($scope, addUser, $modalInstance, companyId, userState,
-    userRoleMap, humanReadableError, $loading, segmentAnalytics) {
+.controller("AddUserModalCtrl", ["$scope", "$filter", "addUser",
+  "$modalInstance", "companyId", "userState", "userRoleMap",
+  "humanReadableError", "messageBox", "$loading", "segmentAnalytics",
+  function ($scope, $filter, addUser, $modalInstance, companyId, userState,
+    userRoleMap, humanReadableError, messageBox, $loading,
+    segmentAnalytics) {
     $scope.isAdd = true;
 
     //push roles into array
@@ -2870,7 +2873,16 @@ angular.module("risevision.common.header")
             $modalInstance.close("success");
           },
           function (error) {
-            alert("Error" + humanReadableError(error));
+
+            var errorMessage = "Error: " + humanReadableError(error);
+            if (error.code === 409) {
+              errorMessage = $filter("translate")(
+                "common-header.user.error.duplicate-user", {
+                  "username": $scope.user.username
+                });
+            }
+
+            messageBox("common-header.user.error.add-user", errorMessage);
           }
         ).finally(function () {
           $scope.loading = false;
@@ -2925,12 +2937,14 @@ angular.module("risevision.common.header")
 angular.module("risevision.common.header")
 
 .controller("UserSettingsModalCtrl", [
-  "$scope", "$modalInstance", "updateUser", "getUserProfile", "deleteUser",
-  "addUser", "username", "userRoleMap", "$log", "$loading", "userState",
-  "uiFlowManager", "humanReadableError", "$rootScope", "segmentAnalytics",
-  function ($scope, $modalInstance, updateUser, getUserProfile, deleteUser,
-    addUser, username, userRoleMap, $log, $loading, userState,
-    uiFlowManager, humanReadableError, $rootScope, segmentAnalytics) {
+  "$scope", "$filter", "$modalInstance", "updateUser", "getUserProfile",
+  "deleteUser", "username", "userRoleMap", "$log", "$loading", "userState",
+  "uiFlowManager", "humanReadableError", "messageBox", "$rootScope",
+  "segmentAnalytics",
+  function ($scope, $filter, $modalInstance, updateUser, getUserProfile,
+    deleteUser, username, userRoleMap, $log, $loading, userState,
+    uiFlowManager, humanReadableError, messageBox, $rootScope,
+    segmentAnalytics) {
     $scope.user = {};
     $scope.$watch("loading", function (loading) {
       if (loading) {
@@ -3017,7 +3031,15 @@ angular.module("risevision.common.header")
           },
           function (error) {
             $log.debug(error);
-            alert("Error: " + humanReadableError(error));
+            var errorMessage = "Error: " + humanReadableError(error);
+            if (error.code === 409) {
+              errorMessage = $filter("translate")(
+                "common-header.user.error.duplicate-user", {
+                  "username": $scope.user.username
+                });
+            }
+
+            messageBox("common-header.user.error.update-user", errorMessage);
           }
         ).finally(function () {
           $scope.loading = false;
@@ -7106,6 +7128,62 @@ angular.module("risevision.common.components.stop-event", [])
   ]);
 
 })(angular);
+
+"use strict";
+
+angular.module("risevision.common.components.message-box.services", [])
+  .factory("messageBox", ["$q", "$log", "$modal", "$templateCache",
+    function ($q, $log, $modal, $templateCache) {
+      return function (title, message, close) {
+        var modalInstance = $modal.open({
+          template: $templateCache.get("message-box/message-box.html"),
+          controller: "messageBoxInstance",
+          size: "md",
+          resolve: {
+            title: function () {
+              return title;
+            },
+            message: function () {
+              return message;
+            },
+            button: function () {
+              return close || "common.ok";
+            }
+          }
+        });
+      };
+    }
+  ]);
+
+"use strict";
+
+angular.module("risevision.common.components.message-box", [
+  "risevision.common.components.message-box.services"
+])
+  .controller("messageBoxInstance", ["$scope", "$modalInstance",
+    "title", "message", "button",
+    function ($scope, $modalInstance, title, message, button) {
+      $scope.title = title;
+      $scope.message = message;
+      $scope.button = button ? button : "common.close";
+
+      $scope.dismiss = function () {
+        $modalInstance.dismiss();
+      };
+    }
+  ]);
+
+(function(module) {
+try {
+  module = angular.module('risevision.common.components.message-box');
+} catch (e) {
+  module = angular.module('risevision.common.components.message-box', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('message-box/message-box.html',
+    '<form id="messageForm"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title" translate="">{{title}}</h3></div><div class="modal-body" stop-event="touchend"><p translate="">{{message}}</p></div><div class="modal-footer"><button class="btn btn-primary" ng-click="dismiss()"><span translate="{{button}}"></span> <i class="fa fa-white fa-check icon-right"></i></button></div></form>');
+}]);
+})();
 
 (function () {
   "use strict";

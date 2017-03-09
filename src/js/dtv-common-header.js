@@ -9,6 +9,7 @@ angular.module("risevision.common.header", [
   "risevision.common.header.templates",
   "risevision.common.header.directives",
   "risevision.common.loading",
+  "risevision.common.i18n",
   "risevision.ui-flow",
   "risevision.common.systemmessages", "risevision.core.systemmessages",
   "risevision.core.countries",
@@ -26,6 +27,7 @@ angular.module("risevision.common.header", [
   "risevision.common.components.scrolling-list",
   "risevision.common.components.stop-event",
   "risevision.common.components.analytics",
+  "risevision.common.components.message-box",
   "risevision.common.svg",
   "risevision.common.support"
 ])

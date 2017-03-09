@@ -1,12 +1,14 @@
 angular.module("risevision.common.header")
 
 .controller("UserSettingsModalCtrl", [
-  "$scope", "$modalInstance", "updateUser", "getUserProfile", "deleteUser",
-  "addUser", "username", "userRoleMap", "$log", "$loading", "userState",
-  "uiFlowManager", "humanReadableError", "$rootScope", "segmentAnalytics",
-  function ($scope, $modalInstance, updateUser, getUserProfile, deleteUser,
-    addUser, username, userRoleMap, $log, $loading, userState,
-    uiFlowManager, humanReadableError, $rootScope, segmentAnalytics) {
+  "$scope", "$filter", "$modalInstance", "updateUser", "getUserProfile",
+  "deleteUser", "username", "userRoleMap", "$log", "$loading", "userState",
+  "uiFlowManager", "humanReadableError", "messageBox", "$rootScope",
+  "segmentAnalytics",
+  function ($scope, $filter, $modalInstance, updateUser, getUserProfile,
+    deleteUser, username, userRoleMap, $log, $loading, userState,
+    uiFlowManager, humanReadableError, messageBox, $rootScope,
+    segmentAnalytics) {
     $scope.user = {};
     $scope.$watch("loading", function (loading) {
       if (loading) {
@@ -93,7 +95,15 @@ angular.module("risevision.common.header")
           },
           function (error) {
             $log.debug(error);
-            alert("Error: " + humanReadableError(error));
+            var errorMessage = "Error: " + humanReadableError(error);
+            if (error.code === 409) {
+              errorMessage = $filter("translate")(
+                "common-header.user.error.duplicate-user", {
+                  "username": $scope.user.username
+                });
+            }
+
+            messageBox("common-header.user.error.update-user", errorMessage);
           }
         ).finally(function () {
           $scope.loading = false;
