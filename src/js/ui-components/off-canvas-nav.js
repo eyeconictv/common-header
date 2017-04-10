@@ -44,48 +44,13 @@ angular.module("risevision.common.header")
       return service;
     }
   ])
-  .directive("offCanvasContent", ["offCanvas", "$swipe",
-    function (offCanvas, $swipe) {
-      return {
-        restrict: "A",
-        link: function (scope, iElement) {
-          // Swipe coords
-          var startCoords;
-          // Handle swipe gesture
-          $swipe.bind(iElement, {
-            "start": function (coords) {
-              startCoords = coords;
-            },
-            "end": function (coords) {
-              if (coords.x - startCoords.x > 0) {
-                offCanvas.toggle();
-              }
-            }
-          });
-        }
-      };
-    }
-  ])
-  .directive("offCanvasNav", ["offCanvas", "$swipe",
-    function (offCanvas, $swipe) {
+  .directive("offCanvasNav", ["offCanvas",
+    function (offCanvas) {
       return {
         restrict: "A",
         link: function (scope, iElement) {
           iElement.addClass("off-canvas--nav");
           offCanvas.registerNav(iElement);
-          // Swipe coords
-          var startCoords;
-          // Handle swipe gesture
-          $swipe.bind(iElement, {
-            "start": function (coords) {
-              startCoords = coords;
-            },
-            "end": function (coords) {
-              if (coords.x - startCoords.x < 0) {
-                offCanvas.toggle();
-              }
-            }
-          });
           // Handle Click
           iElement.bind("tap", offCanvas.toggle);
           iElement.bind("click", offCanvas.toggle);
