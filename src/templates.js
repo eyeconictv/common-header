@@ -1018,7 +1018,7 @@ app.run(["$templateCache", function($templateCache) {
     "          <input type=\"checkbox\" name=\"accepted\"\n" +
     "            ng-model=\"profile.accepted\"\n" +
     "            class=\"accept-terms-checkbox\" required />\n" +
-    "          I accept the terms of <a href=\"http://www.risevision.com/terms-service-privacy/\" target=\"_blank\">Service and Privacy</a>\n" +
+    "          I accept the terms of <a href=\"https://www.risevision.com/terms-of-service\" target=\"_blank\">Service and Privacy</a>\n" +
     "          <p ng-show=\"forms.registrationForm.accepted.$invalid && !forms.registrationForm.accepted.$pristine\"\n" +
     "            class=\"help-block validation-error-message-accepted\">You must accept terms and condtions.</p>\n" +
     "          </label>\n" +
