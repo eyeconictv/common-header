@@ -113,7 +113,8 @@
           item = {
             "productId": items[i].productId,
             "qty": items[i].qty,
-            "accountingId": items[i].selected.accountingId
+            "accountingId": items[i].selected.accountingId,
+            "licensedDisplays": items[i].licensedDisplays
           };
           res.push(item);
         }
