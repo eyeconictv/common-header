@@ -2320,7 +2320,7 @@ angular.module("risevision.common.header")
             },
             function (err) {
               alert("Error: " + humanReadableError(err));
-              $log.error(err);
+              console.error(err);
             })
             .finally(function () {
               $scope.registering = false;
@@ -3112,7 +3112,7 @@ angular.module("risevision.common.header")
         userState.signOut(signOutGoogle).then(function () {
           $log.debug("user signed out");
         }, function (err) {
-          $log.error("sign out failed", err);
+          console.error("sign out failed", err);
         }).finally(function () {
           $modalInstance.dismiss("success");
         });
@@ -4933,7 +4933,7 @@ angular.module("risevision.common.header.directives")
               });
             } catch (e) {
               deferred.resolve();
-              $log.error(
+              console.error(
                 "[persistToStorage] - Unimplemented API method " + e.message
               );
             }
@@ -5200,7 +5200,7 @@ angular.module("risevision.common.header.directives")
               currency.setItems(resp.items);
               deferred.resolve(currency);
             } else {
-              $log.error("currencyService error: ", resp.error);
+              console.error("currencyService error: ", resp.error);
               deferred.reject(resp.error);
             }
           });
@@ -5628,7 +5628,7 @@ angular.module("risevision.common.components.logging")
                   "risevision.company.selectedCompanyChanged");
               })
               .then(null, function (resp) {
-                $log.error("Failed to load selected company.", resp);
+                console.error("Failed to load selected company.", resp);
 
                 deferred.reject(resp);
               });
