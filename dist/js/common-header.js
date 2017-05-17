@@ -4857,6 +4857,9 @@ angular.module("risevision.common.header.directives")
     function (userState) {
       return {
         link: function ($scope, ele, attr) {
+
+          var linkCompanyId = "";
+
           var updateLinkCompanyId = function (companyId) {
             var index = attr.href.indexOf("cid=");
             var value;
@@ -4867,13 +4870,14 @@ angular.module("risevision.common.header.directives")
                 (attr.href.indexOf("?") === -1 ? "?" : "&") +
                 "cid=" + companyId;
             }
+            linkCompanyId = companyId;
             attr.$set("href", value);
           };
 
           $scope.$watch(function () {
             return userState.getSelectedCompanyId();
-          }, function (newValue, oldValue) {
-            if (newValue && newValue !== oldValue) {
+          }, function (newValue) {
+            if (newValue && newValue !== linkCompanyId) {
               updateLinkCompanyId(newValue);
             }
           });
