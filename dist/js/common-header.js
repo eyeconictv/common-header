@@ -4080,7 +4080,7 @@ angular.module("risevision.common.support", [
 
           cancelDomMonitor = setInterval(function () {
             var iframe = $(
-              "iframe.zEWidget-ticketSubmissionForm--active");
+              "iframe.zEWidget-webWidget--active");
             if (iframe && iframe.contents) {
               // automatically fill in rise vision username
               var rvUsernameInput = iframe.contents().find(
