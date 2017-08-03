@@ -25,10 +25,13 @@
 
               helpCenter: {
                 title: {
-                  "*": "Find you an answer"
+                  "*": "Let's find you an answer"
+                },
+                searchPlaceholder: {
+                  "*": "Let's find you an answer",
                 },
                 messageButton: {
-                  "*": "Open Support Ticket"
+                  "*": "Open a Support Ticket"
                 }
               },
 
@@ -38,10 +41,10 @@
 
               contactForm: {
                 title: {
-                  "*": "Concact Us"
+                  "*": "Open a Support Ticket"
                 },
                 messageButton: {
-                  "*": "Open Support Ticket"
+                  "*": "Open a Support Ticket"
                 }
               }
             }
