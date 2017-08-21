@@ -55,6 +55,16 @@ rv-spinner-start-active="1">
           class="help-block validation-error-message-lastName">Last Name is required.</p>
     </div>
     <div class="form-group">
+      <label for="company-role">
+        Company Role
+      </label>
+      <select id="company-role" class="form-control selectpicker" ng-model="user.companyRole">
+        <option value="" ng-show="false">&lt; Select Role &gt;</option>
+        <option ng-repeat="role in COMPANY_ROLE_FIELDS" value="{{role[0]}}">{{role[1]}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
       <label for="user-settings-phone">
         Phone
       </label>

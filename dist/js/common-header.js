@@ -539,13 +539,38 @@ app.run(["$templateCache", function($templateCache) {
   $templateCache.put("company-fields.html",
     "<div class=\"form-group\" ng-class=\"{'has-error': forms.companyForm.name.$invalid && !forms.companyForm.name.$pristine}\">\n" +
     "  <label for=\"company-settings-name\">\n" +
-    "    Name *\n" +
+    "    Company Name *\n" +
     "  </label>\n" +
     "  <input required id=\"company-settings-name\" type=\"text\" class=\"form-control\"\n" +
     "    ng-model=\"company.name\" name=\"name\" />\n" +
     "  <p ng-show=\"forms.companyForm.name.$invalid && !forms.companyForm.name.$pristine\"\n" +
-    "    class=\"help-block validation-error-message-name\">Company name is required.</p>\n" +
+    "    class=\"help-block validation-error-message-name\">Company Name is required.</p>\n" +
     "</div>\n" +
+    "<div class=\"row\">\n" +
+    "  <div class=\"col-md-6\">\n" +
+    "    <div class=\"form-group\">\n" +
+    "      <label for=\"company-size\" class=\"control-label\">\n" +
+    "        Company Size\n" +
+    "      </label>\n" +
+    "      <select id=\"company-size\" class=\"form-control\" ng-model=\"company.companySize\">\n" +
+    "        <option value=\"\" ng-show=\"false\">&lt; Select Size &gt;</option>\n" +
+    "        <option ng-repeat=\"size in COMPANY_SIZE_FIELDS\" value=\"{{size[0]}}\">{{size[1]}}</option>\n" +
+    "      </select>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"col-md-6\">\n" +
+    "    <div class=\"form-group\">\n" +
+    "      <label for=\"company-industry\" class=\"control-label\">\n" +
+    "        Industry\n" +
+    "      </label>\n" +
+    "      <select id=\"company-industry\" class=\"form-control selectpicker\" ng-model=\"company.companyIndustry\">\n" +
+    "        <option value=\"\" ng-show=\"false\">&lt; Select Industry &gt;</option>\n" +
+    "        <option ng-repeat=\"industry in COMPANY_INDUSTRY_FIELDS\" value=\"{{industry[0]}}\">{{industry[1]}}</option>\n" +
+    "      </select>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
     "<div class=\"row\">\n" +
     "  <div class=\"col-md-6\">\n" +
     "    <div class=\"form-group\">\n" +
@@ -607,17 +632,23 @@ app.run(["$templateCache", function($templateCache) {
     "    </div>\n" +
     "  </div>\n" +
     "</div>\n" +
-    "<div class=\"form-group\">\n" +
-    "  <label for=\"company-settings-website\" class=\"control-label\">\n" +
-    "    Website\n" +
-    "  </label>\n" +
-    "  <input id=\"company-settings-website\" type=\"text\" class=\"form-control\" ng-model=\"company.website\"/>\n" +
-    "</div>\n" +
-    "<div class=\"form-group\">\n" +
-    "  <label for=\"company-settings-phone\" class=\"control-label\">\n" +
-    "    Phone\n" +
-    "  </label>\n" +
-    "  <input id=\"company-settings-phone\" type=\"tel\" class=\"form-control\" ng-model=\"company.telephone\"/>\n" +
+    "<div class=\"row\">\n" +
+    "  <div class=\"col-md-6\">\n" +
+    "    <div class=\"form-group\">\n" +
+    "      <label for=\"company-settings-website\" class=\"control-label\">\n" +
+    "        Website\n" +
+    "      </label>\n" +
+    "      <input id=\"company-settings-website\" type=\"text\" class=\"form-control\" ng-model=\"company.website\"/>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"col-md-6\">\n" +
+    "    <div class=\"form-group\">\n" +
+    "      <label for=\"company-settings-phone\" class=\"control-label\">\n" +
+    "        Phone\n" +
+    "      </label>\n" +
+    "      <input id=\"company-settings-phone\" type=\"tel\" class=\"form-control\" ng-model=\"company.telephone\"/>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
     "</div>\n" +
     "<div class=\"form-group\">\n" +
     "  <label for=\"company-settings-timezone\" class=\"control-label\">Time Zone</label>\n" +
@@ -625,6 +656,88 @@ app.run(["$templateCache", function($templateCache) {
     "    <option ng-show=\"false\" value=\"\">&lt; Select Time Zone &gt;</option>\n" +
     "    <option value=\"{{c[1]}}\" ng-repeat=\"c in timezones\">{{c[0]}}</option>\n" +
     "  </select>\n" +
+    "</div>\n" +
+    "");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("risevision.common.header.templates"); }
+catch(err) { app = angular.module("risevision.common.header.templates", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("company-icp-modal.html",
+    "<div id=\"companyIcpModal\">\n" +
+    "  <div class=\"modal-header\">\n" +
+    "    <button type=\"button\" class=\"close\" ng-click=\"dismiss()\" aria-hidden=\"true\">\n" +
+    "      <i class=\"fa fa-times\"></i>\n" +
+    "    </button>\n" +
+    "    <h3 id=\"icpModalTitle\" class=\"modal-title\">Customize your Rise Vision experience!</h3>\n" +
+    "  </div>\n" +
+    "  <div class=\"modal-body u_padding-lg\" stop-event=\"touchend\">    \n" +
+    "    <form id=\"companyIcpForm\" role=\"form\" name=\"forms.companyIcpForm\">\n" +
+    "      <div class=\"row\">\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "          <div class=\"form-group\">\n" +
+    "            <label for=\"company-name\" class=\"control-label\">\n" +
+    "              Company Name\n" +
+    "            </label>\n" +
+    "          <input required id=\"company-name\" type=\"text\" class=\"form-control\"\n" +
+    "            ng-model=\"company.name\" name=\"name\" />\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "          <div class=\"form-group\">\n" +
+    "            <label for=\"company-size\" class=\"control-label\">\n" +
+    "              Company Size\n" +
+    "            </label>\n" +
+    "            <select id=\"company-size\" class=\"form-control\" ng-model=\"company.companySize\">\n" +
+    "              <option value=\"\" ng-show=\"false\">&lt; Select Size &gt;</option>\n" +
+    "              <option ng-repeat=\"size in COMPANY_SIZE_FIELDS\" value=\"{{size[0]}}\">{{size[1]}}</option>\n" +
+    "            </select>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "          <div class=\"form-group\">\n" +
+    "            <label for=\"company-role\" class=\"control-label\">\n" +
+    "              What's your title?\n" +
+    "            </label>\n" +
+    "            <select id=\"company-role\" class=\"form-control selectpicker\" ng-model=\"user.companyRole\">\n" +
+    "              <option value=\"\" ng-show=\"false\">&lt; Select Role &gt;</option>\n" +
+    "              <option ng-repeat=\"role in COMPANY_ROLE_FIELDS\" value=\"{{role[0]}}\">{{role[1]}}</option>\n" +
+    "            </select>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"text-center\">\n" +
+    "        <h1 class=\"u_margin-xs-top\">What's Your Industry?</h1>\n" +
+    "        <h4 class=\"u_margin-xs-top u_margin-xs-bottom\"> (Pick One) </h4>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"scrollable-list\">\n" +
+    "        <ul id=\"\" class=\"u_margin-md-top list-unstyled pt-media-list pt-onboarding-list text-center\">\n" +
+    "          <li class=\"no-select\" ng-class=\"{'selected-border' : company.companyIndustry === industry[0]}\" ng-if=\"industry[2]\" ng-repeat=\"industry in COMPANY_INDUSTRY_FIELDS\"  ng-click=\"selectIndustry(industry[0])\"> \n" +
+    "            <img ng-class=\"{{imgClasses}}\" src=\"{{industry[2]}}\"/>\n" +
+    "            <input type=\"checkbox\" class=\"checkbox\" ng-checked=\"company.companyIndustry === industry[0]\" />\n" +
+    "            <span class=\"u_ellipsis-md ng-binding\"> <b>{{industry[1]}}</b> </span>\n" +
+    "          </li>\n" +
+    "        </ul>\n" +
+    "      </div>\n" +
+    "    </form>\n" +
+    "  </div> <!-- //Modal Body -->\n" +
+    "\n" +
+    "  <div class=\"modal-footer\"> \n" +
+    "    <button id=\"saveButton\" class=\"btn btn-primary ng-binding\" ng-click=\"save()\" ng-disabled=\"forms.companyIcpForm.$invalid\">\n" +
+    "      Apply \n" +
+    "      <i class=\"fa fa-check icon-right\"></i>\n" +
+    "    </button> \n" +
+    "\n" +
+    "    <button id=\"cancelButton\" class=\"btn btn-link pull-left\" ng-click=\"dismiss()\">Ask Me Later </button> \n" +
+    "  </div>\n" +
+    "\n" +
+    "\n" +
     "</div>\n" +
     "");
 }]);
@@ -1516,6 +1629,16 @@ app.run(["$templateCache", function($templateCache) {
     "          class=\"help-block validation-error-message-lastName\">Last Name is required.</p>\n" +
     "    </div>\n" +
     "    <div class=\"form-group\">\n" +
+    "      <label for=\"company-role\">\n" +
+    "        Company Role\n" +
+    "      </label>\n" +
+    "      <select id=\"company-role\" class=\"form-control selectpicker\" ng-model=\"user.companyRole\">\n" +
+    "        <option value=\"\" ng-show=\"false\">&lt; Select Role &gt;</option>\n" +
+    "        <option ng-repeat=\"role in COMPANY_ROLE_FIELDS\" value=\"{{role[0]}}\">{{role[1]}}</option>\n" +
+    "      </select>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"form-group\">\n" +
     "      <label for=\"user-settings-phone\">\n" +
     "        Phone\n" +
     "      </label>\n" +
@@ -1648,15 +1771,16 @@ angular.module("risevision.common.header", [
 .directive("commonHeader", ["$modal", "$rootScope", "$q", "$loading",
   "$interval", "oauth2APILoader", "$log",
   "$templateCache", "userState", "$location", "bindToScopeWithWatch",
-  "$document", "cookieTester",
+  "$document", "cookieTester", "companyIcpFactory",
   function ($modal, $rootScope, $q, $loading, $interval,
     oauth2APILoader, $log, $templateCache, userState, $location,
-    bindToScopeWithWatch, $document, cookieTester) {
+    bindToScopeWithWatch, $document, cookieTester, companyIcpFactory) {
     return {
       restrict: "E",
       template: $templateCache.get("common-header.html"),
       scope: false,
       link: function ($scope, element, attr) {
+        companyIcpFactory.init();
         cookieTester.checkCookies().then(function () {
           $scope.cookieEnabled = true;
         }, function () {
@@ -2555,11 +2679,13 @@ angular.module("risevision.common.header")
   "updateCompany", "companyId", "countries", "REGIONS_CA", "REGIONS_US",
   "TIMEZONES", "getCompany", "regenerateCompanyField", "$window", "$loading",
   "humanReadableError", "userState", "deleteCompany", "segmentAnalytics",
-  "$modal", "$templateCache",
+  "$modal", "$templateCache", "COMPANY_INDUSTRY_FIELDS",
+  "COMPANY_SIZE_FIELDS",
   function ($scope, $modalInstance, updateCompany, companyId,
     countries, REGIONS_CA, REGIONS_US, TIMEZONES, getCompany,
     regenerateCompanyField, $window, $loading, humanReadableError, userState,
-    deleteCompany, segmentAnalytics, $modal, $templateCache) {
+    deleteCompany, segmentAnalytics, $modal, $templateCache,
+    COMPANY_INDUSTRY_FIELDS, COMPANY_SIZE_FIELDS) {
 
     $scope.company = {
       id: companyId
@@ -2568,6 +2694,8 @@ angular.module("risevision.common.header")
     $scope.regionsCA = REGIONS_CA;
     $scope.regionsUS = REGIONS_US;
     $scope.timezones = TIMEZONES;
+    $scope.COMPANY_INDUSTRY_FIELDS = COMPANY_INDUSTRY_FIELDS;
+    $scope.COMPANY_SIZE_FIELDS = COMPANY_SIZE_FIELDS;
     $scope.isRiseStoreAdmin = userState.isRiseStoreAdmin();
 
     $scope.$watch("loading", function (loading) {
@@ -3087,11 +3215,11 @@ angular.module("risevision.common.header")
   "$scope", "$filter", "$modalInstance", "updateUser", "getUserProfile",
   "deleteUser", "username", "userRoleMap", "$log", "$loading", "userState",
   "uiFlowManager", "humanReadableError", "messageBox", "$rootScope",
-  "segmentAnalytics",
+  "segmentAnalytics", "COMPANY_ROLE_FIELDS",
   function ($scope, $filter, $modalInstance, updateUser, getUserProfile,
     deleteUser, username, userRoleMap, $log, $loading, userState,
     uiFlowManager, humanReadableError, messageBox, $rootScope,
-    segmentAnalytics) {
+    segmentAnalytics, COMPANY_ROLE_FIELDS) {
     $scope.user = {};
     $scope.$watch("loading", function (loading) {
       if (loading) {
@@ -3109,6 +3237,7 @@ angular.module("risevision.common.header")
         name: v
       });
     });
+    $scope.COMPANY_ROLE_FIELDS = COMPANY_ROLE_FIELDS;
 
     // convert string to numbers
     $scope.$watch("user.status", function (status) {
@@ -3235,6 +3364,41 @@ angular.module("risevision.common.header")
 
     $scope.forms = {};
 
+  }
+]);
+
+angular.module("risevision.common.header")
+
+.controller("CompanyIcpModalCtrl", ["$scope", "$modalInstance",
+  "company", "user", "COMPANY_INDUSTRY_FIELDS", "COMPANY_SIZE_FIELDS",
+  "COMPANY_ROLE_FIELDS",
+  function ($scope, $modalInstance, company, user,
+    COMPANY_INDUSTRY_FIELDS, COMPANY_SIZE_FIELDS, COMPANY_ROLE_FIELDS) {
+
+    $scope.company = company;
+    $scope.user = user;
+    $scope.COMPANY_INDUSTRY_FIELDS = COMPANY_INDUSTRY_FIELDS;
+    $scope.COMPANY_SIZE_FIELDS = COMPANY_SIZE_FIELDS;
+    $scope.COMPANY_ROLE_FIELDS = COMPANY_ROLE_FIELDS;
+
+    $scope.dismiss = function () {
+      $modalInstance.dismiss(user);
+    };
+
+    $scope.save = function () {
+      $modalInstance.close({
+        user: user,
+        company: company
+      });
+    };
+
+    $scope.selectIndustry = function (industryValue) {
+      if (company.companyIndustry !== industryValue) {
+        company.companyIndustry = industryValue;
+      } else {
+        company.companyIndustry = "";
+      }
+    };
   }
 ]);
 
@@ -4398,6 +4562,11 @@ angular.module("risevision.common.support", [
     "sa": "Rise System Administrator",
     "ba": "Rise Store Administrator"
   })
+  
+  .constant("USER_WRITABLE_FIELDS", [
+    "mailSyncEnabled", "email", "firstName", "lastName", "telephone", "roles", 
+    "status", "companyRole", "dataCollectionDate"
+  ])
 
   .factory("getUserProfile", ["oauth2APILoader", "coreAPILoader", "$q", "$log",
   function (oauth2APILoader, coreAPILoader, $q, $log) {
@@ -4448,12 +4617,12 @@ angular.module("risevision.common.support", [
   }])
 
   .factory("updateUser", ["$q", "coreAPILoader", "$log",
-  "getUserProfile", "pick",
-  function ($q, coreAPILoader, $log, getUserProfile, pick) {
+  "getUserProfile", "pick", "USER_WRITABLE_FIELDS",
+  function ($q, coreAPILoader, $log, getUserProfile, pick, 
+    USER_WRITABLE_FIELDS) {
     return function (username, profile) {
       var deferred = $q.defer();
-      profile = pick(profile, "mailSyncEnabled",
-        "email", "firstName", "lastName", "telephone", "roles", "status");
+      profile = pick(profile, USER_WRITABLE_FIELDS);
       $log.debug("updateUser called", username, profile);
       coreAPILoader().then(function (coreApi) {
         var request = coreApi.user.patch({
@@ -4560,7 +4729,8 @@ angular.module("risevision.common.support", [
       "postalCode", "timeZoneOffset", "telephone", "fax", "companyStatus",
       "mailSyncEnabled", "sellerId", "isTest", "shipToUseCompanyAddress", 
       "shipToName", "shipToStreet", "shipToUnit", "shipToCity", 
-      "shipToProvince", "shipToPostalCode", "shipToCountry", "website"
+      "shipToProvince", "shipToPostalCode", "shipToCountry", "website",
+      "companySize", "companyIndustry"
     ])
     .constant("ALERTS_WRITABLE_FIELDS", [
       "alertSettings"
@@ -5786,6 +5956,173 @@ angular.module("risevision.common.email")
 
       return factory;
 
+    }
+  ]);
+
+"use strict";
+
+angular.module("risevision.common.header")
+  .value("COMPANY_ROLE_FIELDS", [
+    ["it_network_administrator", "IT/Network Administrator"],
+    ["facilities", "Facilities"],
+    ["professor_instructor_teacher", "Professor/Instructor/Teacher"],
+    ["marketing", "Marketing"],
+    ["designer", "Designer"],
+    ["executive_business_owner", "Executive/Business Owner"],
+    ["reseller_integrator", "Reseller/Integrator"],
+    ["architect_consultant", "Architect/Consultant"],
+    ["administrator_volunteer_intern", "Administrator/Volunteer/Intern"],
+    ["developer", "Developer"]
+  ])
+  .value("COMPANY_INDUSTRY_FIELDS", [
+    ["LIBRARIES", "Arts / Libraries",
+      "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/teamwork.svg"
+    ],
+    ["AUTOMOTIVE", "Automotive"],
+    ["PHILANTHROPY", "Charity",
+      "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/donation-1.svg"
+    ],
+    ["RELIGIOUS_INSTITUTIONS", "Faith-based",
+      "https://www.risevision.com/hubfs/Assets%20May%5B17%5D/religious.svg?t=1502211789708"
+    ],
+    ["FINANCIAL_SERVICES", "Financial Services",
+      "https://www.risevision.com/hubfs/Assets%20May%5B17%5D/finance.svg?t=1502211789708"
+    ],
+    ["HIGHER_EDUCATION", "Higher Education",
+      "https://www.risevision.com/hubfs/mortarboard-2.svg?t=1502211789708"
+    ],
+    ["LEGAL_SERVICES", "Legal",
+      "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/video-call.svg"
+    ],
+    ["MARKETING_AND_ADVERTISING", "Marketing Agency",
+      "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/telemarketer.svg"
+    ],
+    ["HOSPITAL_HEALTH_CARE", "Medical",
+      "https://www.risevision.com/hubfs/hospitality-2.svg?t=1502211789708"
+    ],
+    ["PRIMARY_SECONDARY_EDUCATION", "Primary/Secondary Education",
+      "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/university.svg"
+    ],
+    ["RESTAURANTS", "Restaurant",
+      "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/restaurants.svg"
+    ],
+    ["RETAIL", "Retail", "https://www.risevision.com/hubfs/business-1.svg"],
+    ["HEALTH_WELLNESS_AND_FITNESS", "Wellness / Fitness",
+      "https://www.risevision.com/hubfs/health-2.svg?t=1502211789708"
+    ],
+    ["OTHER", "Other",
+      "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/tick.svg"
+    ]
+  ])
+  .value("COMPANY_SIZE_FIELDS", [
+    ["1", "Solo"],
+    ["2", "Fewer than 20 employees"],
+    ["21", "21-50 employees"],
+    ["51", "51-250 employees"],
+    ["250", "More than 250 employees"]
+  ])
+  .constant("USER_ICP_WRITABLE_FIELDS", [
+    "companyRole", "dataCollectionDate"
+  ])
+  .constant("COMPANY_ICP_WRITABLE_FIELDS", [
+    "name", "companySize", "companyIndustry"
+  ])
+  .factory("companyIcpFactory", ["$rootScope", "$q", "$log", "userState",
+    "updateCompany", "updateUser", "$modal", "pick",
+    "USER_ICP_WRITABLE_FIELDS", "COMPANY_ICP_WRITABLE_FIELDS",
+    function ($rootScope, $q, $log, userState, updateCompany, updateUser,
+      $modal, pick, USER_ICP_WRITABLE_FIELDS, COMPANY_ICP_WRITABLE_FIELDS) {
+      var factory = {};
+
+      factory.init = function () {
+        var handler = $rootScope.$on(
+          "risevision.company.selectedCompanyChanged", function () {
+            handler();
+
+            _checkIcpCollection();
+          });
+      };
+
+      var _saveIcpData = function (result) {
+        var company = result.company;
+        var user = result.user;
+        var companyId = company.id;
+        var username = user.username;
+        user.dataCollectionDate = new Date();
+
+        company = pick(company, COMPANY_ICP_WRITABLE_FIELDS);
+        user = pick(user, USER_ICP_WRITABLE_FIELDS);
+
+        var companyPromise = updateCompany(companyId, company);
+        var userPromise = updateUser(username, user);
+
+        $q.all([companyPromise, userPromise]).then(function () {
+          $log.debug("User & Company Profiles updated");
+        });
+      };
+
+      var _saveDataCollectionDate = function (user) {
+        updateUser(user.username, {
+          dataCollectionDate: new Date()
+        }).then(function () {
+          $log.debug("User Data Collection Date updated");
+        });
+      };
+
+      var _checkIcpCollection = function () {
+        var user = userState.getCopyOfProfile(true);
+        var company = userState.getCopyOfUserCompany(true);
+        var lastContact = new Date(user.dataCollectionDate ||
+          user.creationDate);
+        var twoWeeksAgo = new Date();
+        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+        var twoMonthsAgo = new Date();
+        twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+
+        if (userState.isSubcompanySelected()) {
+          return;
+        }
+
+        // Last data collection was less than 2 weeks ago?
+        if (lastContact.getTime() >= twoWeeksAgo.getTime()) {
+          return;
+        }
+
+        // TODO: Remove after validating
+        if (lastContact.getTime() <= twoMonthsAgo.getTime()) {
+          return;
+        }
+
+        // Has all data been collected?
+        if (user.companyRole && company.name && company.companySize &&
+          company.companyIndustry) {
+          return;
+        }
+
+        var modalInstance = $modal.open({
+          templateUrl: "company-icp-modal.html",
+          controller: "CompanyIcpModalCtrl",
+          size: "lg",
+          backdrop: true,
+          resolve: {
+            user: function () {
+              return user;
+            },
+            company: function () {
+              return company;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (user, company) {
+          _saveIcpData(user, company);
+        }, function (user) {
+          _saveDataCollectionDate(user);
+        });
+
+      };
+
+      return factory;
     }
   ]);
 

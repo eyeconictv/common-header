@@ -1,12 +1,37 @@
 <div class="form-group" ng-class="{'has-error': forms.companyForm.name.$invalid && !forms.companyForm.name.$pristine}">
   <label for="company-settings-name">
-    Name *
+    Company Name *
   </label>
   <input required id="company-settings-name" type="text" class="form-control"
     ng-model="company.name" name="name" />
   <p ng-show="forms.companyForm.name.$invalid && !forms.companyForm.name.$pristine"
-    class="help-block validation-error-message-name">Company name is required.</p>
+    class="help-block validation-error-message-name">Company Name is required.</p>
 </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="company-size" class="control-label">
+        Company Size
+      </label>
+      <select id="company-size" class="form-control" ng-model="company.companySize">
+        <option value="" ng-show="false">&lt; Select Size &gt;</option>
+        <option ng-repeat="size in COMPANY_SIZE_FIELDS" value="{{size[0]}}">{{size[1]}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="company-industry" class="control-label">
+        Industry
+      </label>
+      <select id="company-industry" class="form-control selectpicker" ng-model="company.companyIndustry">
+        <option value="" ng-show="false">&lt; Select Industry &gt;</option>
+        <option ng-repeat="industry in COMPANY_INDUSTRY_FIELDS" value="{{industry[0]}}">{{industry[1]}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
@@ -68,17 +93,23 @@
     </div>
   </div>
 </div>
-<div class="form-group">
-  <label for="company-settings-website" class="control-label">
-    Website
-  </label>
-  <input id="company-settings-website" type="text" class="form-control" ng-model="company.website"/>
-</div>
-<div class="form-group">
-  <label for="company-settings-phone" class="control-label">
-    Phone
-  </label>
-  <input id="company-settings-phone" type="tel" class="form-control" ng-model="company.telephone"/>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="company-settings-website" class="control-label">
+        Website
+      </label>
+      <input id="company-settings-website" type="text" class="form-control" ng-model="company.website"/>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="company-settings-phone" class="control-label">
+        Phone
+      </label>
+      <input id="company-settings-phone" type="tel" class="form-control" ng-model="company.telephone"/>
+    </div>
+  </div>
 </div>
 <div class="form-group">
   <label for="company-settings-timezone" class="control-label">Time Zone</label>
