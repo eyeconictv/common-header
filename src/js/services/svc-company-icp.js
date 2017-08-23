@@ -11,13 +11,16 @@ angular.module("risevision.common.header")
     ["reseller_integrator", "Reseller/Integrator"],
     ["architect_consultant", "Architect/Consultant"],
     ["administrator_volunteer_intern", "Administrator/Volunteer/Intern"],
-    ["developer", "Developer"]
+    ["developer", "Developer"],
+    ["other", "Other"]
   ])
   .value("COMPANY_INDUSTRY_FIELDS", [
     ["LIBRARIES", "Arts / Libraries",
       "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/teamwork.svg"
     ],
-    ["AUTOMOTIVE", "Automotive"],
+    ["AUTOMOTIVE", "Automotive",
+      "https://cdn2.hubspot.net/hubfs/2700250/automobile-1.svg"
+    ],
     ["PHILANTHROPY", "Charity",
       "https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/donation-1.svg"
     ],
