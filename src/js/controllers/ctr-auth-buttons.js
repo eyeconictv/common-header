@@ -1,9 +1,11 @@
 angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
-    "userState", "$loading", "cookieStore",
+    "userState", "userAuthFactory", "canAccessApps",
+    "$loading", "cookieStore",
     "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
     "$window", "APPS_URL",
-    function ($scope, $modal, $templateCache, userState,
+    function ($scope, $modal, $templateCache, userState, userAuthFactory,
+      canAccessApps,
       $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
       bindToScopeWithWatch, $window, APPS_URL) {
 
@@ -115,9 +117,9 @@ angular.module("risevision.common.header")
         $scope);
 
       // Login Modal
-      $scope.login = function (endStatus) {
+      $scope.login = function (endStatus, authenticate) {
         $loading.startGlobal("auth-buttons-login");
-        userState.authenticate(true).then().finally(function () {
+        canAccessApps(authenticate, true).finally(function () {
           $loading.stopGlobal("auth-buttons-login");
           uiFlowManager.invalidateStatus(endStatus);
         });
@@ -152,7 +154,7 @@ angular.module("risevision.common.header")
       oauth2APILoader() //force loading oauth api on startup
       //to avoid popup blocker
       .then().finally(function () {
-        userState.authenticate(false).then().finally(function () {
+        userAuthFactory.authenticate(false).then().finally(function () {
           $loading.stopGlobal("auth-buttons-silent");
           if (!uiFlowManager.isStatusUndetermined()) {
             //attempt to reach a stable registration state only

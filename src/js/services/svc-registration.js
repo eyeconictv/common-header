@@ -9,7 +9,6 @@
   .config(["uiStatusDependencies",
     function (uiStatusDependencies) {
       uiStatusDependencies.addDependencies({
-        "registerdAsRiseVisionUser": "signedInWithGoogle",
         "registeredAsRiseVisionUser": "signedInWithGoogle",
         "registrationComplete": ["notLoggedIn",
           "registeredAsRiseVisionUser"
@@ -20,11 +19,11 @@
     }
   ])
 
-  .factory("signedInWithGoogle", ["$q", "getOAuthUserInfo", "userState",
-    function ($q, getOAuthUserInfo, userState) {
+  .factory("signedInWithGoogle", ["$q", "userState",
+    function ($q, userState) {
       return function () {
         var deferred = $q.defer();
-        // userState.authenticate(false).then().finally(function () {
+        // userAuthFactory.authenticate(false).then().finally(function () {
         if (userState.isLoggedIn()) {
           deferred.resolve();
         } else {
