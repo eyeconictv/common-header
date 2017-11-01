@@ -1,6 +1,6 @@
 {
   "name": "rise-vision-common-header",
-  "version": "1.14.5",
+  "version": "1.14.6",
   "homepage": "https://github.com/Rise-Vision/common-header",
   "authors": [
     "Xiyang Chen <settinghead@gmail.com>"
@@ -49,6 +49,7 @@
     "angular-mocks": "~1.5.0",
     "angular-sanitize": "~1.5.0",
     "angular-bootstrap": "~0.13.0",
-    "rv-common-style": "v1.5.0"
+    "rv-common-style": "v1.5.0",
+    "angular-ui-router": "^0.2.18"
   }
 }
