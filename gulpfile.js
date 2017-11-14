@@ -16,146 +16,93 @@ var env = process.env.NODE_ENV || "dev",
     watch = require("gulp-watch"),
     factory = require("widget-tester").gulpTaskFactory,
     runSequence = require("run-sequence"),
-    html2js = require("gulp-html2js"),
     concat = require("gulp-concat"),
     rename = require("gulp-rename"),
     usemin = require("gulp-usemin"),
     es = require("event-stream"),
     uglify = require("gulp-uglify"),
     prettify = require("gulp-jsbeautifier"),
-    minifyCss = require("gulp-minify-css"),
-    gulpInject = require("gulp-inject");
+    gulpInject = require("gulp-inject"),
+    del = require("del"),
+    path = require("path"),
+    fs = require("fs"),
+    ngHtml2Js = require("gulp-ng-html2js"),
+    minifyHtml = require("gulp-minify-html"),
+    i18nBuild = require("./i18n-build"),
+    cssBuildn = require("./css-build");
 
     var unitTestFiles = [
-    "components/jquery/dist/jquery.js",
-    "components/angular/angular.js",
-    "components/q/q.js",
-    "components/lodash/dist/lodash.js",
-    "components/ngstorage/ngStorage.js",
-    "components/angular-bootstrap/ui-bootstrap-tpls.js",
-    "components/angular-ui-flow-manager/src/js/*.js",
-    "components/angular-mocks/angular-mocks.js",
-    "components/angular-sanitize/angular-sanitize.js",
-    "components/angular-spinner/angular-spinner.js",
-    "components/angular-touch/angular-touch.js",
-    "components/angular-ui-router/release/angular-ui-router.js",
-    "components/ng-biscuit/dist/ng-biscuit.js",
-    "components/ng-csv/build/ng-csv.js",
-    "components/angular-local-storage/dist/angular-local-storage.js",
-    "components/rv-loading/loading.js",
-    "components/ng-gapi-loader/src/js/*.js",
-    "components/ng-core-api-client/src/js/*.js",
-    "components/checklist-model/checklist-model.js",
-    "components/rv-common-app-components/dist/js/userstate.js",
-    "components/rv-common-app-components/dist/js/last-modified.js",
-    "components/rv-common-app-components/dist/js/search-filter.js",
-    "components/rv-common-app-components/dist/js/scrolling-list.js",
-    "components/rv-common-app-components/dist/js/stop-event.js",
-    "components/rv-common-app-components/dist/js/segment-analytics.js",
-    "components/rv-common-app-components/dist/js/message-box.js",
-    "components/rv-common-app-components/dist/js/svg-icon.js",
-    "components/component-subscription-status/dist/js/subscription-status.js",
-    "components/widget-settings-ui-core/dist/widget-settings-ui-core.js",
-    "components/angular-translate/angular-translate.js",
-    "components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
-    "components/angular-md5/angular-md5.min.js",
-    "components/rv-common-i18n/dist/i18n.js",
+    "bower_components/jquery/dist/jquery.js",
+    "bower_components/angular/angular.js",
+    "bower_components/q/q.js",
+    "bower_components/lodash/dist/lodash.js",
+    "bower_components/ngstorage/ngStorage.js",
+    "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+    "bower_components/angular-mocks/angular-mocks.js",
+    "bower_components/angular-sanitize/angular-sanitize.js",
+    "bower_components/angular-spinner/angular-spinner.js",
+    "bower_components/angular-touch/angular-touch.js",
+    "bower_components/angular-ui-router/release/angular-ui-router.js",
+    "bower_components/ng-biscuit/dist/ng-biscuit.js",
+    "bower_components/ng-csv/build/ng-csv.js",
+    "bower_components/angular-local-storage/dist/angular-local-storage.js",
+    "bower_components/checklist-model/checklist-model.js",
+    "bower_components/angular-translate/angular-translate.js",
+    "bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
+    "bower_components/angular-md5/angular-md5.min.js",
+    "src/js/components/**/app.js",
+    "src/js/components/**/svc-*.js",
+    "src/js/components/**/dtv-*.js",
+    "src/js/components/**/ctr-*.js",
+    "src/js/components/**/ftr-*.js",
+    "tmp/templates.js",
+    "src/js/*.js",
+    "src/js/*/*.js",
     "node_modules/widget-tester/mocks/translate-mock.js",
-    "src/templates.js",
-    "src/js/**/*.js",
-    "test/unit/**/*spec.js"
+    "test/unit/**/*spec.js",
+    "test/unit/**/mocks/*.js",
+    "test/unit/**/*.tests.js"
     ],
-    commonHeaderSrcFiles = ["./src/templates.js", "./src/js/dtv-common-header.js",
-    "./src/js/directives/dtv-integer-parser.js",
-    "./src/js/directives/dtv-empty-select-parser.js",
-    "./src/js/directives/dtv-company-buttons.js",
-    "./src/js/directives/dtv-require-role.js",
-    "./src/js/directives/dtv-website-validator.js",
-    "./src/js/controllers/ctr-global-alerts.js",
-    "./src/js/controllers/ctr-help-buttons.js",
-    "./src/js/controllers/ctr-help-priority-support-modal.js",
-    "./src/js/controllers/ctr-help-send-us-a-note-modal.js",
-    "./src/js/controllers/ctr-auth-buttons.js",
-    "./src/js/controllers/ctr-signup-modal.js",
-    "./src/js/controllers/ctr-signup-button.js",
-    "./src/js/controllers/ctr-company-buttons.js",
-    "./src/js/controllers/ctr-shoppingcart.js",
-    "./src/js/controllers/ctr-close-frame.js",
-    "./src/js/controllers/ctr-system-messages.js",
-    "./src/js/controllers/ctr-register-button.js",
-    "./src/js/controllers/ctr-registration-modal.js",
-    "./src/js/controllers/ctr-move-company-modal.js",
-    "./src/js/controllers/ctr-company-settings-modal.js",
-    "./src/js/controllers/ctr-subcompany-modal.js",
-    "./src/js/controllers/ctr-subcompany-selector-modal.js",
-    "./src/js/controllers/ctr-subcompany-banner.js",
-    "./src/js/controllers/ctr-test-company-banner.js",
-    "./src/js/controllers/ctr-company-users-modal.js",
-    "./src/js/controllers/ctr-user-add-modal.js",
-    "./src/js/controllers/ctr-user-settings-modal.js",
-    "./src/js/controllers/ctr-company-icp-modal.js",
-    "./src/js/controllers/ctr-signout-button.js",
-    "./src/js/controllers/ctr-signout-modal.js",
-    "./src/js/controllers/ctr-safe-delete-modal.js",
-    "./src/js/ui-components/off-canvas-nav.js",
-    "./src/js/ui-components/action-sheet.js",
-    "./src/js/services/svc-geodata.js",
-    "./components/angular-ui-flow-manager/src/js/svc-ui-flow.js",
-    "./src/js/services/svc-account.js",
-    "./src/js/services/svc-registration.js",
-    "./src/js/services/svc-support-factory.js",
-    "./src/js/services/svc-zendesk.js",
-    "./components/ng-core-api-client/src/js/svc-cache.js",
-    "./components/ng-core-api-client/src/js/svc-core-util.js",
-    "./components/ng-core-api-client/src/js/svc-user.js",
-    "./components/ng-core-api-client/src/js/svc-company.js",
-    "./components/ng-core-api-client/src/js/svc-oauth2.js",
-    "./components/ng-core-api-client/src/js/svc-system-messages.js",
-    "./components/ng-core-api-client/src/js/svc-countries.js",
-    "./components/ng-core-api-client/src/js/svc-fastpass.js",
-    "./src/js/directives/dtv-fastpass.js",
-    "./src/js/directives/dtv-link-cid.js",
-    "./src/js/services/svc-shoppingcart.js",
-    "./src/js/services/svc-currency.js",
-    "./components/ng-gapi-loader/src/js/svc-gapi.js",
-    "./src/js/services/svc-system-messages.js",
-    "./src/js/services/svc-data-gadgets.js",
-    "./src/js/services/svc-cookie-tester.js",
-    "./src/js/services/svc-email.js",
-    "./src/js/services/svc-user-email.js",
-    "./src/js/services/svc-company-icp.js",
-    "./components/rv-common-app-components/dist/js/userstate.js",
-    "./components/rv-common-app-components/dist/js/last-modified.js",
-    "./components/rv-common-app-components/dist/js/search-filter.js",
-    "./components/rv-common-app-components/dist/js/scrolling-list.js",
-    "./components/rv-common-app-components/dist/js/stop-event.js",
-    "./components/rv-common-app-components/dist/js/segment-analytics.js",
-    "./components/rv-common-app-components/dist/js/message-box.js",
-    "./components/rv-common-app-components/dist/js/svg-icon.js",
-    "./components/component-subscription-status/dist/js/subscription-status.js",
-    "./components/widget-settings-ui-core/dist/widget-settings-ui-core.js",
-    "./components/angular-translate/angular-translate.js",
-    "./components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
-    "./components/rv-common-i18n/dist/i18n.js",
+    commonHeaderSrcFiles = ["./tmp/templates.js", 
+    "./src/js/dtv-common-header.js",
+    "./src/js/directives/*.js",
+    "./src/js/controllers/*.js",
+    "./src/js/components/*.js",
+    "./src/js/services/*.js",
+    "./dist/js/components/i18n.js",
+    "./dist/js/components/gapi-loader.js",
+    "./dist/js/components/core-api-client.js",
+    "./dist/js/components/ui-flow.js",
+    "./dist/js/components/userstate.js",
+    "./dist/js/components/last-modified.js",
+    "./dist/js/components/loading.js",
+    "./dist/js/components/search-filter.js",
+    "./dist/js/components/scrolling-list.js",
+    "./dist/js/components/stop-event.js",
+    "./dist/js/components/segment-analytics.js",
+    "./dist/js/components/message-box.js",
+    "./dist/js/components/svg-icon.js",
+    "./dist/js/components/subscription-status.js",
     "./src/js/config/config.js"
     ],
-    dependencySrcFiles = ["./components/jquery/dist/jquery.js",
-    "./components/angular/angular.js",
-    "./components/angular-sanitize/angular-sanitize.js",
-    "./components/angular-animate/angular-animate.js",
-    "./components/angular-touch/angular-touch.js",
-    "./components/angular-bootstrap/ui-bootstrap-tpls.js",
-    "./components/angular-ui-router/release/angular-ui-router.js",
-    "./components/checklist-model/checklist-model.js",
-    "./components/ngstorage/ngStorage.js",
-    "./components/angular-spinner/angular-spinner.js",
-    "./components/spin.js/spin.js",
-    "./components/rv-loading/loading.js",
-    "./components/ng-biscuit/dist/ng-biscuit.js",
-    "./components/lodash/dist/lodash.js",
-    "./components/ng-csv/build/ng-csv.js",
-    "./components/angular-md5/angular-md5.min.js",
-    "./components/angular-local-storage/dist/angular-local-storage.js"],
+    dependencySrcFiles = ["./bower_components/jquery/dist/jquery.js",
+    "./bower_components/angular/angular.js",
+    "./bower_components/angular-sanitize/angular-sanitize.js",
+    "./bower_components/angular-animate/angular-animate.js",
+    "./bower_components/angular-touch/angular-touch.js",
+    "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+    "./bower_components/angular-ui-router/release/angular-ui-router.js",
+    "./bower_components/angular-translate/angular-translate.js",
+    "./bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
+    "./bower_components/checklist-model/checklist-model.js",
+    "./bower_components/ngstorage/ngStorage.js",
+    "./bower_components/angular-spinner/angular-spinner.js",
+    "./bower_components/spin.js/spin.js",
+    "./bower_components/ng-biscuit/dist/ng-biscuit.js",
+    "./bower_components/lodash/dist/lodash.js",
+    "./bower_components/ng-csv/build/ng-csv.js",
+    "./bower_components/angular-md5/angular-md5.min.js",
+    "./bower_components/angular-local-storage/dist/angular-local-storage.js"],
     gapiMockSrcFiles = [
     "./node_modules/widget-tester/mocks/segment-analytics-mock.js"
     ],
@@ -180,133 +127,6 @@ gulp.task("pretty", function() {
     });
 });
 
-gulp.task("html", ["html-inject", "html2js"], function () {
-  return es.concat(
-    gulp.src("test/e2e/index.html")
-    .pipe(usemin({ js: [], css: [] }))
-    .pipe(gulp.dest("dist/")),
-    //minified
-    gulp.src("test/e2e/index.html")
-    .pipe(usemin({
-      js: [uglify()], css: [minifyCss()]
-    }))
-    .pipe(rename({suffix: ".min"}))
-    .pipe(gulp.dest("dist/"))
-  );
-});
-
-gulp.task("build", function (cb) {
-  runSequence("coerce-prod-env", ["config", "locales", "fonts-copy"], "lint", "html", cb);
-});
-
-var localeFiles = [
-  "components/rv-common-i18n/dist/locales/**/*"
-];
-
-gulp.task("locales", function() {
-  return gulp.src(localeFiles)
-    .pipe(gulp.dest("dist/locales"));
-});
-
-gulp.task("fonts-copy", function () {
-  //TODO This is a temporary solution. Dulpicate files. Not recommended
-
-  return es.concat(
-    gulp.src(["src/css/fonts/*"])
-    .pipe(gulp.dest("./dist/css/fonts")),
-    gulp.src(["src/css/fonts/*"])
-    .pipe(gulp.dest("./dist/fonts"))),
-    gulp.src(["components/font-awesome/fonts/*"])
-    .pipe(gulp.dest("./dist/fonts"));
-});
-
-gulp.task("lint", ["pretty"], function() {
-  return gulp.src([
-      "src/js/**/*.js",
-      "test/**/*.js"
-    ])
-    .pipe(jshint())
-    .pipe(jshint.reporter("jshint-stylish"))
-    .pipe(jshint.reporter("fail"))
-    .on("error", function () {
-      process.exit(1);
-    });
-});
-
-gulp.task("html-inject", function () {
-  return es.concat(
-    gulp.src("src/html/popup-auth_raw.html")
-    .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
-    .pipe(injectorGenerator(dependencySrcFiles, "deps"))
-    .pipe(rename("popup-auth.html"))
-    .pipe(gulp.dest("src/html")),
-    gulp.src("src/html/popup-auth_raw.html")
-    .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
-    .pipe(injectorGenerator(dependencySrcFiles, "deps"))
-    .pipe(injectorGenerator(gapiMockSrcFiles, "gapimock"))
-    .pipe(rename("popup-auth_e2e.html"))
-    .pipe(gulp.dest("src/html")),
-    gulp.src("test/e2e/index_raw.html")
-    .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
-    .pipe(injectorGenerator(dependencySrcFiles, "deps"))
-    .pipe(injectorGenerator(gapiMockSrcFiles, "gapimock"))
-    .pipe(rename("index.html"))
-    .pipe(gulp.dest("test/e2e"))
-  );
-});
-
-gulp.task("html-inject-watch", function () {
-  watch({glob: "src/**/*"}, function () {
-    return es.concat(gulp.src("src/html/popup-auth_raw.html")
-    .pipe(rename("popup-auth.html"))
-    .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
-    .pipe(injectorGenerator(dependencySrcFiles, "deps"))
-    .pipe(gulp.dest("src/html")),
-    gulp.src("src/html/popup-auth_raw.html")
-    .pipe(rename("popup-auth_e2e.html"))
-    .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
-    .pipe(injectorGenerator(dependencySrcFiles, "deps"))
-    .pipe(injectorGenerator(gapiMockSrcFiles, "gapimock"))
-    .pipe(gulp.dest("src/html")),
-    gulp.src("test/e2e/index_raw.html")
-    .pipe(rename("index.html"))
-    .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
-    .pipe(injectorGenerator(dependencySrcFiles, "deps"))
-    .pipe(injectorGenerator(gapiMockSrcFiles, "gapimock"))
-    .pipe(gulp.dest("test/e2e")));
-  });
-
-});
-
-gulp.task("html2js", function() {
-  return gulp.src("src/templates/**/*.html")
-    .pipe(html2js({
-      outputModuleName: "risevision.common.header.templates",
-      useStrict: true,
-      base: "src/templates"
-    }))
-    .pipe(concat("templates.js"))
-    .pipe(gulp.dest("./src/"));
-});
-
-gulp.task("html2js-watch", function() {
-  watch({glob: "src/templates/**/*.html"}, function(){
-    return gulp.src("src/templates/**/*.html").pipe(html2js({
-      outputModuleName: "risevision.common.header.templates",
-      useStrict: true,
-      base: "src/templates"
-    }))
-    .pipe(concat("templates.js"))
-    .pipe(gulp.dest("./src/"));
-  });
-});
-
-gulp.task("build-watch", function() {
-  watch({glob: ["src/js/**/*", "src/templates/**/*"]}, function () {
-    return runSequence("build");
-  });
-});
-
 // Update bower, component, npm at once:
 gulp.task("bump", function(){
   gulp.src(["./bower.json", "./package.json"])
@@ -322,6 +142,139 @@ gulp.task("config", function() {
   return gulp.src(["./src/js/config/" + env + ".js"])
     .pipe(rename("config.js"))
     .pipe(gulp.dest("./src/js/config"));
+});
+
+gulp.task("clean", function () {
+  return del(["./tmp/**", "./dist/**"]);
+});
+
+// Start - Components build section
+var componentsPath = "./src/js/components/";
+
+var folders = fs.readdirSync(componentsPath)
+  .filter(function(file) {
+    return fs.statSync(path.join(componentsPath, file)).isDirectory();
+  });
+
+gulp.task("components-html2js", function() {
+  return gulp.src("./src/templates/components/**/*.html")
+    .pipe(minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true
+    }))
+    .pipe(ngHtml2Js({
+      moduleName: function (file) {
+        var pathParts = file.path.split("/");
+        var folder = pathParts[pathParts.length - 2];
+        return "risevision.common.components." + folder;
+      }
+    }))
+    .pipe(gulp.dest("./tmp/partials/"));
+});
+
+gulp.task("components-concat", function () { //copy angular files
+  var tasks = folders.map(function(folder) {
+    return gulp.src([
+      path.join(componentsPath, folder, "**/app.js"),
+      path.join(componentsPath, folder, "**/svc-*.js"),
+      path.join(componentsPath, folder, "**/dtv-*.js"),
+      path.join(componentsPath, folder, "**/ctr-*.js"),
+      path.join(componentsPath, folder, "**/ftr-*.js"),
+      path.join("./tmp/partials/", folder, "*.js")
+    ])
+    .pipe(concat(folder + ".js"))
+    .pipe(gulp.dest("dist/js/components"))
+    .pipe(uglify())
+    .pipe(rename(folder + ".min.js"))
+    .pipe(gulp.dest("dist/js/components"));
+  });
+  return es.concat.apply(null, tasks);
+});
+
+gulp.task("build-components", function (cb) {
+  runSequence("components-html2js", "components-concat", cb);
+});
+
+// End - Components build section
+
+gulp.task("lint", ["pretty"], function() {
+  return gulp.src([
+      "src/js/**/*.js",
+      "test/**/*.js"
+    ])
+    .pipe(jshint())
+    .pipe(jshint.reporter("jshint-stylish"))
+    .pipe(jshint.reporter("fail"))
+    .on("error", function () {
+      process.exit(1);
+    });
+});
+
+gulp.task("html-dist", function () {
+  return es.concat(
+    gulp.src("test/e2e/index.html")
+    .pipe(usemin({ js: [] }))
+    .pipe(gulp.dest("dist/")),
+    //minified
+    gulp.src("test/e2e/index.html")
+    .pipe(usemin({
+      js: [uglify()]
+    }))
+    .pipe(rename({suffix: ".min"}))
+    .pipe(gulp.dest("dist/"))
+  );
+});
+
+gulp.task("html-inject", function () {
+  return gulp.src("test/e2e/index_raw.html")
+  .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
+  .pipe(injectorGenerator(dependencySrcFiles, "deps"))
+  .pipe(injectorGenerator(gapiMockSrcFiles, "gapimock"))
+  .pipe(rename("index.html"))
+  .pipe(gulp.dest("test/e2e"));
+});
+
+gulp.task("html2js", function() {
+  return gulp.src("src/templates/*.html")
+    .pipe(minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true
+    }))
+    .pipe(ngHtml2Js({
+      moduleName: "risevision.common.header.templates",
+      useStrict: true,
+      base: "src/templates"
+    }))
+    .pipe(concat("templates.js"))
+    .pipe(gulp.dest("./tmp/"));
+});
+
+gulp.task("html", function (cb) {
+  runSequence("html2js", "html-inject", "html-dist", cb);
+});
+
+gulp.task("build-watch", function() {
+  watch({glob: ["src/js/**/*", "src/templates/**/*"]}, function () {
+    return runSequence("build");
+  });
+});
+
+gulp.task("html2js-watch", function() {
+  watch({glob: "src/templates/**/*.html"}, function() {
+    return runSequence("html2js");
+  });
+});
+
+gulp.task("html-inject-watch", function () {
+  watch({glob: "src/**/*"}, function () {
+    return runSequence("html-inject");
+  });
+});
+
+gulp.task("build", function (cb) {
+  runSequence(["coerce-prod-env", "clean", "lint"], ["config", "css-build", "i18n-build"], "build-components", "html", cb);
 });
 
 gulp.task("test:unit", ["config"], factory.testUnitAngular({
@@ -351,7 +304,7 @@ gulp.task("test:e2e", function (cb) {
 gulp.task("coveralls", factory.coveralls());
 
 gulp.task("test", function (cb) {
-  runSequence("test:unit", "test:e2e", "coveralls", cb);
+  runSequence("html2js", "test:unit", "test:e2e", "coveralls", cb);
 });
 
 gulp.task("watch", ["test:unit-watch"]);
