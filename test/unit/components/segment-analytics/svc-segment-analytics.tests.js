@@ -26,6 +26,11 @@ describe("Services: segment analytics", function() {
         path: function() {
           return "/somepath";
         },
+        search: function() {
+          return {
+            nooverride: 1
+          };
+        },
         host: function() {
           return "test.com";
         }
@@ -117,13 +122,13 @@ describe("Services: segment analytics", function() {
   });
   
   it("should call pageview", function(done) {
-    var pageviewSpy = sinon.spy(segmentAnalytics, "pageview");
+    var pageviewSpy = sinon.spy(segmentAnalytics, "page");
 
     $scope.$broadcast("$viewContentLoaded");
     $scope.$digest();
     
     setTimeout(function() {
-      pageviewSpy.should.have.been.called;
+      pageviewSpy.should.have.been.calledWith({url:"/somepath", referrer:""});
       expect(segmentAnalytics.location).to.equal("/somepath");
       
       done();
