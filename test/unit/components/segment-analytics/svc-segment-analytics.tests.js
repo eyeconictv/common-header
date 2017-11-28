@@ -121,14 +121,14 @@ describe("Services: segment analytics", function() {
     }, 10);
   });
   
-  it("should call pageview", function(done) {
-    var pageviewSpy = sinon.spy(segmentAnalytics, "page");
+  it("should call page()", function(done) {
+    var pageSpy = sinon.spy(segmentAnalytics, "page");
 
     $scope.$broadcast("$viewContentLoaded");
     $scope.$digest();
     
     setTimeout(function() {
-      pageviewSpy.should.have.been.calledWith({url:"/somepath", referrer:""});
+      pageSpy.should.have.been.calledWith({url:"/somepath", referrer:""});
       expect(segmentAnalytics.location).to.equal("/somepath");
       
       done();
