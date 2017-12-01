@@ -8353,6 +8353,7 @@ angular.module("risevision.common.components.stop-event", [])
             service.location = $location.path();
             var properties = {};
             properties.url = $location.path();
+            properties.path = $location.path();
             if ($location.search().nooverride) {
               properties.referrer = "";
             }
