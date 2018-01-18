@@ -22,6 +22,7 @@ describe("Services: subscriptionStatusService", function() {
       subscriptionStatusService.get("1", "12345").then(function(data){
         expect(data).be.defined;
         expect(data.status).be.equal("Free");
+        expect(data.statusCode).be.equal("free");
         expect(data.subscribed).be.equal(true);
 
         done();
@@ -46,6 +47,7 @@ describe("Services: subscriptionStatusService", function() {
       subscriptionStatusService.get("2", "12345").then(function(data){
         expect(data).be.defined;
         expect(data.status).be.equal("Trial Expired");
+        expect(data.statusCode).be.equal("trial-expired");
         expect(data.subscribed).be.equal(false);
 
         done();
@@ -58,7 +60,22 @@ describe("Services: subscriptionStatusService", function() {
       subscriptionStatusService.get("3", "12345").then(function(data){
         expect(data).be.defined;
         expect(data.status).be.equal("Cancelled");
+        expect(data.statusCode).be.equal("cancelled");
         expect(data.subscribed).be.equal(true);
+
+        done();
+      });
+    });
+  });
+
+  it("should return a list of products", function(done) {
+    inject(function(subscriptionStatusService) {
+      subscriptionStatusService.list(["1", "2", "3"], "12345").then(function(data){
+        expect(data).be.defined;
+        expect(data.length).be.equal(3);
+        expect(data[0].status).be.equal("Free");
+        expect(data[1].status).be.equal("Trial Expired");
+        expect(data[2].status).be.equal("Cancelled");
 
         done();
       });

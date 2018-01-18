@@ -54,10 +54,6 @@
           "Suspended", "Cancelled", "Free", "Not Subscribed",
           "Product Not Found", "Company Not Found", "Error"
         ];
-        var responseCode = ["on-trial", "trial-expired", "subscribed",
-          "suspended", "cancelled", "free", "not-subscribed",
-          "product-not-found", "company-not-found", "error"
-        ];
         var _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
         // a and b are javascript Date objects
@@ -83,71 +79,78 @@
           return deferred.promise;
         };
 
-        var checkSubscriptionStatus = function (productCode, companyId,
+        var checkSubscriptionStatus = function (productCodes, companyId,
           displayId) {
           var deferred = $q.defer();
 
+          productCodes = Array.isArray(productCodes) ? productCodes : [
+            productCodes
+          ];
+
           var url = STORE_SERVER_URL +
             PATH_URL.replace("companyId", companyId) +
-            productCode;
+            productCodes.join(",");
 
           if (displayId) {
             url = STORE_SERVER_URL +
-              PATH_URL_BY_DISPLAY_ID.replace("productCode", productCode) +
+              PATH_URL_BY_DISPLAY_ID.replace("productCode", productCodes.join(
+                ",")) +
               displayId;
           }
 
           $http.get(url).then(function (response) {
             if (response && response.data && response.data.length) {
-              var subscriptionStatus = response.data[0];
+              var statusList = [];
 
-              subscriptionStatus.plural = "";
+              for (var i = 0; i < response.data.length; i++) {
+                var subscriptionStatus = response.data[i];
 
-              var statusIndex = responseType.indexOf(subscriptionStatus
-                .status);
+                statusList.push(subscriptionStatus);
+                subscriptionStatus.plural = "";
+                subscriptionStatus.statusCode = subscriptionStatus.status
+                  .toLowerCase().replace(" ", "-");
 
-              if (statusIndex >= 0) {
-                subscriptionStatus.statusCode = responseCode[
-                  statusIndex];
-              }
-
-              if (subscriptionStatus.status === "") {
-                subscriptionStatus.status = "N/A";
-                subscriptionStatus.statusCode = "na";
-                subscriptionStatus.subscribed = false;
-              } else if (subscriptionStatus.status === responseType[0] ||
-                subscriptionStatus.status === responseType[2] ||
-                subscriptionStatus.status === responseType[5]) {
-                subscriptionStatus.subscribed = true;
-              } else {
-                subscriptionStatus.subscribed = false;
-              }
-
-              if (subscriptionStatus.statusCode === "not-subscribed" &&
-                subscriptionStatus.trialPeriod && subscriptionStatus.trialPeriod >
-                0) {
-                subscriptionStatus.statusCode = "trial-available";
-                subscriptionStatus.subscribed = true;
-              }
-
-              if (subscriptionStatus.expiry && subscriptionStatus.statusCode ===
-                "on-trial") {
-                subscriptionStatus.expiry = new Date(subscriptionStatus
-                  .expiry);
-
-                if (subscriptionStatus.expiry instanceof Date && !isNaN(
-                  subscriptionStatus.expiry.valueOf())) {
-                  subscriptionStatus.expiry = dateDiffInDays(new Date(),
-                    subscriptionStatus.expiry);
+                if (subscriptionStatus.status === "") {
+                  subscriptionStatus.status = "N/A";
+                  subscriptionStatus.statusCode = "na";
+                  subscriptionStatus.subscribed = false;
+                } else if (subscriptionStatus.status === responseType[0] ||
+                  subscriptionStatus.status === responseType[2] ||
+                  subscriptionStatus.status === responseType[5]) {
+                  subscriptionStatus.subscribed = true;
+                } else {
+                  subscriptionStatus.subscribed = false;
                 }
 
-                if (subscriptionStatus.expiry === 0) {
-                  subscriptionStatus.plural = "-zero";
-                } else if (subscriptionStatus.expiry > 1) {
-                  subscriptionStatus.plural = "-many";
+                if (subscriptionStatus.statusCode === "not-subscribed" &&
+                  subscriptionStatus.trialPeriod && subscriptionStatus.trialPeriod >
+                  0) {
+                  subscriptionStatus.statusCode = "trial-available";
+                  subscriptionStatus.subscribed = true;
+                }
+
+                if (subscriptionStatus.expiry && subscriptionStatus.statusCode ===
+                  "on-trial") {
+                  subscriptionStatus.expiry = new Date(
+                    subscriptionStatus
+                    .expiry);
+
+                  if (subscriptionStatus.expiry instanceof Date && !
+                    isNaN(
+                      subscriptionStatus.expiry.valueOf())) {
+                    subscriptionStatus.expiry = dateDiffInDays(new Date(),
+                      subscriptionStatus.expiry);
+                  }
+
+                  if (subscriptionStatus.expiry === 0) {
+                    subscriptionStatus.plural = "-zero";
+                  } else if (subscriptionStatus.expiry > 1) {
+                    subscriptionStatus.plural = "-many";
+                  }
                 }
               }
-              deferred.resolve(subscriptionStatus);
+
+              deferred.resolve(statusList);
             } else {
               deferred.reject("No response");
             }
@@ -158,7 +161,9 @@
 
         this.get = function (productCode, companyId, displayId) {
           return checkSubscriptionStatus(productCode, companyId, displayId)
-            .then(function (subscriptionStatus) {
+            .then(function (statusList) {
+              var subscriptionStatus = statusList[0];
+
               if (subscriptionStatus.subscribed === false) {
                 // double check store authorization in case they're authorized
                 return checkAuthorizedStatus(productCode, companyId)
@@ -171,6 +176,10 @@
                 return subscriptionStatus;
               }
             });
+        };
+
+        this.list = function (productCodes, companyId, displayId) {
+          return checkSubscriptionStatus(productCodes, companyId, displayId);
         };
 
       }
@@ -277,11 +286,10 @@
 
   angular.module(
     "risevision.common.components.subscription-status.directives")
-    .directive("subscriptionStatus", ["$rootScope", "$templateCache",
-      "subscriptionStatusService", "STORE_URL", "ACCOUNT_PATH",
-      "IN_RVA_PATH",
-      function ($rootScope, $templateCache, subscriptionStatusService,
-        STORE_URL, ACCOUNT_PATH, IN_RVA_PATH) {
+    .directive("subscriptionStatus", ["$rootScope", "$templateCache", "subscriptionStatusService",
+      "STORE_URL", "ACCOUNT_PATH", "IN_RVA_PATH",
+      function ($rootScope, $templateCache, subscriptionStatusService, STORE_URL, ACCOUNT_PATH,
+        IN_RVA_PATH) {
         return {
           restrict: "AE",
           require: "?ngModel",
@@ -293,10 +301,10 @@
             expandedFormat: "@",
             showStoreModal: "=?",
             customProductLink: "@",
-            customMessages: "@"
+            customMessages: "@",
+            customOnClick: "&"
           },
-          template: $templateCache.get(
-            "subscription-status/subscription-status-template.html"),
+          template: $templateCache.get("subscription-status/subscription-status-template.html"),
           link: function ($scope, elm, attrs, ctrl) {
             $scope.subscriptionStatus = {
               "status": "N/A",
@@ -304,12 +312,10 @@
               "subscribed": false,
               "expiry": null
             };
-            $scope.messagesPrefix = $scope.customMessages ? $scope.customMessages :
-              "subscription-status";
+            $scope.messagesPrefix = $scope.customMessages ? $scope.customMessages : "subscription-status";
 
             var updateUrls = function () {
-              $scope.storeAccountUrl = STORE_URL + ACCOUNT_PATH
-                .replace("companyId", $scope.companyId);
+              $scope.storeAccountUrl = STORE_URL + ACCOUNT_PATH.replace("companyId", $scope.companyId);
 
               if ($scope.customProductLink) {
                 $scope.storeUrl = $scope.customProductLink;
@@ -321,23 +327,20 @@
             };
 
             function checkSubscriptionStatus() {
-              if ($scope.productCode && $scope.productId && ($scope.companyId ||
-                $scope.displayId)) {
-                subscriptionStatusService.get($scope.productCode, $scope.companyId,
-                  $scope.displayId).then(function (subscriptionStatus) {
-                    if (subscriptionStatus) {
-                      if (!$scope.subscriptionStatus || $scope.subscriptionStatus
-                        .status !== subscriptionStatus.status) {
-                        $rootScope.$emit("subscription-status:changed",
-                          subscriptionStatus);
-                      }
+              if ($scope.productCode && $scope.productId && ($scope.companyId || $scope.displayId)) {
+                subscriptionStatusService.get($scope.productCode, $scope.companyId, $scope.displayId)
+                  .then(function (subscriptionStatus) {
+                      if (subscriptionStatus) {
+                        if (!$scope.subscriptionStatus || $scope.subscriptionStatus.status !== subscriptionStatus.status) {
+                          $rootScope.$emit("subscription-status:changed", subscriptionStatus);
+                        }
 
-                      $scope.subscriptionStatus = subscriptionStatus;
-                    }
-                  },
-                  function () {
-                    // TODO: catch error here
-                  });
+                        $scope.subscriptionStatus = subscriptionStatus;
+                      }
+                    },
+                    function (err) {
+                      console.log("Error checking subscription status", err);
+                    });
               }
             }
 
@@ -350,8 +353,7 @@
             var subscriptionStatusListener = $rootScope.$on(
               "refreshSubscriptionStatus", function (event, data) {
                 // Only refresh if currentStatus code matches the provided value, or value is null
-                if (data === null || $scope.subscriptionStatus.statusCode ===
-                  data) {
+                if (data === null || $scope.subscriptionStatus.statusCode === data) {
                   checkSubscriptionStatus();
                 }
               });
@@ -361,8 +363,7 @@
             });
 
             if (ctrl) {
-              $scope.$watch("subscriptionStatus", function (
-                subscriptionStatus) {
+              $scope.$watch("subscriptionStatus", function (subscriptionStatus) {
                 ctrl.$setViewValue(subscriptionStatus);
               });
             }
@@ -444,6 +445,6 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('subscription-status/subscription-status-template.html',
-    '<div ng-show="!expandedFormat"><h3 ng-disable-right-click=""><span ng-show="subscriptionStatus.statusCode !== \'not-subscribed\'" ng-bind-html="messagesPrefix + \'.\' + subscriptionStatus.statusCode + subscriptionStatus.plural | translate:subscriptionStatus | to_trusted"></span></h3><span ng-show="subscriptionStatus.statusCode === \'trial-available\'"><button class="btn btn-primary btn-xs" ng-click="showStoreModal = true;"><span translate="{{messagesPrefix}}.start-trial"></span></button></span> <span ng-show="[\'on-trial\', \'trial-expired\', \'cancelled\', \'not-subscribed\'].indexOf(subscriptionStatus.statusCode) >= 0"><a class="btn btn-primary btn-xs" ng-href="{{storeUrl}}" target="_blank"><span translate="{{messagesPrefix}}.subscribe"></span></a></span> <span ng-show="[\'suspended\'].indexOf(subscriptionStatus.statusCode) >= 0"><a type="button" class="btn btn-primary btn-xs" ng-href="{{storeAccountUrl}}" target="_blank"><span translate="{{messagesPrefix}}.view-account"></span></a></span></div><div ng-show="expandedFormat"><div class="subscription-status trial" ng-show="subscriptionStatus.statusCode === \'on-trial\'"><span ng-bind-html="messagesPrefix + \'.expanded-\' + subscriptionStatus.statusCode + subscriptionStatus.plural | translate:subscriptionStatus | to_trusted"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeUrl}}" target="_blank"><span translate="{{messagesPrefix}}.subscribe-now"></span></a></div><div class="subscription-status expired" ng-show="subscriptionStatus.statusCode === \'trial-expired\'"><span translate="{{messagesPrefix}}.expanded-expired"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeUrl}}" target="_blank"><span translate="{{messagesPrefix}}.subscribe-now"></span></a></div><div class="subscription-status cancelled" ng-show="subscriptionStatus.statusCode === \'cancelled\'"><span translate="{{messagesPrefix}}.expanded-cancelled"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeUrl}}" target="_blank"><span translate="{{messagesPrefix}}.subscribe-now"></span></a></div><div class="subscription-status suspended" ng-show="subscriptionStatus.statusCode === \'suspended\'"><span translate="{{messagesPrefix}}.expanded-suspended"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeAccountUrl}}" target="_blank"><span translate="{{messagesPrefix}}.view-invoices"></span></a></div></div>');
+    '<div ng-show="!expandedFormat"><h3 ng-disable-right-click=""><span ng-show="subscriptionStatus.statusCode !== \'not-subscribed\'" ng-bind-html="messagesPrefix + \'.\' + subscriptionStatus.statusCode + subscriptionStatus.plural | translate:subscriptionStatus | to_trusted"></span></h3><span ng-show="subscriptionStatus.statusCode === \'trial-available\'"><button class="btn btn-primary btn-xs" ng-click="showStoreModal = true;"><span translate="{{messagesPrefix}}.start-trial"></span></button></span> <span ng-show="[\'on-trial\', \'trial-expired\', \'cancelled\', \'not-subscribed\'].indexOf(subscriptionStatus.statusCode) >= 0"><a class="btn btn-primary btn-xs" ng-href="{{storeUrl}}" target="_blank" ng-show="!customOnClick"><span translate="{{messagesPrefix}}.subscribe"></span></a> <a class="btn btn-primary btn-xs" ng-click="customOnClick()" ng-show="customOnClick"><span translate="{{messagesPrefix}}.subscribe"></span></a></span> <span ng-show="[\'suspended\'].indexOf(subscriptionStatus.statusCode) >= 0"><a type="button" class="btn btn-primary btn-xs" ng-href="{{storeAccountUrl}}" target="_blank"><span translate="{{messagesPrefix}}.view-account"></span></a></span></div><div ng-show="expandedFormat"><div class="subscription-status trial" ng-show="subscriptionStatus.statusCode === \'on-trial\'"><span ng-bind-html="messagesPrefix + \'.expanded-\' + subscriptionStatus.statusCode + subscriptionStatus.plural | translate:subscriptionStatus | to_trusted"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeUrl}}" target="_blank" ng-show="!customOnClick"><span translate="{{messagesPrefix}}.subscribe-now"></span></a> <a type="button" class="btn btn-primary u_margin-left" ng-click="customOnClick()" ng-show="customOnClick"><span translate="{{messagesPrefix}}.subscribe-now"></span></a></div><div class="subscription-status expired" ng-show="subscriptionStatus.statusCode === \'trial-expired\'"><span translate="{{messagesPrefix}}.expanded-expired"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeUrl}}" target="_blank" ng-show="!customOnClick"><span translate="{{messagesPrefix}}.subscribe-now"></span></a> <a type="button" class="btn btn-primary u_margin-left" ng-click="customOnClick()" ng-show="customOnClick"><span translate="{{messagesPrefix}}.subscribe-now"></span></a></div><div class="subscription-status cancelled" ng-show="subscriptionStatus.statusCode === \'cancelled\'"><span translate="{{messagesPrefix}}.expanded-cancelled"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeUrl}}" target="_blank" ng-show="!customOnClick"><span translate="{{messagesPrefix}}.subscribe-now"></span></a> <a type="button" class="btn btn-primary u_margin-left" ng-click="customOnClick()" ng-show="customOnClick"><span translate="{{messagesPrefix}}.subscribe-now"></span></a></div><div class="subscription-status suspended" ng-show="subscriptionStatus.statusCode === \'suspended\'"><span translate="{{messagesPrefix}}.expanded-suspended"></span> <a type="button" class="btn btn-primary u_margin-left" ng-href="{{storeAccountUrl}}" target="_blank"><span translate="{{messagesPrefix}}.view-invoices"></span></a></div></div>');
 }]);
 })();

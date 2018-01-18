@@ -1,14 +1,27 @@
-/*doc
----
-title: Alerts
-name: alert
-category: Base CSS
----
-```html_example
-    <div class='alert alert-success'>Hello</div>
-```
-*/
+.alert
+{
+    &.alert-premium
+    {
+        @include alert-variant($alert-premium-bg, $alert-premium-border, $alert-premium-text);
+    }
+    &.alert-plan
+    {
+        font-size: 13px;
 
-.alert-premium {
-  @include alert-variant($alert-premium-bg, $alert-premium-border, $alert-premium-text);
+        margin: 0 !important;
+        padding: 8px;
+
+        color: #020621;
+
+        &.plan-active
+        {
+            border-color: #d6e9c6;
+            background-color: #dff0d8;
+        }
+        &.plan-suspended
+        {
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+    }
 }

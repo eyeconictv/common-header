@@ -29,6 +29,7 @@ angular.module("risevision.common.header", [
   "risevision.common.components.analytics",
   "risevision.common.components.message-box",
   "risevision.common.components.svg",
+  "risevision.common.components.plans",
   "risevision.common.support",
   "risevision.common.email"
 ])
