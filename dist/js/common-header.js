@@ -4032,47 +4032,50 @@ var handleClientJSLoad = function () {
 /* jshint ignore:end */
 
 angular.module("risevision.common.gapi", [])
-  .factory("gapiLoader", ["$q", "$window",
-    function ($q, $window) {
-      var deferred = $q.defer();
+  .value("CLIENT_ID", "614513768474.apps.googleusercontent.com")
+  .value("OAUTH2_SCOPES", "profile")
 
-      return function () {
-        var gapiLoaded;
+.factory("gapiLoader", ["$q", "$window",
+  function ($q, $window) {
+    var deferred = $q.defer();
 
-        if ($window.gapiLoadingStatus === "loaded") {
-          deferred.resolve($window.gapi);
-        } else if (!$window.gapiLoadingStatus) {
-          $window.gapiLoadingStatus = "loading";
+    return function () {
+      var gapiLoaded;
 
-          var src = $window.gapiSrc ||
-            "//apis.google.com/js/client.js?onload=handleClientJSLoad";
-          var fileref = document.createElement("script");
-          fileref.setAttribute("type", "text/javascript");
-          fileref.setAttribute("src", src);
-          if (typeof fileref !== "undefined") {
-            document.getElementsByTagName("body")[0].appendChild(fileref);
-          }
+      if ($window.gapiLoadingStatus === "loaded") {
+        deferred.resolve($window.gapi);
+      } else if (!$window.gapiLoadingStatus) {
+        $window.gapiLoadingStatus = "loading";
 
-          gapiLoaded = function () {
-            deferred.resolve($window.gapi);
-            $window.removeEventListener("gapi.loaded", gapiLoaded, false);
-          };
-          $window.addEventListener("gapi.loaded", gapiLoaded, false);
+        var src = $window.gapiSrc ||
+          "//apis.google.com/js/api.js?onload=handleClientJSLoad";
+        var fileref = document.createElement("script");
+        fileref.setAttribute("type", "text/javascript");
+        fileref.setAttribute("src", src);
+        if (typeof fileref !== "undefined") {
+          document.getElementsByTagName("body")[0].appendChild(fileref);
         }
-        return deferred.promise;
-      };
-    }
-  ])
+
+        gapiLoaded = function () {
+          deferred.resolve($window.gapi);
+          $window.removeEventListener("gapi.loaded", gapiLoaded, false);
+        };
+        $window.addEventListener("gapi.loaded", gapiLoaded, false);
+      }
+      return deferred.promise;
+    };
+  }
+])
 
 //abstract method for creading a loader factory service that loads any
 //custom Google Client API library
 
-.factory("gapiClientLoaderGenerator", ["$q", "gapiLoader", "$log",
-  function ($q, gapiLoader, $log) {
+.factory("gapiClientLoaderGenerator", ["$q", "clientAPILoader", "$log",
+  function ($q, clientAPILoader, $log) {
     return function (libName, libVer, baseUrl) {
       return function () {
         var deferred = $q.defer();
-        gapiLoader().then(function (gApi) {
+        clientAPILoader().then(function (gApi) {
           if (gApi.client[libName]) {
             //already loaded. return right away
             deferred.resolve(gApi.client[libName]);
@@ -4100,6 +4103,69 @@ angular.module("risevision.common.gapi", [])
   }
 ])
 
+.factory("auth2APILoader", ["$q", "gapiLoader", "$log", "CLIENT_ID", "OAUTH2_SCOPES",
+  function ($q, gapiLoader, $log, CLIENT_ID, OAUTH2_SCOPES) {
+    return function () {
+      var deferred = $q.defer();
+      gapiLoader().then(function (gApi) {
+        if (gApi.auth2 && gApi.auth2.getAuthInstance()) {
+          //already loaded. return right away
+          deferred.resolve(gApi.auth2);
+        } else {
+          gApi.load("auth2", function () {
+            if (gApi.auth2) {
+              gApi.auth2.init({
+                client_id: CLIENT_ID,
+                scope: OAUTH2_SCOPES
+              }).then(function () {
+                $log.debug("auth2 API Loaded");
+
+                deferred.resolve(gApi.auth2);
+              }, function () {
+                var errMsg = "auth2 GoogleAuth Init Failed";
+                $log.error(errMsg);
+                deferred.reject(errMsg);
+              });
+            } else {
+              var errMsg = "auth2 API Load Failed";
+              $log.error(errMsg);
+              deferred.reject(errMsg);
+            }
+          });
+        }
+      });
+      return deferred.promise;
+    };
+  }
+])
+
+.factory("clientAPILoader", ["$q", "gapiLoader", "$log",
+  function ($q, gapiLoader, $log) {
+    return function () {
+      var deferred = $q.defer();
+      gapiLoader().then(function (gApi) {
+        if (gApi.client) {
+          //already loaded. return right away
+          deferred.resolve(gApi);
+        } else {
+          gApi.load("client", function () {
+            if (gApi.client) {
+              $log.debug("client API Loaded");
+
+              deferred.resolve(gApi);
+            } else {
+              var errMsg = "client API Load Failed";
+              $log.error(errMsg);
+              deferred.reject(errMsg);
+            }
+          });
+        }
+      });
+      return deferred.promise;
+    };
+  }
+])
+
 .factory("oauth2APILoader", ["gapiClientLoaderGenerator",
   function (gapiClientLoaderGenerator) {
     return gapiClientLoaderGenerator("oauth2", "v2");
@@ -4109,15 +4175,18 @@ angular.module("risevision.common.gapi", [])
 .factory("coreAPILoader", ["CORE_URL", "gapiClientLoaderGenerator",
   "$location",
   function (CORE_URL, gapiClientLoaderGenerator, $location) {
-    var baseUrl = $location.search().core_api_base_url ? $location.search().core_api_base_url +
+    var baseUrl = $location.search().core_api_base_url ? $location.search()
+      .core_api_base_url +
       "/_ah/api" : CORE_URL;
     return gapiClientLoaderGenerator("core", "v1", baseUrl);
   }
 ])
 
-.factory("riseAPILoader", ["CORE_URL", "gapiClientLoaderGenerator", "$location",
+.factory("riseAPILoader", ["CORE_URL", "gapiClientLoaderGenerator",
+  "$location",
   function (CORE_URL, gapiClientLoaderGenerator, $location) {
-    var baseUrl = $location.search().core_api_base_url ? $location.search().core_api_base_url +
+    var baseUrl = $location.search().core_api_base_url ? $location.search()
+      .core_api_base_url +
       "/_ah/api" : CORE_URL;
     return gapiClientLoaderGenerator("rise", "v0", baseUrl);
   }
@@ -4126,7 +4195,8 @@ angular.module("risevision.common.gapi", [])
 .factory("storeAPILoader", ["STORE_ENDPOINT_URL", "gapiClientLoaderGenerator",
   "$location",
   function (STORE_ENDPOINT_URL, gapiClientLoaderGenerator, $location) {
-    var baseUrl = $location.search().store_api_base_url ? $location.search().store_api_base_url +
+    var baseUrl = $location.search().store_api_base_url ? $location.search()
+      .store_api_base_url +
       "/_ah/api" : STORE_ENDPOINT_URL;
     return gapiClientLoaderGenerator("store", "v0.01", baseUrl);
   }
@@ -4144,7 +4214,8 @@ angular.module("risevision.common.gapi", [])
 .factory("discoveryAPILoader", ["CORE_URL", "gapiClientLoaderGenerator",
   "$location",
   function (CORE_URL, gapiClientLoaderGenerator, $location) {
-    var baseUrl = $location.search().core_api_base_url ? $location.search().core_api_base_url +
+    var baseUrl = $location.search().core_api_base_url ? $location.search()
+      .core_api_base_url +
       "/_ah/api" : CORE_URL;
     return gapiClientLoaderGenerator("discovery", "v1", baseUrl);
   }
@@ -4153,7 +4224,8 @@ angular.module("risevision.common.gapi", [])
 .factory("monitoringAPILoader", ["MONITORING_SERVICE_URL",
   "gapiClientLoaderGenerator", "$location",
   function (MONITORING_SERVICE_URL, gapiClientLoaderGenerator, $location) {
-    var baseUrl = $location.search().core_api_base_url ? $location.search().core_api_base_url +
+    var baseUrl = $location.search().core_api_base_url ? $location.search()
+      .core_api_base_url +
       "/_ah/api" : MONITORING_SERVICE_URL;
     return gapiClientLoaderGenerator("monitoring", "v0", baseUrl);
   }
@@ -5644,6 +5716,7 @@ angular.module("risevision.common.components.ui-flow")
       $locationProvider) {
 
       $locationProvider.html5Mode(true);
+      $locationProvider.hashPrefix("/");
 
       $urlRouterProvider.otherwise("/");
 
@@ -5652,14 +5725,8 @@ angular.module("risevision.common.components.ui-flow")
         template: "<div class=\"app-launcher\" ui-view></div>"
       })
 
-      .state("common.googleresult", {
-        url: "/state=:state&access_token=:access_token&token_type=:token_type&expires_in=:expires_in",
-        controller: "GoogleResultCtrl"
-      })
-
-      .state("common.googleresult2", {
-        url: "/access_token=:access_token&token_type=:token_type&expires_in=:expires_in",
-        controller: "GoogleResultCtrl"
+      .state("common.googleresponse", {
+        url: "/:id_token&:client_id"
       })
 
       .state("common.auth", {
@@ -5773,9 +5840,7 @@ angular.module("risevision.common.components.ui-flow")
         }
       });
     }
-  ])
-
-  .value("CLIENT_ID", "614513768474.apps.googleusercontent.com");
+  ]);
 
 })(angular);
 
@@ -6215,183 +6280,132 @@ angular.module("risevision.common.components.logging")
   "use strict";
 
   /*jshint camelcase: false */
-  /*jshint unused: false */
 
   angular.module("risevision.common.components.userstate")
   // constants (you can override them in your app as needed)
-  .value("OAUTH2_SCOPES",
-    "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
-  )
-    .value("GOOGLE_OAUTH2_URL", "https://accounts.google.com/o/oauth2/auth")
-    .factory("googleAuthFactory", ["$rootScope", "$q", "$log", "$location",
-      "$interval", "$window", "$http", "$stateParams", "gapiLoader",
-      "getOAuthUserInfo", "uiFlowManager", "getBaseDomain", "userState",
-      "urlStateService", "CLIENT_ID", "OAUTH2_SCOPES", "GOOGLE_OAUTH2_URL",
-      function ($rootScope, $q, $log, $location, $interval, $window, $http,
-        $stateParams,
-        gapiLoader, getOAuthUserInfo, uiFlowManager, getBaseDomain,
-        userState, urlStateService,
-        CLIENT_ID, OAUTH2_SCOPES, GOOGLE_OAUTH2_URL) {
+  .factory("googleAuthFactory", ["$rootScope", "$q", "$log", "$location",
+    "$window", "$stateParams", "auth2APILoader",
+    "getOAuthUserInfo", "uiFlowManager", "getBaseDomain", "userState",
+    "urlStateService",
+    function ($rootScope, $q, $log, $location, $window, $stateParams,
+      auth2APILoader, getOAuthUserInfo, uiFlowManager, getBaseDomain,
+      userState, urlStateService) {
 
-        var _accessTokenRefreshHandler = null;
+      var _gapiAuthorize = function () {
+        var deferred = $q.defer();
 
-        var _scheduleAccessTokenAutoRefresh = function () {
-          //cancel any existing $interval(s)
-          $interval.cancel(_accessTokenRefreshHandler);
-          _accessTokenRefreshHandler = $interval(function () {
-            //cancel current $interval. It will be re-sheduled if authentication succeeds
-            $interval.cancel(_accessTokenRefreshHandler);
-            //refresh Access Token
-            authenticate();
-          }, 55 * 60 * 1000); //refresh every 55 minutes
-        };
+        auth2APILoader()
+          .then(function (auth2) {
+            var authResult = auth2.getAuthInstance() &&
+              auth2.getAuthInstance().isSignedIn.get();
 
-        // TODO: Update
-        var _cancelAccessTokenAutoRefresh = function () {
-          $interval.cancel(_accessTokenRefreshHandler);
-          _accessTokenRefreshHandler = null;
-        };
-
-        var _gapiAuthorize = function (attemptImmediate) {
-          var deferred = $q.defer();
-
-          var _state = userState._state;
-          var opts = {
-            client_id: CLIENT_ID,
-            scope: OAUTH2_SCOPES,
-            cookie_policy: $location.protocol() + "://" +
-              getBaseDomain()
-          };
-
-          if (_state.userToken === "dummy") {
-            opts.authuser = $http.get(
-              "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" +
-              _state.params.access_token)
-              .then(function (resp) {
-                return resp.data.email;
-              }, function (err) {
-                $log.debug("Error retrieving userinfo", err);
-                return opts.authuser;
-              });
-          } else if (_state.userToken) {
-            opts.authuser = _state.userToken.email;
-          }
-
-          if (attemptImmediate) {
-            opts.immediate = true;
-          } else {
-            opts.prompt = "select_account";
-          }
-
-          $q.all([gapiLoader(), opts.authuser])
-            .then(function (qAll) {
-              var gApi = qAll[0];
-              opts.authuser = qAll[1];
-              // Setting the gapi token with the chosen user token. This is a fix for the multiple account issue.
-              gApi.auth.setToken(_state.params);
-
-              return gApi.auth.authorize(opts);
-            })
-            .then(function (authResult) {
-              $log.debug("authResult");
-              if (authResult && !authResult.error) {
-                if (_state.params) {
-                  // clear token so we don't deal with expiry
-                  delete _state.params;
-                }
-
-                _scheduleAccessTokenAutoRefresh();
-
-                deferred.resolve(authResult);
-              } else {
-                deferred.reject(authResult.error ||
-                  "failed to authorize user");
-              }
-            })
-            .then(null, deferred.reject); //gapiLoader
-
-          return deferred.promise;
-        };
-
-        /*
-         * Responsible for triggering the Google OAuth process.
-         *
-         */
-        var authenticate = function (forceAuth) {
-          var deferred = $q.defer();
-
-          var authResult;
-
-          _gapiAuthorize(!forceAuth)
-            .then(function (res) {
-              authResult = res;
-
-              return getOAuthUserInfo();
-            })
-            .then(function (oauthUserInfo) {
-              deferred.resolve(oauthUserInfo);
-            })
-            .then(null, function (err) {
-              deferred.reject(err);
-            });
-
-          return deferred.promise;
-        };
-
-        var authenticateRedirect = function (forceAuth) {
-
-          if (!forceAuth) {
-            return authenticate(forceAuth);
-          } else {
-            var loc;
-            var state = $stateParams.state;
-            var redirectUrl;
-
-            // Redirect to full URL path
-            if ($rootScope.redirectToRoot === false) {
-              loc = $window.location.href.substr(0, $window.location.href
-                .indexOf("#")) || $window.location.href;
-
-              state = urlStateService.clearStatePath(state);
+            $log.debug("authResult", authResult);
+            if (authResult) {
+              deferred.resolve(authResult);
             } else {
-              loc = $window.location.origin + "/";
+              deferred.reject("failed to authorize user");
+            }
+          })
+          .then(null, deferred.reject); //auth2APILoader
+
+        return deferred.promise;
+      };
+
+      /*
+       * Responsible for triggering the Google OAuth process.
+       *
+       */
+      var authenticate = function () {
+        var deferred = $q.defer();
+
+        var authResult;
+
+        _gapiAuthorize()
+          .then(function (res) {
+            authResult = res;
+
+            return getOAuthUserInfo();
+          })
+          .then(function (oauthUserInfo) {
+            if (userState._state.state) {
+              urlStateService.redirectToState(userState._state.state);
+
+              delete userState._state.state;
             }
 
-            userState._persistState();
-            uiFlowManager.persist();
+            deferred.resolve(oauthUserInfo);
+          })
+          .then(null, function (err) {
+            deferred.reject(err);
+          });
 
-            redirectUrl = GOOGLE_OAUTH2_URL +
-              "?response_type=token" +
-              "&scope=" + encodeURIComponent(OAUTH2_SCOPES) +
-              "&client_id=" + CLIENT_ID +
-              "&redirect_uri=" + encodeURIComponent(loc) +
-            //http://stackoverflow.com/a/14393492
-            "&prompt=select_account";
+        return deferred.promise;
+      };
 
-            if (state) {
-              // double encode since response gets decoded once!
-              state = encodeURIComponent(state);
+      var _isPopupAuth = function () {
+        return (userState._state.inRVAFrame || ($window.self !== $window.top));
+      };
 
-              redirectUrl += "&state=" + state;
+      var forceAuthenticate = function () {
+        var loc;
+        var state = $stateParams.state;
+
+        // Redirect to full URL path
+        if ($rootScope.redirectToRoot === false) {
+          loc = $window.location.href.substr(0, $window.location.href
+            .indexOf("#")) || $window.location.href;
+
+          state = urlStateService.clearStatePath(state);
+        } else {
+          loc = $window.location.origin + "/";
+        }
+
+        userState._state.state = state;
+        userState._persistState();
+        uiFlowManager.persist();
+
+        var opts = {
+          response_type: "token",
+          prompt: "select_account",
+          cookie_policy: $location.protocol() + "://" +
+            getBaseDomain(),
+          ux_mode: _isPopupAuth() ? "popup" : "redirect",
+          redirect_uri: loc
+        };
+
+        var deferred = $q.defer();
+
+        auth2APILoader()
+          .then(function (auth2) {
+            return auth2.getAuthInstance().signIn(opts);
+          })
+          .then(function () {
+            if (_isPopupAuth()) {
+              deferred.resolve(authenticate());
+            } else {
+              deferred.resolve();
             }
+          })
+          .then(null, function (err) {
+            deferred.reject(err);
+          });
 
-            $window.location.href = redirectUrl;
+        return deferred.promise;
+      };
 
-            // returns a promise that never get fulfilled since we are redirecting
-            // to that google oauth2 page
-            return $q.resolve();
+      var googleAuthFactory = {
+        authenticate: function (forceAuth) {
+          if (!forceAuth) {
+            return authenticate();
+          } else {
+            return forceAuthenticate();
           }
-        };
+        }
+      };
 
-        var googleAuthFactory = {
-          authenticate: userState._state.inRVAFrame ||
-            ($window.self !== $window.top) ?
-            authenticate : authenticateRedirect
-        };
-
-        return googleAuthFactory;
-      }
-    ]);
+      return googleAuthFactory;
+    }
+  ]);
 
 })(angular);
 
@@ -6636,11 +6650,11 @@ angular.module("risevision.common.components.logging")
     .value("FORCE_GOOGLE_AUTH", false)
     .factory("userAuthFactory", ["$q", "$log", "$location",
       "$rootScope", "$loading", "$window", "$document",
-      "gapiLoader", "objectHelper", "rvTokenStore", "externalLogging",
+      "auth2APILoader", "objectHelper", "rvTokenStore", "externalLogging",
       "userState", "googleAuthFactory", "customAuthFactory",
       "FORCE_GOOGLE_AUTH",
       function ($q, $log, $location, $rootScope, $loading, $window,
-        $document, gapiLoader, objectHelper,
+        $document, auth2APILoader, objectHelper,
         rvTokenStore, externalLogging, userState, googleAuthFactory,
         customAuthFactory, FORCE_GOOGLE_AUTH) {
 
@@ -6824,62 +6838,42 @@ angular.module("risevision.common.components.logging")
           $log.debug("authentication called");
 
           var _proceed = function () {
-            // This flag indicates a potentially authenticated user.
-            var userAuthed = (angular.isDefined(_state.userToken) &&
-              _state.userToken !== null);
-            $log.debug("userAuthed", userAuthed);
+            var authenticationPromise;
 
-            if (forceAuth || userAuthed === true) {
-              var authenticationPromise;
-
-              // Credentials or Token provided; assume authenticated
-              if (credentials || _state.userToken && _state.userToken.token &&
-                !FORCE_GOOGLE_AUTH) {
-                isRiseAuthUser = true;
-                authenticationPromise = customAuthFactory.authenticate(
-                  credentials);
-              } else {
-                authenticationPromise = googleAuthFactory.authenticate(
-                  forceAuth);
-              }
-
-              authenticationPromise
-                .then(_authorize)
-                .then(function () {
-                  userState._setIsRiseAuthUser(isRiseAuthUser);
-                  authenticateDeferred.resolve();
-                })
-                .then(null, function (err) {
-                  _resetUserState();
-
-                  $log.debug("Authentication Error: " + err);
-
-                  authenticateDeferred.reject(err);
-                })
-                .finally(function () {
-                  _addEventListenerVisibilityAPI();
-
-                  $loading.stopGlobal("risevision.user.authenticate");
-
-                  _logPageLoad("authenticated user");
-                });
+            // Credentials or Token provided; assume authenticated
+            if (credentials || _state.userToken && _state.userToken.token &&
+              !FORCE_GOOGLE_AUTH) {
+              isRiseAuthUser = true;
+              authenticationPromise = customAuthFactory.authenticate(
+                credentials);
             } else {
-              var msg = "user is not authenticated";
-              $log.debug(msg);
-
-              _resetUserState();
-
-              authenticateDeferred.reject(msg);
-
-              _addEventListenerVisibilityAPI();
-
-              $loading.stopGlobal("risevision.user.authenticate");
-
-              _logPageLoad("unauthenticated user");
+              authenticationPromise = googleAuthFactory.authenticate(
+                forceAuth);
             }
+
+            authenticationPromise
+              .then(_authorize)
+              .then(function () {
+                userState._setIsRiseAuthUser(isRiseAuthUser);
+                authenticateDeferred.resolve();
+              })
+              .then(null, function (err) {
+                _resetUserState();
+
+                $log.debug("Authentication Error: " + err);
+
+                authenticateDeferred.reject(err);
+              })
+              .finally(function () {
+                _addEventListenerVisibilityAPI();
+
+                $loading.stopGlobal("risevision.user.authenticate");
+
+                _logPageLoad("authenticated user");
+              });
           };
           // pre-load gapi to prevent popup blocker issues
-          gapiLoader().finally(_proceed);
+          auth2APILoader().finally(_proceed);
 
           if (forceAuth) {
             $loading.startGlobal("risevision.user.authenticate");
@@ -6889,13 +6883,14 @@ angular.module("risevision.common.components.logging")
         };
 
         var signOut = function (signOutGoogle) {
-          return gapiLoader().then(function (gApi) {
+          return auth2APILoader().then(function (auth2) {
             if (!userState.isRiseAuthUser()) {
               if (signOutGoogle) {
                 $window.logoutFrame.location =
                   "https://accounts.google.com/Logout";
               }
-              gApi.auth.signOut();
+
+              auth2.getAuthInstance().signOut();
             }
 
             _authenticateDeferred = null;
@@ -7472,24 +7467,6 @@ angular.module("risevision.common.components.userstate")
             accountConfirmed: true
           });
         });
-    }
-  ]);
-
-"use strict";
-
-/*jshint camelcase: false */
-
-angular.module("risevision.common.components.userstate")
-  .controller("GoogleResultCtrl", ["$log", "$stateParams", "userState",
-    "urlStateService",
-    function ($log, $stateParams, userState, urlStateService) {
-      $log.debug("URL params", $stateParams);
-
-      if ($stateParams.access_token) {
-        userState._setUserToken($stateParams);
-
-        urlStateService.redirectToState($stateParams.state);
-      }
     }
   ]);
 

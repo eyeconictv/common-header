@@ -5,11 +5,11 @@
     .value("FORCE_GOOGLE_AUTH", false)
     .factory("userAuthFactory", ["$q", "$log", "$location",
       "$rootScope", "$loading", "$window", "$document",
-      "gapiLoader", "objectHelper", "rvTokenStore", "externalLogging",
+      "auth2APILoader", "objectHelper", "rvTokenStore", "externalLogging",
       "userState", "googleAuthFactory", "customAuthFactory",
       "FORCE_GOOGLE_AUTH",
       function ($q, $log, $location, $rootScope, $loading, $window,
-        $document, gapiLoader, objectHelper,
+        $document, auth2APILoader, objectHelper,
         rvTokenStore, externalLogging, userState, googleAuthFactory,
         customAuthFactory, FORCE_GOOGLE_AUTH) {
 
@@ -193,62 +193,42 @@
           $log.debug("authentication called");
 
           var _proceed = function () {
-            // This flag indicates a potentially authenticated user.
-            var userAuthed = (angular.isDefined(_state.userToken) &&
-              _state.userToken !== null);
-            $log.debug("userAuthed", userAuthed);
+            var authenticationPromise;
 
-            if (forceAuth || userAuthed === true) {
-              var authenticationPromise;
-
-              // Credentials or Token provided; assume authenticated
-              if (credentials || _state.userToken && _state.userToken.token &&
-                !FORCE_GOOGLE_AUTH) {
-                isRiseAuthUser = true;
-                authenticationPromise = customAuthFactory.authenticate(
-                  credentials);
-              } else {
-                authenticationPromise = googleAuthFactory.authenticate(
-                  forceAuth);
-              }
-
-              authenticationPromise
-                .then(_authorize)
-                .then(function () {
-                  userState._setIsRiseAuthUser(isRiseAuthUser);
-                  authenticateDeferred.resolve();
-                })
-                .then(null, function (err) {
-                  _resetUserState();
-
-                  $log.debug("Authentication Error: " + err);
-
-                  authenticateDeferred.reject(err);
-                })
-                .finally(function () {
-                  _addEventListenerVisibilityAPI();
-
-                  $loading.stopGlobal("risevision.user.authenticate");
-
-                  _logPageLoad("authenticated user");
-                });
+            // Credentials or Token provided; assume authenticated
+            if (credentials || _state.userToken && _state.userToken.token &&
+              !FORCE_GOOGLE_AUTH) {
+              isRiseAuthUser = true;
+              authenticationPromise = customAuthFactory.authenticate(
+                credentials);
             } else {
-              var msg = "user is not authenticated";
-              $log.debug(msg);
-
-              _resetUserState();
-
-              authenticateDeferred.reject(msg);
-
-              _addEventListenerVisibilityAPI();
-
-              $loading.stopGlobal("risevision.user.authenticate");
-
-              _logPageLoad("unauthenticated user");
+              authenticationPromise = googleAuthFactory.authenticate(
+                forceAuth);
             }
+
+            authenticationPromise
+              .then(_authorize)
+              .then(function () {
+                userState._setIsRiseAuthUser(isRiseAuthUser);
+                authenticateDeferred.resolve();
+              })
+              .then(null, function (err) {
+                _resetUserState();
+
+                $log.debug("Authentication Error: " + err);
+
+                authenticateDeferred.reject(err);
+              })
+              .finally(function () {
+                _addEventListenerVisibilityAPI();
+
+                $loading.stopGlobal("risevision.user.authenticate");
+
+                _logPageLoad("authenticated user");
+              });
           };
           // pre-load gapi to prevent popup blocker issues
-          gapiLoader().finally(_proceed);
+          auth2APILoader().finally(_proceed);
 
           if (forceAuth) {
             $loading.startGlobal("risevision.user.authenticate");
@@ -258,13 +238,14 @@
         };
 
         var signOut = function (signOutGoogle) {
-          return gapiLoader().then(function (gApi) {
+          return auth2APILoader().then(function (auth2) {
             if (!userState.isRiseAuthUser()) {
               if (signOutGoogle) {
                 $window.logoutFrame.location =
                   "https://accounts.google.com/Logout";
               }
-              gApi.auth.signOut();
+
+              auth2.getAuthInstance().signOut();
             }
 
             _authenticateDeferred = null;
