@@ -3,35 +3,13 @@
 "use strict";
 
 describe("Services: googleAuthFactory", function() {
-  var path = "";
-
   beforeEach(module("risevision.common.components.userstate"));
 
   beforeEach(module(function ($provide) {
     //stub services
     $provide.service("$q", function() {return Q;});
-    $provide.value("$location", {
-      search: function () {
-        return {};
-      },
-      path: sinon.spy(function () {
-        return path;
-      }),
-      protocol: function () {
-        return "protocol";
-      },
-      url: function() {
-        return "";
-      },
-      $$html5: true
-    });
     $provide.value("$stateParams", {
       state: "someState"
-    });
-    $provide.service("getBaseDomain", function() {
-      return function() {
-        return "domain";
-      };
     });
     $provide.service("userState", function() {
       return userState = {
@@ -54,10 +32,6 @@ describe("Services: googleAuthFactory", function() {
       return uiFlowManager = {
         persist: sinon.spy()
       };
-    });
-    $provide.value("$rootScope", $rootScope = {
-      redirectToRoot: true,
-      $on: function() {}
     });
     $provide.service("urlStateService", function() {
       return urlStateService = {
@@ -120,10 +94,16 @@ describe("Services: googleAuthFactory", function() {
       isSignedIn = true;
       failOAuthUser = false;
 
-      inject(function($injector){
+      inject(function($injector) {
+        $rootScope = $injector.get("$rootScope");
+
         $window = $injector.get("$window");
         googleAuthFactory = $injector.get("googleAuthFactory");
       });
+    });
+
+    beforeEach(function() {
+      $rootScope.redirectToRoot = true;
     });
 
     it("should exist, return a promise", function() {
@@ -214,9 +194,15 @@ describe("Services: googleAuthFactory", function() {
 
     beforeEach(function() {
       inject(function($injector){
+        $rootScope = $injector.get("$rootScope");
+
         $window = $injector.get("$window");
         googleAuthFactory = $injector.get("googleAuthFactory");
       });
+    });
+
+    beforeEach(function() {
+      $rootScope.redirectToRoot = true;
     });
 
     it("should save current state variables", function() {
@@ -241,7 +227,6 @@ describe("Services: googleAuthFactory", function() {
         expect(authInstance.signIn.args[0][0]).to.deep.equal({
           "response_type":"token",
           "prompt":"select_account",
-          "cookie_policy":"protocol://domain",
           "ux_mode":"redirect",
           "redirect_uri":"http://localhost:8000/"
         });
@@ -249,7 +234,7 @@ describe("Services: googleAuthFactory", function() {
         done();
       }, 10);
     });
-    
+
     it("should strip params for redirect_uri", function(done) {
       $rootScope.redirectToRoot = false;
 
@@ -261,7 +246,6 @@ describe("Services: googleAuthFactory", function() {
         expect(authInstance.signIn.args[0][0]).to.deep.equal({
           "response_type":"token",
           "prompt":"select_account",
-          "cookie_policy":"protocol://domain",
           "ux_mode":"redirect",
           "redirect_uri":"http://localhost:8000/editor/list?cid=companyId"
         });
@@ -279,7 +263,6 @@ describe("Services: googleAuthFactory", function() {
         expect(authInstance.signIn.args[0][0]).to.deep.equal({
           "response_type":"token",
           "prompt":"select_account",
-          "cookie_policy":"protocol://domain",
           "ux_mode":"popup",
           "redirect_uri":"http://localhost:8000/"
         });
@@ -297,7 +280,6 @@ describe("Services: googleAuthFactory", function() {
         expect(authInstance.signIn.args[0][0]).to.deep.equal({
           "response_type":"token",
           "prompt":"select_account",
-          "cookie_policy":"protocol://domain",
           "ux_mode":"popup",
           "redirect_uri":"http://localhost:8000/"
         });
