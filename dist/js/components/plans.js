@@ -274,6 +274,33 @@ angular.module("risevision.common.components.plans", [
           return deferred.promise;
         };
 
+        _factory.getProLicenseCount = function (_company) {
+          var company = _company || userState.getCopyOfSelectedCompany();
+          return (company.planPlayerProLicenseCount || 0) + (company.playerProLicenseCount || 0);
+        };
+
+        _factory.areAllProLicensesUsed = function (_company) {
+          var company = _company || userState.getCopyOfSelectedCompany();
+          var maxProDisplays = _factory.getProLicenseCount();
+          var assignedDisplays = company.playerProAssignedDisplays || [];
+
+          return assignedDisplays.length === maxProDisplays;
+        };
+
+        _factory.toggleDisplayLicenseLocal = function (displayId, playerProAuthorized) {
+          var company = userState.getCopyOfSelectedCompany(true);
+          var assignedDisplays = company.playerProAssignedDisplays || [];
+
+          if (playerProAuthorized && assignedDisplays.indexOf(displayId) === -1) {
+            assignedDisplays.push(displayId);
+          } else if (!playerProAuthorized && assignedDisplays.indexOf(displayId) >= 0) {
+            assignedDisplays.splice(assignedDisplays.indexOf(displayId), 1);
+          }
+
+          company.playerProAssignedDisplays = assignedDisplays;
+          userState.updateCompanySettings(company);
+        };
+
         _loadCurrentPlan();
 
         $rootScope.$on("risevision.company.selectedCompanyChanged", function () {
@@ -305,9 +332,9 @@ angular.module("risevision.common.components.plans")
 angular.module("risevision.common.components.plans")
 
 .controller("PlansModalCtrl", [
-  "$scope", "$modalInstance", "$log", "$modal", "$templateCache", "$loading",
+  "$scope", "$rootScope", "$modalInstance", "$log", "$modal", "$templateCache", "$loading", "$timeout",
   "planFactory", "currentPlan", "storeAuthorization", "showRPPLink", "userState",
-  function ($scope, $modalInstance, $log, $modal, $templateCache, $loading,
+  function ($scope, $rootScope, $modalInstance, $log, $modal, $templateCache, $loading, $timeout,
     planFactory, currentPlan, storeAuthorization, showRPPLink, userState) {
 
     $scope.currentPlan = currentPlan;
@@ -406,7 +433,19 @@ angular.module("risevision.common.components.plans")
 
       storeAuthorization.startTrial(plan.productCode)
         .then(function () {
-          $modalInstance.close(plan);
+          return $timeout(5000)
+            .then(function () {
+              return userState.reloadSelectedCompany();
+            })
+            .then(function () {
+              $rootScope.$emit("risevision.company.trial.started");
+            })
+            .catch(function (err) {
+              $log.debug("Failed to reload company", err);
+            })
+            .finally(function () {
+              $modalInstance.close(plan);
+            });
         })
         .catch(function (err) {
           $log.debug("Failed to start trial", err);
