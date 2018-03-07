@@ -132,6 +132,27 @@
         ],
         url: "/resetpassword/:user/:token",
         controller: "ResetPasswordConfirmCtrl"
+      })
+
+      .state("common.auth.unsubscribe", {
+        templateProvider: ["$templateCache",
+          function ($templateCache) {
+            return $templateCache.get("userstate/unsubscribe.html");
+          }
+        ],
+        url: "/unsubscribe/:state",
+        params: {
+          "email": null,
+          "id": null,
+          "name": null
+        },
+        controller: ["$scope", "$stateParams",
+          function ($scope, $stateParams) {
+            $scope.email = $stateParams.email;
+            $scope.id = $stateParams.id;
+            $scope.name = $stateParams.name;
+          }
+        ]
       });
     }
   ])
