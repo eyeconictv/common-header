@@ -6067,16 +6067,12 @@ angular.module("risevision.common.components.ui-flow")
           }
         ],
         url: "/unsubscribe",
-        params: {
-          "email": null,
-          "id": null,
-          "name": null
-        },
-        controller: ["$scope", "$stateParams",
-          function ($scope, $stateParams) {
-            $scope.email = $stateParams.email;
-            $scope.id = $stateParams.id;
-            $scope.name = $stateParams.name;
+        controller: ["$scope", "$location",
+          function ($scope, $location) {
+            var params = $location.path("/unsubscribe").search();
+            $scope.email = params.email;
+            $scope.id = params.id;
+            $scope.name = params.name;
           }
         ]
       });
