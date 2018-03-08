@@ -140,7 +140,7 @@
             return $templateCache.get("userstate/unsubscribe.html");
           }
         ],
-        url: "/unsubscribe/:state",
+        url: "/unsubscribe",
         params: {
           "email": null,
           "id": null,
@@ -164,7 +164,8 @@
 
       $rootScope.$on("$stateChangeStart", function (event, toState,
         toParams, fromState, fromParams) {
-        if (toState && (toState.name === "common.auth.unauthorized" ||
+        if (toState && toState.name !== "common.auth.unsubscribe" && (
+          toState.name === "common.auth.unauthorized" ||
           toState.name === "common.auth.unregistered" ||
           toState.name === "common.auth.createaccount") && !toParams.state) {
 
@@ -179,7 +180,9 @@
       });
 
       $rootScope.$on("risevision.user.authorized", function () {
-        if ($state.current.name.indexOf("common.auth") !== -1) {
+        var currentState = $state.current.name;
+
+        if (currentState.indexOf("common.auth") !== -1 && currentState !== "common.auth.unsubscribe") {
           urlStateService.redirectToState($stateParams.state);
         }
       });

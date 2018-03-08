@@ -6066,7 +6066,7 @@ angular.module("risevision.common.components.ui-flow")
             return $templateCache.get("userstate/unsubscribe.html");
           }
         ],
-        url: "/unsubscribe/:state",
+        url: "/unsubscribe",
         params: {
           "email": null,
           "id": null,
@@ -6090,7 +6090,8 @@ angular.module("risevision.common.components.ui-flow")
 
       $rootScope.$on("$stateChangeStart", function (event, toState,
         toParams, fromState, fromParams) {
-        if (toState && (toState.name === "common.auth.unauthorized" ||
+        if (toState && toState.name !== "common.auth.unsubscribe" && (
+          toState.name === "common.auth.unauthorized" ||
           toState.name === "common.auth.unregistered" ||
           toState.name === "common.auth.createaccount") && !toParams.state) {
 
@@ -6105,7 +6106,9 @@ angular.module("risevision.common.components.ui-flow")
       });
 
       $rootScope.$on("risevision.user.authorized", function () {
-        if ($state.current.name.indexOf("common.auth") !== -1) {
+        var currentState = $state.current.name;
+
+        if (currentState.indexOf("common.auth") !== -1 && currentState !== "common.auth.unsubscribe") {
           urlStateService.redirectToState($stateParams.state);
         }
       });
@@ -7946,7 +7949,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/unsubscribe.html',
-    '<div class="alert alert-warning col-xs-12 u_margin-md-top"><strong>{{email}}</strong> has been unsubscribed from monitoring the Display <strong>\'{{name}}\'</strong>. (Display ID: {{id}})</div><a id="reset-password-link" ui-sref="common.auth.unauthorized">Sign in to your Rise Vision account</a><p></p>');
+    '<div class="alert alert-warning col-xs-12 u_margin-md-top"><strong>{{email}}</strong> has been unsubscribed from monitoring the Display <strong>\'{{name}}\'</strong>. (Display ID: {{id}})</div><a id="reset-password-link" href="/">Sign in to your Rise Vision account</a><p></p>');
 }]);
 })();
 
