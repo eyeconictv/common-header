@@ -6,7 +6,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('add-user-email.html',
-    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width"></head><body><div style="background:#f9f9f9;margin:0px;padding:20px" bgcolor="f9f9f9"><table cellspacing="0" border="0" cellpadding="0" align="center" width="595" bgcolor="white" style="border-collapse:separate;border-spacing:0;font-family:Helvetica,Arial,sans-serif;letter-spacing:0;table-layout:fixed"><tbody><tr><td style="border:1px solid #dddddd;border-radius:2px;font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:40px 60px"><table width="100%" style="border-collapse:separate;border-spacing:0;table-layout:fixed"><tbody><tr><td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:0;text-align:center" align="left"><img src="https://ci4.googleusercontent.com/proxy/tIn39Uu_-8P30B-NjHrQ6M6cn10CNDo8yKsbzHxTVxQDdshB0RN9KmjFHpgXqGvxfJy7jhFQFRMnvpkBo-cGxyTaPHX-YnB8cvvmC5v4FbYHFSbiRAgMRCOGqol3psI81bf9vVzerfYrewyW=s0-d-e1-ft#http://s3.amazonaws.com/Rise-Images/UI/logo.svg" width="165" height="62" style="padding:15px 0 30px;text-align:left" class="CToWUd"></td></tr></tbody></table><table width="100%" style="border-collapse:separate;border-spacing:0;table-layout:fixed"><tbody><tr><td style="color:#525252;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:22px;padding:0"><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">Hi there,</p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">You\'ve been granted access to Rise Vision by <b>{{user.name}}</b></p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">To join <b>{{newUser.companyName}}</b> as a user, follow these instructions:</p><div style="width: 100%; display: inline-block; padding: 10px; background-color: #f5f5f5; text-align:center;"><p><span>Visit our <a href="https://apps.risevision.com/signup" target="_blank">Sign Up</a> page and use the email address</span></p><p><b style="border: none; outline: none!important; font-size: 26px; line-height: 18px; padding: 0; margin: 0 18px;">{{newUser.username}}</b></p><p></p></div><p></p><div style="margin-bottom:16px;text-align:center!important" align="center"><a href="https://apps.risevision.com/signup" style="background:#47b767;border:none;border-radius:3px;color:#fff;display:inline-block;font-size:14px;font-weight:bold;outline:none!important;padding:12px 35px;text-decoration:none" target="_blank">Join Now</a></div><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">You can find more details about getting started with Rise Vision in our <a href="https://help.risevision.com/hc/en-us/articles/115002868706/" target="_blank">Help Center</a>.</p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">If you have any questions at all, just reply to this email. &nbsp;We’re here to help!</p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">Thank you,<br>Rise Vision Support Team</p></td></tr><tr></tr></tbody></table><div style="width: 100%; display: inline-block; padding: 10px; background-color: #f5f5f5;"><p style="text-align:center"><a href="http://blog.risevision.com/" style="border:none;outline:none!important" target="_blank">Follow Our Blog</a> <span style="margin:6px;">|</span> <a href="https://help.risevision.com/hc/en-us/community/topics/" style="border:none;outline:none!important" target="_blank">Join Our Community</a></p></div></td></tr></tbody></table><table width="100%" align="middle" style="border-collapse:separate;border-spacing:0;table-layout:fixed"><tbody><tr><td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:0"><table cellspacing="0" border="0" cellpadding="0" align="center" width="600" bgcolor="transparent" style="border-collapse:separate;border-spacing:0;font-family:Helvetica,Arial,sans-serif;letter-spacing:0;table-layout:fixed"><tbody><tr><td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:21px 30px 15px;text-align:center" align="center"><p style="color:#b7b7b7;font-size:12px;font-weight:300;margin:0 0 6px;text-decoration:none">Rise Vision 545 King Street West Toronto, Ontario Canada M5V 1M1</p></td></tr></tbody></table></td></tr></tbody></table></div></body></html>');
+    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width"></head><body><div style="background:#f9f9f9;margin:0px;padding:20px" bgcolor="f9f9f9"><table cellspacing="0" border="0" cellpadding="0" align="center" width="595" bgcolor="white" style="border-collapse:separate;border-spacing:0;font-family:Helvetica,Arial,sans-serif;letter-spacing:0;table-layout:fixed"><tbody><tr><td style="border:1px solid #dddddd;border-radius:2px;font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:40px 60px"><table width="100%" style="border-collapse:separate;border-spacing:0;table-layout:fixed"><tbody><tr><td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:0;text-align:center" align="left"><img src="https://ci4.googleusercontent.com/proxy/tIn39Uu_-8P30B-NjHrQ6M6cn10CNDo8yKsbzHxTVxQDdshB0RN9KmjFHpgXqGvxfJy7jhFQFRMnvpkBo-cGxyTaPHX-YnB8cvvmC5v4FbYHFSbiRAgMRCOGqol3psI81bf9vVzerfYrewyW=s0-d-e1-ft#http://s3.amazonaws.com/Rise-Images/UI/logo.svg" width="165" height="62" style="padding:15px 0 30px;text-align:left" class="CToWUd"></td></tr></tbody></table><table width="100%" style="border-collapse:separate;border-spacing:0;table-layout:fixed"><tbody><tr><td style="color:#525252;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:22px;padding:0"><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">Hi there,</p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">You\'ve been granted access to Rise Vision by <b>{{user.name}}</b></p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">To join <b>{{newUser.companyName}}</b> as a user, follow these instructions:</p><div style="width: 100%; display: inline-block; padding: 10px; background-color: #f5f5f5; text-align:center;"><p><span>Visit our <a href="https://apps.risevision.com/joinaccount/{{newUser.encodedCompanyName}}" target="_blank">Sign Up</a> page and use the email address</span></p><p><b style="border: none; outline: none!important; font-size: 26px; line-height: 18px; padding: 0; margin: 0 18px;">{{newUser.username}}</b></p><p></p></div><p></p><div style="margin-bottom:16px;text-align:center!important" align="center"><a href="https://apps.risevision.com/joinaccount/{{newUser.encodedCompanyName}}" style="background:#47b767;border:none;border-radius:3px;color:#fff;display:inline-block;font-size:14px;font-weight:bold;outline:none!important;padding:12px 35px;text-decoration:none" target="_blank">Join Now</a></div><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">You can find more details about getting started with Rise Vision in our <a href="https://help.risevision.com/hc/en-us/articles/115002868706/" target="_blank">Help Center</a>.</p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">If you have any questions at all, just reply to this email. &nbsp;We’re here to help!</p><p style="line-height:1.5;margin:0 0 17px;text-align:left!important" align="left">Thank you,<br>Rise Vision Support Team</p></td></tr><tr></tr></tbody></table><div style="width: 100%; display: inline-block; padding: 10px; background-color: #f5f5f5;"><p style="text-align:center"><a href="http://blog.risevision.com/" style="border:none;outline:none!important" target="_blank">Follow Our Blog</a> <span style="margin:6px;">|</span> <a href="https://help.risevision.com/hc/en-us/community/topics/" style="border:none;outline:none!important" target="_blank">Join Our Community</a></p></div></td></tr></tbody></table><table width="100%" align="middle" style="border-collapse:separate;border-spacing:0;table-layout:fixed"><tbody><tr><td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:0"><table cellspacing="0" border="0" cellpadding="0" align="center" width="600" bgcolor="transparent" style="border-collapse:separate;border-spacing:0;font-family:Helvetica,Arial,sans-serif;letter-spacing:0;table-layout:fixed"><tbody><tr><td style="font-family:Helvetica,Arial,sans-serif;font-size:16px;padding:21px 30px 15px;text-align:center" align="center"><p style="color:#b7b7b7;font-size:12px;font-weight:300;margin:0 0 6px;text-decoration:none">Rise Vision 545 King Street West Toronto, Ontario Canada M5V 1M1</p></td></tr></tbody></table></td></tr></tbody></table></div></body></html>');
 }]);
 })();
 
@@ -234,7 +234,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('plan-banner.html',
-    '<div><div id="free-plan-banner" class="alert alert-plan plan-active text-right" ng-show="isFree()"><div class="u_margin-right"><strong>Get more out of Rise Vision!</strong> <a href="#" ng-click="showPlans()" class="u_margin-left">See Our Plans</a></div></div><div class="alert alert-plan plan-active text-right" ng-show="isSubscribed()"><div class="u_margin-right"><strong>{{plan.name}} Plan</strong> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="u_margin-left">Change Plan</a></div></div><div class="alert alert-plan plan-active text-right" ng-show="isOnTrial()"><div class="u_margin-right"><strong>You have {{plan.trialPeriod}} days left on your Rise Vision {{plan.name}} Plan trial!</strong> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="u_margin-left">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="isTrialExpired()"><div class="u_margin-right"><strong ng-show="!isProSubscribed()">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Your Displays have been set to Standard.</strong> <strong ng-show="isProSubscribed()">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Your Displays are still subscribed to Professional.</strong> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="u_margin-left">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="isSuspended()"><div class="u_margin-right"><strong>There was an issue processing your payment. Please update your billing information. Your Displays may be affected.</strong> <a href="{{storeAccountUrl}}" target="_blank" class="u_margin-left">Update Billing</a></div></div></div>');
+    '<div><div id="free-plan-banner" class="alert alert-plan plan-active text-right" ng-show="isFree()"><div class="u_margin-right"><strong>Get more out of Rise Vision!</strong> <a href="#" ng-click="showPlans()" class="u_margin-left">See Our Plans</a></div></div><div class="alert alert-plan plan-active text-right" ng-show="isSubscribed()"><div class="u_margin-right"><strong>{{plan.name}} Plan</strong> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="u_margin-left">Change Plan</a></div></div><div id="trial-plan-banner" class="alert alert-plan plan-active text-right" ng-show="isOnTrial()"><div class="u_margin-right"><strong>You have {{plan.trialPeriod}} days left on your Rise Vision {{plan.name}} Plan trial!</strong> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="u_margin-left">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="isTrialExpired()"><div class="u_margin-right"><strong ng-show="!isProSubscribed()">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Your Displays have been set to Standard.</strong> <strong ng-show="isProSubscribed()">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Your Displays are still subscribed to Professional.</strong> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="u_margin-left">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="isSuspended()"><div class="u_margin-right"><strong>There was an issue processing your payment. Please update your billing information. Your Displays may be affected.</strong> <a href="{{storeAccountUrl}}" target="_blank" class="u_margin-left">Update Billing</a></div></div></div>');
 }]);
 })();
 
@@ -1531,16 +1531,16 @@ angular.module("risevision.common.header")
 
 angular.module("risevision.common.header")
   .controller("RegistrationModalCtrl", [
-    "$scope", "$rootScope", "$modalInstance",
+    "$q", "$scope", "$rootScope", "$modalInstance",
     "$loading", "registerAccount", "$log", "cookieStore",
     "userState", "pick", "uiFlowManager", "humanReadableError",
     "agreeToTermsAndUpdateUser", "account", "segmentAnalytics",
-    "bigQueryLogging", "analyticsEvents", "updateCompany", "$q",
-    function ($scope, $rootScope, $modalInstance, $loading, registerAccount,
+    "bigQueryLogging", "analyticsEvents", "updateCompany", "planFactory",
+    function ($q, $scope, $rootScope, $modalInstance, $loading, registerAccount,
       $log,
       cookieStore, userState, pick, uiFlowManager, humanReadableError,
       agreeToTermsAndUpdateUser, account, segmentAnalytics, bigQueryLogging,
-      analyticsEvents, updateCompany, $q) {
+      analyticsEvents, updateCompany, planFactory) {
 
       $scope.newUser = !account;
 
@@ -1622,6 +1622,10 @@ angular.module("risevision.common.header")
               userState.refreshProfile()
                 .then()
                 .finally(function () {
+                  if ($scope.newUser) {
+                    planFactory.startBasicPlanTrial();
+                  }
+
                   updateCompanyWebsite();
                   analyticsEvents.identify();
                   segmentAnalytics.track("User Registered", {
@@ -3702,6 +3706,8 @@ angular.module("risevision.common.email")
         template = template.replace("{{newUser.username}}", username);
         template = template.replace("{{newUser.companyName}}",
           userState.getSelectedCompanyName());
+        template = template.replace("{{newUser.encodedCompanyName}}",
+          encodeURIComponent(userState.getSelectedCompanyName()));
 
         template = template.replace("{{user.name}}", _getCurrentUserName());
 
@@ -5976,13 +5982,9 @@ angular.module("risevision.common.components.ui-flow")
         url: "/unauthorized/:state",
         controller: "LoginCtrl",
         params: {
+          isSignUp: false,
           passwordReset: null,
           accountConfirmed: null
-        },
-        resolve: {
-          isSignUp: function () {
-            return false;
-          }
         }
       })
 
@@ -5994,10 +5996,23 @@ angular.module("risevision.common.components.ui-flow")
         ],
         url: "/createaccount/:state",
         controller: "LoginCtrl",
-        resolve: {
-          isSignUp: function () {
-            return true;
+        params: {
+          isSignUp: true,
+          joinAccount: false
+        }
+      })
+
+      .state("common.auth.joinaccount", {
+        templateProvider: ["$templateCache",
+          function ($templateCache) {
+            return $templateCache.get("userstate/create-account.html");
           }
+        ],
+        url: "/joinaccount/:companyName",
+        controller: "LoginCtrl",
+        params: {
+          isSignUp: true,
+          joinAccount: true
         }
       })
 
@@ -7603,17 +7618,19 @@ angular.module("risevision.common.components.userstate")
 angular.module("risevision.common.components.userstate")
   .controller("LoginCtrl", ["$scope", "$loading", "$stateParams",
     "$state", "userAuthFactory", "customAuthFactory", "uiFlowManager",
-    "urlStateService", "userState", "isSignUp", "FORCE_GOOGLE_AUTH",
+    "urlStateService", "userState", "FORCE_GOOGLE_AUTH",
     function ($scope, $loading, $stateParams, $state, userAuthFactory,
       customAuthFactory, uiFlowManager, urlStateService, userState,
-      isSignUp, FORCE_GOOGLE_AUTH) {
+      FORCE_GOOGLE_AUTH) {
       $scope.forms = {};
       $scope.credentials = {};
       $scope.messages = {};
       $scope.errors = {};
-      $scope.isSignUp = isSignUp;
       $scope.FORCE_GOOGLE_AUTH = FORCE_GOOGLE_AUTH;
 
+      $scope.isSignUp = $stateParams.isSignUp;
+      $scope.joinAccount = $stateParams.joinAccount;
+      $scope.companyName = $stateParams.companyName;
       $scope.messages.passwordReset = $stateParams.passwordReset;
       $scope.messages.accountConfirmed = $stateParams.accountConfirmed;
 
@@ -7853,7 +7870,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/auth-form.html',
-    '<form id="forms.loginForm" name="forms.loginForm" role="form" novalidate=""><div><div class="panel-body bg-danger u_margin-sm-top" ng-show="errors.duplicateError"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span id="already-registered-warning">This email address is already registered. You can <a ui-sref="common.auth.unauthorized">sign in</a> with this address.</span></p></div><div class="panel-body bg-danger u_margin-sm-top" ng-show="errors.loginError"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span id="incorrect-credentials-error">Your email address/password combination is incorrect.<br>If you are having problems signing in, please check this <a href="https://help.risevision.com/hc/en-us/articles/115001402743-I-am-having-trouble-logging-in-what-can-I-do-" target="_blank">Help Center article</a>.</span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="errors.unconfirmedError"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>Your email address has not been confirmed.<br><a ui-sref="common.auth.requestconfirmationemail">Resend Email Confirmation</a></span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="errors.confirmationRequired"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>We\'ve sent a confirmation email to {{credentials.username}}.<br>Please check your inbox to complete your account registration.</span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="messages.passwordReset"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>Password successfully updated.<br>Please sign in to proceed.</span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="messages.accountConfirmed"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>Account successfully confirmed.<br>Please sign in to proceed.</span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="messages.isGoogleAccount"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>This account is authenticated by Google.<br>Please, use the \'Sign in with Google\' button.</span></p></div></div><div class="u_margin-sm-top" ng-show="!errors.confirmationRequired"><div class="form-group" ng-class="{\'has-error\': (forms.loginForm.$submitted && forms.loginForm.username.$invalid)}" show-errors=""><label class="control-label">Email</label> <input type="email" class="form-control" placeholder="Enter Your Email Address" id="username" name="username" ng-model="credentials.username" required="" focus-me="true"><p class="text-danger" ng-show="forms.loginForm.$submitted && forms.loginForm.username.$invalid">Please enter an Email</p></div><div class="form-group" ng-class="{\'has-error\': (forms.loginForm.$submitted && !isPasswordValid() && isSignUp), \'has-message\': isPasswordValid() && isSignUp}" show-errors=""><label class="control-label">Password</label> <input type="password" class="form-control" placeholder="Enter Password" id="password" name="password" ng-model="credentials.password" required=""><p class="text-danger" ng-show="forms.loginForm.$submitted && !isPasswordValid() && isSignUp">Please enter at least 4 characters.</p><p class="text-warning" ng-show="isPasswordValid() && isSignUp">A strong password is at least 8 characters, includes uppercase/lowercase letters, and one or more numbers.</p></div></div></form>');
+    '<form id="forms.loginForm" name="forms.loginForm" role="form" novalidate=""><div><div class="panel-body bg-danger u_margin-sm-top" ng-show="errors.duplicateError"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span id="already-registered-warning">This email address is already registered. You can <a ui-sref="common.auth.unauthorized">sign in</a> with this address.</span></p></div><div class="panel-body bg-danger u_margin-sm-top" ng-show="errors.loginError"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span id="incorrect-credentials-error">Your email address/password combination is incorrect.<br>If you are having problems signing in, please check this <a href="https://help.risevision.com/hc/en-us/articles/115001402743-I-am-having-trouble-logging-in-what-can-I-do-" target="_blank">Help Center article</a>.</span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="errors.unconfirmedError"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>Your email address has not been confirmed.<br><a ui-sref="common.auth.requestconfirmationemail">Resend Email Confirmation</a></span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="errors.confirmationRequired"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>We\'ve sent a confirmation email to {{credentials.username}}.<br>Please check your inbox to complete your account registration.</span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="messages.passwordReset"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>Password successfully updated.<br>Please sign in to proceed.</span></p></div><div class="panel-body bg-info u_margin-sm-top" ng-show="messages.accountConfirmed"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>Account successfully confirmed.<br>Please sign in to proceed.</span></p></div><div class="panel-body bg-danger u_margin-sm-top" ng-show="messages.isGoogleAccount"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>This account is authenticated by Google.<br>Please, use the \'Sign in with Google\' button.</span></p></div></div><div class="u_margin-sm-top" ng-show="!errors.confirmationRequired"><div class="form-group" ng-class="{\'has-error\': (forms.loginForm.$submitted && forms.loginForm.username.$invalid)}" show-errors=""><label class="control-label">Email</label> <input type="email" class="form-control" placeholder="Enter Your Email Address" id="username" name="username" ng-model="credentials.username" required="" focus-me="true"><p class="text-danger" ng-show="forms.loginForm.$submitted && forms.loginForm.username.$invalid">Please enter an Email</p></div><div class="form-group" ng-class="{\'has-error\': (forms.loginForm.$submitted && !isPasswordValid() && isSignUp), \'has-message\': isPasswordValid() && isSignUp}" show-errors=""><label class="control-label">Password</label> <input type="password" class="form-control" placeholder="Enter Password" id="password" name="password" ng-model="credentials.password" required=""><p class="text-danger" ng-show="forms.loginForm.$submitted && !isPasswordValid() && isSignUp">Please enter at least 4 characters.</p><p class="text-warning" ng-show="isPasswordValid() && isSignUp">A strong password is at least 8 characters, includes uppercase/lowercase letters, and one or more numbers.</p></div></div></form>');
 }]);
 })();
 
@@ -7865,7 +7882,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/create-account.html',
-    '<h1 class="u_remove-top">Get Started For Free</h1><p class="lead text-muted">No commitments or contracts</p><div class="col-xs-12 col-md-8" ng-show="!errors.confirmationRequired"><button class="btn btn-google-auth btn-hg" id="sign-up-google-link" ng-click="googleLogin(\'registrationComplete\')"><span><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"> Sign up with Google</span></button></div><div class="section-divider col-xs-12 col-md-8 u_margin-md-top" ng-show="!errors.confirmationRequired" ng-if="!FORCE_GOOGLE_AUTH"><div></div><span>OR</span><div></div></div><div class="col-md-8 col-xs-12" ng-if="!FORCE_GOOGLE_AUTH"><div ng-include="\'userstate/auth-form.html\'"></div><div class="form-group" ng-show="!errors.confirmationRequired"><button id="sign-up-button" class="btn btn-primary btn-hg" type="submit" form="forms.loginForm" ng-click="createAccount(\'registrationComplete\')"><span translate="Sign Up"></span></button></div></div><br><div class="col-xs-12 u_margin-lg-top"><p class="text-muted">Already have an account? <a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in</a></p></div>');
+    '<div ng-if="!joinAccount"><h1 class="u_remove-top">Get Started For Free</h1><p class="lead text-muted">Sign Up now and enjoy your 14-day Basic Plan trial. No credit card or commitment required.</p></div><div ng-if="joinAccount"><h1 class="u_remove-top">Join Your Company</h1><p class="lead text-muted">Complete your account <span ng-if="!companyName">registration</span><span ng-if="companyName">with {{companyName}}</span>.</p></div><div class="col-xs-12 col-md-8" ng-show="!errors.confirmationRequired"><button class="btn btn-google-auth btn-hg" id="sign-up-google-link" ng-click="googleLogin(\'registrationComplete\')"><span><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"> Sign up with Google</span></button></div><div class="section-divider col-xs-12 col-md-8 u_margin-md-top" ng-show="!errors.confirmationRequired" ng-if="!FORCE_GOOGLE_AUTH"><div></div><span>OR</span><div></div></div><div class="col-md-8 col-xs-12" ng-if="!FORCE_GOOGLE_AUTH"><div ng-include="\'userstate/auth-form.html\'"></div><div class="form-group" ng-show="!errors.confirmationRequired"><button id="sign-up-button" class="btn btn-primary btn-hg" type="submit" form="forms.loginForm" ng-click="createAccount(\'registrationComplete\')"><span translate="Sign Up"></span></button></div></div><br><div class="col-xs-12 u_margin-lg-top"><p class="text-muted">Already have an account? <a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in</a></p></div>');
 }]);
 })();
 
@@ -7889,7 +7906,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/request-confirmation-email.html',
-    '<h1 class="u_remove-top">Send Confirmation Email</h1><div class="col-xs-12 col-md-8"><div class="panel-body bg-info u_margin-lg-top" ng-show="emailSent"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>We\'ve sent a confirmation email to {{credentials.username}}.<br>Please check your inbox to complete your account registration.<br></span></p></div><div class="panel-body bg-info u_margin-lg-top" ng-show="emailAlreadyConfirmed"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>The {{credentials.username}} account is already confirmed.</span></p></div><div class="panel-body bg-info u_margin-lg-top" ng-show="isGoogleAccount"><p class="u_remove-bottom"><span>This account is authenticated by Google.<br><p class="text-muted">You can <a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in with Google</a> in our login page.</p></span></p></div></div><form id="confirmationEmailForm" role="form" name="forms.confirmationEmailForm" novalidate="" ng-show="!emailSent"><div class="col-md-8 col-xs-12 u_margin-md-top"><div class="form-group" ng-class="{\'has-error\': (forms.confirmationEmailForm.$submitted && forms.confirmationEmailForm.username.$invalid)}" show-errors=""><label class="control-label">Email</label> <input type="text" class="form-control" name="username" ng-model="credentials.username" required="" focus-me="true"><p class="text-danger" ng-show="forms.confirmationEmailForm.$submitted && forms.confirmationEmailForm.username.$invalid">Please enter an Email</p></div><button class="btn btn-primary btn-hg" ng-disabled="forms.confirmationEmailForm.$invalid" ng-click="requestConfirmationEmail()">Send Confirmation Email</button></div></form><br><div class="col-xs-12 u_margin-lg-top"><p class="text-muted"><a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in</a> to your account instead.</p></div>');
+    '<h1 class="u_remove-top">Send Confirmation Email</h1><div class="col-xs-12 col-md-8"><div class="panel-body bg-info u_margin-lg-top" ng-show="emailSent"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>We\'ve sent a confirmation email to {{credentials.username}}.<br>Please check your inbox to complete your account registration.<br></span></p></div><div class="panel-body bg-info u_margin-lg-top" ng-show="emailAlreadyConfirmed"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>The {{credentials.username}} account is already confirmed.</span></p></div><div class="panel-body bg-danger u_margin-lg-top" ng-show="isGoogleAccount"><p class="u_remove-bottom"><span><i class="fa fa-warning icon-left"></i> This account is authenticated by Google.<br><p class="text-muted">You can <a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in with Google</a> in our login page.</p></span></p></div></div><form id="confirmationEmailForm" role="form" name="forms.confirmationEmailForm" novalidate="" ng-show="!emailSent"><div class="col-md-8 col-xs-12 u_margin-md-top"><div class="form-group" ng-class="{\'has-error\': (forms.confirmationEmailForm.$submitted && forms.confirmationEmailForm.username.$invalid)}" show-errors=""><label class="control-label">Email</label> <input type="text" class="form-control" name="username" ng-model="credentials.username" required="" focus-me="true"><p class="text-danger" ng-show="forms.confirmationEmailForm.$submitted && forms.confirmationEmailForm.username.$invalid">Please enter an Email</p></div><button class="btn btn-primary btn-hg" ng-disabled="forms.confirmationEmailForm.$invalid" ng-click="requestConfirmationEmail()">Send Confirmation Email</button></div></form><br><div class="col-xs-12 u_margin-lg-top"><p class="text-muted"><a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in</a> to your account instead.</p></div>');
 }]);
 })();
 
@@ -7901,7 +7918,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('userstate/request-password-reset.html',
-    '<h1 class="u_remove-top">Password Reset</h1><div class="col-xs-12 col-md-8"><div class="panel-body bg-info u_margin-lg-top" ng-show="emailSent"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>An email with password reset instructions has been sent to your email inbox (if it exists in our system).</span></p></div><div class="panel-body bg-info u_margin-lg-top" ng-show="isGoogleAccount"><p class="u_remove-bottom"><span>This account is authenticated by Google.<br><a href="https://myaccount.google.com/security#signin" target="_blank">Change your password on your Google account.</a></span></p></div></div><form id="requestResetForm" role="form" name="forms.requestResetForm" novalidate="" ng-show="!emailSent"><div class="col-md-8 col-xs-12 u_margin-md-top"><div class="form-group" ng-class="{\'has-error\': (forms.requestResetForm.$submitted && forms.requestResetForm.username.$invalid)}" show-errors=""><label class="control-label">Email</label> <input type="text" class="form-control" name="username" ng-model="credentials.username" required="" focus-me="true"><p class="text-danger" ng-show="forms.requestResetForm.$submitted && forms.requestResetForm.username.$invalid">Please enter an Email</p></div><button class="btn btn-primary btn-hg" ng-disabled="forms.requestResetForm.$invalid" ng-click="requestPasswordReset()">Reset Password</button></div></form><br><div class="col-xs-12 u_margin-lg-top"><p class="text-muted"><a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in</a> to your account instead.</p></div>');
+    '<h1 class="u_remove-top">Password Reset</h1><div class="col-xs-12 col-md-8"><div class="panel-body bg-info u_margin-lg-top" ng-show="emailSent"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>An email with password reset instructions has been sent to your email inbox (if it exists in our system).</span></p></div><div class="panel-body bg-danger u_margin-lg-top" ng-show="isGoogleAccount"><p class="u_remove-bottom"><i class="fa fa-warning icon-left"></i> <span>This account is authenticated by Google.<br><a href="https://myaccount.google.com/security#signin" target="_blank">Change your password on your Google account.</a></span></p></div></div><form id="requestResetForm" role="form" name="forms.requestResetForm" novalidate="" ng-show="!emailSent"><div class="col-md-8 col-xs-12 u_margin-md-top"><div class="form-group" ng-class="{\'has-error\': (forms.requestResetForm.$submitted && forms.requestResetForm.username.$invalid)}" show-errors=""><label class="control-label">Email</label> <input type="text" class="form-control" name="username" ng-model="credentials.username" required="" focus-me="true"><p class="text-danger" ng-show="forms.requestResetForm.$submitted && forms.requestResetForm.username.$invalid">Please enter an Email</p></div><button class="btn btn-primary btn-hg" ng-disabled="forms.requestResetForm.$invalid" ng-click="requestPasswordReset()">Reset Password</button></div></form><br><div class="col-xs-12 u_margin-lg-top"><p class="text-muted"><a id="sign-in-link" ui-sref="common.auth.unauthorized">Sign in</a> to your account instead.</p></div>');
 }]);
 })();
 
@@ -9280,7 +9297,7 @@ angular.module("risevision.common.components.plans", [
       name: "Free",
       type: "free",
       productId: "000",
-      pc: "000",
+      productCode: "000",
       status: "Active",
       priceMonth: 0,
       descriptionShort: "Design, distribute and manage your digital signage for free. Unlimited Displays, Companies and Users.",
@@ -9289,35 +9306,38 @@ angular.module("risevision.common.components.plans", [
       name: "Basic",
       type: "basic",
       productId: "289",
-      pc: "40c092161f547f8f72c9f173cd8eebcb9ca5dd25",
-      proLicenseCount: 2
+      productCode: "40c092161f547f8f72c9f173cd8eebcb9ca5dd25",
+      proLicenseCount: 2,
+      trialPeriod: 14
     }, {
       name: "Advanced",
       type: "advanced",
       productId: "290",
-      pc: "93b5595f0d7e4c04a3baba1102ffaecb17607bf4",
-      proLicenseCount: 9
+      productCode: "93b5595f0d7e4c04a3baba1102ffaecb17607bf4",
+      proLicenseCount: 9,
+      trialPeriod: 14
     }, {
       name: "Enterprise",
       type: "enterprise",
       productId: "301",
-      pc: "b1844725d63fde197f5125b58b6cba6260ee7a57",
+      productCode: "b1844725d63fde197f5125b58b6cba6260ee7a57",
       proLicenseCount: 50
     }, {
       name: "Enterprise",
       type: "enterprisesub",
       productId: "303",
-      pc: "d521f5bfbc1eef109481eebb79831e11c7804ad8",
+      productCode: "d521f5bfbc1eef109481eebb79831e11c7804ad8",
       proLicenseCount: 0
     }])
-    .factory("planFactory", ["$q", "$log", "$rootScope", "$modal", "$templateCache", "userState", "storeAPILoader",
-      "currencyService", "PLANS_LIST", "subscriptionStatusService",
+    .factory("planFactory", ["$q", "$log", "$rootScope", "$modal", "$templateCache",
+      "userState", "storeAPILoader", "currencyService", "subscriptionStatusService", "storeAuthorization",
+      "PLANS_LIST",
       function ($q, $log, $rootScope, $modal, $templateCache, userState, storeAPILoader,
-        currencyService, PLANS_LIST, subscriptionStatusService) {
+        currencyService, subscriptionStatusService, storeAuthorization, PLANS_LIST) {
         var _factory = {};
-        var _plansCodesList = _.map(PLANS_LIST, "pc");
+        var _plansCodesList = _.map(PLANS_LIST, "productCode");
         var _plansByType = _.keyBy(PLANS_LIST, "type");
-        var _plansByCode = _.keyBy(PLANS_LIST, "pc");
+        var _plansByCode = _.keyBy(PLANS_LIST, "productCode");
 
         _factory.getPlans = function (params) { // companyId, search
           $log.debug("getPlans called.");
@@ -9371,7 +9391,7 @@ angular.module("risevision.common.components.plans", [
         };
 
         _factory.showPlansModal = function (showRPPLink) {
-          var modalInstance = $modal.open({
+          $modal.open({
             template: $templateCache.get("plans/plans-modal.html"),
             controller: "PlansModalCtrl",
             size: "lg",
@@ -9383,15 +9403,6 @@ angular.module("risevision.common.components.plans", [
                 return showRPPLink;
               }
             }
-          });
-          modalInstance.result.then(function (plan) {
-            var selectedCompany = userState.getCopyOfSelectedCompany(true);
-            selectedCompany.planProductCode = plan.productCode;
-            selectedCompany.planTrialPeriod = plan.trialPeriod;
-            selectedCompany.planSubscriptionStatus = "Trial";
-            selectedCompany.planPlayerProLicenseCount = _plansByCode[plan.productCode].proLicenseCount;
-
-            userState.updateCompanySettings(selectedCompany);
           });
         };
 
@@ -9468,6 +9479,29 @@ angular.module("risevision.common.components.plans", [
           userState.updateCompanySettings(company);
         };
 
+        _factory.startTrial = function (plan) {
+          return storeAuthorization.startTrial(plan.productCode)
+            .then(function () {
+              var selectedCompany = userState.getCopyOfSelectedCompany(true);
+
+              selectedCompany.planProductCode = plan.productCode;
+              selectedCompany.planTrialPeriod = plan.trialPeriod;
+              selectedCompany.planSubscriptionStatus = "Trial";
+              selectedCompany.planPlayerProLicenseCount = _plansByCode[plan.productCode].proLicenseCount;
+
+              userState.updateCompanySettings(selectedCompany);
+            })
+            .catch(function (err) {
+              $log.debug("Failed to start trial", err);
+
+              throw err;
+            });
+        };
+
+        _factory.startBasicPlanTrial = function () {
+          return _factory.startTrial(_plansByType.basic);
+        };
+
         _factory.isPlanActive = function () {
           return _factory.isSubscribed() || _factory.isOnTrial();
         };
@@ -9540,9 +9574,9 @@ angular.module("risevision.common.components.plans")
 
 .controller("PlansModalCtrl", [
   "$scope", "$rootScope", "$modalInstance", "$log", "$modal", "$templateCache", "$loading", "$timeout", "$q",
-  "planFactory", "currentPlan", "storeAuthorization", "showRPPLink", "userState",
+  "planFactory", "currentPlan", "showRPPLink", "userState",
   function ($scope, $rootScope, $modalInstance, $log, $modal, $templateCache, $loading, $timeout, $q,
-    planFactory, currentPlan, storeAuthorization, showRPPLink, userState) {
+    planFactory, currentPlan, showRPPLink, userState) {
 
     var company = userState.getCopyOfSelectedCompany();
     $scope.currentPlan = currentPlan;
@@ -9670,7 +9704,7 @@ angular.module("risevision.common.components.plans")
       $loading.start("plans-modal");
       $scope.startTrialError = null;
 
-      storeAuthorization.startTrial(plan.productCode)
+      planFactory.startTrial(plan)
         .then(function () {
           return $timeout(5000)
             .then(function () {
@@ -9687,13 +9721,11 @@ angular.module("risevision.common.components.plans")
             });
         })
         .catch(function (err) {
-          $log.debug("Failed to start trial", err);
           $scope.startTrialError = err;
         })
         .finally(function () {
           $loading.stop("plans-modal");
         });
-
     };
 
     $scope.dismiss = function () {
@@ -9729,7 +9761,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('plans/plans-modal.html',
-    '<div rv-spinner="" rv-spinner-key="plans-modal" rv-spinner-start-active="1"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title" translate="">common-header.plans.choose-plan</h3></div><div id="plans-modal" class="modal-body u_padding-lg" stop-event="touchend"><div ng-show="startTrialError" class="alert alert-danger u_margin-xs-bottom" translate="">common-header.plans.error-starting-trial</div><div class="grid-list row"><div class="col-xs-12 col-sm-6 col-md-3" ng-repeat="plan in plans"><div class="u_cursor_disabled panel panel-default"><div itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><div class="grid-list-text text-center"><h4 id="productName">{{plan.name}}</h4><p class="product-description">{{plan.descriptionShort}}</p><div><h1>${{plan.priceMonth}}</h1>&nbsp;<span translate="">common-header.plans.per-company-month</span></div><div class="u_margin-lg"><p class="small u_margin-sm-bottom" ng-show="!isOnTrial(plan) && !isTrialExpired(plan)">&nbsp;</p><p class="small u_margin-sm-bottom" ng-show="isCurrentPlan(plan) && isOnTrial(plan)" translate="" translate-values="{ count: currentPlan.trialPeriod }">common-header.plans.days-left-trial</p><p class="small u_margin-sm-bottom text-danger" ng-show="isCurrentPlan(plan) && isTrialExpired(plan)" translate="">common-header.plans.trial-expired</p><a id="current-plan" ng-show="currentButtonVisible(plan)" target="_blank" class="cta_button btn btn-white" translate="">common-header.plans.current</a><a id="subscribe-plan" ng-show="subscribeButtonVisible(plan)" target="_blank" href="https://store.risevision.com/product/{{plan.productId}}" class="cta_button btn btn-primary" translate="">common-header.plans.subscribe</a><a id="start-trial-plan" ng-show="canStartTrial(plan)" target="_blank" ng-click="startTrial(plan)" class="cta_button btn btn-primary" translate="">common-header.plans.start-trial</a><a id="downgrade-plan" ng-show="canDowngrade(plan)" ng-click="showDowngradeModal()" class="cta_button btn btn-default" translate="">common-header.plans.downgrade</a></div></div></div></div></div></div><div ng-show="!showRPPLink" class="text-center u_margin-md-top"><a class="btn btn-link btn-lg get-started-guide" target="_blank" href="https://www.risevision.com/pricing?utm_campaign=apps" translate="">common-header.plans.learn-more-1</a> <span class="bold" translate="">common-header.plans.learn-more-2</span> <a class="btn btn-link btn-lg get-started-guide" target="_blank" href="https://www.risevision.com/contact-us" translate="">common-header.plans.learn-more-3</a></div><div ng-show="showRPPLink && !proSubscriptionLinkVisible()" class="text-center u_margin-md-top"><a class="btn btn-link btn-lg" target="_blank" href="https://store.risevision.com/product/2048" link-cid="" translate="">common-header.plans.individual-licenses</a> <a class="cta_button btn btn-primary u_margin-lg" target="_blank" href="https://store.risevision.com/product/2048" link-cid="" translate="">common-header.plans.go-to-store</a></div><div ng-show="showRPPLink && proSubscriptionLinkVisible()" class="text-center u_margin-md-top"><a class="btn btn-link btn-lg" target="_blank" href="https://store.risevision.com/account/subscription/{{playerProSubscriptionId}}?cid={{companyId}}" translate="">common-header.plans.individual-licenses</a> <a class="cta_button btn btn-primary u_margin-lg" target="_blank" href="https://store.risevision.com/account/subscription/{{playerProSubscriptionId}}?cid={{companyId}}" translate="">common-header.plans.go-to-store</a></div></div><div class="modal-footer"></div></div>');
+    '<div rv-spinner="" rv-spinner-key="plans-modal" rv-spinner-start-active="1"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title" translate="">common-header.plans.choose-plan</h3></div><div id="plans-modal" class="modal-body u_padding-lg" stop-event="touchend"><div ng-show="startTrialError" class="alert alert-danger u_margin-xs-bottom" translate="">common-header.plans.error-starting-trial</div><div class="grid-list row"><div class="col-xs-12 col-sm-6 col-md-3" ng-repeat="plan in plans"><div class="u_cursor_disabled panel panel-default"><div itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><div class="grid-list-text text-center"><h4 id="productName">{{plan.name}}</h4><p class="product-description">{{plan.descriptionShort}}</p><div><h1>${{plan.priceMonth}}</h1>&nbsp;<span translate="">common-header.plans.per-company-month</span></div><div class="u_margin-lg"><p class="small u_margin-sm-bottom" ng-show="!isOnTrial(plan) && !isTrialExpired(plan)">&nbsp;</p><p id="trial-days-remaining" class="small u_margin-sm-bottom" ng-show="isCurrentPlan(plan) && isOnTrial(plan)" translate="" translate-values="{ count: currentPlan.trialPeriod }">common-header.plans.days-left-trial</p><p class="small u_margin-sm-bottom text-danger" ng-show="isCurrentPlan(plan) && isTrialExpired(plan)" translate="">common-header.plans.trial-expired</p><a id="current-plan" ng-show="currentButtonVisible(plan)" target="_blank" class="cta_button btn btn-white" translate="">common-header.plans.current</a><a id="subscribe-plan" ng-show="subscribeButtonVisible(plan)" target="_blank" href="https://store.risevision.com/product/{{plan.productId}}" class="cta_button btn btn-primary" translate="">common-header.plans.subscribe</a><a id="start-trial-plan" ng-show="canStartTrial(plan)" target="_blank" ng-click="startTrial(plan)" class="cta_button btn btn-primary" translate="">common-header.plans.start-trial</a><a id="downgrade-plan" ng-show="canDowngrade(plan)" ng-click="showDowngradeModal()" class="cta_button btn btn-default" translate="">common-header.plans.downgrade</a></div></div></div></div></div></div><div ng-show="!showRPPLink" class="text-center u_margin-md-top"><a class="btn btn-link btn-lg get-started-guide" target="_blank" href="https://www.risevision.com/pricing?utm_campaign=apps" translate="">common-header.plans.learn-more-1</a> <span class="bold" translate="">common-header.plans.learn-more-2</span> <a class="btn btn-link btn-lg get-started-guide" target="_blank" href="https://www.risevision.com/contact-us" translate="">common-header.plans.learn-more-3</a></div><div ng-show="showRPPLink && !proSubscriptionLinkVisible()" class="text-center u_margin-md-top"><a class="btn btn-link btn-lg" target="_blank" href="https://store.risevision.com/product/2048" link-cid="" translate="">common-header.plans.individual-licenses</a> <a class="cta_button btn btn-primary u_margin-lg" target="_blank" href="https://store.risevision.com/product/2048" link-cid="" translate="">common-header.plans.go-to-store</a></div><div ng-show="showRPPLink && proSubscriptionLinkVisible()" class="text-center u_margin-md-top"><a class="btn btn-link btn-lg" target="_blank" href="https://store.risevision.com/account/subscription/{{playerProSubscriptionId}}?cid={{companyId}}" translate="">common-header.plans.individual-licenses</a> <a class="cta_button btn btn-primary u_margin-lg" target="_blank" href="https://store.risevision.com/account/subscription/{{playerProSubscriptionId}}?cid={{companyId}}" translate="">common-header.plans.go-to-store</a></div></div><div class="modal-footer"></div></div>');
 }]);
 })();
 
