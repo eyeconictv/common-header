@@ -18,7 +18,7 @@ rv-spinner-start-active="1">
           <label for="firstName">First Name</label>
           <input type="text" class="form-control firstName"
           name="firstName"
-          id="firstName" required
+          id="firstName" required autocomplete="fname"
           ng-model="profile.firstName">
           <p ng-show="forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine"
             class="help-block validation-error-message-first-name">Enter First Name.</p>
@@ -28,7 +28,7 @@ rv-spinner-start-active="1">
           <label for="lastName">Last Name</label>
           <input type="text" class="form-control lastName"
           name="lastName"
-          id="lastName" required
+          id="lastName" required autocomplete="lname"
           ng-model="profile.lastName">
           <p ng-show="forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine"
             class="help-block validation-error-message-last-name">Enter Last Name.</p>
@@ -45,7 +45,7 @@ rv-spinner-start-active="1">
         </div>
         <!-- Terms of Service and Privacy -->
         <div class="checkbox form-group" ng-class="{ 'has-error' : forms.registrationForm.accepted.$invalid && !userForm.accepted.$pristine }">
-          <label>
+          <label for="accepted">
           <input type="checkbox" name="accepted"
             ng-model="profile.accepted"
             class="accept-terms-checkbox" required />
@@ -56,8 +56,8 @@ rv-spinner-start-active="1">
         </div>
         <!-- Newsletter -->
         <div class="checkbox form-group">
-          <label>
-            <input type="checkbox" class="sign-up-newsletter-checkbox" ng-model="profile.mailSyncEnabled"> Sign up for our newsletter
+          <label for="receive-newsletter">
+            <input name="receive-newsletter" type="checkbox" class="sign-up-newsletter-checkbox" ng-model="profile.mailSyncEnabled"> Sign up for our newsletter
           </label>
         </div>
         <div class="u_margin-md-top">
@@ -94,7 +94,6 @@ rv-spinner-start-active="1">
       </div>
     </div>
   </div>  
-
-  
+ 
 </div>
 </div>
