@@ -169,7 +169,7 @@
 
       $rootScope.$on("$stateChangeStart", function (event, toState,
         toParams, fromState, fromParams) {
-        if (toState && toState.name !== "common.auth.unsubscribe" && (
+        if (toState && (
           toState.name === "common.auth.unauthorized" ||
           toState.name === "common.auth.unregistered" ||
           toState.name === "common.auth.createaccount") && !toParams.state) {
@@ -1566,6 +1566,12 @@ angular.module("risevision.common.components.logging")
           // user getters
           getUsername: function () {
             return (_state.user && _state.user.username) || null;
+          },
+          getUserFullName: function () {
+            var firstName = (_state.profile && _state.profile.firstName) || "";
+            var lastName = (_state.profile && _state.profile.lastName) || "";
+
+            return (firstName + " " + lastName).trim();
           },
           getUserEmail: function () {
             return _state.profile.email;

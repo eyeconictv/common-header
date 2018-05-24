@@ -8123,9 +8123,6 @@ ul.social {
 .btn-default svg, .timeline .dropdown-menu li .btn svg, .timeline .dropdown-menu li .icon-nav label svg, .icon-nav .timeline .dropdown-menu li label svg {
   margin-left: 5px; }
 
-.btn svg path, .icon-nav label svg path {
-  fill: #666; }
-
 /* Horizontal rule
    ========================================================================== */
 .hr-thick {

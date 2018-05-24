@@ -18,13 +18,10 @@
       var previousUsername = "";
       var $ = $window.$;
 
-      var cancelDomMonitor;
-
       function ensureScript() {
         if (!loaded) {
           $window.zESettings = {
             webWidget: {
-
               helpCenter: {
                 title: {
                   "*": "Help"
@@ -44,9 +41,6 @@
               contactForm: {
                 title: {
                   "*": "Open a Support Ticket"
-                },
-                messageButton: {
-                  "*": "Open a Support Ticket"
                 }
               }
             }
@@ -57,6 +51,8 @@
 
           $window.document.body.appendChild(scriptElem);
           loaded = true;
+
+          hideWidget();
         }
         return $q.when();
       }
@@ -93,31 +89,30 @@
         return deferred.promise;
       }
 
-      function showWidget() {
+      function initializeWidget() {
         return ensureScript()
           .then(_identify)
-          .then(function () {
-            // clear send-a-note flag
-            $location.search("c2VuZC11cy1hLW5vdGU", null);
-          })
-          .then(_activate);
+          .then(_completeInitialization);
       }
 
-      function _activate() {
+      function _completeInitialization() {
         var username = userState.getUsername();
 
         if (previousUsername !== username) {
           var identity = {
             email: username,
+            name: userState.getUserFullName()
           };
 
-          $window.zE.identify(identity);
+          if (username) {
+            $window.zE(function () {
+              $window.zE.identify(identity);
+            });
+          }
+
           previousUsername = username;
         }
 
-        _startDomMonitor();
-
-        $window.zE.show();
         _changeBorderStyle();
       }
 
@@ -126,82 +121,41 @@
           .css("border", "1px solid #4ab767");
       }
 
-      function _startDomMonitor() {
-        // continuous monitor DOM and alter ZD widget form
-        // when it's present on the web page
-        if (!cancelDomMonitor) {
-          var username = userState.getUsername();
-          var companyId = userState.getSelectedCompanyId();
-
-          cancelDomMonitor = setInterval(function () {
-            var iframe = $("iframe.zEWidget-webWidget--active");
-            if (iframe && iframe.contents) {
-              // automatically fill in rise vision username
-              var rvUsernameInput = iframe.contents().find("input[name=email]");
-              if (rvUsernameInput && rvUsernameInput.length > 0) {
-                rvUsernameInput.val(username);
-                rvUsernameInput.prop("disabled", true);
-                rvUsernameInput.parents("label").parent().hide();
-              }
-
-              var rvCompanyInput = iframe.contents().find(
-                "input[name=24893323]");
-              if (rvCompanyInput && rvCompanyInput.length > 0) {
-                getSupportSubscriptionStatus().then(function (subscriptionStatus) {
-                  var prioritySupport = false;
-                  $log.info("Subscription status is", subscriptionStatus);
-                  if (subscriptionStatus && subscriptionStatus.statusCode === "subscribed") {
-                    // append priority support flag
-                    prioritySupport = 1;
-                  }
-
-                  rvCompanyInput.val(JSON.stringify({
-                    riseVisionCompanyId: companyId,
-                    riseVisionUsername: username,
-                    prioritySupport: prioritySupport
-                  }));
-                }).catch(function (err) {
-                  $log.error("error: ", err);
-                });
-
-                rvCompanyInput.prop("disabled", true);
-                rvCompanyInput.parents("label").parent().hide();
-
-                $log.debug("ZD form found!");
-                clearInterval(cancelDomMonitor);
-                cancelDomMonitor = null;
-              }
-            }
-          }, 1000);
-        }
-      }
-
-      function forceCloseAll() {
-        if ($window.zE && $window.zE.hide) {
-          $window.zE.hide();
-          if (cancelDomMonitor) {
-            clearInterval(cancelDomMonitor);
-            cancelDomMonitor = null;
-          }
-        }
-      }
-
-      function enableSuggestions() {
-        if ($window.zE && $window.zE.setHelpCenterSuggestions) {
-          $window.zE.setHelpCenterSuggestions({
-            url: true
-          });
-        }
-      }
-
       function logout() {
         previousUsername = "";
       }
 
+      function enableSuggestions() {
+        $window.zE(function () {
+          $window.zE.setHelpCenterSuggestions({
+            url: true
+          });
+        });
+      }
+
+      function displayButton() {
+        $window.zE(function () {
+          $window.zE.show();
+        });
+      }
+
+      function hideWidget() {
+        $window.zE(function () {
+          $window.zE.hide();
+        });
+      }
+
+      function activateWidget() {
+        $window.zE(function () {
+          $window.zE.activate();
+        });
+      }
+
       return {
-        ensureScript: ensureScript,
-        showWidget: showWidget,
-        forceCloseAll: forceCloseAll,
+        initializeWidget: initializeWidget,
+        displayButton: displayButton,
+        hideWidget: hideWidget,
+        activateWidget: activateWidget,
         enableSuggestions: enableSuggestions,
         logout: logout
       };
@@ -232,30 +186,51 @@
         };
       }
     ])
-    .run(["$rootScope", "$window", "zendesk",
-      function ($rootScope, $window, zendesk) {
+    .run(["$rootScope", "$window", "userState", "userAuthFactory", "zendesk", "ZENDESK_WEB_WIDGET_SCRIPT",
+      function ($rootScope, $window, userState, userAuthFactory, zendesk, ZENDESK_WEB_WIDGET_SCRIPT) {
+        var widgetVisible = false;
+
+        if (ZENDESK_WEB_WIDGET_SCRIPT) {
+          zendesk.initializeWidget();
+
+          userAuthFactory.authenticate()
+            .then(function () {
+              if (!userState.isLoggedIn()) {
+                _showWebWidget();
+              }
+            })
+            .catch(function () {
+              _showWebWidget();
+            });
+        }
+
         $rootScope.$on("risevision.user.authorized", function () {
-          zendesk.showWidget();
+          if (ZENDESK_WEB_WIDGET_SCRIPT) {
+            zendesk.initializeWidget(); // Needed to authenticate the user
+            _hideWebWidget();
+          }
         });
 
         $rootScope.$on("risevision.user.signedOut", function () {
-          zendesk.logout();
+          _showWebWidget();
         });
 
         $rootScope.$on("$stateChangeStart", function () {
-          zendesk.ensureScript();
           zendesk.enableSuggestions();
         });
 
-        $rootScope.$on("$stateChangeSuccess", function (event, toState) {
-          var $element = $(".zEWidget-launcher");
-
-          if (toState && toState.name.indexOf("apps.editor.workspace") >= 0) {
-            $element.css("bottom", "40px");
-          } else {
-            $element.css("bottom", "0px");
+        function _hideWebWidget() {
+          if (widgetVisible) {
+            zendesk.hideWidget();
+            widgetVisible = false;
           }
-        });
+        }
+
+        function _showWebWidget() {
+          zendesk.logout();
+          zendesk.displayButton();
+          widgetVisible = true;
+        }
       }
     ]);
 })(angular);

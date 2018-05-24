@@ -23,6 +23,12 @@
 				<!-- If User Authenticated -->
 				<!-- Action Nav -->
 				<ul class="nav navbar-nav navbar-right actions-nav pull-right">
+					<!-- Zendesk -->
+					<ng-include
+						replace-include
+					  ng-controller="ZendeskButtonCtrl"
+						src="'zendesk-button.html'"
+					></ng-include>
 					<!-- Notifications -->
 					<ng-include
 						replace-include
@@ -43,6 +49,7 @@
 						ng-controller="CloseFrameButtonCtrl"
 						src="'close-frame-button.html'"
 					></ng-include>
+
 					<!-- Current App -->
 					<ng-include
 						ng-if="!inRVAFrame"
