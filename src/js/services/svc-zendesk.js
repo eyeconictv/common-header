@@ -10,9 +10,9 @@
   )
   /* jshint quotmark: double */
   .factory("zendesk", ["getSupportSubscriptionStatus", "segmentAnalytics",
-    "userState", "$window", "$q", "$location", "$log", "ZENDESK_WEB_WIDGET_SCRIPT",
+    "userState", "$window", "$q", "$location", "ZENDESK_WEB_WIDGET_SCRIPT",
     function (getSupportSubscriptionStatus, segmentAnalytics, userState,
-      $window, $q, $location, $log, ZENDESK_WEB_WIDGET_SCRIPT) {
+      $window, $q, $location, ZENDESK_WEB_WIDGET_SCRIPT) {
 
       var loaded = false;
       var previousUsername = "";
@@ -126,29 +126,37 @@
       }
 
       function enableSuggestions() {
-        $window.zE(function () {
-          $window.zE.setHelpCenterSuggestions({
-            url: true
+        if ($window.zE) {
+          $window.zE(function () {
+            $window.zE.setHelpCenterSuggestions({
+              url: true
+            });
           });
-        });
+        }
       }
 
       function displayButton() {
-        $window.zE(function () {
-          $window.zE.show();
-        });
+        if ($window.zE) {
+          $window.zE(function () {
+            $window.zE.show();
+          });
+        }
       }
 
       function hideWidget() {
-        $window.zE(function () {
-          $window.zE.hide();
-        });
+        if ($window.zE) {
+          $window.zE(function () {
+            $window.zE.hide();
+          });
+        }
       }
 
       function activateWidget() {
-        $window.zE(function () {
-          $window.zE.activate();
-        });
+        if ($window.zE) {
+          $window.zE(function () {
+            $window.zE.activate();
+          });
+        }
       }
 
       return {
@@ -202,22 +210,20 @@
             .catch(function () {
               _showWebWidget();
             });
-        }
 
-        $rootScope.$on("risevision.user.authorized", function () {
-          if (ZENDESK_WEB_WIDGET_SCRIPT) {
+          $rootScope.$on("risevision.user.authorized", function () {
             zendesk.initializeWidget(); // Needed to authenticate the user
             _hideWebWidget();
-          }
-        });
+          });
 
-        $rootScope.$on("risevision.user.signedOut", function () {
-          _showWebWidget();
-        });
+          $rootScope.$on("risevision.user.signedOut", function () {
+            _showWebWidget();
+          });
 
-        $rootScope.$on("$stateChangeStart", function () {
-          zendesk.enableSuggestions();
-        });
+          $rootScope.$on("$stateChangeStart", function () {
+            zendesk.enableSuggestions();
+          });
+        }
 
         function _hideWebWidget() {
           if (widgetVisible) {
@@ -227,9 +233,11 @@
         }
 
         function _showWebWidget() {
-          zendesk.logout();
-          zendesk.displayButton();
-          widgetVisible = true;
+          setTimeout(function () {
+            zendesk.logout();
+            zendesk.displayButton();
+            widgetVisible = true;
+          }, 2000);
         }
       }
     ]);
