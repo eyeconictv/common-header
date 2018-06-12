@@ -12,6 +12,7 @@ angular.module("risevision.common.components.plans")
     $scope.showRPPLink = showRPPLink;
     $scope.playerProSubscriptionId = company.playerProSubscriptionId;
     $scope.companyId = company.id;
+    $scope.monthlyPrices = true;
 
     function _getPlansDetails() {
       $loading.start("plans-modal");
@@ -35,16 +36,12 @@ angular.module("risevision.common.components.plans")
         });
     }
 
-    $scope.showDowngradeModal = function () {
-      $modal.open({
-        template: $templateCache.get("plans/plans-downgrade-modal.html"),
-        controller: "PlansDowngradeModalCtrl",
-        size: "md"
-      });
-    };
-
     $scope.isCurrentPlan = function (plan) {
       return currentPlan.type === plan.type;
+    };
+
+    $scope.isCurrentPlanSubscribed = function (plan) {
+      return $scope.isCurrentPlan(plan) && $scope.isSubscribed(plan);
     };
 
     $scope.isOnTrial = function (plan) {
@@ -67,11 +64,19 @@ angular.module("risevision.common.components.plans")
       return plan.type === "free";
     };
 
-    $scope.currentButtonVisible = function (plan) {
-      var freeOnCurrentExpired = $scope.isFree(plan) && planFactory.isTrialExpired();
-      var currentSubscribed = $scope.isCurrentPlan(plan) && $scope.isSubscribed(plan);
+    $scope.isStarter = function (plan) {
+      return plan.type === "starter";
+    };
 
-      return freeOnCurrentExpired || currentSubscribed;
+    $scope.showSavings = function (plan) {
+      return !$scope.isFree(plan) && (!$scope.isStarter(plan) || !$scope.monthlyPrices);
+    };
+
+    $scope.currentPlanLabelVisible = function (plan) {
+      var freeOnCurrentExpired = $scope.isFree(plan) && planFactory.isTrialExpired();
+      var currentActive = $scope.isCurrentPlan(plan) && ($scope.isSubscribed(plan) || $scope.isOnTrial(plan));
+
+      return freeOnCurrentExpired || currentActive;
     };
 
     $scope.subscribeButtonVisible = function (plan) {
@@ -85,37 +90,17 @@ angular.module("risevision.common.components.plans")
     $scope.canUpgrade = function (plan) {
       if ($scope.canStartTrial(plan)) {
         return false;
-      } else if (currentPlan.type === plan.type) {
-        return false;
-      } else if (currentPlan.type === "enterprise") {
-        return false;
-      } else if (currentPlan.type === "advanced" && plan.type === "enterprise") {
-        return true;
-      } else if (currentPlan.type === "basic" && (plan.type === "advanced" || plan.type === "enterprise")) {
-        return true;
-      } else if (currentPlan.type === "free") {
-        return true;
+      } else {
+        return currentPlan.order < plan.order;
       }
-
-      return false;
     };
 
     $scope.canDowngrade = function (plan) {
-      if ($scope.canStartTrial(plan) || $scope.isOnTrial(plan)) {
+      if ($scope.canStartTrial(plan) || $scope.isOnTrial(plan) || planFactory.isTrialExpired()) {
         return false;
-      } else if ($scope.isFree(plan) && planFactory.isTrialExpired()) {
-        return false;
-      } else if (currentPlan.type === plan.type) {
-        return false;
-      } else if (currentPlan.type === "enterprise") {
-        return true;
-      } else if (currentPlan.type === "advanced" && (plan.type === "free" || plan.type === "basic")) {
-        return true;
-      } else if (currentPlan.type === "basic" && plan.type === "free") {
-        return true;
+      } else {
+        return currentPlan.order > plan.order;
       }
-
-      return false;
     };
 
     $scope.canStartTrial = function (plan) {

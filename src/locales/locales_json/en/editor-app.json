@@ -147,20 +147,27 @@
   },
   "storeProduct": {
     "add": "Add",
+    "category": {
+      "all": "All",
+      "free": "Free",
+      "metered": "For Licensed Displays",
+      "premium": "For Licensed Displays",
+      "subscription": "For Licensed Displays"
+    },
     "content": {
       "search": "Search for Widget",
       "title": "Add Widget",
       "otherWidgets": "For All Displays"
     },
     "professional": {
-      "title": "For Professional Displays Only",
+      "title": "For Licensed Displays Only",
       "learnMore": "Learn More",
       "unlock": "Unlock",
-      "widgetType": "Professional Widget",
-      "promotion": "Add power and functionality to your Presentations with Professional Widgets",
-      "promotionTrial": "Unlock the power of Professional Widgets start any Plan trial for <strong>free</strong> to get the included Professional Displays.",
-      "promotionTrialButton": "Start a Plan Trial",
-      "promotionPlan": "Unlock the power of Professional Widgets, activate your included Professional Displays.",
+      "widgetType": "For Licensed Displays",
+      "promotion": "Add power and functionality to your Presentations with Widgets for Licensed Displays",
+      "promotionTrial": "Unlock the power of Widgets for Licensed Displays with a Paid Plan.",
+      "promotionTrialButton": "View Plans",
+      "promotionPlan": "Unlock the power of Widgets for Licensed Displays. Assign your included Display Licenses.",
       "promotionDisplaysButton": "View Displays"
     },
     "details": "Details",
@@ -192,8 +199,7 @@
     "status": {
       "daysRemaining": "Days Remaining",
       "daysTrial": "Days Trial",
-      "premium": "Premium",
-      "professional": "Professional"
+      "professional": "For Licensed Displays"
     },
     "viewAccount": "View Account"
   },
@@ -210,11 +216,11 @@
     },
     "subscription": {
       "cancelled": "Subscription Cancelled",
-      "expanded-cancelled": "Your Template Library subscription was cancelled",
-      "expanded-expired": "Your Template Library subscription has expired!",
-      "expanded-on-trial": "{{expiry}} day remaining on your Template Library trial!",
-      "expanded-on-trial-many": "{{expiry}} days remaining on your Template Library trial!",
-      "expanded-on-trial-zero": "{{expiry}} days remaining on your Template Library trial!",
+      "expanded-cancelled": "Your subscription was cancelled",
+      "expanded-expired": "Your subscription has expired!",
+      "expanded-on-trial": "{{expiry}} day remaining on your trial!",
+      "expanded-on-trial-many": "{{expiry}} days remaining on your trial!",
+      "expanded-on-trial-zero": "{{expiry}} days remaining on your trial!",
       "expanded-suspended": "Your account is suspended",
       "expires-in": "Expiring in {{days}} Days",
       "expires-today": "Expiring Today",
@@ -222,8 +228,8 @@
       "na": "N/A",
       "not-subscribed": "Not Subscribed",
       "on-trial": "<strong>{{expiry}} day</strong> left on trial",
-      "on-trial-many": "<strong>{{expiry}} days</strong> remaining on your Template Library subscription!",
-      "on-trial-zero": "<strong>{{expiry}} days</strong> remaining on your Template Library subscription!",
+      "on-trial-many": "<strong>{{expiry}} days</strong> remaining on your subscription!",
+      "on-trial-zero": "<strong>{{expiry}} days</strong> remaining on your subscription!",
       "start-trial": "Start Trial",
       "subscribe": "Subscribe",
       "subscribe-now": "Subscribe Now!",

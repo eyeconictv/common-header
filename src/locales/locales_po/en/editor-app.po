@@ -307,6 +307,21 @@ msgstr "Shared Templates"
 msgid "storeProduct.add"
 msgstr "Add"
 
+msgid "storeProduct.category.all"
+msgstr "All"
+
+msgid "storeProduct.category.free"
+msgstr "Free"
+
+msgid "storeProduct.category.metered"
+msgstr "For Licensed Displays"
+
+msgid "storeProduct.category.premium"
+msgstr "For Licensed Displays"
+
+msgid "storeProduct.category.subscription"
+msgstr "For Licensed Displays"
+
 msgid "storeProduct.content.otherWidgets"
 msgstr "For All Displays"
 
@@ -350,28 +365,28 @@ msgid "storeProduct.professional.learnMore"
 msgstr "Learn More"
 
 msgid "storeProduct.professional.promotion"
-msgstr "Add power and functionality to your Presentations with Professional Widgets"
+msgstr "Add power and functionality to your Presentations with Widgets for Licensed Displays"
 
 msgid "storeProduct.professional.promotionDisplaysButton"
 msgstr "View Displays"
 
 msgid "storeProduct.professional.promotionPlan"
-msgstr "Unlock the power of Professional Widgets, activate your included Professional Displays."
+msgstr "Unlock the power of Widgets for Licensed Displays. Assign your included Display Licenses."
 
 msgid "storeProduct.professional.promotionTrial"
-msgstr "Unlock the power of Professional Widgets start any Plan trial for <strong>free</strong> to get the included Professional Displays."
+msgstr "Unlock the power of Widgets for Licensed Displays with a Paid Plan."
 
 msgid "storeProduct.professional.promotionTrialButton"
-msgstr "Start a Plan Trial"
+msgstr "View Plans"
 
 msgid "storeProduct.professional.title"
-msgstr "For Professional Displays Only"
+msgstr "For Licensed Displays Only"
 
 msgid "storeProduct.professional.unlock"
 msgstr "Unlock"
 
 msgid "storeProduct.professional.widgetType"
-msgstr "Professional Widget"
+msgstr "For Licensed Displays"
 
 msgid "storeProduct.templates.back"
 msgstr "Back to all Templates"
@@ -406,11 +421,8 @@ msgstr "Days Remaining"
 msgid "subscription.status.daysTrial"
 msgstr "Days Trial"
 
-msgid "subscription.status.premium"
-msgstr "Premium"
-
 msgid "subscription.status.professional"
-msgstr "Professional"
+msgstr "For Licensed Displays"
 
 msgid "subscription.subscribe"
 msgstr "Subscribe"
@@ -446,19 +458,19 @@ msgid "templatesLibrary.subscription.cancelled"
 msgstr "Subscription Cancelled"
 
 msgid "templatesLibrary.subscription.expanded-cancelled"
-msgstr "Your Template Library subscription was cancelled"
+msgstr "Your subscription was cancelled"
 
 msgid "templatesLibrary.subscription.expanded-expired"
-msgstr "Your Template Library subscription has expired!"
+msgstr "Your subscription has expired!"
 
 msgid "templatesLibrary.subscription.expanded-on-trial"
-msgstr "{{expiry}} day remaining on your Template Library trial!"
+msgstr "{{expiry}} day remaining on your trial!"
 
 msgid "templatesLibrary.subscription.expanded-on-trial-many"
-msgstr "{{expiry}} days remaining on your Template Library trial!"
+msgstr "{{expiry}} days remaining on your trial!"
 
 msgid "templatesLibrary.subscription.expanded-on-trial-zero"
-msgstr "{{expiry}} days remaining on your Template Library trial!"
+msgstr "{{expiry}} days remaining on your trial!"
 
 msgid "templatesLibrary.subscription.expanded-suspended"
 msgstr "Your account is suspended"
@@ -482,10 +494,10 @@ msgid "templatesLibrary.subscription.on-trial"
 msgstr "<strong>{{expiry}} day</strong> left on trial"
 
 msgid "templatesLibrary.subscription.on-trial-many"
-msgstr "<strong>{{expiry}} days</strong> remaining on your Template Library subscription!"
+msgstr "<strong>{{expiry}} days</strong> remaining on your subscription!"
 
 msgid "templatesLibrary.subscription.on-trial-zero"
-msgstr "<strong>{{expiry}} days</strong> remaining on your Template Library subscription!"
+msgstr "<strong>{{expiry}} days</strong> remaining on your subscription!"
 
 msgid "templatesLibrary.subscription.start-trial"
 msgstr "Start Trial"

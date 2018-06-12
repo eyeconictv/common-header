@@ -3,7 +3,7 @@
   'use strict';
 
   var PlansModalPage = function () {
-    var plansList = ["free", "basic", "advanced", "enterprise"];
+    var plansList = ["free", "starter", "basic", "advanced", "enterprise"];
     var plansModal = element(by.css("#plans-modal"));
 
     this.getPlansModal = function() {
@@ -13,7 +13,7 @@
     function getButtonByPlan(selector, plan) {
       var idx = plansList.indexOf(plan) + 1;
 
-      return element(by.css("div.grid-list.row > div:nth-child(" + idx + ") > div #" + selector));
+      return element(by.css("#planHeader > div:nth-child(" + idx + ") > #" + selector));
     }
 
     this.getCurrentPlanButton = function(plan) {
