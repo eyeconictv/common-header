@@ -108,3 +108,4 @@ msgstr "Select Worksheet"
 
 msgid "spreadsheet.worksheet.warning"
 msgstr "Changing the name of your Worksheet will cause your Presentation to stop showing data."
+
