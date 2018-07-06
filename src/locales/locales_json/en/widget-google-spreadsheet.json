@@ -30,7 +30,7 @@
       "sheet": "Show Entire Sheet"
     },
     "data": {
-      "error": "There was an error accessing your spreadsheet data."
+      "error": "There was an error accessing your spreadsheet data. Please ensure a valid range and Worksheet has been selected."
     },
     "first-row-as-header": "Use First Row as Header",
     "key": {
@@ -55,6 +55,9 @@
     "refresh": "Data Refresh Interval",
     "refreshInterval": "Refresh Interval",
     "retry": "Check Again",
-    "sheet": "Select Worksheet"
+    "worksheet": {
+      "select": "Select Worksheet",
+      "warning": "Changing the name of your Worksheet will cause your Presentation to stop showing data."
+    }
   }
 }
