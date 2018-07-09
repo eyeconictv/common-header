@@ -30,7 +30,7 @@
       "sheet": "Show Entire Sheet"
     },
     "data": {
-      "error": "There was an error accessing your spreadsheet data. Please ensure a valid range and Worksheet has been selected."
+      "error": "There was an error accessing your spreadsheet data."
     },
     "first-row-as-header": "Use First Row as Header",
     "key": {
@@ -49,7 +49,7 @@
     },
     "range": {
       "end": "Ending Cell (Bottom Right)",
-      "invalid": "Please ensure a valid range.",
+      "invalid": "Please ensure a valid range and Worksheet has been selected.",
       "start": "Starting Cell (Top Left)"
     },
     "refresh": "Data Refresh Interval",
