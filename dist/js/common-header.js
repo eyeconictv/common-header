@@ -663,14 +663,14 @@ angular.module("risevision.common.header.directives")
 
 angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
-    "userState", "userAuthFactory", "chargebeeFactory", "canAccessApps",
-    "$loading", "cookieStore",
+    "userState", "userAuthFactory", "canAccessApps",
+    "$loading", "cookieStore", "plansFactory", "currentPlanFactory",
     "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
-    "$window", "APPS_URL",
+    "$window", "$state", "APPS_URL",
     function ($scope, $modal, $templateCache, userState, userAuthFactory,
-      chargebeeFactory, canAccessApps,
-      $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
-      bindToScopeWithWatch, $window, APPS_URL) {
+      canAccessApps,
+      $loading, cookieStore, plansFactory, currentPlanFactory, $log, uiFlowManager, oauth2APILoader,
+      bindToScopeWithWatch, $window, $state, APPS_URL) {
 
       window.$loading = $loading; //DEBUG
 
@@ -814,7 +814,11 @@ angular.module("risevision.common.header")
       };
 
       $scope.showAccountAndBilling = function () {
-        chargebeeFactory.openPortal(userState.getSelectedCompanyId());
+        if (currentPlanFactory.isPlanActive()) {
+          $state.go("apps.billing.home");
+        } else {
+          plansFactory.showPlansModal();
+        }
       };
 
       $scope.isChargebee = function () {
@@ -2504,8 +2508,8 @@ angular.module("risevision.store.services")
       };
     }
   ])
-  .factory("chargebeeFactory", ["$window", "$log", "getChargebeeInstance",
-    function ($window, $log, getChargebeeInstance) {
+  .factory("chargebeeFactory", ["$window", "$log", "getChargebeeInstance", "plansFactory",
+    function ($window, $log, getChargebeeInstance, plansFactory) {
       var factory = {};
 
       function _getChargebeePortal(companyId) {
@@ -2513,6 +2517,15 @@ angular.module("risevision.store.services")
           .then(function (instance) {
             return instance.portal;
           });
+      }
+
+      function _handleChargebeeAccountNotFound(err, companyId) {
+        if (err.status === 404) {
+          plansFactory.showPlansModal();
+        } else {
+          // What should we do when an unexpected error happens?
+          console.log("Failed to retrieve session for companyId", companyId, err);
+        }
       }
 
       factory.openPortal = function (companyId) {
@@ -2543,7 +2556,10 @@ angular.module("risevision.store.services")
               $log.debug("Chargebee subscrpitionCancelled event", data);
             }
           });
-        });
+        })
+          .catch(function (err) {
+            _handleChargebeeAccountNotFound(err, companyId);
+          });
       };
 
       factory.openAccountDetails = function (companyId) {
@@ -2551,7 +2567,10 @@ angular.module("risevision.store.services")
           portal.openSection({
             sectionType: $window.Chargebee.getPortalSections().ACCOUNT_DETAILS
           });
-        });
+        })
+          .catch(function (err) {
+            _handleChargebeeAccountNotFound(err, companyId);
+          });
       };
 
       factory.openAddress = function (companyId) {
@@ -2559,7 +2578,10 @@ angular.module("risevision.store.services")
           portal.openSection({
             sectionType: $window.Chargebee.getPortalSections().ADDRESS
           });
-        });
+        })
+          .catch(function (err) {
+            _handleChargebeeAccountNotFound(err, companyId);
+          });
       };
 
       factory.openBillingHistory = function (companyId) {
@@ -2567,7 +2589,10 @@ angular.module("risevision.store.services")
           portal.openSection({
             sectionType: $window.Chargebee.getPortalSections().BILLING_HISTORY
           });
-        });
+        })
+          .catch(function (err) {
+            _handleChargebeeAccountNotFound(err, companyId);
+          });
       };
 
       factory.openPaymentSources = function (companyId) {
@@ -2575,7 +2600,10 @@ angular.module("risevision.store.services")
           portal.openSection({
             sectionType: $window.Chargebee.getPortalSections().PAYMENT_SOURCES
           });
-        });
+        })
+          .catch(function (err) {
+            _handleChargebeeAccountNotFound(err, companyId);
+          });
       };
 
       factory.openSubscriptionDetails = function (companyId, subscriptionId) {
@@ -2586,7 +2614,10 @@ angular.module("risevision.store.services")
               subscriptionId: subscriptionId
             }
           });
-        });
+        })
+          .catch(function (err) {
+            _handleChargebeeAccountNotFound(err, companyId);
+          });
       };
 
       return factory;
@@ -9555,6 +9586,12 @@ angular.module("risevision.common.components.plans")
         });
     }
 
+    function _showSubscriptionDetails() {
+      var company = userState.getCopyOfSelectedCompany();
+
+      chargebeeFactory.openSubscriptionDetails(company.id, company.planSubscriptionId);
+    }
+
     $scope.isCurrentPlan = function (plan) {
       return $scope.currentPlan.type === plan.type;
     };
@@ -9661,13 +9698,9 @@ angular.module("risevision.common.components.plans")
         });
     };
 
-    $scope.downgradePlan = function () {
-      chargebeeFactory.openPortal(userState.getSelectedCompanyId());
-    };
+    $scope.downgradePlan = _showSubscriptionDetails;
 
-    $scope.purchaseAdditionalLicenses = function () {
-      chargebeeFactory.openPortal(userState.getSelectedCompanyId());
-    };
+    $scope.purchaseAdditionalLicenses = _showSubscriptionDetails;
 
     $scope.isChargebee = function () {
       return userState.isSelectedCompanyChargebee();

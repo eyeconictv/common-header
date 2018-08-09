@@ -445,6 +445,12 @@ angular.module("risevision.common.components.plans")
         });
     }
 
+    function _showSubscriptionDetails() {
+      var company = userState.getCopyOfSelectedCompany();
+
+      chargebeeFactory.openSubscriptionDetails(company.id, company.planSubscriptionId);
+    }
+
     $scope.isCurrentPlan = function (plan) {
       return $scope.currentPlan.type === plan.type;
     };
@@ -551,13 +557,9 @@ angular.module("risevision.common.components.plans")
         });
     };
 
-    $scope.downgradePlan = function () {
-      chargebeeFactory.openPortal(userState.getSelectedCompanyId());
-    };
+    $scope.downgradePlan = _showSubscriptionDetails;
 
-    $scope.purchaseAdditionalLicenses = function () {
-      chargebeeFactory.openPortal(userState.getSelectedCompanyId());
-    };
+    $scope.purchaseAdditionalLicenses = _showSubscriptionDetails;
 
     $scope.isChargebee = function () {
       return userState.isSelectedCompanyChargebee();
