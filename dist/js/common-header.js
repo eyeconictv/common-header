@@ -2453,9 +2453,9 @@ angular.module("risevision.common.header")
 "use strict";
 
 angular.module("risevision.store.services")
-  .factory("getChargebeeInstance", ["$q", "$window", "storeService", "userState",
+  .factory("getChargebeeInstance", ["$q", "$window", "$loading", "storeService", "userState",
     "CHARGEBEE_TEST_SITE", "CHARGEBEE_PROD_SITE",
-    function ($q, $window, storeService, userState, CHARGEBEE_TEST_SITE, CHARGEBEE_PROD_SITE) {
+    function ($q, $window, $loading, storeService, userState, CHARGEBEE_TEST_SITE, CHARGEBEE_PROD_SITE) {
       var currentCompanyId = null;
       var currentInstance = null;
       var currentSessionExpiration = 0;
@@ -2486,6 +2486,8 @@ angular.module("risevision.store.services")
         } else {
           var deferred = $q.defer();
 
+          $loading.startGlobal("chargebee-session");
+
           storeService.createSession(companyId)
             .then(function (session) {
               console.log("Chargebee session for companyId", companyId, "is", session);
@@ -2496,10 +2498,12 @@ angular.module("risevision.store.services")
               var sessionDuration = (Number(session.expires_at) - Number(session.created_at)) * 1000;
               currentSessionExpiration = Date.now() + sessionDuration;
 
+              $loading.stopGlobal("chargebee-session");
               deferred.resolve(currentInstance);
             })
             .catch(function (err) {
               console.log("Error creating Customer Portal session for company id", companyId, err);
+              $loading.stopGlobal("chargebee-session");
               deferred.reject(err);
             });
 
@@ -2508,11 +2512,15 @@ angular.module("risevision.store.services")
       };
     }
   ])
-  .factory("chargebeeFactory", ["$window", "$log", "getChargebeeInstance", "plansFactory",
-    function ($window, $log, getChargebeeInstance, plansFactory) {
-      var factory = {};
+  .factory("chargebeeFactory", ["$rootScope", "$window", "$log", "getChargebeeInstance", "plansFactory",
+    function ($rootScope, $window, $log, getChargebeeInstance, plansFactory) {
+      var factory = {
+        apiError: null
+      };
 
       function _getChargebeePortal(companyId) {
+        factory.apiError = null;
+
         return getChargebeeInstance(companyId)
           .then(function (instance) {
             return instance.portal;
@@ -2523,39 +2531,49 @@ angular.module("risevision.store.services")
         if (err.status === 404) {
           plansFactory.showPlansModal();
         } else {
-          // What should we do when an unexpected error happens?
+          factory.apiError = err;
           console.log("Failed to retrieve session for companyId", companyId, err);
         }
       }
 
+      var _chargebeeCallbacks = {
+        loaded: function () {
+          $log.debug("Chargebee loaded event");
+          $rootScope.$emit("chargebee.loaded");
+        },
+        close: function () {
+          $log.debug("Chargebee close event");
+          $rootScope.$emit("chargebee.close");
+        },
+        visit: function (sectionName) {
+          $log.debug("Chargebee visit event", sectionName);
+          $rootScope.$emit("chargebee.visit", sectionName);
+        },
+        paymentSourceAdd: function () {
+          $log.debug("Chargebee paymentSourceAdd event");
+          $rootScope.$emit("chargebee.paymentSourceAdd");
+        },
+        paymentSourceUpdate: function () {
+          $log.debug("Chargebee paymentSourceUpdate event");
+          $rootScope.$emit("chargebee.paymentSourceUpdate");
+        },
+        paymentSourceRemove: function () {
+          $log.debug("Chargebee paymentSourceRemove event");
+          $rootScope.$emit("chargebee.paymentSourceRemove");
+        },
+        subscriptionChanged: function (data) {
+          $log.debug("Chargebee subscriptionChanged event", data);
+          $rootScope.$emit("chargebee.subscriptionChanged", data);
+        },
+        subscriptionCancelled: function (data) {
+          $log.debug("Chargebee subscriptionCancelled event", data);
+          $rootScope.$emit("chargebee.subscriptionCancelled", data);
+        }
+      };
+
       factory.openPortal = function (companyId) {
         _getChargebeePortal(companyId).then(function (portal) {
-          portal.open({
-            loaded: function () {
-              $log.debug("Chargebee loaded event");
-            },
-            close: function () {
-              $log.debug("Chargebee close event");
-            },
-            visit: function (sectionName) {
-              $log.debug("Chargebee visit event", sectionName);
-            },
-            paymentSourceAdd: function () {
-              $log.debug("Chargebee paymentSourceAdd event");
-            },
-            paymentSourceUpdate: function () {
-              $log.debug("Chargebee paymentSourceUpdate event");
-            },
-            paymentSourceRemove: function () {
-              $log.debug("Chargebee paymentSourceRemove event");
-            },
-            subscriptionChanged: function (data) {
-              $log.debug("Chargebee subscriptionChanged event", data);
-            },
-            subscriptionCancelled: function (data) {
-              $log.debug("Chargebee subscrpitionCancelled event", data);
-            }
-          });
+          portal.open(_chargebeeCallbacks);
         })
           .catch(function (err) {
             _handleChargebeeAccountNotFound(err, companyId);
@@ -2564,7 +2582,7 @@ angular.module("risevision.store.services")
 
       factory.openAccountDetails = function (companyId) {
         _getChargebeePortal(companyId).then(function (portal) {
-          portal.openSection({
+          portal.open(_chargebeeCallbacks, {
             sectionType: $window.Chargebee.getPortalSections().ACCOUNT_DETAILS
           });
         })
@@ -2575,7 +2593,7 @@ angular.module("risevision.store.services")
 
       factory.openAddress = function (companyId) {
         _getChargebeePortal(companyId).then(function (portal) {
-          portal.openSection({
+          portal.open(_chargebeeCallbacks, {
             sectionType: $window.Chargebee.getPortalSections().ADDRESS
           });
         })
@@ -2586,7 +2604,7 @@ angular.module("risevision.store.services")
 
       factory.openBillingHistory = function (companyId) {
         _getChargebeePortal(companyId).then(function (portal) {
-          portal.openSection({
+          portal.open(_chargebeeCallbacks, {
             sectionType: $window.Chargebee.getPortalSections().BILLING_HISTORY
           });
         })
@@ -2597,7 +2615,7 @@ angular.module("risevision.store.services")
 
       factory.openPaymentSources = function (companyId) {
         _getChargebeePortal(companyId).then(function (portal) {
-          portal.openSection({
+          portal.open(_chargebeeCallbacks, {
             sectionType: $window.Chargebee.getPortalSections().PAYMENT_SOURCES
           });
         })
@@ -2608,7 +2626,7 @@ angular.module("risevision.store.services")
 
       factory.openSubscriptionDetails = function (companyId, subscriptionId) {
         _getChargebeePortal(companyId).then(function (portal) {
-          portal.openSection({
+          portal.open(_chargebeeCallbacks, {
             sectionType: $window.Chargebee.getPortalSections().SUBSCRIPTION_DETAILS,
             params: {
               subscriptionId: subscriptionId
