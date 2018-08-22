@@ -17,7 +17,7 @@ msgid "previewText"
 msgstr "The Twitter Widget uses sample content in Preview, your Tweets will only show on a Licensed Display."
 
 msgid "screenName.error"
-msgstr "Please enter a Twitter handle."
+msgstr "Error: you should specify a handler before you can save this configuration."
 
 msgid "screenName.text"
 msgstr "Enter a handle to display Tweets from any public account"
