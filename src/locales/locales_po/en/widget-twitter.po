@@ -20,7 +20,7 @@ msgid "screenName.error"
 msgstr "Please enter a Twitter handle."
 
 msgid "screenName.text"
-msgstr "Enter a @handle to display Tweets from any public account"
+msgstr "Enter a handle to display Tweets from any public account"
 
 msgid "settings"
 msgstr "Twitter Widget Settings"
