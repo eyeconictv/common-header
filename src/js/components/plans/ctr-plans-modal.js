@@ -2,13 +2,14 @@ angular.module("risevision.common.components.plans")
 
 .controller("PlansModalCtrl", [
   "$scope", "$rootScope", "$modalInstance", "$log", "$loading", "$timeout",
-  "plansFactory", "currentPlanFactory", "chargebeeFactory", "userState",
+  "plansFactory", "currentPlanFactory", "chargebeeFactory", "userState", "purchaseFactory",
   function ($scope, $rootScope, $modalInstance, $log, $loading, $timeout,
-    plansFactory, currentPlanFactory, chargebeeFactory, userState) {
+    plansFactory, currentPlanFactory, chargebeeFactory, userState, purchaseFactory) {
 
     $scope.currentPlan = currentPlanFactory.currentPlan;
+    $scope.purchaseFactory = purchaseFactory;
     $scope.startTrialError = null;
-    $scope.monthlyPrices = true;
+    $scope.isMonthly = true;
 
     function _getPlansDetails() {
       $loading.start("plans-modal");
@@ -61,7 +62,7 @@ angular.module("risevision.common.components.plans")
     };
 
     $scope.showSavings = function (plan) {
-      return !$scope.isFree(plan) && (!$scope.isStarter(plan) || !$scope.monthlyPrices);
+      return !$scope.isFree(plan) && (!$scope.isStarter(plan) || !$scope.isMonthly);
     };
 
     $scope.currentPlanLabelVisible = function (plan) {
@@ -89,9 +90,15 @@ angular.module("risevision.common.components.plans")
         } else { // This is a different Plan
           // Is lower Plan?
           if ($scope.currentPlan.order > plan.order) {
-            return "downgrade";
-          } else { // Higher Plan
+            if (currentPlanFactory.isOnTrial() && !$scope.isFree(plan)) { // Does not have Chargebee account, use Purchase Flow
+              return "downgrade";
+            } else { // Already has Chargebee account, use Customer Portal
+              return "downgrade-portal";
+            }
+          } else if (currentPlanFactory.isOnTrial()) { // Does not have Chargebee account, use Purchase Flow
             return "subscribe";
+          } else { // Already has Chargebee account, use Customer Portal
+            return "subscribe-portal";
           }
         }
       } else { // Were on Free Plan
@@ -100,7 +107,7 @@ angular.module("risevision.common.components.plans")
           return "";
         } else if ($scope.isTrialAvailable(plan)) {
           return "start-trial";
-        } else { // Subscribe
+        } else { // Subscribe using Purchase Flow
           return "subscribe";
         }
       }
@@ -134,7 +141,14 @@ angular.module("risevision.common.components.plans")
         });
     };
 
-    $scope.downgradePlan = _showSubscriptionDetails;
+    $scope.showPurchaseModal = function (plan, isMonthly) {
+      purchaseFactory.showPurchaseModal(plan, isMonthly)
+        .then($scope.dismiss);
+    };
+
+    $scope.downgradePortal = _showSubscriptionDetails;
+
+    $scope.subscribePortal = _showSubscriptionDetails;
 
     $scope.purchaseAdditionalLicenses = _showSubscriptionDetails;
 

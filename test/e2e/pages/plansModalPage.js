@@ -21,11 +21,11 @@
     };
 
     this.getSubscribePlanButton = function(plan) {
-      return getButtonByPlan("subscribe-plan", plan);
+      return getButtonByPlan("subscribe-plan-cb", plan);
     };
 
     this.getDowngradePlanButton = function(plan) {
-      return getButtonByPlan("downgrade-plan", plan);
+      return getButtonByPlan("downgrade-plan-cb", plan);
     };
 
     this.getStartTrialPlanButton = function(plan) {
