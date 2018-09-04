@@ -82,10 +82,17 @@ describe("Services: purchase factory", function() {
         })
       };
     });
+    $provide.service("purchaseFlowTracker", function() {
+      return purchaseFlowTracker = {
+        trackProductAdded: sinon.stub(),
+        trackPlaceOrderClicked: sinon.stub(),
+        trackOrderPayNowClicked: sinon.stub()
+      };
+    });
 
   }));
 
-  var $rootScope, $modal, $timeout, purchaseFactory, userState, stripeService, storeService, validate, RPP_ADDON_ID;
+  var $rootScope, $modal, $timeout, purchaseFactory, userState, stripeService, storeService, purchaseFlowTracker, validate, RPP_ADDON_ID;
 
   beforeEach(function() {
     inject(function($injector) {
@@ -120,6 +127,7 @@ describe("Services: purchase factory", function() {
         size: "md",
         backdrop: "static"
       });
+      expect(purchaseFlowTracker.trackProductAdded).to.have.been.called;
     });
 
     it("should return modal result", function() {
@@ -427,6 +435,7 @@ describe("Services: purchase factory", function() {
           totalTax: "totalTax",
           shippingTotal: "shippingTotal"
         });
+        expect(purchaseFlowTracker.trackPlaceOrderClicked).to.have.been.called;
 
         done();
       })
@@ -564,6 +573,7 @@ describe("Services: purchase factory", function() {
       purchaseFactory.completePayment()
       .then(function() {
         expect(purchaseFactory.purchase.checkoutError).to.not.be.ok;
+        expect(purchaseFlowTracker.trackOrderPayNowClicked).to.have.been.called;
 
         done();
       })

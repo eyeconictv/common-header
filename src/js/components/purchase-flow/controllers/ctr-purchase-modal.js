@@ -22,10 +22,8 @@ angular.module("risevision.common.components.purchase-flow")
 }])
 
 .controller("PurchaseModalCtrl", [
-  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory",
-  "PURCHASE_STEPS",
-  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory,
-    PURCHASE_STEPS) {
+  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory", "PURCHASE_STEPS",
+  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory, PURCHASE_STEPS) {
 
     $scope.form = {};
     $scope.factory = purchaseFactory;

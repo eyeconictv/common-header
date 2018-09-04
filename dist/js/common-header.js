@@ -10255,9 +10255,10 @@ angular.module("risevision.common.components.purchase-flow")
   angular.module("risevision.common.components.purchase-flow")
     .constant("RPP_ADDON_ID", "c4b368be86245bf9501baaa6e0b00df9719869fd")
     .factory("purchaseFactory", ["$rootScope", "$q", "$log", "$modal", "$templateCache", "$timeout",
-      "userState", "storeService", "stripeService", "addressService", "contactService", "RPP_ADDON_ID",
+      "userState", "storeService", "stripeService", "addressService", "contactService", "purchaseFlowTracker",
+      "RPP_ADDON_ID",
       function ($rootScope, $q, $log, $modal, $templateCache, $timeout, userState,
-        storeService, stripeService, addressService, contactService, RPP_ADDON_ID) {
+        storeService, stripeService, addressService, contactService, purchaseFlowTracker, RPP_ADDON_ID) {
         var factory = {};
 
         // Stop spinner - workaround for spinner not rendering
@@ -10289,6 +10290,7 @@ angular.module("risevision.common.components.purchase-flow")
           factory.purchase.paymentMethods.selectedCard = factory.purchase.paymentMethods.newCreditCard;
           factory.purchase.estimate = {};
 
+          purchaseFlowTracker.trackProductAdded(factory.purchase.plan);
         };
 
         factory.showPurchaseModal = function (plan, isMonthly) {
@@ -10390,6 +10392,8 @@ angular.module("risevision.common.components.purchase-flow")
               estimate.total = result.total;
               estimate.totalTax = result.totalTax;
               estimate.shippingTotal = result.shippingTotal;
+
+              purchaseFlowTracker.trackPlaceOrderClicked(estimate);
             })
             .catch(function (result) {
               factory.purchase.estimate.estimateError = (result && result.error) ||
@@ -10435,6 +10439,8 @@ angular.module("risevision.common.components.purchase-flow")
           return storeService.purchase(jsonData)
             .then(function () {
               factory.purchase.reloadingCompany = true;
+
+              purchaseFlowTracker.trackOrderPayNowClicked(factory.purchase.estimate);
 
               $timeout(10000)
                 .then(function () {
@@ -10588,6 +10594,44 @@ angular.module("risevision.common.components.purchase-flow")
 
         return deferred.promise;
       };
+    }
+  ]);
+
+"use strict";
+
+angular.module("risevision.common.components.purchase-flow")
+  .factory("purchaseFlowTracker", ["segmentAnalytics",
+    function (segmentAnalytics) {
+      var factory = {};
+
+      factory.trackProductAdded = function (plan) {
+        segmentAnalytics.track("Product Added", {
+          id: plan.productCode,
+          name: plan.name,
+          price: plan.isMonthly ? plan.monthly.billAmount : plan.yearly.billAmount,
+          quantity: 1,
+          category: "Plans",
+          inApp: false
+        });
+      };
+
+      factory.trackPlaceOrderClicked = function (estimate) {
+        segmentAnalytics.track("Place Order Clicked", {
+          amount: estimate.total,
+          currency: estimate.currency,
+          inApp: false
+        });
+      };
+
+      factory.trackOrderPayNowClicked = function (estimate) {
+        segmentAnalytics.track("Order Pay Now Clicked", {
+          amount: estimate.total,
+          currency: estimate.currency,
+          inApp: false
+        });
+      };
+
+      return factory;
     }
   ]);
 
@@ -10865,10 +10909,8 @@ angular.module("risevision.common.components.purchase-flow")
 }])
 
 .controller("PurchaseModalCtrl", [
-  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory",
-  "PURCHASE_STEPS",
-  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory,
-    PURCHASE_STEPS) {
+  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory", "PURCHASE_STEPS",
+  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory, PURCHASE_STEPS) {
 
     $scope.form = {};
     $scope.factory = purchaseFactory;
