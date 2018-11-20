@@ -18,7 +18,6 @@
             expandedFormat: "@",
             showStoreModal: "=?",
             customProductLink: "@",
-            customMessages: "@",
             customOnClick: "&"
           },
           template: $templateCache.get("subscription-status/subscription-status-template.html"),
@@ -29,7 +28,6 @@
               "subscribed": false,
               "expiry": null
             };
-            $scope.messagesPrefix = $scope.customMessages ? $scope.customMessages : "subscription-status";
 
             var updateUrls = function () {
               $scope.storeAccountUrl = STORE_URL + ACCOUNT_PATH.replace("companyId", $scope.companyId);
