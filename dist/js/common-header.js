@@ -30,7 +30,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('auth-buttons-menu.html',
-    '<company-buttons ng-show="isRiseVisionUser" ng-controller="CompanyButtonsCtrl"></company-buttons><ul><li ng-show="isRiseVisionUser"><a href="" ng-click="alertSettings()" class="alert-settings-button action"><i class="fa fa-bullhorn"></i> <span class="item-name">Alert Settings</span></a></li><li ng-show="isRiseVisionUser"><a href="" ng-click="userSettings()" class="user-settings-button action"><i class="fa fa-user"></i> <span class="item-name">User Settings</span></a></li><li ng-show="isRiseVisionUser"><a href="https://store.risevision.com/account" target="_blank" class="store-account-button action" link-cid="" ng-show="!isChargebee()"><i class="fa fa-shopping-cart"></i> <span class="item-name">Account & Billing</span></a> <a href="#" class="store-account-button action" ng-click="showAccountAndBilling()" ng-show="isChargebee()"><i class="fa fa-shopping-cart"></i> <span class="item-name">Account & Billing</span></a></li><span ng-if="isLoggedIn && !isRiseVisionUser" class="google-account">{{username}}</span><li class="dropdown-footer text-right" ng-show="isLoggedIn"><button class="sign-out-button btn btn-sm btn-default u_margin-sm-bottom" ng-controller="SignOutButtonCtrl" ng-click="logout()">Sign Out<i class="fa fa-sign-out icon-right"></i></button></li></ul>');
+    '<company-buttons ng-show="isRiseVisionUser" ng-controller="CompanyButtonsCtrl"></company-buttons><ul><li ng-show="isRiseVisionUser"><a href="" ng-click="alertSettings()" class="alert-settings-button action"><i class="fa fa-bullhorn"></i> <span class="item-name">Alert Settings</span></a></li><li ng-show="isRiseVisionUser"><a href="" ng-click="userSettings()" class="user-settings-button action"><i class="fa fa-user"></i> <span class="item-name">User Settings</span></a></li><li ng-show="isRiseVisionUser"><a href="https://store.risevision.com/account" target="_blank" class="store-account-button action" link-cid="" ng-show="!isChargebee()"><i class="fa fa-shopping-cart"></i> <span class="item-name">Account & Billing</span></a> <a ui-sref="apps.billing.home" class="store-account-button action" ng-show="isChargebee() && isApps()"><i class="fa fa-shopping-cart"></i> <span class="item-name">Account & Billing</span></a> <a href="https://apps.risevision.com/billing" target="_blank" class="store-account-button action" link-cid="" ng-show="isChargebee() && !isApps()"><i class="fa fa-shopping-cart"></i> <span class="item-name">Account & Billing</span></a></li><span ng-if="isLoggedIn && !isRiseVisionUser" class="google-account">{{username}}</span><li class="dropdown-footer text-right" ng-show="isLoggedIn"><button class="sign-out-button btn btn-sm btn-default u_margin-sm-bottom" ng-controller="SignOutButtonCtrl" ng-click="logout()">Sign Out<i class="fa fa-sign-out icon-right"></i></button></li></ul>');
 }]);
 })();
 
@@ -740,7 +740,7 @@ angular.module("risevision.common.header.directives")
         restrict: "A",
         link: function (scope, elem, attr, ngModel) {
           var WEBSITE_REGEXP =
-            /^(http[s]?:\/\/){0,1}([^\s/?\.#:@"]+\.)+([^\s/?\.#:"@-]{2,5})([\/?#][^\s"]*)?$/;
+            /^(http[s]?:\/\/){0,1}([^\s/?\.#:@"]+\.)+([^\s/?\.#:"@-]{2,61})([\/?#][^\s"]*)?$/;
 
           var validator = function (value) {
             if (!value || WEBSITE_REGEXP.test(value)) {
@@ -762,13 +762,13 @@ angular.module("risevision.common.header.directives")
 angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
     "userState", "userAuthFactory", "canAccessApps",
-    "$loading", "cookieStore", "plansFactory", "currentPlanFactory",
+    "$loading", "cookieStore",
     "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
-    "$window", "$state", "APPS_URL",
+    "$window", "APPS_URL",
     function ($scope, $modal, $templateCache, userState, userAuthFactory,
       canAccessApps,
-      $loading, cookieStore, plansFactory, currentPlanFactory, $log, uiFlowManager, oauth2APILoader,
-      bindToScopeWithWatch, $window, $state, APPS_URL) {
+      $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
+      bindToScopeWithWatch, $window, APPS_URL) {
 
       window.$loading = $loading; //DEBUG
 
@@ -911,16 +911,12 @@ angular.module("risevision.common.header")
         });
       };
 
-      $scope.showAccountAndBilling = function () {
-        if (currentPlanFactory.isPlanActive()) {
-          $state.go("apps.billing.home");
-        } else {
-          plansFactory.showPlansModal();
-        }
-      };
-
       $scope.isChargebee = function () {
         return userState.isSelectedCompanyChargebee();
+      };
+
+      $scope.isApps = function () {
+        return APPS_URL === "" || $window.location.href.startsWith(APPS_URL);
       };
 
       $loading.startGlobal("auth-buttons-silent");

@@ -1,13 +1,13 @@
 angular.module("risevision.common.header")
   .controller("AuthButtonsCtr", ["$scope", "$modal", "$templateCache",
     "userState", "userAuthFactory", "canAccessApps",
-    "$loading", "cookieStore", "plansFactory", "currentPlanFactory",
+    "$loading", "cookieStore",
     "$log", "uiFlowManager", "oauth2APILoader", "bindToScopeWithWatch",
-    "$window", "$state", "APPS_URL",
+    "$window", "APPS_URL",
     function ($scope, $modal, $templateCache, userState, userAuthFactory,
       canAccessApps,
-      $loading, cookieStore, plansFactory, currentPlanFactory, $log, uiFlowManager, oauth2APILoader,
-      bindToScopeWithWatch, $window, $state, APPS_URL) {
+      $loading, cookieStore, $log, uiFlowManager, oauth2APILoader,
+      bindToScopeWithWatch, $window, APPS_URL) {
 
       window.$loading = $loading; //DEBUG
 
@@ -150,16 +150,12 @@ angular.module("risevision.common.header")
         });
       };
 
-      $scope.showAccountAndBilling = function () {
-        if (currentPlanFactory.isPlanActive()) {
-          $state.go("apps.billing.home");
-        } else {
-          plansFactory.showPlansModal();
-        }
-      };
-
       $scope.isChargebee = function () {
         return userState.isSelectedCompanyChargebee();
+      };
+
+      $scope.isApps = function () {
+        return APPS_URL === "" || $window.location.href.startsWith(APPS_URL);
       };
 
       $loading.startGlobal("auth-buttons-silent");
