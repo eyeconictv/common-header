@@ -43,6 +43,9 @@ msgstr "Web Page Settings"
 msgid "unload.label"
 msgstr "Unload Web Page when not visible in Presentation (recommended)"
 
+msgid "warning.frameAncestors.anchor"
+msgstr "content-security-policy / frame-ancestors"
+
 msgid "warning.preview"
 msgstr "Using Preview URLs in the Web Page Widget is not supported. You can place one Presentation into another using Embedded Presentations."
 
