@@ -14,7 +14,7 @@ msgid "previewLabel"
 msgstr "Preview"
 
 msgid "previewText"
-msgstr "The Twitter Widget uses sample content in Preview, your Tweets will only show on a Licensed Display."
+msgstr "The Twitter Widget shows Tweets from Rise Vision in Preview, your Tweets will only show on a Linux, Windows, or Raspberry Pi Licensed Display."
 
 msgid "screenName.error"
 msgstr "Error: you must specify a handle before you can save."
