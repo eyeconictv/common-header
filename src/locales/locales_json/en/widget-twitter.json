@@ -11,5 +11,5 @@
     "text": "Enter a handle to display Tweets from any public account"
   },
   "previewLabel": "Preview",
-  "previewText": "The Twitter Widget uses sample content in Preview, your Tweets will only show on a Licensed Display."
+  "previewText": "The Twitter Widget shows Tweets from Rise Vision in Preview, your Tweets will only show on a Linux, Windows, or Raspberry Pi Licensed Display."
 }
