@@ -17,6 +17,7 @@
             plan.status = company.planSubscriptionStatus;
             plan.trialPeriod = company.planTrialPeriod;
             plan.currentPeriodEndDate = new Date(company.planCurrentPeriodEndDate);
+            plan.cancellationReason = company.cancellationReason;
 
           } else {
             plan = _.cloneDeep(_plansByType.free);
@@ -82,7 +83,8 @@
         };
 
         _factory.isSuspended = function () {
-          return !_factory.isFree() && _factory.currentPlan.status === "Suspended";
+          return !_factory.isFree() && (_factory.currentPlan.status === "Suspended" ||
+            _factory.currentPlan.status === "Cancelled" && _factory.currentPlan.cancellationReason === "NOT_PAID");
         };
 
         _factory.isCancelled = function () {
