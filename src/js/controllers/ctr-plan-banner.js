@@ -20,6 +20,8 @@ angular.module("risevision.common.header")
 
         if (currentPlanFactory.isParentPlan()) {
           banner = "parent";
+        } else if (currentPlanFactory.isSuspended()) {
+          banner = "suspended";
         } else if (currentPlanFactory.isCancelledActive()) {
           banner = "cancelled";
         } else if (currentPlanFactory.isFree() && currentPlanFactory.isCancelled()) {
@@ -30,8 +32,6 @@ angular.module("risevision.common.header")
           banner = "trial";
         } else if (currentPlanFactory.isTrialExpired()) {
           banner = "expired";
-        } else if (currentPlanFactory.isSuspended()) {
-          banner = "suspended";
         }
 
         return banner;
