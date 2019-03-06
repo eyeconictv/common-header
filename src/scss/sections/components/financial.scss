@@ -56,6 +56,12 @@
   }
 }
 
+.instrument-selector {
+  & .instrument-row {
+    cursor: pointer;
+  }
+}
+
 .instrument-selector-show {
   animation-name: slide-in-right;
   animation-duration: 0.5s;
@@ -79,11 +85,28 @@
 .instrument-selector-checkbox {
   position: absolute;
   margin-top: 0.5em;
+
+  input[type=checkbox] { display:none; }
+
+  input[type=checkbox] + label:before {
+    font-family: FontAwesome;
+    color: #4d4d4d;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    content: '\f096';
+    cursor: pointer;
+  }
+
+  input[type=checkbox]:checked + label:before {
+    color: #FFF;
+    content: '\f14a';
+  }
 }
 
 .instrument-selector-name {
   display: inline-block;
-  margin-left: 1.5em;
+  margin-left: 1.75em;
 }
 
 .instrument-selector-no-results {
@@ -101,6 +124,18 @@
 
   & a:hover {
     text-decoration: underline;
+  }
+}
+
+.instrument-row--is-selected {
+  background: #4ab767;
+
+  & .instrument-name {
+    color: #FFF;
+  }
+
+  & .instrument-rate {
+    color: #FFF;
   }
 }
 
