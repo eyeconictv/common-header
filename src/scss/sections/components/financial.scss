@@ -1,3 +1,30 @@
+.financial-container {
+  --financial-button-bar-height: 54px;
+  --selector-search-box-height: 44px;
+
+  --financial-body-height: calc(100vh - var(--body-height) - var(--component-header-height) - var(--financial-button-bar-height));
+  --selector-body-height: calc(100vh - var(--body-height) - var(--component-header-height) - var(--financial-button-bar-height) - var(--selector-search-box-height));
+}
+
+.instrument-list {
+  height: var(--financial-body-height);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.instrument-selector {
+  height: var(--selector-body-height);
+  padding-top: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.instrument-selector-search-box {
+  padding: 0px 0px 10px;
+  margin: -1px 20px 0px;
+  border-bottom: 1px solid rgb(230, 230, 230);
+}
+
 .instrument-list-show {
   animation-name: slide-in-right;
   animation-duration: 0.5s;
@@ -24,10 +51,9 @@
 
 .instrument-row {
   border-bottom: 1px solid rgb(242, 242, 242);
-  padding-bottom: 0.5em;
-  padding-top: 0.5em;
-  margin-left: 0;
-  margin-right: 0;
+  padding: 0.5em 0px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .instrument-name {
@@ -59,6 +85,7 @@
 .instrument-selector {
   & .instrument-row {
     cursor: pointer;
+    padding-left: 10px;
   }
 }
 
@@ -78,8 +105,8 @@
   font-weight: bold;
   font-size: 0.8em;
   color: rgb(77, 77, 77);
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
+  margin: 0px;
+  padding: 0px 20px;
 }
 
 .instrument-selector-checkbox {
@@ -140,18 +167,10 @@
 }
 
 .financial-action-button-bar {
-  position: fixed;
-  width: 100%;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  left: 0%;
-  right: 0%;
-  bottom: 0%;
+  height: var(--financial-button-bar-height);
+  padding: 10px 20px;
 
   & > div {
     background: #FFF;
-    padding-bottom: 10px;
   }
 }
