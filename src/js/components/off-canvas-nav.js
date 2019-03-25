@@ -54,6 +54,11 @@ angular.module("risevision.common.header")
           // Handle Click
           iElement.bind("tap", offCanvas.toggle);
           iElement.bind("click", offCanvas.toggle);
+
+          scope.$on('$stateChangeStart', function (event, toState, toParams) {
+            console.log("$stateChangeStart - off canvas", toState, toParams);
+
+          });
         }
       };
     }
