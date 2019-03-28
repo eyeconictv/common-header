@@ -102,7 +102,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('company-icp-modal.html',
-    '<div id="companyIcpModal"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 id="icpModalTitle" class="modal-title">Customize your Rise Vision experience!</h3></div><div class="modal-body u_padding-lg" stop-event="touchend"><form id="companyIcpForm" role="form" name="forms.companyIcpForm"><div class="row"><div class="col-md-3"><div class="form-group" ng-class="{ \'has-error\' : forms.companyIcpForm.name.$invalid && !forms.companyIcpForm.name.$pristine }"><label for="company-name" class="control-label">Company Name</label> <input required="" id="company-name" type="text" class="form-control" ng-model="company.name" name="name"></div></div><div class="col-md-3"><div class="form-group"><label for="company-size" class="control-label">Company Size</label><select id="company-size" class="form-control" ng-model="company.companySize"><option value="" ng-show="false">&lt; Select Size &gt;</option><option ng-repeat="size in COMPANY_SIZE_FIELDS" value="{{size[1]}}">{{size[0]}}</option></select></div></div><div class="col-md-3"><div class="form-group"><label for="company-role" class="control-label">What\'s your title?</label><select id="company-role" class="form-control selectpicker" ng-model="user.companyRole"><option value="" ng-show="false">&lt; Select Role &gt;</option><option ng-repeat="role in COMPANY_ROLE_FIELDS" value="{{role[1]}}">{{role[0]}}</option></select></div></div><div class="col-md-3"><div class="form-group" ng-class="{ \'has-error\' : forms.companyIcpForm.email.$invalid && !forms.companyIcpForm.email.$pristine }"><label for="email" class="control-label">Preferred Email</label> <input type="email" class="form-control email" name="email" id="email" required="" ng-model="user.email"></div></div></div><div class="text-center"><h1 class="u_margin-xs-top">What\'s Your Industry?</h1><h4 class="u_margin-xs-top u_margin-xs-bottom">(Pick One)</h4></div><div class="panel panel-default grid-selector"><div id="" class="grid-selector-list text-center"><div class="no-select grid-selector-list-item" ng-class="{\'list-item--selected\' : company.companyIndustry === industry[1]}" ng-repeat="industry in ICON_INDUSTRY_FIELDS" ng-click="selectIndustry(industry[1]);"><img class="list-item-icon" ng-class="{{imgClasses}}" src="{{industry[2]}}"> <span class="list-item-label"><b>{{industry[0]}}</b></span></div><div class="no-select grid-selector-list-item" ng-class="{\'list-item--selected\' : otherSelected }" ng-click="selectOther()"><img class="list-item-icon" ng-class="{{imgClasses}}" src="https://cdn2.hubspot.net/hubfs/2700250/Assets%20May%5B17%5D/tick.svg"> <span class="list-item-label ng-binding"><b>Other</b></span></div><div class="grid-selector-list-item list-item-placeholder"></div><div class="grid-selector-list-item list-item-placeholder"></div><div class="grid-selector-list-item list-item-placeholder"></div><div class="grid-selector-list-item list-item-placeholder"></div><div class="grid-selector-list-item list-item-placeholder"></div><div class="grid-selector-list-item list-item-placeholder"></div><div class="grid-selector-list-item list-item-placeholder"></div><div class="grid-selector-list-item list-item-placeholder"></div></div></div><div class="text-center" id="pt-industry-selector" ng-show="otherSelected"><div class="form-inline"><div class="form-group"><img src="https://s3.amazonaws.com/Rise-Images/UI/r_arrow.png" class="icon-left"> <label for="company-industry" class="control-label">Please specify:</label><select id="company-industry" class="form-control selectpicker u_margin-left" ng-model="company.companyIndustry"><option value="" ng-show="false">&lt; Select Industry &gt;</option><option ng-repeat="industry in DROPDOWN_INDUSTRY_FIELDS | orderBy:industry[0]" value="{{industry[1]}}" ng-if="!industry[2]">{{industry[0]}}</option></select></div></div></div></form></div><div class="modal-footer"><button id="saveButton" class="btn btn-primary ng-binding" ng-click="save()" ng-disabled="forms.companyIcpForm.$invalid">Apply <i class="fa fa-check icon-right"></i></button> <button id="cancelButton" class="btn btn-link pull-left" ng-click="dismiss()">Ask Me Later</button></div></div>');
+    '<div id="companyIcpModal"><div class="modal-header"><h2 id="icpModalTitle" class="modal-title">Help us personalize your experience</h2></div><div class="modal-body" stop-event="touchend"><form id="forms.companyIcpForm" role="form" name="forms.companyIcpForm"><div class="form-group"><label for="company-industry" class="control-label">Tell us your Industry to help us make your Display look great *</label><select id="company-industry" name="companyIndustry" class="form-control selectpicker" ng-model="company.companyIndustry" aria-required="true" tabindex="1" autofocus="" required=""><option value="" ng-show="false">&lt; Select Industry &gt;</option><option ng-repeat="industry in DROPDOWN_INDUSTRY_FIELDS | orderBy:industry[0]" value="{{industry[1]}}">{{industry[0]}}</option></select></div><div class="checkbox form-group" ng-show="company.companyIndustry === \'PRIMARY_SECONDARY_EDUCATION\'"><label for="mailSyncEnabled"><input type="checkbox" id="mailSyncEnabled" ng-model="user.mailSyncEnabled" tabindex="1"> Send me an email with great Template ideas for my school each week</label></div></form></div><div class="modal-footer"><button id="saveButton" type="submit" class="btn btn-primary btn-lg btn-block ng-binding" aria-label="Apply" tabindex="1" form="forms.companyIcpForm" ng-click="save()" ng-disabled="forms.companyIcpForm.$invalid">Apply <i class="fa fa-check icon-right"></i></button></div></div>');
 }]);
 })();
 
@@ -198,7 +198,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('registration-modal.html',
-    '<div rv-spinner="" rv-spinner-key="registration-modal" rv-spinner-start-active="1"><div class="modal-header"><button type="button" class="close registration-cancel-button" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()"><i class="fa fa-times"></i></button><h2 class="modal-title">Let\'s finish with your details</h2></div><div class="modal-body registration-modal" stop-event="touchend"><div class="row"><div class="col-sm-12"><form id="registrationForm" novalidate="" role="form" name="forms.registrationForm"><div class="form-group" ng-class="{ \'has-error\' : forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine }"><label for="firstName">First Name</label> <input type="text" class="form-control firstName" name="firstName" id="firstName" required="" autocomplete="fname" ng-model="profile.firstName"><p ng-show="forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine" class="help-block validation-error-message-first-name">Enter First Name.</p></div><div class="form-group" ng-class="{ \'has-error\' : forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine }"><label for="lastName">Last Name</label> <input type="text" class="form-control lastName" name="lastName" id="lastName" required="" autocomplete="lname" ng-model="profile.lastName"><p ng-show="forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine" class="help-block validation-error-message-last-name">Enter Last Name.</p></div><div class="form-group" ng-show="newUser" ng-class="{\'has-error\': forms.registrationForm.website.$error.website && !forms.registrationForm.website.$pristine}"><label for="website">Website</label> <input type="text" class="form-control website" placeholder="http://" name="website" id="website" ng-model="company.website" website-validator=""><p ng-show="forms.registrationForm.website.$error.website && !forms.registrationForm.website.$pristine" class="help-block validation-error-message-website">Please provide a valid URL.</p></div><div class="checkbox form-group" ng-class="{ \'has-error\' : forms.registrationForm.accepted.$invalid && !userForm.accepted.$pristine }"><label for="accepted"><input type="checkbox" name="accepted" ng-model="profile.accepted" class="accept-terms-checkbox" required=""> I accept the terms of <a href="https://help.risevision.com/hc/en-us/articles/360000924446-Terms-of-Service" target="_blank">Service</a> and <a href="https://help.risevision.com/hc/en-us/articles/360000915023-Privacy-Policy" target="_blank">Privacy</a><p ng-show="forms.registrationForm.accepted.$invalid && !forms.registrationForm.accepted.$pristine" class="help-block validation-error-message-accepted">You must accept terms and condtions.</p></label></div><div class="checkbox form-group"><label for="receive-newsletter"><input name="receive-newsletter" type="checkbox" class="sign-up-newsletter-checkbox" ng-model="profile.mailSyncEnabled"> Sign up for our newsletter</label></div><div class="u_margin-md-top"><button ng-click="save()" name="create-account" type="button" class="btn btn-lg btn-success btn-block registration-save-button" ng-disabled="registering">Create Account <i class="fa fa-white fa-check icon-right"></i></button> <button type="button" class="btn hidden btn-lg btn-link btn-fixed-width" ng-disabled="registering" ng-click="closeModal()">Cancel</button></div></form></div></div></div></div>');
+    '<div rv-spinner="" rv-spinner-key="registration-modal" rv-spinner-start-active="1"><div class="modal-header"><h2 class="modal-title">One last step!</h2></div><div id="registration-modal" class="modal-body" stop-event="touchend"><form id="forms.registrationForm" novalidate="" role="form" name="forms.registrationForm" autocomplete="on"><div class="row"><div class="col-xs-12">Help us personalize your experience.</div></div><div class="row"><div class="col-xs-12 u_margin-md-top"><div class="form-group" ng-class="{ \'has-error\' : forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine }"><label for="firstName">First name *</label> <input type="text" class="form-control firstName" name="firstName" id="firstName" autocomplete="fname" aria-required="true" tabindex="1" ng-model="profile.firstName" autofocus="" required=""><p ng-show="forms.registrationForm.firstName.$invalid && !forms.registrationForm.firstName.$pristine" class="help-block validation-error-message-first-name">Enter first name.</p></div><div class="form-group" ng-class="{ \'has-error\' : forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine }"><label for="lastName">Last name *</label> <input type="text" class="form-control lastName" name="lastName" id="lastName" autocomplete="lname" aria-required="true" tabindex="1" ng-model="profile.lastName" required=""><p ng-show="forms.registrationForm.lastName.$invalid && !forms.registrationForm.lastName.$pristine" class="help-block validation-error-message-last-name">Enter last name.</p></div><div class="form-group" ng-class="{\'has-error\': forms.registrationForm.companyName.$invalid && !forms.registrationForm.companyName.$pristine}" ng-if="newUser"><label for="companyName">Organization *</label> <input type="text" class="form-control companyName" name="companyName" id="companyName" tabindex="1" aria-required="true" ng-model="company.name" required=""><p ng-show="forms.registrationForm.companyName.$invalid && !forms.registrationForm.companyName.$pristine" class="help-block validation-error-message-company-name">Enter organization.</p></div><div class="form-group" ng-class="{\'has-error\': forms.registrationForm.companyIndustry.$invalid && !forms.registrationForm.companyIndustry.$pristine}" ng-if="newUser"><label for="companyIndustry">Tell us your Industry to help us make your Display look great *</label><select class="form-control selectpicker companyIndustry" name="companyIndustry" id="companyIndustry" tabindex="1" aria-required="true" ng-model="company.companyIndustry" required=""><option value="" ng-show="false">&lt; Select Industry &gt;</option><option class="companyIndustryOption" ng-repeat="industry in DROPDOWN_INDUSTRY_FIELDS | orderBy:industry[0]" value="{{industry[1]}}">{{industry[0]}}</option></select><p ng-show="forms.registrationForm.companyIndustry.$invalid && !forms.registrationForm.companyIndustry.$pristine" class="help-block validation-error-message-company-industry">Select an Industry.</p></div><div class="form-group" ng-if="company.companyIndustry === \'PRIMARY_SECONDARY_EDUCATION\'"><div class="checkbox"><label for="receive-newsletter"><input id="receive-newsletter" name="receive-newsletter" type="checkbox" class="sign-up-newsletter-checkbox" tabindex="1" ng-model="profile.mailSyncEnabled"> Send me an email with great Template ideas for my school each week</label></div></div><div class="form-group"><div class="checkbox" ng-class="{ \'has-error\' : forms.registrationForm.accepted.$invalid && !userForm.accepted.$pristine }"><label for="accepted"><input type="checkbox" id="accepted" name="accepted" class="accept-terms-checkbox" ng-model="profile.accepted" tabindex="1" required=""> <span>I accept the <a href="https://help.risevision.com/hc/en-us/articles/360000924446-Terms-of-Service" target="_blank" tabindex="1">Terms of Service</a> and <a href="https://help.risevision.com/hc/en-us/articles/360000915023-Privacy-Policy" target="_blank" tabindex="1">Privacy Policy</a> *</span><p class="help-block validation-error-message-accepted" ng-show="forms.registrationForm.accepted.$invalid && !forms.registrationForm.accepted.$pristine">You must accept the terms and conditions.</p></label></div></div></div></div></form></div><div class="modal-footer"><div class="row"><div class="col-xs-12 u_margin-sm-top"><button id="createAccount" type="submit" aria-label="Create Account" tabindex="1" form="forms.registrationForm" class="btn btn-lg btn-success btn-block registration-save-button" ng-click="save()" ng-disabled="registering">Create Account <i class="fa fa-white fa-check icon-right"></i></button></div></div></div></div>');
 }]);
 })();
 
@@ -813,7 +813,8 @@ angular.module("risevision.common.header")
                 userState.registrationModalInstance = $modal.open({
                   template: $templateCache.get("registration-modal.html"),
                   controller: "RegistrationModalCtrl",
-                  backdrop: "static",
+                  backdrop: "static", //prevent from closing modal by clicking outside
+                  keyboard: false, //prevent from closing modal by pressing escape
                   resolve: {
                     account: ["getUserProfile", "getAccount",
                       function (getUserProfile, getAccount) {
@@ -830,8 +831,6 @@ angular.module("risevision.common.header")
                           .catch(function () {
                             return null;
                           });
-                        // console.log(userState);
-                        // return getAccount().catch(function(data){return data;}, function(){return null;});
                       }
                     ]
                   }
@@ -1069,34 +1068,13 @@ angular.module("risevision.common.header")
 angular.module("risevision.common.header")
 
 .controller("CompanyIcpModalCtrl", ["$scope", "$modalInstance",
-  "company", "user", "COMPANY_INDUSTRY_FIELDS", "COMPANY_SIZE_FIELDS",
-  "COMPANY_ROLE_FIELDS",
+  "company", "user", "COMPANY_INDUSTRY_FIELDS",
   function ($scope, $modalInstance, company, user,
-    COMPANY_INDUSTRY_FIELDS, COMPANY_SIZE_FIELDS, COMPANY_ROLE_FIELDS) {
+    COMPANY_INDUSTRY_FIELDS) {
 
     $scope.company = company;
     $scope.user = user;
-    $scope.COMPANY_SIZE_FIELDS = COMPANY_SIZE_FIELDS;
-    $scope.COMPANY_ROLE_FIELDS = COMPANY_ROLE_FIELDS;
-    $scope.ICON_INDUSTRY_FIELDS = [];
-    $scope.DROPDOWN_INDUSTRY_FIELDS = [];
-    $scope.otherSelected = false;
-
-    COMPANY_INDUSTRY_FIELDS.forEach(function (industry) {
-      if (company.companyIndustry === industry[1] && !industry[2]) {
-        $scope.otherSelected = true;
-      }
-
-      if (industry[2]) {
-        $scope.ICON_INDUSTRY_FIELDS.push(industry);
-      } else {
-        $scope.DROPDOWN_INDUSTRY_FIELDS.push(industry);
-      }
-    });
-
-    $scope.dismiss = function () {
-      $modalInstance.dismiss(user);
-    };
+    $scope.DROPDOWN_INDUSTRY_FIELDS = COMPANY_INDUSTRY_FIELDS;
 
     $scope.save = function () {
       $modalInstance.close({
@@ -1106,8 +1084,6 @@ angular.module("risevision.common.header")
     };
 
     $scope.selectIndustry = function (industryValue) {
-      $scope.otherSelected = false;
-
       if (company.companyIndustry !== industryValue) {
         company.companyIndustry = industryValue;
       } else {
@@ -1115,11 +1091,6 @@ angular.module("risevision.common.header")
       }
     };
 
-    $scope.selectOther = function () {
-      $scope.otherSelected = !$scope.otherSelected;
-
-      company.companyIndustry = "";
-    };
   }
 ]);
 
@@ -1507,13 +1478,14 @@ angular.module("risevision.common.header")
     "userState", "pick", "uiFlowManager", "humanReadableError",
     "agreeToTermsAndUpdateUser", "account", "segmentAnalytics",
     "bigQueryLogging", "analyticsEvents", "updateCompany", "plansFactory",
+    "COMPANY_INDUSTRY_FIELDS",
     function ($q, $scope, $rootScope, $modalInstance, $loading, registerAccount,
-      $log,
-      cookieStore, userState, pick, uiFlowManager, humanReadableError,
+      $log, cookieStore, userState, pick, uiFlowManager, humanReadableError,
       agreeToTermsAndUpdateUser, account, segmentAnalytics, bigQueryLogging,
-      analyticsEvents, updateCompany, plansFactory) {
+      analyticsEvents, updateCompany, plansFactory, COMPANY_INDUSTRY_FIELDS) {
 
       $scope.newUser = !account;
+      $scope.DROPDOWN_INDUSTRY_FIELDS = COMPANY_INDUSTRY_FIELDS;
 
       var copyOfProfile = account ? account : userState.getCopyOfProfile() || {};
 
@@ -1521,7 +1493,6 @@ angular.module("risevision.common.header")
 
       //remove cookie so that it will show next time user refreshes page
       cookieStore.remove("surpressRegistration");
-
 
       $scope.profile = pick(copyOfProfile, "email", "mailSyncEnabled",
         "firstName", "lastName");
@@ -1536,11 +1507,6 @@ angular.module("risevision.common.header")
         //"no sign up" by default
         $scope.profile.mailSyncEnabled = false;
       }
-
-      $scope.closeModal = function () {
-        cookieStore.put("surpressRegistration", true);
-        $modalInstance.dismiss("cancel");
-      };
 
       // check status, load spinner, or close dialog if registration is complete
       var watch = $scope.$watch(
@@ -1561,9 +1527,12 @@ angular.module("risevision.common.header")
           }
         });
 
-      var updateCompanyWebsite = function () {
-        if ($scope.newUser && $scope.company.website) {
-          return updateCompany(userState.getUserCompanyId(), $scope.company);
+      var updateCompanyData = function () {
+        if ($scope.newUser) {
+          return updateCompany(userState.getUserCompanyId(), $scope.company)
+            .then(function (company) {
+              userState.updateCompanySettings(company);
+            });
         } else {
           return $q.defer().resolve();
         }
@@ -1573,12 +1542,13 @@ angular.module("risevision.common.header")
         $scope.forms.registrationForm.accepted.$pristine = false;
         $scope.forms.registrationForm.firstName.$pristine = false;
         $scope.forms.registrationForm.lastName.$pristine = false;
+        $scope.forms.registrationForm.companyName.$pristine = false;
+        $scope.forms.registrationForm.companyIndustry.$pristine = false;
 
         if (!$scope.forms.registrationForm.$invalid) {
           //update terms and conditions date
           $scope.registering = true;
           $loading.start("registration-modal");
-
 
           var action;
           if ($scope.newUser) {
@@ -1588,34 +1558,33 @@ angular.module("risevision.common.header")
               $scope.profile);
           }
 
-          action.then(
-            function () {
-              userState.refreshProfile()
-                .then()
-                .finally(function () {
-                  if ($scope.newUser) {
-                    plansFactory.startBasicPlanTrial();
-                  }
+          action
+            .then(function () {
+                userState.refreshProfile()
+                  .finally(function () {
+                    if ($scope.newUser) {
+                      plansFactory.startBasicPlanTrial();
+                    }
 
-                  updateCompanyWebsite();
-                  analyticsEvents.identify();
-                  segmentAnalytics.track("User Registered", {
-                    "companyId": userState.getUserCompanyId(),
-                    "companyName": userState.getUserCompanyName(),
-                    "isNewCompany": $scope.newUser
+                    updateCompanyData();
+                    analyticsEvents.identify();
+                    segmentAnalytics.track("User Registered", {
+                      "companyId": userState.getUserCompanyId(),
+                      "companyName": userState.getUserCompanyName(),
+                      "isNewCompany": $scope.newUser
+                    });
+                    bigQueryLogging.logEvent("User Registered");
+                    $rootScope.$broadcast(
+                      "risevision.user.authorized");
+
+                    $modalInstance.close("success");
+                    $loading.stop("registration-modal");
                   });
-                  bigQueryLogging.logEvent("User Registered");
-                  $rootScope.$broadcast(
-                    "risevision.user.authorized");
-
-                  $modalInstance.close("success");
-                  $loading.stop("registration-modal");
-                });
-            },
-            function (err) {
-              alert("Error: " + humanReadableError(err));
-              console.error(err);
-            })
+              },
+              function (err) {
+                alert("Error: " + humanReadableError(err));
+                console.error(err);
+              })
             .finally(function () {
               $scope.registering = false;
               userState.refreshProfile();
@@ -2775,10 +2744,10 @@ angular.module("risevision.common.header")
     ["More than 250 employees", "250"]
   ])
   .constant("USER_ICP_WRITABLE_FIELDS", [
-    "companyRole", "email", "dataCollectionDate"
+    "mailSyncEnabled"
   ])
   .constant("COMPANY_ICP_WRITABLE_FIELDS", [
-    "name", "companySize", "companyIndustry"
+    "companyIndustry"
   ])
   .factory("companyIcpFactory", ["$rootScope", "$q", "$log", "userState",
     "updateCompany", "updateUser", "$modal", "pick",
@@ -2801,7 +2770,6 @@ angular.module("risevision.common.header")
         var user = result.user;
         var companyId = company.id;
         var username = user.username;
-        user.dataCollectionDate = new Date();
 
         company = pick(company, COMPANY_ICP_WRITABLE_FIELDS);
         user = pick(user, USER_ICP_WRITABLE_FIELDS);
@@ -2814,21 +2782,9 @@ angular.module("risevision.common.header")
         });
       };
 
-      var _saveDataCollectionDate = function (user) {
-        updateUser(user.username, {
-          dataCollectionDate: new Date()
-        }).then(function () {
-          $log.debug("User Data Collection Date updated");
-        });
-      };
-
       var _checkIcpCollection = function () {
         var user = userState.getCopyOfProfile(true);
         var company = userState.getCopyOfUserCompany(true);
-        var lastContact = new Date(user.dataCollectionDate ||
-          user.creationDate);
-        var twoWeeksAgo = new Date();
-        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
         if (!userState.isUserAdmin()) {
           return;
@@ -2838,22 +2794,17 @@ angular.module("risevision.common.header")
           return;
         }
 
-        // Last data collection was less than 2 weeks ago?
-        if (lastContact.getTime() >= twoWeeksAgo.getTime()) {
-          return;
-        }
-
-        // Has all data been collected?
-        if (user.companyRole && user.email && company.name && company.companySize &&
-          company.companyIndustry) {
+        // Has industry been collected?
+        if (company.companyIndustry) {
           return;
         }
 
         var modalInstance = $modal.open({
           templateUrl: "company-icp-modal.html",
           controller: "CompanyIcpModalCtrl",
-          size: "lg",
-          backdrop: true,
+          size: "md",
+          backdrop: "static", //prevent from closing modal by clicking outside
+          keyboard: false, //prevent from closing modal by pressing escape
           resolve: {
             user: function () {
               return user;
@@ -2866,8 +2817,6 @@ angular.module("risevision.common.header")
 
         modalInstance.result.then(function (user, company) {
           _saveIcpData(user, company);
-        }, function (user) {
-          _saveDataCollectionDate(user);
         });
 
       };
@@ -4840,8 +4789,8 @@ angular.module("risevision.common.core.endpoint", [
           });
           request.execute(function (resp) {
             $log.debug("updateCompany resp", resp);
-            if (resp.result) {
-              deferred.resolve(resp);
+            if (resp.result && resp.result.item) {
+              deferred.resolve(resp.result.item);
             } else {
               deferred.reject(resp);
             }

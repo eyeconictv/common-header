@@ -38,7 +38,7 @@
         //fill in email address
       });
 
-      it("should not bug me again when I click 'cancel', even after a refresh (limbo state)", function() {
+      xit("should not bug me again when I click 'cancel', even after a refresh (limbo state)", function() {
         registrationModalPage.getCancelButton().click();
         browser.refresh();
         
@@ -48,7 +48,7 @@
         expect(registrationModalPage.getRegistrationModal().isPresent()).to.eventually.be.false;
       });
 
-      it("allow me to register when I've changed my mind", function() {
+      xit("allow me to register when I've changed my mind", function() {
         expect(homepage.getRegisterUserButton().isDisplayed(), "Create Account button should show").to.eventually.be.true;
         homepage.getRegisterUserButton().click();
         
@@ -64,11 +64,17 @@
         expect(registrationModalPage.getValidationTermsAccepted().isPresent()).to.eventually.be.true;
         expect(registrationModalPage.getValidationFirstName().isPresent()).to.eventually.be.true;
         expect(registrationModalPage.getValidationLastName().isPresent()).to.eventually.be.true;
+        expect(registrationModalPage.getValidationCompanyName().isPresent()).to.eventually.be.true;
+        expect(registrationModalPage.getValidationCompanyIndustry().isPresent()).to.eventually.be.true;
       });
 
       it("should complete the registration process", function () {
         registrationModalPage.getFirstNameField().sendKeys("John");
         registrationModalPage.getLastNameField().sendKeys("Doe");
+        registrationModalPage.getCompanyNameField().sendKeys("Public School #5");
+        registrationModalPage.getCompanyIndustryOptions().then(function(options){
+          options[2].click(); //select random option
+        }); 
         //click authorize
         registrationModalPage.getTermsCheckbox().click();
         

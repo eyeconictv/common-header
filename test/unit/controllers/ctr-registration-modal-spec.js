@@ -8,12 +8,7 @@ describe("controller: registration modal", function() {
   beforeEach(module(function ($provide, $translateProvider) {
     $provide.service("$modalInstance",function(){
       return {
-        _dismissed : false,
         _closed: false,
-        dismiss : function(reason){
-          expect(reason).to.equal("cancel");
-          this._dismissed = true;
-        },
         close: function(reason) {
           expect(reason).to.equal("success");          
           this._closed = true;
@@ -38,6 +33,7 @@ describe("controller: registration modal", function() {
         getUserCompanyName: function() {
           return "company_name";
         },
+        updateCompanySettings: sinon.stub(),
         refreshProfile: function() {
           var deferred = Q.defer();
           
@@ -50,11 +46,9 @@ describe("controller: registration modal", function() {
 
     $provide.service("updateCompany",function(){
       return function(companyId, company){
-        updateCompanyCalled = company.website;
+        updateCompanyCalled = company.name;
 
-        var deferred = Q.defer();
-        deferred.resolve(company);
-        return deferred.promise;
+        return Q.resolve("companyResult");
       };
     });
     
@@ -167,6 +161,8 @@ describe("controller: registration modal", function() {
           accepted: {},
           firstName: {},
           lastName: {},
+          companyName: {},
+          companyIndustry: {},
           email: {}
         }
       };
@@ -189,7 +185,6 @@ describe("controller: registration modal", function() {
 
     expect($scope.registering).to.be.false;
 
-    expect($scope.closeModal).to.exist;
     expect($scope.save).to.exist;
   });
   
@@ -216,7 +211,10 @@ describe("controller: registration modal", function() {
         identifySpy.should.have.been.called;
         expect(trackerCalled).to.equal("User Registered");
         expect(bqCalled).to.equal("User Registered");
+
         expect(updateCompanyCalled).to.be.undefined;
+        userState.updateCompanySettings.should.have.been.calledWith("companyResult");
+
         expect($scope.registering).to.be.false;
         expect($modalInstance._closed).to.be.true;
 
@@ -226,9 +224,9 @@ describe("controller: registration modal", function() {
       },10);
     });
 
-    it("should register user, update company website, and close the modal",function(done){
+    it("should register user, update company name, and close the modal",function(done){
       $scope.forms.registrationForm.$invalid = false;
-      $scope.company.website = "test-website";
+      $scope.company.name = "test-company-name";
 
       $scope.save();
       expect($scope.registering).to.be.true;
@@ -240,7 +238,10 @@ describe("controller: registration modal", function() {
         identifySpy.should.have.been.called;
         expect(trackerCalled).to.equal("User Registered");
         expect(bqCalled).to.equal("User Registered");
-        expect(updateCompanyCalled).to.equal("test-website");
+
+        expect(updateCompanyCalled).to.equal("test-company-name");
+        userState.updateCompanySettings.should.have.been.calledWith("companyResult");
+
         expect($scope.registering).to.be.false;
         expect($modalInstance._closed).to.be.true;
 
@@ -324,12 +325,6 @@ describe("controller: registration modal", function() {
       },10);
     });
       
-  });
-  
-  it("should close modal on cancel",function(){
-    $scope.closeModal();
-    expect(cookieStored).to.be.true;
-    expect($modalInstance._dismissed).to.be.true;
   });
 
 });

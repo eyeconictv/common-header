@@ -5,13 +5,14 @@ angular.module("risevision.common.header")
     "userState", "pick", "uiFlowManager", "humanReadableError",
     "agreeToTermsAndUpdateUser", "account", "segmentAnalytics",
     "bigQueryLogging", "analyticsEvents", "updateCompany", "plansFactory",
+    "COMPANY_INDUSTRY_FIELDS",
     function ($q, $scope, $rootScope, $modalInstance, $loading, registerAccount,
-      $log,
-      cookieStore, userState, pick, uiFlowManager, humanReadableError,
+      $log, cookieStore, userState, pick, uiFlowManager, humanReadableError,
       agreeToTermsAndUpdateUser, account, segmentAnalytics, bigQueryLogging,
-      analyticsEvents, updateCompany, plansFactory) {
+      analyticsEvents, updateCompany, plansFactory, COMPANY_INDUSTRY_FIELDS) {
 
       $scope.newUser = !account;
+      $scope.DROPDOWN_INDUSTRY_FIELDS = COMPANY_INDUSTRY_FIELDS;
 
       var copyOfProfile = account ? account : userState.getCopyOfProfile() || {};
 
@@ -19,7 +20,6 @@ angular.module("risevision.common.header")
 
       //remove cookie so that it will show next time user refreshes page
       cookieStore.remove("surpressRegistration");
-
 
       $scope.profile = pick(copyOfProfile, "email", "mailSyncEnabled",
         "firstName", "lastName");
@@ -34,11 +34,6 @@ angular.module("risevision.common.header")
         //"no sign up" by default
         $scope.profile.mailSyncEnabled = false;
       }
-
-      $scope.closeModal = function () {
-        cookieStore.put("surpressRegistration", true);
-        $modalInstance.dismiss("cancel");
-      };
 
       // check status, load spinner, or close dialog if registration is complete
       var watch = $scope.$watch(
@@ -59,9 +54,12 @@ angular.module("risevision.common.header")
           }
         });
 
-      var updateCompanyWebsite = function () {
-        if ($scope.newUser && $scope.company.website) {
-          return updateCompany(userState.getUserCompanyId(), $scope.company);
+      var updateCompanyData = function () {
+        if ($scope.newUser) {
+          return updateCompany(userState.getUserCompanyId(), $scope.company)
+            .then(function (company) {
+              userState.updateCompanySettings(company);
+            });
         } else {
           return $q.defer().resolve();
         }
@@ -71,12 +69,13 @@ angular.module("risevision.common.header")
         $scope.forms.registrationForm.accepted.$pristine = false;
         $scope.forms.registrationForm.firstName.$pristine = false;
         $scope.forms.registrationForm.lastName.$pristine = false;
+        $scope.forms.registrationForm.companyName.$pristine = false;
+        $scope.forms.registrationForm.companyIndustry.$pristine = false;
 
         if (!$scope.forms.registrationForm.$invalid) {
           //update terms and conditions date
           $scope.registering = true;
           $loading.start("registration-modal");
-
 
           var action;
           if ($scope.newUser) {
@@ -86,34 +85,33 @@ angular.module("risevision.common.header")
               $scope.profile);
           }
 
-          action.then(
-            function () {
-              userState.refreshProfile()
-                .then()
-                .finally(function () {
-                  if ($scope.newUser) {
-                    plansFactory.startBasicPlanTrial();
-                  }
+          action
+            .then(function () {
+                userState.refreshProfile()
+                  .finally(function () {
+                    if ($scope.newUser) {
+                      plansFactory.startBasicPlanTrial();
+                    }
 
-                  updateCompanyWebsite();
-                  analyticsEvents.identify();
-                  segmentAnalytics.track("User Registered", {
-                    "companyId": userState.getUserCompanyId(),
-                    "companyName": userState.getUserCompanyName(),
-                    "isNewCompany": $scope.newUser
+                    updateCompanyData();
+                    analyticsEvents.identify();
+                    segmentAnalytics.track("User Registered", {
+                      "companyId": userState.getUserCompanyId(),
+                      "companyName": userState.getUserCompanyName(),
+                      "isNewCompany": $scope.newUser
+                    });
+                    bigQueryLogging.logEvent("User Registered");
+                    $rootScope.$broadcast(
+                      "risevision.user.authorized");
+
+                    $modalInstance.close("success");
+                    $loading.stop("registration-modal");
                   });
-                  bigQueryLogging.logEvent("User Registered");
-                  $rootScope.$broadcast(
-                    "risevision.user.authorized");
-
-                  $modalInstance.close("success");
-                  $loading.stop("registration-modal");
-                });
-            },
-            function (err) {
-              alert("Error: " + humanReadableError(err));
-              console.error(err);
-            })
+              },
+              function (err) {
+                alert("Error: " + humanReadableError(err));
+                console.error(err);
+              })
             .finally(function () {
               $scope.registering = false;
               userState.refreshProfile();
