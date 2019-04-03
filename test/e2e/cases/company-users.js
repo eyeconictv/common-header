@@ -4,11 +4,11 @@
 
   var expect = require('rv-common-e2e').expect;
   var assert = require('rv-common-e2e').assert;
-  var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var helper = require('rv-common-e2e').helper;
+  var CommonHeaderPage = require('./../pages/commonHeaderPage.js');
   var HomePage = require('./../pages/homepage.js');
   var CompanyUsersModalPage = require('./../pages/companyUsersModalPage.js');
   var UserSettingsModalPage = require('./../pages/userSettingsModalPage.js');
-  var helper = require('rv-common-e2e').helper;
 
   var CompanyUsersScenarios = function() {
 
@@ -34,26 +34,17 @@
 
       describe("Company Users", function () {
         it("Opens Company Users Dialog and load company users", function() {
-          commonHeaderPage.getProfilePic().click();
-
-          expect(homepage.getCompanyUsersButton().isDisplayed()).to.eventually.be.true;
-          homepage.getCompanyUsersButton().click();
-
-          helper.wait(companyUsersModalPage.getCompanyUsersModal(), "Comapny Users Modal");
+          companyUsersModalPage.openCompanyUsersModal();
 
           expect(companyUsersModalPage.getCompanyUsersModal().isDisplayed()).to.eventually.be.true;
         });
 
         it("loads up a list of users for the company", function () {
-          helper.waitDisappear(companyUsersModalPage.getLoader(), "Load Company Users");
-          
           expect(companyUsersModalPage.getUsersList().count()).to.eventually.be.above(0);
         });
 
         it("opens up Add User dialog", function () {
-          companyUsersModalPage.getAddUserButton().click();
-          
-          helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
+          companyUsersModalPage.openAddUserDialog();
 
           expect(userSettingsModalPage.getUserSettingsModal().isPresent()).to.eventually.be.true;
         });
@@ -77,8 +68,10 @@
 
           // assume first user
           companyUsersModalPage.getUsers().get(0).click();
+
+          helper.wait(userSettingsModalPage.getUserSettingsModal(), "User Settings Modal");
           
-          helper.waitDisappear(userSettingsModalPage.getLoader(), "User Settings Modal");
+          helper.waitDisappear(userSettingsModalPage.getLoader(), "User Settings Modal Loader");
 
           expect(userSettingsModalPage.getFirstNameField().getAttribute('value')).to.eventually.equal("John");
           expect(userSettingsModalPage.getLastNameField().getAttribute('value')).to.eventually.equal("test");
@@ -95,11 +88,7 @@
         });
         
         it("Company Users Dialog Should Close", function () {
-          helper.waitDisappear(companyUsersModalPage.getLoader(), "Load Company Users");
-
-          companyUsersModalPage.getCloseButton().click();
-
-          helper.waitDisappear(companyUsersModalPage.getCompanyUsersModal(), "Company Users Modal");
+          companyUsersModalPage.closeCompanyUsersModal();
           
           expect(companyUsersModalPage.getCompanyUsersModal().isPresent()).to.eventually.be.false;
         });

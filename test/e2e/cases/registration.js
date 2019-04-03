@@ -4,10 +4,10 @@
 
   var expect = require('rv-common-e2e').expect;
   var assert = require('rv-common-e2e').assert;
-  var CommonHeaderPage = require('rv-common-e2e').commonHeaderPage;
+  var helper = require('rv-common-e2e').helper;
+  var CommonHeaderPage = require('./../pages/commonHeaderPage.js');
   var HomePage = require('./../pages/homepage.js');
   var RegistrationModalPage = require('./../pages/registrationModalPage.js');
-  var helper = require('rv-common-e2e').helper;
 
   var RegistrationScenarios = function() {
 
@@ -36,6 +36,14 @@
         expect(registrationModalPage.getRegistrationModal().isPresent()).to.eventually.be.true;
 
         //fill in email address
+      });
+
+      it("should show all Registration fields", function() {
+        expect(registrationModalPage.getFirstNameField().isDisplayed()).to.eventually.be.true;
+        expect(registrationModalPage.getLastNameField().isDisplayed()).to.eventually.be.true;
+        expect(registrationModalPage.getCompanyNameField().isDisplayed()).to.eventually.be.true;
+        expect(registrationModalPage.getCompanyIndustryDropdown().isDisplayed()).to.eventually.be.true;
+        expect(registrationModalPage.getTermsCheckbox().isDisplayed()).to.eventually.be.true;
       });
 
       xit("should not bug me again when I click 'cancel', even after a refresh (limbo state)", function() {
