@@ -14,6 +14,7 @@
 
           if (company.id && company.planProductCode) {
             plan = _.cloneDeep(_plansByCode[company.planProductCode]);
+
             plan.status = company.planSubscriptionStatus;
             plan.trialPeriod = company.planTrialPeriod;
             plan.currentPeriodEndDate = new Date(company.planCurrentPeriodEndDate);
@@ -29,9 +30,12 @@
 
           if (company.parentPlanProductCode) {
             plan.parentPlan = _.cloneDeep(_plansByCode[company.parentPlanProductCode]);
-            plan.parentPlan.companyName = company.parentPlanCompanyName;
-            plan.parentPlan.contactEmail = company.parentPlanContactEmail;
           }
+
+          plan.isPurchasedByParent = !!company.planBillToId && !!company.planShipToId && (company.planBillToId !==
+            company.planShipToId);
+          plan.parentPlanCompanyName = company.parentPlanCompanyName;
+          plan.parentPlanContactEmail = company.parentPlanContactEmail;
 
           _factory.currentPlan = plan;
           $log.debug("Current plan", plan);

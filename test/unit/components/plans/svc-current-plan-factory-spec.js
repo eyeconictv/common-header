@@ -88,8 +88,8 @@ describe("Services: current plan factory", function() {
         expect(currentPlanFactory.currentPlan.shareCompanyPlan).to.be.true;
         expect(currentPlanFactory.currentPlan.parentPlan).to.be.ok;
         expect(currentPlanFactory.currentPlan.parentPlan.type).to.equal("advanced");
-        expect(currentPlanFactory.currentPlan.parentPlan.companyName).to.equal("parentName");
-        expect(currentPlanFactory.currentPlan.parentPlan.contactEmail).to.equal("administratorEmail");
+        expect(currentPlanFactory.currentPlan.parentPlanCompanyName).to.equal("parentName");
+        expect(currentPlanFactory.currentPlan.parentPlanContactEmail).to.equal("administratorEmail");
 
         done();
       }, 0);
@@ -114,7 +114,6 @@ describe("Services: current plan factory", function() {
       setTimeout(function () {
         expect($rootScope.$emit).to.have.been.called;
         expect(currentPlanFactory.currentPlan).to.be.not.null;
-        expect(currentPlanFactory.currentPlan).to.be.not.null;
         expect(currentPlanFactory.currentPlan.type).to.equal("free");
         expect(currentPlanFactory.currentPlan.status).to.equal("Active");
         expect(currentPlanFactory.currentPlan.playerProTotalLicenseCount).to.equal(3);
@@ -123,8 +122,8 @@ describe("Services: current plan factory", function() {
         expect(currentPlanFactory.currentPlan.shareCompanyPlan).to.be.true;
         expect(currentPlanFactory.currentPlan.parentPlan).to.be.ok;
         expect(currentPlanFactory.currentPlan.parentPlan.type).to.equal("advanced");
-        expect(currentPlanFactory.currentPlan.parentPlan.companyName).to.equal("parentName");
-        expect(currentPlanFactory.currentPlan.parentPlan.contactEmail).to.equal("administratorEmail");
+        expect(currentPlanFactory.currentPlan.parentPlanCompanyName).to.equal("parentName");
+        expect(currentPlanFactory.currentPlan.parentPlanContactEmail).to.equal("administratorEmail");
 
         done();
       }, 0);
@@ -152,6 +151,8 @@ describe("Services: current plan factory", function() {
         expect(currentPlanFactory.currentPlan.trialPeriod).to.equal(23);
         expect(currentPlanFactory.currentPlan.playerProTotalLicenseCount).to.equal(3);
         expect(currentPlanFactory.currentPlan.playerProAvailableLicenseCount).to.equal(1);
+        expect(currentPlanFactory.currentPlan.parentPlanCompanyName).to.be.undefined;
+        expect(currentPlanFactory.currentPlan.parentPlanContactEmail).to.be.undefined;
 
         done();
       }, 0);
@@ -171,9 +172,115 @@ describe("Services: current plan factory", function() {
         expect(currentPlanFactory.currentPlan).to.be.not.null;
         expect(currentPlanFactory.currentPlan.type).to.equal("free");
         expect(currentPlanFactory.currentPlan.status).to.equal("Active");
+        expect(currentPlanFactory.currentPlan.parentPlanCompanyName).to.be.undefined;
+        expect(currentPlanFactory.currentPlan.parentPlanContactEmail).to.be.undefined;
 
         done();
       }, 0);
+    });
+    
+    describe("currentPlan.isPurchasedByParent: ", function() {
+      it("should be false if billToId is missing", function(done) {
+        sandbox.stub(userState, "getSelectedCompanyId").returns("companyId");
+        sandbox.stub(userState, "getCopyOfSelectedCompany").returns({
+          id: "companyId",
+          playerProTotalLicenseCount: 3,
+          playerProAvailableLicenseCount: 1,
+          shareCompanyPlan: true,
+          planShipToId: "shipToId",
+          parentPlanProductCode: ADVANCED_PLAN_CODE,
+          parentPlanCompanyName: "parentName",
+          parentPlanContactEmail: "administratorEmail"
+        });
+
+        $rootScope.$emit("risevision.company.selectedCompanyChanged");
+        $rootScope.$digest();
+
+        setTimeout(function () {
+          expect(currentPlanFactory.currentPlan).to.be.not.null;
+          expect(currentPlanFactory.currentPlan.isPurchasedByParent).to.be.false;
+
+          done();
+        }, 0);
+
+      });
+
+      it("should be false if shipToId is missing", function(done) {
+        sandbox.stub(userState, "getSelectedCompanyId").returns("companyId");
+        sandbox.stub(userState, "getCopyOfSelectedCompany").returns({
+          id: "companyId",
+          playerProTotalLicenseCount: 3,
+          playerProAvailableLicenseCount: 1,
+          shareCompanyPlan: true,
+          planShipToId: "shipToId",
+          parentPlanProductCode: ADVANCED_PLAN_CODE,
+          parentPlanCompanyName: "parentName",
+          parentPlanContactEmail: "administratorEmail"
+        });
+
+        $rootScope.$emit("risevision.company.selectedCompanyChanged");
+        $rootScope.$digest();
+
+        setTimeout(function () {
+          expect(currentPlanFactory.currentPlan).to.be.not.null;
+          expect(currentPlanFactory.currentPlan.isPurchasedByParent).to.be.false;
+
+          done();
+        }, 0);
+
+      });
+
+      it("should be true if shipToId differs from billToId", function(done) {
+        sandbox.stub(userState, "getSelectedCompanyId").returns("companyId");
+        sandbox.stub(userState, "getCopyOfSelectedCompany").returns({
+          id: "companyId",
+          playerProTotalLicenseCount: 3,
+          playerProAvailableLicenseCount: 1,
+          shareCompanyPlan: true,
+          planShipToId: "shipToId",
+          planBillToId: "billToId",
+          parentPlanProductCode: ADVANCED_PLAN_CODE,
+          parentPlanCompanyName: "parentName",
+          parentPlanContactEmail: "administratorEmail"
+        });
+
+        $rootScope.$emit("risevision.company.selectedCompanyChanged");
+        $rootScope.$digest();
+
+        setTimeout(function () {
+          expect(currentPlanFactory.currentPlan).to.be.not.null;
+          expect(currentPlanFactory.currentPlan.isPurchasedByParent).to.be.true;
+
+          done();
+        }, 0);
+
+      });
+
+      it("should be false if shipToId and billToId are the same", function(done) {
+        sandbox.stub(userState, "getSelectedCompanyId").returns("companyId");
+        sandbox.stub(userState, "getCopyOfSelectedCompany").returns({
+          id: "companyId",
+          playerProTotalLicenseCount: 3,
+          playerProAvailableLicenseCount: 1,
+          shareCompanyPlan: true,
+          planShipToId: "billToId",
+          planBillToId: "billToId",
+          parentPlanProductCode: ADVANCED_PLAN_CODE,
+          parentPlanCompanyName: "parentName",
+          parentPlanContactEmail: "administratorEmail"
+        });
+
+        $rootScope.$emit("risevision.company.selectedCompanyChanged");
+        $rootScope.$digest();
+
+        setTimeout(function () {
+          expect(currentPlanFactory.currentPlan).to.be.not.null;
+          expect(currentPlanFactory.currentPlan.isPurchasedByParent).to.be.false;
+
+          done();
+        }, 0);
+
+      });      
     });
   });
 
