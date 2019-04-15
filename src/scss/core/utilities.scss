@@ -256,6 +256,14 @@ All utilities have a prefix u_ added to them
   padding: 0 !important;
 }
 
+.u_remove-left {
+  margin-left: 0 !important;
+}
+
+.u_remove-right {
+  margin-right: 0 !important;
+}
+
 .u_remove-top {
   margin-top: 0 !important;
 }
@@ -305,6 +313,10 @@ All utilities have a prefix u_ added to them
   cursor: default;
   pointer-events: none;
   text-decoration: none;
+}
+
+.u_link {
+  @extend a;
 }
 
 .u_link-no-underline {
@@ -360,6 +372,10 @@ All utilities have a prefix u_ added to them
 
 .aligner-item--bottom {
   align-self: flex-end;
+}
+
+.font-weight-medium {
+  font-weight: 500;
 }
 
 .font-weight-bold {
