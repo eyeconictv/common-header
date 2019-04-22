@@ -18472,6 +18472,28 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     padding-left: 0;
     border-left: none; }
 
+.weekly-templates .collapsed-label {
+  font-size: 18px; }
+
+.weekly-templates .expanded-panel {
+  color: #444; }
+
+.weekly-templates .expanded-message {
+  font-size: 16px; }
+
+.weekly-templates .col-centered {
+  float: none;
+  display: inline-block; }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .weekly-templates .col-centered {
+      width: 49%; } }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .weekly-templates .col-centered {
+      width: 33%; } }
+  @media (min-width: 1200px) {
+    .weekly-templates .col-centered {
+      width: 24%; } }
+
 @media (min-width: 768px) {
   .financial-container {
     --financial-button-bar-height: 70px;
