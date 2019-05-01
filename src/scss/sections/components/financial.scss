@@ -183,7 +183,12 @@
 
 .instrument-selector-no-results {
   color: rgb(77, 77, 77);
+  font-size: 0.9em;
   margin: 20px;
+
+  & > div {
+    margin: 0 0 10px;
+  }
 
   & > h2 {
     font-size: 1.2em;
@@ -192,11 +197,16 @@
     margin-top: 0px;
   }
 
-  & > div:first-child {
+  & > div:first-of-type {
     font-weight: bold;
   }
 
-  & a:hover {
+  & i {
+    font-size: 1.2em;
+    margin-right: 5px;
+  }
+
+  & a:hover > span {
     text-decoration: underline;
   }
 }
