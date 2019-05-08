@@ -18760,9 +18760,44 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     --image-component-body-height: calc(100vh - var(--body-height)); } }
 
 .image-component-list {
+  --thumbnail-width: 80px;
   height: calc(var(--image-component-body-height) - var(--image-component-list-button-bar-height));
   overflow-x: hidden;
   overflow-y: auto; }
+  .image-component-list .image-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 10px 0px;
+    border-bottom: 1px solid #f2f2f2;
+    margin-left: 20px;
+    margin-right: 20px; }
+    .image-component-list .image-row .image-thumbnail {
+      margin-right: 20px; }
+      .image-component-list .image-row .image-thumbnail div {
+        width: var(--thumbnail-width); }
+    .image-component-list .image-row .image-entry {
+      flex-grow: 1;
+      width: calc(var(--sidebar-width) - var(--thumbnail-width) - 60px); }
+      .image-component-list .image-row .image-entry .image-entry-top {
+        display: flex;
+        flex-wrap: nowrap; }
+        .image-component-list .image-row .image-entry .image-entry-top .image-name {
+          flex-grow: 1;
+          font-weight: bold;
+          color: #4d4d4d;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis; }
+        .image-component-list .image-row .image-entry .image-entry-top a, .image-component-list .image-row .image-entry .image-entry-top .u_link {
+          color: red;
+          text-decoration: none;
+          margin-left: 5px; }
+          .image-component-list .image-row .image-entry .image-entry-top a:hover, .image-component-list .image-row .image-entry .image-entry-top .u_link:hover {
+            text-decoration: underline; }
+      .image-component-list .image-row .image-entry .image-not-available {
+        color: red;
+        font-size: 0.8em; }
   .image-component-list .image-component-list-empty {
     color: #999999;
     margin: 20px; }

@@ -13,9 +13,64 @@
 }
 
 .image-component-list {
+  --thumbnail-width: 80px;
+
   height: calc(var(--image-component-body-height) - var(--image-component-list-button-bar-height));
   overflow-x: hidden;
   overflow-y: auto;
+
+  .image-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 10px 0px;
+    border-bottom: 1px solid rgb(242, 242, 242);
+    margin-left: 20px;
+    margin-right: 20px;
+
+    .image-thumbnail {
+      margin-right: 20px;
+
+      div {
+        width: var(--thumbnail-width);
+      }
+    }
+
+    .image-entry {
+      flex-grow: 1;
+      width: calc(var(--sidebar-width) - var(--thumbnail-width) - 60px);
+
+      .image-entry-top {
+        display: flex;
+        flex-wrap: nowrap;
+
+        .image-name {
+          flex-grow: 1;
+          font-weight: bold;
+          color: $dark-gray;
+
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        a {
+          color: red;
+          text-decoration: none;
+          margin-left: 5px;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .image-not-available {
+        color: red;
+        font-size: 0.8em;
+      }
+    }
+  }
 
   .image-component-list-empty {
     color: $mid-gray;
