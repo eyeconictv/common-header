@@ -18063,11 +18063,15 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     height: var(--attribute-list-height);
     overflow-x: hidden;
     overflow-y: auto; }
-  .attribute-editor .attribute-row {
+  .attribute-editor .attribute-row, .attribute-editor .attribute-row-first, .attribute-editor .attribute-row-last {
     border-bottom: 1px solid #f2f2f2;
     padding: 0.5em 0px;
     margin-left: 20px;
     margin-right: 20px; }
+  .attribute-editor .attribute-row-first {
+    margin-top: 20px; }
+  .attribute-editor .attribute-row-last {
+    border-bottom: none; }
   .attribute-editor .attribute-desc {
     color: #4d4d4d;
     white-space: nowrap;

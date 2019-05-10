@@ -244,6 +244,16 @@ $short-phone-height: 570px;
     margin-right: 20px;
   }
 
+  & .attribute-row-first {
+    @extend .attribute-row;
+    margin-top: 20px;
+  }
+
+  & .attribute-row-last {
+    @extend .attribute-row;
+    border-bottom: none;
+  }
+
   & .attribute-desc {
     color: rgb(77, 77, 77);
     white-space: nowrap;
