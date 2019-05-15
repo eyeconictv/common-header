@@ -29,9 +29,19 @@
     margin-right: 20px;
 
     .image-thumbnail {
-      margin-right: 20px;
+      width: 100px;
+      height: 75px;
+      overflow: hidden;
 
-      div {
+      .image-helper {
+        display: inline-block;
+        width: 0;
+        height: 100%;
+        vertical-align: middle;
+      }
+
+      img {
+        vertical-align: middle;
         width: var(--thumbnail-width);
       }
     }
