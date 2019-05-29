@@ -115,11 +115,11 @@ msgstr "Okay I Got It"
 msgid "rise-data-financial"
 msgstr "Financial"
 
-msgid "rise-data-image"
-msgstr "Image"
-
 msgid "rise-data-weather"
 msgstr "Weather"
+
+msgid "rise-image"
+msgstr "Image"
 
 msgid "rise-slides"
 msgstr "Google Slides"
