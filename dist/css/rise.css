@@ -879,7 +879,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857;
   color: #020621;
@@ -16082,7 +16082,7 @@ tr.blocked-file {
   overflow: hidden;
   background: rgba(0, 0, 0, 0.2); }
   .ph-item-icon:before {
-    font-family: FontAwesome,Arial,Helvetica Neue,Helvetica,sans-serif;
+    font-family: FontAwesome,Arial,Helvetica,sans-serif;
     content: " " attr(data-before);
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.4);
@@ -16622,7 +16622,7 @@ body.in-rva-iframe {
     border: 0; }
 
 .product-details .t-body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: 1em;
@@ -17924,7 +17924,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   .template-editor-toolbar i {
     font-size: 18px; }
   .template-editor-toolbar .presentation-name {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 22px;
     font-weight: bold;
     margin: 0;
