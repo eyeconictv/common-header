@@ -18397,6 +18397,45 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   border-color: #4ab767;
   padding: 6px 12px; }
 
+.attribute-component .form-control {
+  height: 40px;
+  border-color: #999999; }
+  .attribute-component .form-control:focus {
+    border: 1px solid #107dda;
+    box-shadow: none; }
+
+.attribute-component .form-control-feedback {
+  top: 32px;
+  fill: #f2f2f2; }
+
+.attribute-component .has-error .control-label {
+  color: inherit; }
+
+.attribute-component .has-error .form-control {
+  border-color: #d9534f; }
+
+.attribute-component .has-error .overlay-icon {
+  fill: #d9534f; }
+
+.attribute-component .has-success .control-label {
+  color: inherit; }
+
+.attribute-component .has-success .overlay-icon {
+  fill: #45b764; }
+
+.attribute-component .input-group-addon {
+  border-color: #999999;
+  background-color: #f2f2f2;
+  color: #020620; }
+
+.attribute-component .input-duration {
+  width: 140px; }
+
+.attribute-component .icon-help {
+  fill: #45b764;
+  position: relative;
+  top: 3px; }
+
 .subscription-summary {
   display: flex;
   flex-direction: row;

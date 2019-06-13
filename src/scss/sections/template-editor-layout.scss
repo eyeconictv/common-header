@@ -729,3 +729,56 @@ $short-phone-height: 570px;
     }
   }
 }
+.attribute-component {
+  .form-control {
+    height: 40px;
+    border-color: #999999;
+
+    &:focus {
+      border: 1px solid #107dda;
+      box-shadow: none;
+    }
+  }
+  
+  .form-control-feedback {
+    top: 32px;
+    fill: #f2f2f2;
+  }
+
+  .has-error {
+    .control-label {
+      color: inherit;
+    }
+    .form-control {
+      border-color: #d9534f;
+    }
+    .overlay-icon {
+      fill: #d9534f;
+    }
+  }
+
+  .has-success {
+    .control-label {
+      color: inherit;
+    }
+    .overlay-icon {
+      fill: #45b764;
+    }
+  }
+
+  .input-group-addon {
+    border-color: #999999;
+    background-color: #f2f2f2;
+    color: #020620;
+  }
+
+  .input-duration {
+    width: 140px;
+  }
+
+  .icon-help {
+    fill: rgb(69, 183, 100);
+    position: relative;
+    top: 3px;
+  }
+}
