@@ -138,7 +138,7 @@
         var _factory = {};
         var _plansCodesList = _.map(PLANS_LIST, "productCode");
         var _plansByType = _.keyBy(PLANS_LIST, "type");
-        var _plansByCode = _.keyBy(PLANS_LIST, "productCode")
+        var _plansByCode = _.keyBy(PLANS_LIST, "productCode");
         var _plansList = [
           _plansByType.free, _plansByType.starter, _plansByType.basic, _plansByType.advanced, _plansByType.enterprise
         ];

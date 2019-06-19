@@ -198,7 +198,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('plan-banner.html',
-    '<div class="hidden-xs"><div id="parent-plan-banner" class="alert p-2 mb-0 bg-success text-right" ng-show="getVisibleBanner() === \'parent\'"><div class="u_margin-right"><span class="font-weight-bold">{{plan.parentPlan.name}} Plan</span> <span class="ml-2">Managed by {{plan.parentPlanCompanyName || "the Parent Company"}}</span> <a href="#" ng-click="showPlans()" class="ml-3 btn btn-xs btn-primary">Change Plan</a></div></div><div id="parent-purchased-plan-banner" class="alert p-2 mb-0 bg-success text-right" ng-show="getVisibleBanner() === \'parentPurchased\'"><div class="u_margin-right"><span class="font-weight-bold">{{plan.name}} Plan</span> <span class="ml-2">Managed by {{plan.parentPlanCompanyName || "the Parent Company"}}</span></div></div><div id="free-plan-banner" class="alert alert-plan plan-active text-right" ng-show="getVisibleBanner() === \'free\'"><div class="u_margin-right"><span class="font-weight-bold">Get more out of Rise Vision!</span> <a href="#" ng-click="showPlans()" class="u_margin-left">See Our Plans</a></div></div><div id="cancelled-plan-banner" class="alert alert-plan plan-active text-right" ng-show="getVisibleBanner() === \'cancelled\'"><div class="u_margin-right"><span class="font-weight-bold">Your {{plan.name}} Plan subscription expires on {{ plan.currentPeriodEndDate | date : \'d-MMM-yyyy\'}}</span> <a href="{{storeAccountUrl}}" target="_blank" link-cid="" class="ml-3 btn btn-xs btn-primary" ng-hide="isChargebee">Account Settings</a> <a ui-sref="apps.billing.home" class="ml-3 btn btn-xs btn-primary" ng-show="isChargebee">Account Settings</a></div></div><div class="alert alert-plan plan-active text-right" ng-show="getVisibleBanner() === \'subscribed\'"><div class="u_margin-right"><span class="font-weight-bold">{{plan.name}} Plan</span> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="ml-3 btn btn-xs btn-primary">Change Plan</a></div></div><div id="trial-plan-banner" class="alert alert-plan plan-active text-right" ng-show="getVisibleBanner() === \'trial\'"><div class="u_margin-right"><span class="font-weight-bold">You have {{plan.trialPeriod}} days left on your Rise Vision {{plan.name}} Plan trial!</span> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="ml-3 btn btn-xs btn-primary">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="getVisibleBanner() === \'expired\'"><div class="u_margin-right"><span class="font-weight-bold" ng-show="!plan.playerProTotalLicenseCount">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Your Displays are no longer Licensed.</span> <span class="font-weight-bold" ng-show="plan.playerProTotalLicenseCount">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Some of your Displays are no longer Licensed.</span> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="ml-3 btn btn-xs btn-primary">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="getVisibleBanner() === \'suspended\'"><div class="u_margin-right"><span class="font-weight-bold">There was an issue processing your payment. Please update your billing information. Your Displays may be affected.</span> <a href="{{storeAccountUrl}}" target="_blank" link-cid="" class="ml-3 btn btn-xs btn-primary" ng-hide="isChargebee">Update Billing</a> <a ui-sref="apps.billing.home" class="ml-3 btn btn-xs btn-primary" ng-show="isChargebee">Update Billing</a></div></div></div>');
+    '<div class="hidden-xs"><div id="parent-plan-banner" class="alert p-2 mb-0 bg-success text-right" ng-show="getVisibleBanner() === \'parent\'"><div class="u_margin-right"><span class="font-weight-bold">{{plan.parentPlan.name}} Plan</span> <span class="ml-2">Managed by {{plan.parentPlanCompanyName || "the Parent Company"}}</span> <a href="#" ng-click="showPlans()" class="ml-3 btn btn-xs btn-primary">Change Plan</a></div></div><div id="parent-purchased-plan-banner" class="alert p-2 mb-0 bg-success text-right" ng-show="getVisibleBanner() === \'parentPurchased\'"><div class="u_margin-right"><span class="font-weight-bold">{{plan.name}} Plan</span> <span class="ml-2">Managed by {{plan.parentPlanCompanyName || "the Parent Company"}}</span></div></div><div id="free-plan-banner" class="alert alert-plan plan-active text-right" ng-show="getVisibleBanner() === \'free\'"><div class="u_margin-right"><span class="font-weight-bold">Get more out of Rise Vision!</span> <a href="#" ng-click="showPlans()" class="u_margin-left">See Our Plans</a></div></div><div id="cancelled-plan-banner" class="alert alert-plan plan-active text-right" ng-show="getVisibleBanner() === \'cancelled\'"><div class="u_margin-right"><span class="font-weight-bold">Your {{plan.name}} Plan subscription expires on {{ plan.currentPeriodEndDate | date : \'d-MMM-yyyy\'}}</span> <a href="{{storeAccountUrl}}" target="_blank" link-cid="" class="ml-3 btn btn-xs btn-primary" ng-hide="isChargebee">Account Settings</a> <a ui-sref="apps.billing.home" class="ml-3 btn btn-xs btn-primary" ng-show="isChargebee">Account Settings</a></div></div><div id="trial-plan-banner" class="alert alert-plan plan-active text-right" ng-show="getVisibleBanner() === \'trial\'"><div class="u_margin-right"><span class="font-weight-bold">You have {{plan.trialPeriod}} days left on your Rise Vision {{plan.name}} Plan trial!</span> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="ml-3 btn btn-xs btn-primary">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="getVisibleBanner() === \'expired\'"><div class="u_margin-right"><span class="font-weight-bold" ng-show="!plan.playerProTotalLicenseCount">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Your Displays are no longer Licensed.</span> <span class="font-weight-bold" ng-show="plan.playerProTotalLicenseCount">Your Rise Vision {{plan.name}} Plan trial has expired! You are now on the Free Plan. Some of your Displays are no longer Licensed.</span> <a href="#" ng-show="!isEnterpriseSubCompany()" ng-click="showPlans()" class="ml-3 btn btn-xs btn-primary">Subscribe Now</a></div></div><div class="alert alert-plan plan-suspended text-center" ng-show="getVisibleBanner() === \'suspended\'"><div class="u_margin-right"><span class="font-weight-bold">There was an issue processing your payment. Please update your billing information. Your Displays may be affected.</span> <a href="{{storeAccountUrl}}" target="_blank" link-cid="" class="ml-3 btn btn-xs btn-primary" ng-hide="isChargebee">Update Billing</a> <a ui-sref="apps.billing.home" class="ml-3 btn btn-xs btn-primary" ng-show="isChargebee">Update Billing</a></div></div></div>');
 }]);
 })();
 
@@ -1607,7 +1607,7 @@ angular.module("risevision.common.header")
                 userState.refreshProfile()
                   .finally(function () {
                     if ($scope.newUser) {
-                      plansFactory.startBasicPlanTrial();
+                      plansFactory.startVolumePlanTrial();
                     }
 
                     updateCompanyData();
@@ -3143,12 +3143,13 @@ angular.module("risevision.common.geodata", [])
                 }
               });
           },
-          calculateTaxes: function (companyId, planId, addonId, addonQty,
+          calculateTaxes: function (companyId, planId, planQty, addonId, addonQty,
             shippingAddress) {
             var deferred = $q.defer();
             var obj = {
               companyId: companyId,
               planId: planId,
+              planQty: planQty,
               addonId: addonId,
               addonQty: addonQty,
               line1: shippingAddress.street,
@@ -8850,21 +8851,31 @@ module.run(['$templateCache', function($templateCache) {
 }]);
 })();
 
-"use strict";
+(function (angular) {
+  "use strict";
 
-angular.module("risevision.common.components.plans.services", [
-  "risevision.store.authorization",
-  "risevision.common.gapi",
-  "risevision.common.currency"
-]);
+  try {
+    angular.module("risevision.common.config");
+  } catch (err) {
+    angular.module("risevision.common.config", []);
+  }
 
-angular.module("risevision.common.components.plans", [
-  "risevision.common.components.plans.services",
-  "risevision.common.components.purchase-flow",
-  "risevision.common.components.scrolling-list",
-  "risevision.common.components.loading",
-  "ui.bootstrap"
-]);
+  angular.module("risevision.common.components.plans.services", [
+    "risevision.store.authorization",
+    "risevision.common.gapi",
+    "risevision.common.currency"
+  ]);
+
+  angular.module("risevision.common.components.plans", [
+    "risevision.common.config",
+    "risevision.common.components.plans.services",
+    "risevision.common.components.purchase-flow",
+    "risevision.common.components.scrolling-list",
+    "risevision.common.components.loading",
+    "ui.bootstrap"
+  ]);
+
+})(angular);
 
 (function (angular) {
   "use strict";
@@ -9108,6 +9119,33 @@ angular.module("risevision.common.components.plans", [
         save: 0
       }
     }, {
+      name: "Volume",
+      type: "volume",
+      order: 1,
+      productId: "2317",
+      productCode: "34e8b511c4cc4c2affa68205cd1faaab427657dc",
+      proLicenseCount: 3,
+      monthly: {
+        priceDisplayMonth: 10,
+        billAmount: 10,
+        save: 0
+      },
+      yearly: {
+        priceDisplayMonth: 10,
+        priceDisplayYear: 110,
+        billAmount: 110,
+        save: 10
+      },
+      trialPeriod: 14,
+      discountIndustries: [
+        "PRIMARY_SECONDARY_EDUCATION",
+        "HIGHER_EDUCATION",
+        "LIBRARIES",
+        "PHILANTHROPY",
+        "NON_PROFIT_ORGANIZATION_MANAGEMENT",
+        "RELIGIOUS_INSTITUTIONS"
+      ]
+    }, {
       name: "Starter",
       type: "starter",
       order: 1,
@@ -9190,9 +9228,9 @@ angular.module("risevision.common.components.plans", [
       productCode: "d521f5bfbc1eef109481eebb79831e11c7804ad8",
       proLicenseCount: 0
     }])
-    .factory("plansFactory", ["$q", "$log", "$modal", "$templateCache",
+    .factory("plansFactory", ["$q", "$log", "$modal", "$templateCache", "getCompany",
       "userState", "subscriptionStatusService", "storeAuthorization", "PLANS_LIST",
-      function ($q, $log, $modal, $templateCache, userState,
+      function ($q, $log, $modal, $templateCache, getCompany, userState,
         subscriptionStatusService, storeAuthorization, PLANS_LIST) {
         var _factory = {};
         var _plansCodesList = _.map(PLANS_LIST, "productCode");
@@ -9202,19 +9240,14 @@ angular.module("risevision.common.components.plans", [
           _plansByType.free, _plansByType.starter, _plansByType.basic, _plansByType.advanced, _plansByType.enterprise
         ];
 
-        _factory.showPlansModal = function (warningText) {
+        _factory.showPlansModal = function () {
           if (!_factory.isPlansModalOpen) {
             _factory.isPlansModalOpen = true;
 
             var $modalInstance = $modal.open({
               template: $templateCache.get("plans/plans-modal.html"),
               controller: "PlansModalCtrl",
-              size: "lg",
-              resolve: {
-                warningText: function () {
-                  return warningText;
-                }
-              }
+              windowClass: "pricing-component-modal",
             });
 
             $modalInstance.result.finally(function () {
@@ -9258,12 +9291,13 @@ angular.module("risevision.common.components.plans", [
           return storeAuthorization.startTrial(plan.productCode)
             .then(function () {
               var selectedCompany = userState.getCopyOfSelectedCompany(true);
+              var licenses = _plansByCode[plan.productCode].proLicenseCount;
 
               selectedCompany.planProductCode = plan.productCode;
               selectedCompany.planTrialPeriod = plan.trialPeriod;
               selectedCompany.planSubscriptionStatus = "Trial";
-              selectedCompany.playerProTotalLicenseCount = _plansByCode[plan.productCode].proLicenseCount;
-              selectedCompany.playerProAvailableLicenseCount = _plansByCode[plan.productCode].proLicenseCount;
+              selectedCompany.playerProTotalLicenseCount = licenses;
+              selectedCompany.playerProAvailableLicenseCount = licenses;
 
               userState.updateCompanySettings(selectedCompany);
             })
@@ -9274,8 +9308,8 @@ angular.module("risevision.common.components.plans", [
             });
         };
 
-        _factory.startBasicPlanTrial = function () {
-          return _factory.startTrial(_plansByType.basic);
+        _factory.startVolumePlanTrial = function () {
+          return _factory.startTrial(_plansByType.volume);
         };
 
         return _factory;
@@ -9285,179 +9319,253 @@ angular.module("risevision.common.components.plans", [
 })(angular);
 
 angular.module("risevision.common.components.plans")
+  .directive("rvOn", function () {
+    return {
+      restrict: "A",
+      link: function (scope, element, attrs) {
+        var attrVal = attrs.rvOn;
+        var eventName = attrVal.split(":")[0];
+        var ctrlFn = attrVal.split(":")[1];
 
-.controller("PlansModalCtrl", [
-  "$scope", "$rootScope", "$modalInstance", "$log", "$loading", "$timeout",
-  "plansFactory", "currentPlanFactory", "ChargebeeFactory", "userState", "purchaseFactory",
-  "warningText",
-  function ($scope, $rootScope, $modalInstance, $log, $loading, $timeout,
-    plansFactory, currentPlanFactory, ChargebeeFactory, userState, purchaseFactory,
-    warningText) {
-
-    $scope.currentPlan = currentPlanFactory.currentPlan;
-    $scope.purchaseFactory = purchaseFactory;
-    $scope.chargebeeFactory = new ChargebeeFactory();
-    $scope.startTrialError = null;
-    $scope.isMonthly = true;
-    $scope.warningText = warningText;
-
-    function _getPlansDetails() {
-      $loading.start("plans-modal");
-
-      return plansFactory.getPlansDetails()
-        .then(function (resp) {
-          $scope.plans = resp;
-        })
-        .finally(function () {
-          $loading.stop("plans-modal");
+        element.on(eventName, function (event) {
+          scope.$apply(scope[ctrlFn].bind(null, scope, {
+            $event: event
+          }));
         });
-    }
-
-    function _showSubscriptionDetails() {
-      var company = userState.getCopyOfSelectedCompany();
-
-      $scope.chargebeeFactory.openSubscriptionDetails(company.id, company.planSubscriptionId);
-    }
-
-    $scope.isCurrentPlan = function (plan) {
-      return $scope.currentPlan.type === plan.type;
-    };
-
-    $scope.isCurrentPlanSubscribed = function (plan) {
-      return $scope.isCurrentPlan(plan) && $scope.isSubscribed(plan);
-    };
-
-    $scope.isOnTrial = function (plan) {
-      return plan.statusCode === "on-trial";
-    };
-
-    $scope.isTrialAvailable = function (plan) {
-      return plan.statusCode === "trial-available";
-    };
-
-    $scope.isTrialExpired = function (plan) {
-      return plan.statusCode === "trial-expired";
-    };
-
-    $scope.isSubscribed = function (plan) {
-      return plan.status === "Subscribed" || plan.status === "Active";
-    };
-
-    $scope.isFree = function (plan) {
-      return plan.type === "free";
-    };
-
-    $scope.isStarter = function (plan) {
-      return plan.type === "starter";
-    };
-
-    $scope.showSavings = function (plan) {
-      return !$scope.isFree(plan) && (!$scope.isStarter(plan) || !$scope.isMonthly);
-    };
-
-    $scope.currentPlanLabelVisible = function (plan) {
-      // Has a Plan?
-      if (currentPlanFactory.isPlanActive()) {
-        // Is it the Current Plan?
-        return $scope.isCurrentPlan(plan);
-      } else { // Were on Free Plan
-        // Is it the Free Plan?
-        return $scope.isFree(plan);
       }
     };
+  })
+  .controller("PlansModalCtrl", [
+    "$scope", "$rootScope", "$modalInstance", "$log", "$loading", "$timeout", "getCompany",
+    "plansFactory", "currentPlanFactory", "ChargebeeFactory", "userState", "purchaseFactory",
+    "PLANS_LIST", "CHARGEBEE_PLANS_USE_PROD",
+    function ($scope, $rootScope, $modalInstance, $log, $loading, $timeout, getCompany,
+      plansFactory, currentPlanFactory, ChargebeeFactory, userState, purchaseFactory,
+      PLANS_LIST, CHARGEBEE_PLANS_USE_PROD) {
 
-    $scope.getVisibleAction = function (plan) {
-      // Has a Plan?
-      if (currentPlanFactory.isPlanActive()) {
-        // Is this that Plan?
-        if ($scope.isCurrentPlan(plan)) {
-          // Can buy Subscription?
-          if ($scope.isOnTrial(plan)) {
-            return "subscribe";
-          } else {
-            return "";
-          }
-        } else { // This is a different Plan
-          // Is lower Plan?
-          if ($scope.currentPlan.order > plan.order) {
-            if (currentPlanFactory.isOnTrial() && !$scope.isFree(plan)) { // Does not have Chargebee account, use Purchase Flow
-              return "downgrade";
-            } else { // Already has Chargebee account, use Customer Portal
-              return "downgrade-portal";
-            }
-          } else if (currentPlanFactory.isOnTrial()) { // Does not have Chargebee account, use Purchase Flow
-            return "subscribe";
-          } else { // Already has Chargebee account, use Customer Portal
-            return "subscribe-portal";
-          }
-        }
-      } else { // Were on Free Plan
-        // Is there a Trial?
-        if ($scope.isFree(plan)) {
-          return "";
-        } else if ($scope.isTrialAvailable(plan)) {
-          return "start-trial";
-        } else { // Subscribe using Purchase Flow
-          return "subscribe";
-        }
-      }
-    };
+      var volumePlan = PLANS_LIST.filter(function (plan) {
+        return plan.name === "Volume";
+      })[0];
 
-    $scope.startTrial = function (plan) {
-      $loading.start("plans-modal");
+      $scope.pricingAtLeastOneDisplay = true;
+      $scope.currentPlan = currentPlanFactory.currentPlan;
+      $scope.purchaseFactory = purchaseFactory;
+      $scope.chargebeeFactory = new ChargebeeFactory();
       $scope.startTrialError = null;
+      $scope.isMonthly = true;
+      $scope.pricingComponentDiscount = false;
+      $scope.useProductionChargebeeData = CHARGEBEE_PLANS_USE_PROD === "true";
 
-      plansFactory.startTrial(plan)
-        .then(function () {
-          return $timeout(10000)
-            .then(function () {
-              return userState.reloadSelectedCompany();
-            })
-            .then(function () {
-              $rootScope.$emit("risevision.company.trial.started");
-            })
-            .catch(function (err) {
-              $log.debug("Failed to reload company", err);
-            })
-            .finally(function () {
-              $modalInstance.close(plan);
-            });
-        })
-        .catch(function (err) {
-          $scope.startTrialError = err;
-        })
-        .finally(function () {
-          $loading.stop("plans-modal");
+      function _setPricingComponentDiscount() {
+        return _getIndustry()
+          .then(function (industry) {
+            $scope.pricingComponentDiscount = volumePlan.discountIndustries.includes(industry);
+          });
+      }
+
+      function _getIndustry() {
+        var cid = window.top.location.href.match(/cid=([a-z0-9-]+)/);
+        var companyId = cid ? cid[1] : null;
+
+        return getCompany(companyId).then(function (company) {
+          return company.companyIndustry;
         });
-    };
+      }
 
-    $scope.showPurchaseModal = function (plan, isMonthly) {
-      purchaseFactory.showPurchaseModal(plan, isMonthly)
-        .then($scope.dismiss);
-    };
+      function _getPlansDetails() {
+        $loading.start("plans-modal");
 
-    $scope.downgradePortal = _showSubscriptionDetails;
+        return plansFactory.getPlansDetails()
+          .then(function (resp) {
+            $scope.plans = resp;
+          })
+          .finally(function () {
+            $loading.stop("plans-modal");
+          });
+      }
 
-    $scope.subscribePortal = _showSubscriptionDetails;
+      function _showSubscriptionDetails() {
+        var company = userState.getCopyOfSelectedCompany();
 
-    $scope.purchaseAdditionalLicenses = _showSubscriptionDetails;
+        $scope.chargebeeFactory.openSubscriptionDetails(company.id, company.planSubscriptionId);
+      }
 
-    $scope.isChargebee = function () {
-      return userState.isSelectedCompanyChargebee();
-    };
+      $scope.isCurrentPlan = function (plan) {
+        return $scope.currentPlan.type === plan.type;
+      };
 
-    $scope.dismiss = function () {
-      $modalInstance.dismiss("cancel");
-    };
+      $scope.isCurrentPlanSubscribed = function (plan) {
+        return $scope.isCurrentPlan(plan) && $scope.isSubscribed(plan);
+      };
 
-    $scope.init = function () {
-      _getPlansDetails();
-    };
+      $scope.isOnTrial = function (plan) {
+        return plan.statusCode === "on-trial";
+      };
 
-    $scope.init();
-  }
+      $scope.isTrialAvailable = function (plan) {
+        return plan.statusCode === "trial-available";
+      };
 
-]);
+      $scope.isTrialExpired = function (plan) {
+        return plan.statusCode === "trial-expired";
+      };
+
+      $scope.isSubscribed = function (plan) {
+        return plan.status === "Subscribed" || plan.status === "Active";
+      };
+
+      $scope.isFree = function (plan) {
+        return plan.type === "free";
+      };
+
+      $scope.isStarter = function (plan) {
+        return plan.type === "starter";
+      };
+
+      $scope.showSavings = function (plan) {
+        return !$scope.isFree(plan) && (!$scope.isStarter(plan) || !$scope.isMonthly);
+      };
+
+      $scope.currentPlanLabelVisible = function (plan) {
+        // Has a Plan?
+        if (currentPlanFactory.isPlanActive()) {
+          // Is it the Current Plan?
+          return $scope.isCurrentPlan(plan);
+        } else { // Were on Free Plan
+          // Is it the Free Plan?
+          return $scope.isFree(plan);
+        }
+      };
+
+      $scope.getVisibleAction = function (plan) {
+        // Has a Plan?
+        if (currentPlanFactory.isPlanActive()) {
+          // Is this that Plan?
+          if ($scope.isCurrentPlan(plan)) {
+            // Can buy Subscription?
+            if ($scope.isOnTrial(plan)) {
+              return "subscribe";
+            } else {
+              return "";
+            }
+          } else { // This is a different Plan
+            // Is lower Plan?
+            if ($scope.currentPlan.order > plan.order) {
+              if (currentPlanFactory.isOnTrial() && !$scope.isFree(plan)) { // Does not have Chargebee account, use Purchase Flow
+                return "downgrade";
+              } else { // Already has Chargebee account, use Customer Portal
+                return "downgrade-portal";
+              }
+            } else if (currentPlanFactory.isOnTrial()) { // Does not have Chargebee account, use Purchase Flow
+              return "subscribe";
+            } else { // Already has Chargebee account, use Customer Portal
+              return "subscribe-portal";
+            }
+          }
+        } else { // Were on Free Plan
+          // Is there a Trial?
+          if ($scope.isFree(plan)) {
+            return "";
+          } else if ($scope.isTrialAvailable(plan)) {
+            return "start-trial";
+          } else { // Subscribe using Purchase Flow
+            return "subscribe";
+          }
+        }
+      };
+
+      $scope.startTrial = function (plan) {
+        $loading.start("plans-modal");
+        $scope.startTrialError = null;
+
+        plansFactory.startTrial(plan)
+          .then(function () {
+            return $timeout(10000)
+              .then(function () {
+                return userState.reloadSelectedCompany();
+              })
+              .then(function () {
+                $rootScope.$emit("risevision.company.trial.started");
+              })
+              .catch(function (err) {
+                $log.debug("Failed to reload company", err);
+              })
+              .finally(function () {
+                $modalInstance.close(plan);
+              });
+          })
+          .catch(function (err) {
+            $scope.startTrialError = err;
+          })
+          .finally(function () {
+            $loading.stop("plans-modal");
+          });
+      };
+
+      $scope.showPurchaseModal = function (plan, isMonthly) {
+        purchaseFactory.showPurchaseModal(plan, isMonthly)
+          .then($scope.dismiss);
+      };
+
+      $scope.downgradePortal = _showSubscriptionDetails;
+
+      $scope.subscribePortal = _showSubscriptionDetails;
+
+      $scope.purchaseAdditionalLicenses = _showSubscriptionDetails;
+
+      $scope.isChargebee = function () {
+        return userState.isSelectedCompanyChargebee();
+      };
+
+      $scope.refreshButton = function () {
+        var component = document.querySelector("pricing-component");
+
+        $scope.pricingAtLeastOneDisplay = component &&
+          component.displayCount &&
+          component.displayCount > 0;
+      };
+
+      $scope.dismissAndShowPurchaseModal = function () {
+        var component = document.querySelector("pricing-component");
+
+        var displays = component.displayCount;
+        var period = component.period === "yearly" ? "Yearly" : "Monthly";
+        var tierName = component.tierName;
+        var s = displays > 1 ? "s" : "";
+        var plan = "" + displays + " Display" + s + " (" + tierName + " Plan, " + period + ")";
+
+        if (displays === 0 || displays === "0") {
+          return;
+        }
+
+        $modalInstance.dismiss("cancel");
+        $scope.showPurchaseModal({
+          name: plan,
+          productId: volumePlan.productId,
+          productCode: volumePlan.productCode,
+          displays: displays,
+          yearly: {
+            billAmount: component.priceTotal
+          },
+          monthly: {
+            billAmount: component.priceTotal
+          }
+        }, component.period === "monthly");
+      };
+
+      $scope.dismiss = function () {
+        $modalInstance.dismiss("cancel");
+      };
+
+      $scope.init = function () {
+        _getPlansDetails();
+        _setPricingComponentDiscount();
+      };
+
+      $scope.init();
+    }
+
+  ]);
 
 (function(module) {
 try {
@@ -9467,7 +9575,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('plans/plans-modal.html',
-    '<div rv-spinner="" rv-spinner-key="plans-modal" rv-spinner-start-active="1"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-times"></i></button><h3 class="modal-title p-3 ml-2" translate="">common-header.plans.choose-plan</h3></div><div id="plans-modal" class="modal-body u_padding-lg" stop-event="touchend"><div class="alert alert-warning p-4 text-center my-2" ng-show="warningText && !chargebeeFactory.apiError" translate="">{{warningText}}</div><div class="alert alert-danger p-4 text-center my-2" role="alert" ng-show="chargebeeFactory.apiError"><span ng-show="chargebeeFactory.apiError === 403"><span ng-show="currentPlan.parentPlanContactEmail" translate="" translate-values="{ parentPlanContactEmail: currentPlan.parentPlanContactEmail }">account-and-billing.errors.403-contact-email</span> <span ng-hide="currentPlan.parentPlanContactEmail" translate="">account-and-billing.errors.403-no-contact-email</span></span> <span ng-hide="chargebeeFactory.apiError === 403">{{chargebeeFactory.apiError}}</span></div><div class="text-center"><div class="btn-group" role="group" aria-label="..."><button ng-click="isMonthly = true" type="button" class="btn btn-default" ng-class="{ active: isMonthly }">Monthly</button> <button ng-click="isMonthly = false" type="button" class="btn btn-default" ng-class="{ active: !isMonthly }">Yearly</button></div><p class="u_padding-sm-vertical">Pay yearly, get one month free!</p></div><div class="pricing-table"><div id="planHeader" class="monthly"><div class="planColumn" ng-class="{ currentPlan: currentPlanLabelVisible(plan) }" ng-repeat="plan in plans"><div id="current-plan" class="currentPlanLabel" ng-show="currentPlanLabelVisible(plan)" translate="">common-header.plans.current</div><h2>{{plan.name}}</h2><h3 class="planColumnPrice" ng-show="!isFree(plan) && !isStarter(plan)"><span>$10</span>${{ isMonthly ? plan.monthly.priceDisplayMonth : plan.yearly.priceDisplayMonth }}</h3><h3 class="planColumnPrice" ng-show="isStarter(plan)">${{ isMonthly ? plan.monthly.priceDisplayMonth : plan.yearly.priceDisplayMonth }}</h3><p ng-show="!isFree(plan) && isMonthly" class="text-muted" translate="" translate-values="{ price: plan.monthly.billAmount }">common-header.plans.perDisplayBilledMonthly</p><p ng-show="!isFree(plan) && !isMonthly" class="text-muted" translate="" translate-values="{ price: plan.yearly.billAmount }">common-header.plans.perDisplayBilledYearly</p><div ng-show="!isFree(plan)"><h3>{{plan.proLicenseCount}}</h3><span ng-show="plan.proLicenseCount === 1" translate="">common-header.plans.displayIncluded</span> <span ng-show="plan.proLicenseCount > 1" translate="">common-header.plans.displaysIncluded</span></div><p ng-show="showSavings(plan)" class="planSavings" translate="" translate-values="{ save: (isMonthly ? plan.monthly.save : plan.yearly.save) }">common-header.plans.saveEachYear</p><p ng-show="!isFree(plan) && isCurrentPlanSubscribed(plan)" translate="">common-header.plans.needMoreDisplays</p><a ng-show="!isFree(plan) && isCurrentPlanSubscribed(plan) && !isChargebee()" href="https://www.risevision.com/purchaseadditionaldisplaylicenses" target="_blank" translate="">common-header.plans.individual-licenses</a> <a ng-show="!isFree(plan) && isCurrentPlanSubscribed(plan) && isChargebee()" href="#" ng-click="purchaseAdditionalLicenses(plan)" translate="">common-header.plans.individual-licenses</a><p id="trial-days-remaining" class="small u_margin-sm-bottom text-subtle" ng-show="isCurrentPlan(plan) && isOnTrial(plan)" translate="" translate-values="{ count: currentPlan.trialPeriod }">common-header.plans.days-left-trial</p><p class="small u_margin-sm-bottom text-danger" ng-show="isCurrentPlan(plan) && isTrialExpired(plan)" translate="">common-header.plans.trial-expired</p><div class="mt-auto"><a id="subscribe-plan" ng-if="!isChargebee()" ng-show="getVisibleAction(plan).indexOf(\'subscribe\') === 0" target="_blank" href="https://store.risevision.com/product/{{plan.productId}}" class="btn btn-primary btn-block" translate="">common-header.plans.subscribe</a> <a id="subscribe-plan-cb" ng-if="isChargebee()" ng-show="getVisibleAction(plan) === \'subscribe\'" ng-click="showPurchaseModal(plan, isMonthly)" class="btn btn-primary btn-block" translate="">common-header.plans.subscribe</a> <a id="subscribe-plan-cbp" ng-if="isChargebee()" ng-show="getVisibleAction(plan) === \'subscribe-portal\'" ng-click="subscribePortal(plan)" class="btn btn-primary btn-block" translate="">common-header.plans.subscribe</a> <a id="downgrade-plan" ng-if="!isChargebee()" ng-show="getVisibleAction(plan).indexOf(\'downgrade\') === 0" target="_blank" href="https://www.risevision.com/downgradeplan" class="btn btn-default btn-block" translate="">common-header.plans.downgrade</a> <a id="downgrade-plan-cb" ng-if="isChargebee()" ng-show="getVisibleAction(plan) === \'downgrade\'" ng-click="showPurchaseModal(plan, isMonthly)" class="btn btn-default btn-block" translate="">common-header.plans.downgrade</a> <a id="downgrade-plan-cbp" ng-if="isChargebee()" ng-show="getVisibleAction(plan) === \'downgrade-portal\'" ng-click="downgradePortal(plan)" class="btn btn-default btn-block" translate="">common-header.plans.downgrade</a> <a id="subscribe-trial-plan" ng-if="isChargebee()" ng-show="getVisibleAction(plan) === \'start-trial\'" href="#" class="planSubscribe" ng-click="showPurchaseModal(plan, isMonthly)" translate="">common-header.plans.subscribe</a> <a id="start-trial-plan" ng-show="getVisibleAction(plan) === \'start-trial\'" target="_blank" ng-click="startTrial(plan)" class="btn btn-primary btn-block" translate="">common-header.plans.start-trial</a></div></div></div><div id="planFeatures"><div class="planFeatureColumn" id="planFreeFeatures"><h4 id="planFeatures" class="planFeatureColumnTitle" style="column-span: all;">You can use the following features for free on any of your displays!</h4><div class="planFeature"><p class="featureTitle">Text</p></div><div class="planFeature"><p class="featureTitle">Image by URL</p></div><div class="planFeature"><p class="featureTitle">Video by URL</p></div><div class="planFeature"><p class="featureTitle">RSS</p></div><div class="planFeature"><p class="featureTitle">Time & Date</p></div><div class="planFeature"><p class="featureTitle">HTML</p></div></div><div class="planFeatureColumn" id="planPaidFeatures"><h4 class="planFeatureColumnTitle" style="column-span: all;">Key Features Included With All Paid Plans <span class="u_padding-sm-vertical">Everything in \'Free\' +</span></h4><div class="planFeature"><p class="featureTitle">Image Slideshows</p></div><div class="planFeature"><p class="featureTitle">Video Playlists</p></div><div class="planFeature"><p class="featureTitle">Unlimited Image & Video File Storage</p></div><div class="planFeature"><p class="featureTitle">Pre-made Templates</p></div><div class="planFeature"><p class="featureTitle">Centralized Content Control</p></div><div class="planFeature"><p class="featureTitle">Scheduling</p></div><div class="planFeature"><p class="featureTitle">Google Calendar</p></div><div class="planFeature"><p class="featureTitle">Google Spreadsheet</p></div><div class="planFeature"><p class="featureTitle">Twitter</p></div><div class="planFeature"><p class="featureTitle">Web Pages</p></div><div class="planFeature"><p class="featureTitle">Google Reliability & Security</p></div><div class="planFeature"><p class="featureTitle">Account / Sub-Account Hierarchy</p></div><div class="planFeature"><p class="featureTitle">User Role Permissioning</p></div><div class="planFeature"><p class="featureTitle">Display Monitoring Notifications</p></div><div class="planFeature"><p class="featureTitle">Content Shows Offline</p></div><div class="planFeature"><p class="featureTitle">Alert Integration</p></div><div class="planFeature"><p class="featureTitle">Display On/Off Control</p></div><h4 class="text-center" style="column-span: all;"><a href="https://www.risevision.com/pricing" target="_blank">Learn More About Key Features</a></h4></div></div><div id="planFooter"></div></div><div class="alert bg-info p-4 text-center my-2" ng-show="currentPlan.parentPlan">By subscribing to a Plan on this Sub-Company, you will no longer share Display Licenses with your Parent Company. Your Licensed Displays will use the licenses included with the new Plan.</div><div class="alert bg-info p-4 text-center my-2" ng-show="currentPlan.shareCompanyPlan && !currentPlan.parentPlan">Your Plan and Displays Licenses can be used on any of your Displays and any Display across all your Sub-Companies.</div><div class="text-center p-4"><a class="font-weight-bold" href="https://www.risevision.com/contact-us" target="_blank">Questions? We can help!</a></div></div></div>');
+    '<div><button type="button" style="display: block; width: 100%; text-align: center; padding: 0.5em 0.5em 0 0; background: none; border: none; text-align: right" ng-click="dismiss()" aria-hidden="true"><i class="fa fa-lg fa-times" style="opacity: 0.4"></i></button><h3 style="font-weight: bold; text-align: center; margin-top: 0" translate="">common-header.plans.pricing-component-title</h3><div id="pricingComponentContainer"><pricing-component ng-attr-apply-discount="{{pricingComponentDiscount ? \'\' : undefined}}" ng-attr-prod-env="{{useProductionChargebeeData ? \'\' : undefined}}" rv-on="display-count-changed:refreshButton"></pricing-component><button type="button" ng-disabled="!pricingAtLeastOneDisplay" ng-click="dismissAndShowPurchaseModal()" id="subscribeButton">I Want To Subscribe</button></div></div>');
 }]);
 })();
 
@@ -9758,7 +9866,7 @@ angular.module("risevision.common.components.purchase-flow")
           factory.purchase = {};
 
           factory.purchase.plan = angular.copy(plan);
-          factory.purchase.plan.additionalDisplayLicenses = 0;
+          factory.purchase.plan.additionalDisplayLicenses = parseInt(plan.additionalDisplayLicenses) || 0;
           factory.purchase.plan.isMonthly = isMonthly;
 
           factory.purchase.billingAddress = addressService.copyAddress(userState.getCopyOfUserCompany());
@@ -9889,6 +9997,7 @@ angular.module("risevision.common.components.purchase-flow")
           factory.loading = true;
 
           return storeService.calculateTaxes(factory.purchase.billingAddress.id, _getChargebeePlanId(),
+              factory.purchase.plan.displays,
               _getChargebeeAddonId(),
               factory.purchase.plan.additionalDisplayLicenses, factory.purchase.shippingAddress)
             .then(function (result) {
@@ -9897,6 +10006,8 @@ angular.module("risevision.common.components.purchase-flow")
               estimate.taxesCalculated = true;
               estimate.taxes = result.taxes || [];
               estimate.total = result.total;
+              estimate.subTotal = result.subTotal;
+              estimate.couponAmount = result.couponAmount;
               estimate.totalTax = result.totalTax;
               estimate.shippingTotal = result.shippingTotal;
 
@@ -9914,7 +10025,8 @@ angular.module("risevision.common.components.purchase-flow")
         var _getOrderAsJson = function () {
           //clean up items
           var newItems = [{
-            id: _getChargebeePlanId()
+            id: _getChargebeePlanId(),
+            qty: factory.purchase.plan.displays
           }, {
             id: _getChargebeeAddonId(),
             qty: factory.purchase.plan.additionalDisplayLicenses
@@ -10307,15 +10419,6 @@ angular.module("risevision.common.components.purchase-flow")
           $scope.purchase = purchaseFactory.purchase;
           $scope.selectedCompany = userState.getCopyOfSelectedCompany();
 
-          $scope.getPlanPrice = function () {
-            var plan = $scope.purchase.plan;
-            if (plan.isMonthly) {
-              return plan.monthly.billAmount;
-            } else {
-              return plan.yearly.billAmount;
-            }
-          };
-
           $scope.getAdditionalDisplaysPrice = function () {
             var plan = $scope.purchase.plan;
             if (plan.isMonthly) {
@@ -10445,29 +10548,25 @@ angular.module("risevision.common.components.purchase-flow")
 angular.module("risevision.common.components.purchase-flow")
 
 .value("PURCHASE_STEPS", [{
-  name: "Subscription Details",
-  index: 0,
-  formName: "reviewSubscriptionForm"
-}, {
   name: "Billing Address",
-  index: 1,
+  index: 0,
   formName: "billingAddressForm"
 }, {
   name: "Shipping Address",
-  index: 2,
+  index: 1,
   formName: "shippingAddressForm"
 }, {
   name: "Payment Method",
-  index: 3,
+  index: 2,
   formName: "paymentMethodsForm"
 }, {
   name: "Purchase Review",
-  index: 4
+  index: 3
 }])
 
 .controller("PurchaseModalCtrl", [
-  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory", "PURCHASE_STEPS",
-  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory, PURCHASE_STEPS) {
+  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory", "plansFactory", "PURCHASE_STEPS",
+  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory, plansFactory, PURCHASE_STEPS) {
 
     $scope.form = {};
     $scope.factory = purchaseFactory;
@@ -10535,8 +10634,8 @@ angular.module("risevision.common.components.purchase-flow")
         return;
       }
 
-      if (($scope.finalStep && $scope.currentStep < 3) || $scope.currentStep === 3) {
-        $scope.currentStep = 4;
+      if (($scope.finalStep && $scope.currentStep < 2) || $scope.currentStep === 2) {
+        $scope.currentStep = 3;
 
         $scope.finalStep = true;
 
@@ -10550,11 +10649,19 @@ angular.module("risevision.common.components.purchase-flow")
     $scope.setPreviousStep = function () {
       if ($scope.currentStep > 0) {
         $scope.currentStep--;
+      } else {
+        $modalInstance.close();
+        plansFactory.showPlansModal();
       }
     };
 
     $scope.setCurrentStep = function (index) {
       purchaseFactory.purchase.checkoutError = null;
+
+      if (index === -1) {
+        $modalInstance.close();
+        plansFactory.showPlansModal();
+      }
 
       $scope.currentStep = index;
     };
@@ -10751,7 +10858,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('purchase-flow/checkout-review-purchase.html',
-    '<div id="checkout-review-purchase"><div id="errorBox" class="alert alert-danger" role="alert" ng-show="purchase.estimate.estimateError"><div class="row"><div class="col-xs-9"><p><strong>Tax Estimate Error</strong> {{purchase.estimate.estimateError}}</p></div><div class="col-xs-3"><a class="btn btn-default btn-block" href="#" ng-click="factory.getEstimate()">Retry</a></div></div></div><div id="errorBox" class="alert alert-danger" role="alert" ng-show="purchase.checkoutError"><strong>Payment Error</strong> {{purchase.checkoutError}}</div><div class="row"><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Purchasing For</h4><span class="font-weight-bold">{{selectedCompany.name}}</span><br>Company ID: {{selectedCompany.id}}</div><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Payment Method <button aria-label="Edit Payment Method" class="btn btn-default btn-xs" ng-click="setCurrentStep(3)" tabindex="1">Edit</button></h4><div ng-show="purchase.paymentMethods.paymentMethod === \'card\'"><span class="font-weight-bold">{{purchase.paymentMethods.selectedCard.cardType}}</span><br>{{purchase.paymentMethods.selectedCard.last4 | cardLastFour}}<br>Exp: {{purchase.paymentMethods.selectedCard.expMonth | paddedMonth}}/{{purchase.paymentMethods.selectedCard.expYear}}</div><div ng-show="purchase.paymentMethods.paymentMethod === \'invoice\'"><span class="font-weight-bold">Paying by Invoice</span><br>Due Date: {{purchase.paymentMethods.invoiceDate | date: \'d-MMM-yyyy\'}} <span ng-if="purchase.paymentMethods.purchaseOrderNumber"><br>Purchase Order Number: {{purchase.paymentMethods.purchaseOrderNumber}}</span></div></div></div><div class="row"><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Billing Address <button aria-label="Edit Billing Address" class="btn btn-default btn-xs" ng-click="setCurrentStep(1)" tabindex="1">Edit</button></h4>{{purchase.contact.firstName}} {{purchase.contact.lastName}}<br>{{purchase.contact.email}}<br>{{purchase.billingAddress.name}}<br>{{purchase.billingAddress.street}}<br><span ng-show="purchase.billingAddress.unit">{{purchase.billingAddress.unit}}<br></span> {{purchase.billingAddress.city}}, <span ng-show="purchase.billingAddress.province">{{purchase.billingAddress.province}},</span> {{purchase.billingAddress.postalCode}}<br>{{purchase.billingAddress.country | countryName}}</div><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Shipping Address <button aria-label="Edit Shipping Address" class="btn btn-default btn-xs" ng-click="setCurrentStep(2)" tabindex="1">Edit</button></h4>{{purchase.shippingAddress.name}}<br>{{purchase.shippingAddress.street}}<br><span ng-show="purchase.shippingAddress.unit">{{purchase.shippingAddress.unit}}<br></span> {{purchase.shippingAddress.city}}, <span ng-show="purchase.shippingAddress.province">{{purchase.shippingAddress.province}},</span> {{purchase.shippingAddress.postalCode}}<br>{{purchase.shippingAddress.country | countryName}}</div></div><br><hr class="u_margin-xs-top u_margin-xs-bottom"><div class="row"><div class="col-xs-8"><h4 class="u_margin-sm-bottom">Subscription Details <button aria-label="Edit Subscription Details" class="btn btn-default btn-xs" ng-click="setCurrentStep(0)" tabindex="1">Edit</button></h4></div></div><div class="row"><div class="col-sm-4 col-xs-6 text-right"><p>{{purchase.plan.name}} ({{ purchase.plan.isMonthly ? \'Monthly\' : \'Yearly\' }})<br><span ng-show="purchase.plan.additionalDisplayLicenses">{{purchase.plan.additionalDisplayLicenses}} Additional Display<span ng-show="purchase.plan.additionalDisplayLicenses > 1">s</span><br></span> <span ng-repeat="tax in purchase.estimate.taxes">{{tax.taxName}}<br></span> Total Tax:</p><span class="order-total">Order Total:</span></div><div class="col-sm-4 col-xs-6 text-right"><p>${{getPlanPrice()}}<br><span ng-show="purchase.plan.additionalDisplayLicenses">${{getAdditionalDisplaysPrice()}}<br></span> <span ng-repeat="tax in purchase.estimate.taxes">${{tax.taxAmount | number:2}}<br></span> ${{purchase.estimate.totalTax | number:2}}</p><span class="order-total">${{purchase.estimate.total | number:2}} <span class="u_margin-left text-subtle">{{purchase.estimate.currency | uppercase}}</span></span></div></div><div class="row"><hr class="u_margin-sm-top"></div><div class="row"><div class="col-xs-12 text-center u_margin-sm-bottom"><a id="showTaxExemption" href="#" aria-label="Are you Tax Exempt?" ng-click="showTaxExemptionModal()" ng-show="purchase.estimate.totalTax > 0 && !purchase.taxExemptionSent" tabindex="3" translate="">Are you Tax Exempt?</a><h5 ng-show="purchase.taxExemptionSent">Tax Exemption Submitted</h5></div></div><div class="row"><div class="col-xs-8 col-xs-offset-2 u_margin-md-bottom"><button id="payButton" class="btn btn-primary btn-hg btn-block" ng-click="completePayment()" tabindex="1" aria-label="Complete Payment"><span id="payLabel" ng-if="purchase.paymentMethods.paymentMethod === \'card\'">Pay ${{purchase.estimate.total | number:2}} Now</span> <span id="invoiceLabel" ng-if="purchase.paymentMethods.paymentMethod === \'invoice\'">Invoice Me ${{purchase.estimate.total | number:2}} Now</span></button></div></div></div>');
+    '<div id="checkout-review-purchase"><div id="errorBox" class="alert alert-danger" role="alert" ng-show="purchase.estimate.estimateError"><div class="row"><div class="col-xs-9"><p><strong>Tax Estimate Error</strong> {{purchase.estimate.estimateError}}</p></div><div class="col-xs-3"><a class="btn btn-default btn-block" href="#" ng-click="factory.getEstimate()">Retry</a></div></div></div><div id="errorBox" class="alert alert-danger" role="alert" ng-show="purchase.checkoutError"><strong>Payment Error</strong> {{purchase.checkoutError}}</div><div class="row"><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Purchasing For</h4><span class="font-weight-bold">{{selectedCompany.name}}</span><br>Company ID: {{selectedCompany.id}}</div><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Payment Method <button aria-label="Edit Payment Method" class="btn btn-default btn-xs" ng-click="setCurrentStep(2)" tabindex="1">Edit</button></h4><div ng-show="purchase.paymentMethods.paymentMethod === \'card\'"><span class="font-weight-bold">{{purchase.paymentMethods.selectedCard.cardType}}</span><br>{{purchase.paymentMethods.selectedCard.last4 | cardLastFour}}<br>Exp: {{purchase.paymentMethods.selectedCard.expMonth | paddedMonth}}/{{purchase.paymentMethods.selectedCard.expYear}}</div><div ng-show="purchase.paymentMethods.paymentMethod === \'invoice\'"><span class="font-weight-bold">Paying by Invoice</span><br>Due Date: {{purchase.paymentMethods.invoiceDate | date: \'d-MMM-yyyy\'}} <span ng-if="purchase.paymentMethods.purchaseOrderNumber"><br>Purchase Order Number: {{purchase.paymentMethods.purchaseOrderNumber}}</span></div></div></div><div class="row"><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Billing Address <button aria-label="Edit Billing Address" class="btn btn-default btn-xs" ng-click="setCurrentStep(0)" tabindex="1">Edit</button></h4>{{purchase.contact.firstName}} {{purchase.contact.lastName}}<br>{{purchase.contact.email}}<br>{{purchase.billingAddress.name}}<br>{{purchase.billingAddress.street}}<br><span ng-show="purchase.billingAddress.unit">{{purchase.billingAddress.unit}}<br></span> {{purchase.billingAddress.city}}, <span ng-show="purchase.billingAddress.province">{{purchase.billingAddress.province}},</span> {{purchase.billingAddress.postalCode}}<br>{{purchase.billingAddress.country | countryName}}</div><div class="col-md-6 u_margin-sm-top"><h4 class="u_margin-sm-bottom">Shipping Address <button aria-label="Edit Shipping Address" class="btn btn-default btn-xs" ng-click="setCurrentStep(1)" tabindex="1">Edit</button></h4>{{purchase.shippingAddress.name}}<br>{{purchase.shippingAddress.street}}<br><span ng-show="purchase.shippingAddress.unit">{{purchase.shippingAddress.unit}}<br></span> {{purchase.shippingAddress.city}}, <span ng-show="purchase.shippingAddress.province">{{purchase.shippingAddress.province}},</span> {{purchase.shippingAddress.postalCode}}<br>{{purchase.shippingAddress.country | countryName}}</div></div><br><hr class="u_margin-xs-top u_margin-xs-bottom"><div class="row"><div class="col-xs-8"><h4 class="u_margin-sm-bottom">Subscription Details <button aria-label="Edit Subscription Details" class="btn btn-default btn-xs" ng-click="setCurrentStep(-1)" tabindex="1">Edit</button></h4></div></div><div class="row"><div class="col-sm-6 col-xs-6 text-right"><p>{{purchase.plan.name}}<br><span ng-show="purchase.estimate.couponAmount > 0">Education and Non-profit discount<br></span> <span ng-repeat="tax in purchase.estimate.taxes">{{tax.taxName}}<br></span> Total Tax:</p><span class="order-total">Order Total:</span></div><div class="col-sm-4 col-xs-6 text-right"><p>${{purchase.estimate.subTotal}}<br><span ng-show="purchase.estimate.couponAmount > 0">-${{purchase.estimate.couponAmount}}<br></span> <span ng-repeat="tax in purchase.estimate.taxes">${{tax.taxAmount | number:2}}<br></span> ${{purchase.estimate.totalTax | number:2}}</p><span class="order-total">${{purchase.estimate.total | number:2}} <span class="u_margin-left text-subtle">{{purchase.estimate.currency | uppercase}}</span></span></div></div><div class="row"><hr class="u_margin-sm-top"></div><div class="row"><div class="col-xs-12 text-center u_margin-sm-bottom"><a id="showTaxExemption" href="#" aria-label="Are you Tax Exempt?" ng-click="showTaxExemptionModal()" ng-show="purchase.estimate.totalTax > 0 && !purchase.taxExemptionSent" tabindex="3" translate="">Are you Tax Exempt?</a><h5 ng-show="purchase.taxExemptionSent">Tax Exemption Submitted</h5></div></div><div class="row"><div class="col-xs-8 col-xs-offset-2 u_margin-md-bottom"><button id="payButton" class="btn btn-primary btn-hg btn-block" ng-click="completePayment()" tabindex="1" aria-label="Complete Payment"><span id="payLabel" ng-if="purchase.paymentMethods.paymentMethod === \'card\'">Pay ${{purchase.estimate.total | number:2}} Now</span> <span id="invoiceLabel" ng-if="purchase.paymentMethods.paymentMethod === \'invoice\'">Invoice Me ${{purchase.estimate.total | number:2}} Now</span></button></div></div></div>');
 }]);
 })();
 
@@ -10799,7 +10906,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('purchase-flow/purchase-modal.html',
-    '<div rv-spinner="" rv-spinner-key="purchase-modal" rv-spinner-start-active="1"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-label="close" tabindex="2" ng-hide="currentStep === 5"><i class="fa fa-times"></i></button><h3 class="modal-title" translate="">Checkout</h3></div><div class="steps"><div ng-repeat="step in PURCHASE_STEPS" class="step-item" ng-class="{ active: currentStep === step.index, complete: currentStep > step.index }"><span>{{step.name}}</span></div></div><div id="purchase-modal" class="modal-body checkout-modal" stop-event="touchend"><review-subscription ng-if="currentStep === 0"></review-subscription><billing-address ng-if="currentStep === 1"></billing-address><shipping-address ng-if="currentStep === 2"></shipping-address><payment-methods ng-if="currentStep === 3"></payment-methods><review-purchase ng-if="currentStep === 4"></review-purchase><checkout-success ng-if="currentStep === 5"></checkout-success></div><div id="security-branding" class="modal-footer text-center" ng-show="currentStep > 2 && currentStep < 5"><span class="text-muted"><i class="fa fa-lock icon-left"></i> Secure Checkout from ChargeBee and <img alt="powered by Stripe" height="16" src="https://s3.amazonaws.com/Rise-Images/UI/powered_by_stripe.svg"></span></div></div>');
+    '<div rv-spinner="" rv-spinner-key="purchase-modal" rv-spinner-start-active="1"><div class="modal-header"><button type="button" class="close" ng-click="dismiss()" aria-label="close" tabindex="2" ng-hide="currentStep === 5"><i class="fa fa-times"></i></button><h3 class="modal-title" translate="">Checkout</h3></div><div class="steps"><div ng-repeat="step in PURCHASE_STEPS" class="step-item" ng-class="{ active: currentStep === step.index, complete: currentStep > step.index }"><span>{{step.name}}</span></div></div><div id="purchase-modal" class="modal-body checkout-modal" stop-event="touchend"><billing-address ng-if="currentStep === 0"></billing-address><shipping-address ng-if="currentStep === 1"></shipping-address><payment-methods ng-if="currentStep === 2"></payment-methods><review-purchase ng-if="currentStep === 3"></review-purchase><checkout-success ng-if="currentStep === 4"></checkout-success></div><div id="security-branding" class="modal-footer text-center" ng-show="currentStep > 2 && currentStep < 5"><span class="text-muted"><i class="fa fa-lock icon-left"></i> Secure Checkout from ChargeBee and <img alt="powered by Stripe" height="16" src="https://s3.amazonaws.com/Rise-Images/UI/powered_by_stripe.svg"></span></div></div>');
 }]);
 })();
 
@@ -10864,6 +10971,7 @@ module.run(['$templateCache', function($templateCache) {
     .value("APPS_URL", "https://apps.risevision.com")
     .value("CHARGEBEE_TEST_SITE", "risevision-test")
     .value("CHARGEBEE_PROD_SITE", "risevision")
+    .value("CHARGEBEE_PLANS_USE_PROD", "true")
     .value("STRIPE_PROD_KEY", "pk_live_31dWkTWQU125m2RcWpK4HQBR")
     .value("STRIPE_TEST_KEY", "pk_test_GrMIAHSoqhaik4tcHepsxjOR");
 })(angular);
