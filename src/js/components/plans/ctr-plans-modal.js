@@ -16,19 +16,41 @@ angular.module("risevision.common.components.plans")
   };
 })
 .controller("PlansModalCtrl", [
-  "$scope", "$rootScope", "$modalInstance", "$log", "$loading", "$timeout",
+  "$scope", "$rootScope", "$modalInstance", "$log", "$loading", "$timeout", "getCompany",
   "plansFactory", "currentPlanFactory", "ChargebeeFactory", "userState", "purchaseFactory",
-  "warningText",
-  function ($scope, $rootScope, $modalInstance, $log, $loading, $timeout,
+  "PLANS_LIST", "CHARGEBEE_PLANS_USE_PROD",
+  function ($scope, $rootScope, $modalInstance, $log, $loading, $timeout, getCompany,
     plansFactory, currentPlanFactory, ChargebeeFactory, userState, purchaseFactory,
-    warningText) {
+    PLANS_LIST, CHARGEBEE_PLANS_USE_PROD) {
 
+    var volumePlan = PLANS_LIST.filter(function (plan) {
+      return plan.name === "Volume";
+    })[0];
+
+    $scope.pricingAtLeastOneDisplay = true;
     $scope.currentPlan = currentPlanFactory.currentPlan;
     $scope.purchaseFactory = purchaseFactory;
     $scope.chargebeeFactory = new ChargebeeFactory();
     $scope.startTrialError = null;
     $scope.isMonthly = true;
-    $scope.warningText = warningText;
+    $scope.pricingComponentDiscount = false;
+    $scope.useProductionChargebeeData = CHARGEBEE_PLANS_USE_PROD === "true";
+
+    function _setPricingComponentDiscount() {
+      return _getIndustry()
+        .then(function (industry) {
+          $scope.pricingComponentDiscount = volumePlan.discountIndustries.includes(industry);
+        });
+    }
+
+    function _getIndustry() {
+      var cid = window.top.location.href.match(/cid=([a-z0-9-]+)/);
+      var companyId = cid ? cid[1] : null;
+
+      return getCompany(companyId).then(function (company) {
+        return company.companyIndustry;
+      });
+    }
 
     function _getPlansDetails() {
       $loading.start("plans-modal");
@@ -175,12 +197,49 @@ angular.module("risevision.common.components.plans")
       return userState.isSelectedCompanyChargebee();
     };
 
+    $scope.refreshButton = function () {
+      var component = document.querySelector("pricing-component");
+
+      $scope.pricingAtLeastOneDisplay = component &&
+        component.displayCount &&
+        component.displayCount > 0;
+    };
+
+    $scope.dismissAndShowPurchaseModal = function () {
+      var component = document.querySelector("pricing-component");
+
+      var displays = component.displayCount;
+      var period = component.period === "yearly" ? "Yearly" : "Monthly";
+      var tierName = component.tierName;
+      var s = displays > 1 ? "s" : "";
+      var plan = "" + displays + " Display" + s + " (" + tierName + " Plan, " + period + ")";
+
+      if (displays === 0 || displays === "0") {
+        return;
+      }
+
+      $modalInstance.dismiss("cancel");
+      $scope.showPurchaseModal({
+        name: plan,
+        productId: volumePlan.productId,
+        productCode: volumePlan.productCode,
+        displays: displays,
+        yearly: {
+          billAmount: component.priceTotal
+        },
+        monthly: {
+          billAmount: component.priceTotal
+        }
+      }, component.period === "monthly");
+    };
+
     $scope.dismiss = function () {
       $modalInstance.dismiss("cancel");
     };
 
     $scope.init = function () {
       _getPlansDetails();
+      _setPricingComponentDiscount();
     };
 
     $scope.init();
