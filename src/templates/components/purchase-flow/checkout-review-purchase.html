@@ -88,10 +88,10 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-4 col-xs-6 text-right">
+    <div class="col-sm-6 col-xs-6 text-right">
       <p>
-        {{purchase.plan.name}} ({{ purchase.plan.isMonthly ? 'Monthly' : 'Yearly' }})<br>
-          <span ng-show="purchase.plan.additionalDisplayLicenses">{{purchase.plan.additionalDisplayLicenses}} Additional Display<span ng-show="purchase.plan.additionalDisplayLicenses > 1">s</span><br></span>
+        {{purchase.plan.name}}<br>
+          <span ng-show="purchase.estimate.couponAmount > 0">Education and Non-profit discount<br></span>
           <span ng-repeat="tax in purchase.estimate.taxes">
             {{tax.taxName}}<br>
           </span>
@@ -101,8 +101,8 @@
     </div>
     <div class="col-sm-4 col-xs-6 text-right">
       <p>
-          ${{getPlanPrice()}}<br>
-          <span ng-show="purchase.plan.additionalDisplayLicenses">${{getAdditionalDisplaysPrice()}}<br></span>
+          ${{purchase.estimate.subTotal}}<br>
+          <span ng-show="purchase.estimate.couponAmount > 0">-${{purchase.estimate.couponAmount}}<br></span>
           <span ng-repeat="tax in purchase.estimate.taxes">
             ${{tax.taxAmount | number:2}}<br>
           </span>
