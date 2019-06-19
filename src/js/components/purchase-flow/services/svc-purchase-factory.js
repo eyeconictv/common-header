@@ -17,7 +17,7 @@
           factory.purchase = {};
 
           factory.purchase.plan = angular.copy(plan);
-          factory.purchase.plan.additionalDisplayLicenses = 0;
+          factory.purchase.plan.additionalDisplayLicenses = parseInt(plan.additionalDisplayLicenses) || 0;
           factory.purchase.plan.isMonthly = isMonthly;
 
           factory.purchase.billingAddress = addressService.copyAddress(userState.getCopyOfUserCompany());

@@ -1,29 +1,25 @@
 angular.module("risevision.common.components.purchase-flow")
 
 .value("PURCHASE_STEPS", [{
-  name: "Subscription Details",
-  index: 0,
-  formName: "reviewSubscriptionForm"
-}, {
   name: "Billing Address",
-  index: 1,
+  index: 0,
   formName: "billingAddressForm"
 }, {
   name: "Shipping Address",
-  index: 2,
+  index: 1,
   formName: "shippingAddressForm"
 }, {
   name: "Payment Method",
-  index: 3,
+  index: 2,
   formName: "paymentMethodsForm"
 }, {
   name: "Purchase Review",
-  index: 4
+  index: 3
 }])
 
 .controller("PurchaseModalCtrl", [
-  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory", "PURCHASE_STEPS",
-  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory, PURCHASE_STEPS) {
+  "$scope", "$modalInstance", "$loading", "purchaseFactory", "addressFactory", "plansFactory", "PURCHASE_STEPS",
+  function ($scope, $modalInstance, $loading, purchaseFactory, addressFactory, plansFactory, PURCHASE_STEPS) {
 
     $scope.form = {};
     $scope.factory = purchaseFactory;
@@ -91,8 +87,8 @@ angular.module("risevision.common.components.purchase-flow")
         return;
       }
 
-      if (($scope.finalStep && $scope.currentStep < 3) || $scope.currentStep === 3) {
-        $scope.currentStep = 4;
+      if (($scope.finalStep && $scope.currentStep < 2) || $scope.currentStep === 2) {
+        $scope.currentStep = 3;
 
         $scope.finalStep = true;
 
@@ -106,11 +102,19 @@ angular.module("risevision.common.components.purchase-flow")
     $scope.setPreviousStep = function () {
       if ($scope.currentStep > 0) {
         $scope.currentStep--;
+      } else {
+        $modalInstance.close();
+        plansFactory.showPlansModal();
       }
     };
 
     $scope.setCurrentStep = function (index) {
       purchaseFactory.purchase.checkoutError = null;
+
+      if (index === -1) {
+        $modalInstance.close();
+        plansFactory.showPlansModal();
+      }
 
       $scope.currentStep = index;
     };

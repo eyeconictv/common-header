@@ -8,15 +8,6 @@ angular.module("risevision.common.components.purchase-flow")
           $scope.purchase = purchaseFactory.purchase;
           $scope.selectedCompany = userState.getCopyOfSelectedCompany();
 
-          $scope.getPlanPrice = function () {
-            var plan = $scope.purchase.plan;
-            if (plan.isMonthly) {
-              return plan.monthly.billAmount;
-            } else {
-              return plan.yearly.billAmount;
-            }
-          };
-
           $scope.getAdditionalDisplaysPrice = function () {
             var plan = $scope.purchase.plan;
             if (plan.isMonthly) {
