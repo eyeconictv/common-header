@@ -14,7 +14,6 @@
   var CompanyUsersScenarios = require("./cases/company-users.js");
   var UserSettingsScenarios = require("./cases/user-settings.js");
 
-  var PlansScenarios = require("./cases/plans.js");  
   var AccountRemovalScenarios = require("./cases/account-removal.js");
 
   var RegistrationExistingCompanyScenarios = require("./cases/registration-existing-company.js");
@@ -43,7 +42,6 @@
     var companyUsersSenarios = new CompanyUsersScenarios();
     var userSettingsScenarios = new UserSettingsScenarios();
 
-    var plansScenarios = new PlansScenarios();
     var accountRemovalScenarios = new AccountRemovalScenarios();
 
     var registrationExistingCompany = new RegistrationExistingCompanyScenarios();

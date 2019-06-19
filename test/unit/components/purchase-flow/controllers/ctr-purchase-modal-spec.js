@@ -28,6 +28,11 @@ describe("controller: purchase modal", function() {
         updateAddress: sinon.stub()
       };
     });
+    $provide.service("plansFactory", function() {
+      return {
+        showPlansModal: sinon.stub()
+      };
+    });
     $provide.service("purchaseFactory", function() {
       return purchaseFactory = {
         validatePaymentMethod: sinon.spy(function() {
@@ -116,7 +121,7 @@ describe("controller: purchase modal", function() {
     });
 
     it("should not validate if the corresponding form is invalid", function(done) {
-      $scope.form.reviewSubscriptionForm = {
+      $scope.form.billingAddressForm = {
         $invalid: true
       };
 
@@ -160,7 +165,7 @@ describe("controller: purchase modal", function() {
     });
 
     it("should not validate if the corresponding form is invalid", function(done) {
-      $scope.form.reviewSubscriptionForm = {
+      $scope.form.billingAddressForm = {
         $invalid: true
       };
 
@@ -245,7 +250,7 @@ describe("controller: purchase modal", function() {
     });
 
     it("should not increment step if the corresponding form is invalid", function() {
-      $scope.form.reviewSubscriptionForm = {
+      $scope.form.billingAddressForm = {
         $invalid: true
       };
 
@@ -256,6 +261,10 @@ describe("controller: purchase modal", function() {
 
     it("should increment step if other forms are invalid", function() {
       $scope.form.billingAddressForm = {
+        $valid: true
+      };
+
+      $scope.form.reviewSubscriptionForm = {
         $invalid: true
       };
 
@@ -264,23 +273,23 @@ describe("controller: purchase modal", function() {
       expect($scope.currentStep).to.equal(1);
     });
 
-    it("should proceed to the 4th step and get estimate", function() {
-      $scope.setCurrentStep(3);
+    it("should proceed to the 3rd step and get estimate", function() {
+      $scope.setCurrentStep(2);
 
       $scope.setNextStep();
 
-      expect($scope.currentStep).to.equal(4);
+      expect($scope.currentStep).to.equal(3);
       expect($scope.finalStep).to.be.true;
 
       purchaseFactory.getEstimate.should.have.been.called;
     });
 
-    it("should always set 4th step and get estimate if form was completed once", function(done) {
-      $scope.setCurrentStep(3);
+    it("should always set 3rd step and get estimate if form was completed once", function(done) {
+      $scope.setCurrentStep(2);
 
       $scope.setNextStep();
 
-      expect($scope.currentStep).to.equal(4);
+      expect($scope.currentStep).to.equal(3);
       expect($scope.finalStep).to.be.true;
 
       purchaseFactory.getEstimate.should.have.been.called;
@@ -292,19 +301,19 @@ describe("controller: purchase modal", function() {
 
         purchaseFactory.getEstimate.should.have.been.calledTwice;
 
-        expect($scope.currentStep).to.equal(4);
+        expect($scope.currentStep).to.equal(3);
         expect($scope.finalStep).to.be.true;
 
         done();
       }, 10);
     });
 
-    it("should proceed past 4th step", function() {
-      $scope.setCurrentStep(4);
+    it("should proceed past 3rd step", function() {
+      $scope.setCurrentStep(3);
 
       $scope.setNextStep();
 
-      expect($scope.currentStep).to.equal(5);
+      expect($scope.currentStep).to.equal(4);
     });
 
   });

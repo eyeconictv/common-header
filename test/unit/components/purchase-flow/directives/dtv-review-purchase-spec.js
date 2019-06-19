@@ -35,39 +35,7 @@ describe("directive: review purchase", function() {
     expect($scope.purchase).to.be.an("object");
     expect($scope.selectedCompany).to.equal("selectedCompany");
 
-    expect($scope.getPlanPrice).to.be.a("function");
     expect($scope.getAdditionalDisplaysPrice).to.be.a("function");
-  });
-
-  describe("getPlanPrice: ", function() {
-    it("should return monthly price", function() {
-      $scope.purchase.plan = {
-        isMonthly: true,
-        monthly: {
-          billAmount: 10,
-        },
-        yearly: {
-          billAmount: 100
-        }
-      };
-
-      expect($scope.getPlanPrice()).to.equal(10);
-    });
-
-    it("should return yearly price", function() {
-      $scope.purchase.plan = {
-        isMonthly: false,
-        monthly: {
-          billAmount: 10,
-        },
-        yearly: {
-          billAmount: 100
-        }
-      };
-
-      expect($scope.getPlanPrice()).to.equal(100);
-    });
-
   });
 
   describe("getAdditionalDisplaysPrice: ", function() {
