@@ -131,9 +131,9 @@
       productCode: "d521f5bfbc1eef109481eebb79831e11c7804ad8",
       proLicenseCount: 0
     }])
-    .factory("plansFactory", ["$q", "$log", "$modal", "$templateCache", "getCompany",
+    .factory("plansFactory", ["$q", "$log", "$modal", "$templateCache",
       "userState", "subscriptionStatusService", "storeAuthorization", "PLANS_LIST",
-      function ($q, $log, $modal, $templateCache, getCompany, userState,
+      function ($q, $log, $modal, $templateCache, userState,
         subscriptionStatusService, storeAuthorization, PLANS_LIST) {
         var _factory = {};
         var _plansCodesList = _.map(PLANS_LIST, "productCode");
