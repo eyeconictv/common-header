@@ -37,19 +37,10 @@ angular.module("risevision.common.components.plans")
       $scope.useProductionChargebeeData = CHARGEBEE_PLANS_USE_PROD === "true";
 
       function _setPricingComponentDiscount() {
-        return _getIndustry()
-          .then(function (industry) {
-            $scope.pricingComponentDiscount = volumePlan.discountIndustries.includes(industry);
-          });
-      }
+        var companyIndustry = userState.getCopyOfSelectedCompany().companyIndustry;
 
-      function _getIndustry() {
-        var cid = window.top.location.href.match(/cid=([a-z0-9-]+)/);
-        var companyId = cid ? cid[1] : null;
-
-        return getCompany(companyId).then(function (company) {
-          return company.companyIndustry;
-        });
+        $scope.pricingComponentDiscount = volumePlan
+          .discountIndustries.includes(companyIndustry);
       }
 
       function _getPlansDetails() {
