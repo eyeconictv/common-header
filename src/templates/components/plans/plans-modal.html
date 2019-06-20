@@ -1,11 +1,11 @@
 <div>
-  <button type="button" style="display: block; width: 100%; text-align: center; padding: 0.5em 0.5em 0 0; background: none; border: none; text-align: right" ng-click="dismiss()" aria-hidden="true">
-    <i class="fa fa-lg fa-times" style="opacity: 0.4"></i>
+  <button type="button" class="dismiss" "" ng-click="dismiss()" aria-hidden="true">
+    <i class="fa fa-lg fa-times"></i>
   </button>
 
-  <h3 style="font-weight: bold; text-align: center; margin-top: 0" translate>common-header.plans.pricing-component-title</h3>
+  <h3 id="pricingComponentTitle" translate>common-header.plans.pricing-component-title</h3>
 
-  <div id=pricingComponentContainer>
+  <div id="pricingComponentContainer">
     <pricing-component
       ng-attr-apply-discount="{{pricingComponentDiscount ? '' : undefined}}"
       ng-attr-prod-env="{{useProductionChargebeeData ? '' : undefined}}"
