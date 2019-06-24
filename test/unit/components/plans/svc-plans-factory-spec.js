@@ -44,6 +44,9 @@ describe("Services: plans factory", function() {
         return deferred.promise;
       };
     });
+    $provide.factory("getCompany", function() {
+      return function() {return Q.resolve();};
+    });
     $provide.service("subscriptionStatusService", function () {
       return {
         get: function() {},
@@ -73,7 +76,7 @@ describe("Services: plans factory", function() {
 
   var sandbox, $rootScope, $modal, userState, plansFactory, subscriptionStatusService;
   var storeAuthorization, startTrial;
-  var BASIC_PLAN_CODE, BASIC_PLAN_ID, ADVANCED_PLAN_CODE, ENTERPRISE_PLAN_CODE;
+  var BASIC_PLAN_CODE, ADVANCED_PLAN_CODE, ENTERPRISE_PLAN_CODE, VOLUME_PLAN_CODE;
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
@@ -88,9 +91,9 @@ describe("Services: plans factory", function() {
       var plansByType = _.keyBy($injector.get("PLANS_LIST"), "type");
 
       BASIC_PLAN_CODE = plansByType.basic.productCode;
-      BASIC_PLAN_ID = plansByType.basic.productId;
       ADVANCED_PLAN_CODE = plansByType.advanced.productCode;
       ENTERPRISE_PLAN_CODE = plansByType.enterprise.productCode;
+      VOLUME_PLAN_CODE = plansByType.volume.productCode;
     });
   });
 
@@ -191,7 +194,7 @@ describe("Services: plans factory", function() {
           });
 
           done();
-        }, done);
+        });
     });
 
     it("should handle failure to start the trial", function(done) {
@@ -211,10 +214,10 @@ describe("Services: plans factory", function() {
         });
     });
 
-    it("startBasicPlanTrial: ", function(done) {
-      plansFactory.startBasicPlanTrial()
+    it("startVolumePlanTrial: ", function(done) {
+      plansFactory.startVolumePlanTrial()
         .then(function() {
-          storeAuthorization.startTrial.should.have.been.calledWith(BASIC_PLAN_CODE);
+          storeAuthorization.startTrial.should.have.been.calledWith(VOLUME_PLAN_CODE);
 
           done();
         }, done);

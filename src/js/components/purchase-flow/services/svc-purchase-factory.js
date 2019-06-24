@@ -17,7 +17,7 @@
           factory.purchase = {};
 
           factory.purchase.plan = angular.copy(plan);
-          factory.purchase.plan.additionalDisplayLicenses = 0;
+          factory.purchase.plan.additionalDisplayLicenses = parseInt(plan.additionalDisplayLicenses) || 0;
           factory.purchase.plan.isMonthly = isMonthly;
 
           factory.purchase.billingAddress = addressService.copyAddress(userState.getCopyOfUserCompany());
@@ -148,6 +148,7 @@
           factory.loading = true;
 
           return storeService.calculateTaxes(factory.purchase.billingAddress.id, _getChargebeePlanId(),
+              factory.purchase.plan.displays,
               _getChargebeeAddonId(),
               factory.purchase.plan.additionalDisplayLicenses, factory.purchase.shippingAddress)
             .then(function (result) {
@@ -156,6 +157,8 @@
               estimate.taxesCalculated = true;
               estimate.taxes = result.taxes || [];
               estimate.total = result.total;
+              estimate.subTotal = result.subTotal;
+              estimate.couponAmount = result.couponAmount;
               estimate.totalTax = result.totalTax;
               estimate.shippingTotal = result.shippingTotal;
 
@@ -173,7 +176,8 @@
         var _getOrderAsJson = function () {
           //clean up items
           var newItems = [{
-            id: _getChargebeePlanId()
+            id: _getChargebeePlanId(),
+            qty: factory.purchase.plan.displays
           }, {
             id: _getChargebeeAddonId(),
             qty: factory.purchase.plan.additionalDisplayLicenses

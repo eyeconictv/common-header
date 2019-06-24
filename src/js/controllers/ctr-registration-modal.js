@@ -91,7 +91,7 @@ angular.module("risevision.common.header")
                 userState.refreshProfile()
                   .finally(function () {
                     if ($scope.newUser) {
-                      plansFactory.startBasicPlanTrial();
+                      plansFactory.startVolumePlanTrial();
                     }
 
                     updateCompanyData();

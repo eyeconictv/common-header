@@ -52,6 +52,9 @@ describe("controller: plans modal", function() {
         }
       };
     });
+    $provide.factory("getCompany", function() {
+      return function() {return Q.resolve();};
+    });
     $provide.factory("ChargebeeFactory", function() {
       return function() {
         return {
@@ -70,7 +73,6 @@ describe("controller: plans modal", function() {
     $provide.service("$q", function() {
       return Q;
     });
-    $provide.value("warningText", "warning");
   }));
 
   var sandbox, $scope, $modalInstance, $modal, $loading, $log, plansFactory, currentPlanFactory, $q;
@@ -151,8 +153,6 @@ describe("controller: plans modal", function() {
     expect($scope.dismiss).to.be.a("function");
 
     expect(plansFactory.getPlansDetails).to.have.been.called;
-
-    expect($scope.warningText).to.equal("warning");
   });
 
   it("should load plans details", function() {

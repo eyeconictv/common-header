@@ -13,6 +13,7 @@
   },
   "plans": {
     "choose-plan": "Choose Your Plan",
+    "pricing-component-title": "Subscribe to Rise Vision",
     "current": "Current Plan",
     "days-left-trial": "{{count}} days left on your trial.",
     "displayIncluded": "Display Included",

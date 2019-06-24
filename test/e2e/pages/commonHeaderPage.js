@@ -37,7 +37,7 @@
     var companySettingsModalDeleteButton = element(by.id("delete-button"));
     var safeDeleteModal = element(by.id("safeDeleteForm"));
     var safeDeleteModalInput = element(by.id("safeDeleteInput"));
-    var safeDeleteModalDeleteForeverButton = element(by.id("deleteForeverButton"));
+    var safeDeleteModalDeleteForeverButton = element(by.css("#deleteForeverButton.btn-primary"));
 
     var subcompanyAlert = element(by.css(".common-header-alert.sub-company-alert"));
 

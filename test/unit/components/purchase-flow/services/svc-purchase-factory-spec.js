@@ -46,6 +46,8 @@ describe("Services: purchase factory", function() {
               taxes: [],
               total: "total",
               totalTax: "totalTax",
+              couponAmount: "couponAmount",
+              subTotal: "subTotal",
               shippingTotal: "shippingTotal"
             });
           } else {
@@ -426,6 +428,7 @@ describe("Services: purchase factory", function() {
         },
         shippingAddress: "shippingAddress",
         plan: {
+          displays: 5,
           isMonthly: true,
           productCode: "productCode",
           monthly: {
@@ -457,20 +460,20 @@ describe("Services: purchase factory", function() {
       expect(purchaseFactory.getEstimate().then).to.be.a("function");
 
       storeService.calculateTaxes.should.have.been.called;
-      storeService.calculateTaxes.should.have.been.calledWith("id", sinon.match.string, sinon.match.string, 3, "shippingAddress");
+      storeService.calculateTaxes.should.have.been.calledWith("id", sinon.match.string, sinon.match.number, sinon.match.string, 3, "shippingAddress");
     });
 
     it("should call set correct currency & billing period values", function() {
       purchaseFactory.getEstimate();
 
-      storeService.calculateTaxes.should.have.been.calledWith("id", "productCode-" + "usd" + "01m", RPP_ADDON_ID + "-" + "usd" + "01m" + "pro", 3, "shippingAddress");
+      storeService.calculateTaxes.should.have.been.calledWith("id", "productCode-" + "usd" + "01m", 5, RPP_ADDON_ID + "-" + "usd" + "01m" + "pro", 3, "shippingAddress");
 
       purchaseFactory.purchase.billingAddress.country = "CA";
       purchaseFactory.purchase.plan.isMonthly = false;
 
       purchaseFactory.getEstimate();
 
-      storeService.calculateTaxes.should.have.been.calledWith("id", "productCode-" + "cad" + "01y", RPP_ADDON_ID + "-" + "cad" + "01y" + "pro", 3, "shippingAddress");
+      storeService.calculateTaxes.should.have.been.calledWith("id", "productCode-" + "cad" + "01y", 5, RPP_ADDON_ID + "-" + "cad" + "01y" + "pro", 3, "shippingAddress");
     });
 
     it("should populate estimate object if call succeeds", function(done) {
@@ -481,14 +484,18 @@ describe("Services: purchase factory", function() {
           taxesCalculated: true,
           taxes: [],
           total: "total",
+          subTotal: "subTotal",
+          couponAmount: "couponAmount",
           totalTax: "totalTax",
           shippingTotal: "shippingTotal"
-        });
+        }, "not deep equal");
+
         expect(purchaseFlowTracker.trackPlaceOrderClicked).to.have.been.called;
 
         done();
       })
-      .then(null,function() {
+      .then(null,function(e) {
+        console.error(e);
         done("error");
       });
     });

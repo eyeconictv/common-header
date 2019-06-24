@@ -181,6 +181,8 @@ describe("Services: storeService", function() {
   });
 
   describe("calculateTaxes: ", function() {
+    var displayCount = 5;
+
     beforeEach(function() {
       response = {
         result: {
@@ -188,6 +190,7 @@ describe("Services: storeService", function() {
         }
       };
       addressObject = {
+        id: "ship-to-id",
         street: "street",
         unit: "unit",
         city: "city",
@@ -203,16 +206,18 @@ describe("Services: storeService", function() {
     });
     
     it("should return a promise", function() {
-      expect(storeService.calculateTaxes("companyId", "planId", "addonId", "addonQty", addressObject).then).to.be.a("function");
+      expect(storeService.calculateTaxes("companyId", "planId", displayCount, "addonId", "addonQty", addressObject).then).to.be.a("function");
     });
 
     it("should create the request object", function(done) {
-      storeService.calculateTaxes("companyId", "planId", "addonId", "addonQty", addressObject)
+      storeService.calculateTaxes("companyId", "planId", displayCount, "addonId", "addonQty", addressObject)
       .then(function() {
         storeApi.tax.estimate.should.have.been.called;
         storeApi.tax.estimate.should.have.been.calledWith({
           companyId: "companyId",
+          shipToId: "ship-to-id",
           planId: "planId",
+          planQty: displayCount,
           addonId: "addonId",
           addonQty: "addonQty",
           line1: addressObject.street,
@@ -229,7 +234,7 @@ describe("Services: storeService", function() {
     });
 
     it("should resolve if result is true", function(done) {
-      storeService.calculateTaxes("companyId", "planId", "addonId", "addonQty", addressObject)
+      storeService.calculateTaxes("companyId", "planId", displayCount, "addonId", "addonQty", addressObject)
       .then(function(result) {
         expect(result).to.be.ok;
         expect(result).to.deep.equal({
@@ -244,7 +249,7 @@ describe("Services: storeService", function() {
     it("should reject if result is not correct with no error message", function(done) {
       response.result = {};
 
-      storeService.calculateTaxes("companyId", "planId", "addonId", "addonQty", addressObject)
+      storeService.calculateTaxes("companyId", "planId", displayCount, "addonId", "addonQty", addressObject)
       .then(function(result) {
         done(result);
       })
@@ -259,7 +264,7 @@ describe("Services: storeService", function() {
     it("should return response if response.result doesn't exist", function(done) {
       response.result.error = "Call Failed";
 
-      storeService.calculateTaxes("companyId", "planId", "addonId", "addonQty", addressObject)
+      storeService.calculateTaxes("companyId", "planId", displayCount, "addonId", "addonQty", addressObject)
       .then(function(result) {
         done(result);
       })
@@ -278,7 +283,7 @@ describe("Services: storeService", function() {
       storeApiFailure = true;
       response.result.error = "some error";
 
-      storeService.calculateTaxes("companyId", "planId", "addonId", "addonQty", addressObject)
+      storeService.calculateTaxes("companyId", "planId", displayCount, "addonId", "addonQty", addressObject)
       .then(function() {
         done("error");
       })
