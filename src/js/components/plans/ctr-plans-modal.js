@@ -21,7 +21,7 @@ angular.module("risevision.common.components.plans")
       $scope.useProductionChargebeeData = CHARGEBEE_PLANS_USE_PROD === "true";
 
       function _setPricingComponentDiscount() {
-        var companyIndustry = userState.getCopyOfSelectedCompany().companyIndustry;
+        var companyIndustry = userState.getCopyOfUserCompany().companyIndustry;
 
         $scope.pricingComponentDiscount = volumePlan
           .discountIndustries.indexOf(companyIndustry) >= 0;
