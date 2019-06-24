@@ -44,6 +44,7 @@
             var deferred = $q.defer();
             var obj = {
               companyId: companyId,
+              shipToId: shippingAddress.id,
               planId: planId,
               planQty: planQty,
               addonId: addonId,

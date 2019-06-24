@@ -190,6 +190,7 @@ describe("Services: storeService", function() {
         }
       };
       addressObject = {
+        id: "ship-to-id",
         street: "street",
         unit: "unit",
         city: "city",
@@ -214,6 +215,7 @@ describe("Services: storeService", function() {
         storeApi.tax.estimate.should.have.been.called;
         storeApi.tax.estimate.should.have.been.calledWith({
           companyId: "companyId",
+          shipToId: "ship-to-id",
           planId: "planId",
           planQty: displayCount,
           addonId: "addonId",
