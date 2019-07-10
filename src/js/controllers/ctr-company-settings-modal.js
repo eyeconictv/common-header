@@ -6,12 +6,12 @@ angular.module("risevision.common.header")
   "TIMEZONES", "getCompany", "regenerateCompanyField", "$window", "$loading",
   "humanReadableError", "userState", "userAuthFactory", "deleteCompany",
   "segmentAnalytics", "$modal", "$templateCache",
-  "COMPANY_INDUSTRY_FIELDS", "COMPANY_SIZE_FIELDS",
+  "COMPANY_INDUSTRY_FIELDS", "COMPANY_SIZE_FIELDS", "addressFactory",
   function ($scope, $modalInstance, updateCompany, companyId,
     countries, REGIONS_CA, REGIONS_US, TIMEZONES, getCompany,
     regenerateCompanyField, $window, $loading, humanReadableError,
     userState, userAuthFactory, deleteCompany, segmentAnalytics,
-    $modal, $templateCache, COMPANY_INDUSTRY_FIELDS, COMPANY_SIZE_FIELDS) {
+    $modal, $templateCache, COMPANY_INDUSTRY_FIELDS, COMPANY_SIZE_FIELDS, addressFactory) {
 
     $scope.company = {
       id: companyId
@@ -23,6 +23,7 @@ angular.module("risevision.common.header")
     $scope.COMPANY_INDUSTRY_FIELDS = COMPANY_INDUSTRY_FIELDS;
     $scope.COMPANY_SIZE_FIELDS = COMPANY_SIZE_FIELDS;
     $scope.isRiseStoreAdmin = userState.isRiseStoreAdmin();
+    _clearErrorMessages();
 
     $scope.$watch("loading", function (loading) {
       if (loading) {
@@ -45,7 +46,7 @@ angular.module("risevision.common.header")
           $scope.company.isChargebee = company && company.origin === "Chargebee";
         },
         function (resp) {
-          $window.alert("An error has occurred. " + humanReadableError(resp));
+          _showErrorMessage("load", resp);
         }).finally(function () {
         $scope.loading = false;
       });
@@ -55,31 +56,37 @@ angular.module("risevision.common.header")
     };
     $scope.save = function () {
       $scope.loading = true;
+      _clearErrorMessages();
 
-      var company = angular.copy($scope.company);
+      addressFactory.isValidOrEmptyAddress($scope.company).then(function () {
+        var company = angular.copy($scope.company);
 
-      verifyAdmin(company);
-      updateCompany($scope.company.id, company)
-        .then(
-          function () {
-            segmentAnalytics.track("Company Updated", {
-              companyId: userState.getSelectedCompanyId(),
-              companyName: userState.getSelectedCompanyName(),
-              isUserCompany: !userState.isSubcompanySelected()
-            });
+        verifyAdmin(company);
+        return updateCompany($scope.company.id, company)
+          .then(
+            function () {
+              segmentAnalytics.track("Company Updated", {
+                companyId: userState.getSelectedCompanyId(),
+                companyName: userState.getSelectedCompanyName(),
+                isUserCompany: !userState.isSubcompanySelected()
+              });
 
-            userState.updateCompanySettings($scope.company);
-            $modalInstance.close("success");
-          })
-        .catch(
-          function (error) {
-            $window.alert("Error(s): " + humanReadableError(error));
-          })
+              userState.updateCompanySettings($scope.company);
+              $modalInstance.close("success");
+            }).catch(function (error) {
+            _showErrorMessage("update", error);
+          });
+      })
+        .catch(function (error) {
+          $scope.formError = "We couldn't update your address.";
+          $scope.apiError = humanReadableError(error);
+        })
         .finally(function () {
           $scope.loading = false;
         });
     };
     $scope.deleteCompany = function () {
+      _clearErrorMessages();
       var instance = $modal.open({
         template: $templateCache.get("safe-delete-modal.html"),
         controller: "SafeDeleteModalCtrl"
@@ -105,7 +112,7 @@ angular.module("risevision.common.header")
             })
           .catch(
             function (error) {
-              $window.alert("Error(s): " + humanReadableError(error));
+              _showErrorMessage("delete", error);
             })
           .finally(function () {
             $scope.loading = false;
@@ -113,6 +120,7 @@ angular.module("risevision.common.header")
       });
     };
     $scope.resetAuthKey = function () {
+      _clearErrorMessages();
       if ($window.confirm(
         "Resetting the Company Authentication Key will cause existing Data Gadgets to no longer report data until they are updated with the new Key."
       )) {
@@ -123,7 +131,7 @@ angular.module("risevision.common.header")
             $window.alert("Successfully changed Authentication Key.");
           },
           function (error) {
-            $window.alert("Error: " + humanReadableError(error));
+            _showErrorMessage("update", error);
           })
           .finally(function () {
             $loading.stop("company-settings-modal");
@@ -131,6 +139,7 @@ angular.module("risevision.common.header")
       }
     };
     $scope.resetClaimId = function () {
+      _clearErrorMessages();
       if ($window.confirm(
         "Resetting the Company Claim Id will cause existing installations to no longer be associated with your Company."
       )) {
@@ -141,7 +150,7 @@ angular.module("risevision.common.header")
             $window.alert("Successfully changed Claim ID.");
           },
           function (error) {
-            $window.alert("Error: " + humanReadableError(error));
+            _showErrorMessage("update", error);
           })
           .finally(function () {
             $loading.stop("company-settings-modal");
@@ -158,6 +167,16 @@ angular.module("risevision.common.header")
         delete company.isTest;
         delete company.shareCompanyPlan;
       }
+    }
+
+    function _clearErrorMessages() {
+      $scope.formError = null;
+      $scope.apiError = null;
+    }
+
+    function _showErrorMessage(action, error) {
+      $scope.formError = "Failed to " + action + " Company.";
+      $scope.apiError = humanReadableError(error);
     }
 
   }
