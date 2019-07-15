@@ -9,7 +9,6 @@ angular.module("risevision.common.header")
 
       $rootScope.$on("risevision.plan.loaded", function () {
         $scope.plan = currentPlanFactory.currentPlan;
-
         $scope.isChargebee = userState.isSelectedCompanyChargebee();
       });
 
