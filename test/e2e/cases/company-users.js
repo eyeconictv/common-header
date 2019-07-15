@@ -52,11 +52,11 @@
         it("adds a user", function () {
           var modal = userSettingsModalPage.getUserSettingsModal();
           
-          userSettingsModalPage.getUsernameField().sendKeys("aaa.user@somecompany.com");
+          userSettingsModalPage.getUsernameField().sendKeys("bbb.user@somecompany.com");
           userSettingsModalPage.getFirstNameField().sendKeys("John");
           userSettingsModalPage.getLastNameField().sendKeys("test");
           userSettingsModalPage.getPhoneField().sendKeys("000-000-0000");
-          userSettingsModalPage.getEmailField().sendKeys("aaa.user@somecompany.com");
+          userSettingsModalPage.getEmailField().sendKeys("bbb.user@somecompany.com");
           userSettingsModalPage.getSaveButton().click();
           
           helper.waitRemoved(modal, "User Settings Modal");        
@@ -75,7 +75,7 @@
 
           expect(userSettingsModalPage.getFirstNameField().getAttribute('value')).to.eventually.equal("John");
           expect(userSettingsModalPage.getLastNameField().getAttribute('value')).to.eventually.equal("test");
-          expect(userSettingsModalPage.getEmailField().getAttribute('value')).to.eventually.equal("aaa.user@somecompany.com");
+          expect(userSettingsModalPage.getEmailField().getAttribute('value')).to.eventually.equal("bbb.user@somecompany.com");
         });
 
         it("deletes a user", function() {

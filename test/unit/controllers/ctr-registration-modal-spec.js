@@ -212,9 +212,6 @@ describe("controller: registration modal", function() {
         expect(trackerCalled).to.equal("User Registered");
         expect(bqCalled).to.equal("User Registered");
 
-        expect(updateCompanyCalled).to.be.undefined;
-        userState.updateCompanySettings.should.have.been.calledWith("companyResult");
-
         expect($scope.registering).to.be.false;
         expect($modalInstance._closed).to.be.true;
 
@@ -224,33 +221,6 @@ describe("controller: registration modal", function() {
       },10);
     });
 
-    it("should register user, update company name, and close the modal",function(done){
-      $scope.forms.registrationForm.$invalid = false;
-      $scope.company.name = "test-company-name";
-
-      $scope.save();
-      expect($scope.registering).to.be.true;
-      
-      var profileSpy = sinon.spy(userState, "refreshProfile");
-      setTimeout(function() {
-        expect(newUser).to.be.true;
-        plansFactory.startVolumePlanTrial.should.have.been.called;
-        identifySpy.should.have.been.called;
-        expect(trackerCalled).to.equal("User Registered");
-        expect(bqCalled).to.equal("User Registered");
-
-        expect(updateCompanyCalled).to.equal("test-company-name");
-        userState.updateCompanySettings.should.have.been.calledWith("companyResult");
-
-        expect($scope.registering).to.be.false;
-        expect($modalInstance._closed).to.be.true;
-
-        expect(profileSpy.called).to.be.true;
-
-        done();
-      },10);
-    });
-    
     it("should handle failure to create user",function(done){
       registerUser = false;
       $scope.forms.registrationForm.$invalid = false;
