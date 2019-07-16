@@ -55,17 +55,6 @@ angular.module("risevision.common.header")
           }
         });
 
-      var updateCompanyData = function () {
-        if ($scope.newUser) {
-          return updateCompany(userState.getUserCompanyId(), $scope.company)
-            .then(function (company) {
-              userState.updateCompanySettings(company);
-            });
-        } else {
-          return $q.defer().resolve();
-        }
-      };
-
       $scope.save = function () {
         $scope.forms.registrationForm.accepted.$pristine = false;
         $scope.forms.registrationForm.firstName.$pristine = false;
@@ -91,10 +80,12 @@ angular.module("risevision.common.header")
                 userState.refreshProfile()
                   .finally(function () {
                     if ($scope.newUser) {
-                      plansFactory.startVolumePlanTrial();
+                      updateCompany(userState.getUserCompanyId(), $scope.company)
+                        .then(function () {
+                          plansFactory.startVolumePlanTrial();
+                        });
                     }
 
-                    updateCompanyData();
                     analyticsEvents.identify();
                     segmentAnalytics.track("User Registered", {
                       "companyId": userState.getUserCompanyId(),
