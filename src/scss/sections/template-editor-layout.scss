@@ -46,8 +46,8 @@ $short-phone-height: 570px;
   display: flex;
   align-items: center;
   z-index: 100;
-  border-bottom: 2px solid #f2f2f2;
-  margin: 0px 20px;
+  border-bottom: 1px solid #999999;
+  margin: 0px 20px 20px;
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
@@ -171,7 +171,7 @@ $short-phone-height: 570px;
 }
 
 .preview-holder {
-  background-image: linear-gradient(white, lightgray);
+  background-image: linear-gradient(white, #f2f2f2);
   z-index: 10;
   width: 100%;
   height: var(--preview-holder-height);
@@ -199,17 +199,16 @@ $short-phone-height: 570px;
 }
 
 #template-editor-preview {
-  margin: 20px;
+  margin: 0 20px 20px 20px;
   transform-origin: top left;
 
   @media (max-width: $screen-sm) {
-    margin: 10px;
+    margin: 0 10px 10px 10px;
   }
 }
 
 .attribute-editor {
   height: 100%;
-  //padding: 0px 10px 20px 20px;
 
   @media (min-width: $screen-sm) {
     flex-grow: 1;

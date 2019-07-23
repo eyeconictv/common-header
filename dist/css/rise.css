@@ -17903,8 +17903,8 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   display: flex;
   align-items: center;
   z-index: 100;
-  border-bottom: 2px solid #f2f2f2;
-  margin: 0px 20px;
+  border-bottom: 1px solid #999999;
+  margin: 0px 20px 20px;
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
@@ -17995,7 +17995,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     height: calc(100vh - var(--body-height)); } }
 
 .preview-holder {
-  background-image: linear-gradient(white, lightgray);
+  background-image: linear-gradient(white, #f2f2f2);
   z-index: 10;
   width: 100%;
   height: var(--preview-holder-height);
@@ -18018,11 +18018,11 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
       padding-bottom: 0px; } }
 
 #template-editor-preview {
-  margin: 20px;
+  margin: 0 20px 20px 20px;
   transform-origin: top left; }
   @media (max-width: 768px) {
     #template-editor-preview {
-      margin: 10px; } }
+      margin: 0 10px 10px 10px; } }
 
 .attribute-editor {
   height: 100%; }
