@@ -17959,7 +17959,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
       margin-right: 20px;
       overflow: hidden;
       font-size: 12px;
-      color: #4d4d4d;
+      color: #020620;
       white-space: nowrap; }
       .template-editor-toolbar .toolbar-right .auto-saving-changes div {
         position: absolute;
@@ -17970,7 +17970,6 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
           width: 114px;
           margin-top: 0px; }
           .template-editor-toolbar .toolbar-right .auto-saving-changes div div svg {
-            fill: #4ab767;
             stroke: none;
             position: absolute;
             margin-left: 5px;
