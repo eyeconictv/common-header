@@ -85,7 +85,6 @@ $madero-gray-color: #999999;
     -webkit-appearance: none;
 
     &:hover {
-      color: #000;
       text-decoration: none;
       cursor: pointer;
       opacity: 0.65;
@@ -105,6 +104,10 @@ $madero-gray-color: #999999;
       filter: alpha(opacity=50);
       -webkit-box-shadow: none;
       box-shadow: none;
+    }
+
+    .streamline-component-icon {
+      margin-top: .5rem;
     }
   }
 

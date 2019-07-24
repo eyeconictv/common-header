@@ -17931,7 +17931,6 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     border: 0;
     -webkit-appearance: none; }
     .template-editor-toolbar .edit-name:hover, .template-editor-toolbar .delete-presentation:hover {
-      color: #000;
       text-decoration: none;
       cursor: pointer;
       opacity: 0.65;
@@ -17947,6 +17946,8 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
       filter: alpha(opacity=50);
       -webkit-box-shadow: none;
       box-shadow: none; }
+    .template-editor-toolbar .edit-name .streamline-component-icon, .template-editor-toolbar .delete-presentation .streamline-component-icon {
+      margin-top: .5rem; }
   .template-editor-toolbar .toolbar-right {
     display: flex;
     margin-left: auto;
