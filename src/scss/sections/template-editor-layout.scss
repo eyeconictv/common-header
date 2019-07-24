@@ -76,6 +76,10 @@ $madero-gray-color: #999999;
     fieldset[disabled] & {
       background-color: transparent;
     }
+
+    @media (max-width: $screen-sm) {
+      font-size: 18px;
+    }
   }
 
   & .edit-name, .delete-presentation {
@@ -104,10 +108,6 @@ $madero-gray-color: #999999;
       filter: alpha(opacity=50);
       -webkit-box-shadow: none;
       box-shadow: none;
-    }
-
-    .streamline-component-icon {
-      margin-top: .5rem;
     }
   }
 
