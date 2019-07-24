@@ -1,4 +1,6 @@
 $short-phone-height: 570px;
+$madero-black-color: #020620;
+$madero-gray-color: #999999;
 
 .template-editor {
   --common-header-height: 93px;
@@ -59,8 +61,6 @@ $short-phone-height: 570px;
   }
 
   & .presentation-name {
-    color: #020620;
-    font-family: Helvetica, Arial, sans-serif;
     font-size: 24px;
     font-weight: bold;
     margin: 0;
@@ -121,7 +121,6 @@ $short-phone-height: 570px;
       margin-right: 20px;
       overflow: hidden;
       font-size: 12px;
-      color: #020620;
       white-space: nowrap;
 
       div {
@@ -135,6 +134,7 @@ $short-phone-height: 570px;
           margin-top: 0px;
 
           svg {
+            fill: $madero-black-color;
             stroke: none;
             position: absolute;
             margin-left: 5px;
@@ -264,7 +264,7 @@ $short-phone-height: 570px;
   }
 
   & .attribute-row {
-    border-bottom: 1px solid #999999;
+    border-bottom: 1px solid $madero-gray-color;
     min-height: 45px;
     display: flex;
     align-items: center;
@@ -288,7 +288,6 @@ $short-phone-height: 570px;
   }
 
   & .attribute-desc {
-    color: rgb(2, 6, 32);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -348,7 +347,6 @@ $short-phone-height: 570px;
     height: 25px;
     overflow: hidden;
     font-size: 12px;
-    color: $dark-gray;
     white-space: nowrap;
 
     div {
@@ -361,7 +359,7 @@ $short-phone-height: 570px;
 
     .all-changes-saved-message {
       svg {
-        fill: $rise-green;
+        fill: $madero-black-color;
         stroke: none;
         position: absolute;
         margin-left: 5px;
@@ -787,23 +785,24 @@ $short-phone-height: 570px;
 
 // Madero is the codename of the new style-guide
 .madero-style {
-  $text-outline-color: #020620;
-  $text-outline-fill: #999999;
+  font-family: Helvetica, Arial, sans-serif;
+  color: $madero-black-color;
 
   h4 {
     font-size: 18px;
     font-weight: bold;
-    color: $text-outline-color;
+    color: $madero-black-color;
   }
 
   p {
-    color: $text-outline-color;
+    color: $madero-black-color;
     font-size: 14px;
   }
 
   label {
-    color: $text-outline-color;
+    color: $madero-black-color;
     margin-bottom: 0px;
+    font-size: 12px;
   }
 
   .btn {
@@ -913,7 +912,7 @@ $short-phone-height: 570px;
         height: 20px;
         margin: 5px 5px -5px 0px;
         & svg {
-          fill: $text-outline-fill;
+          fill: $madero-gray-color;
         }
       }
 

@@ -17913,8 +17913,6 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   .template-editor-toolbar i {
     font-size: 18px; }
   .template-editor-toolbar .presentation-name {
-    color: #020620;
-    font-family: Helvetica, Arial, sans-serif;
     font-size: 24px;
     font-weight: bold;
     margin: 0;
@@ -17961,7 +17959,6 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
       margin-right: 20px;
       overflow: hidden;
       font-size: 12px;
-      color: #020620;
       white-space: nowrap; }
       .template-editor-toolbar .toolbar-right .auto-saving-changes div {
         position: absolute;
@@ -17972,6 +17969,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
           width: 114px;
           margin-top: 0px; }
           .template-editor-toolbar .toolbar-right .auto-saving-changes div div svg {
+            fill: #020620;
             stroke: none;
             position: absolute;
             margin-left: 5px;
@@ -18090,7 +18088,6 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   .attribute-editor .attribute-row-last {
     border-bottom: none; }
   .attribute-editor .attribute-desc {
-    color: #020620;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -18131,7 +18128,6 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     height: 25px;
     overflow: hidden;
     font-size: 12px;
-    color: #4d4d4d;
     white-space: nowrap; }
     .template-editor-footer .auto-saving-changes div {
       position: absolute;
@@ -18140,7 +18136,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
       margin-top: -5px;
       text-align: center; }
     .template-editor-footer .auto-saving-changes .all-changes-saved-message svg {
-      fill: #4ab767;
+      fill: #020620;
       stroke: none;
       position: absolute;
       margin-left: 5px;
@@ -18435,131 +18431,118 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
       border-width: 2px;
       color: #4ab767; }
 
-.madero-style h4 {
-  font-size: 18px;
-  font-weight: bold;
+.madero-style {
+  font-family: Helvetica, Arial, sans-serif;
   color: #020620; }
-
-.madero-style p {
-  color: #020620;
-  font-size: 14px; }
-
-.madero-style label {
-  color: #020620;
-  margin-bottom: 0px; }
-
-.madero-style .btn, .madero-style .icon-nav label, .icon-nav .madero-style label {
-  font-weight: bold;
-  min-height: 40px;
-  line-height: 18px; }
-
-.madero-style .btn-default, .madero-style .timeline .dropdown-menu li .btn, .timeline .dropdown-menu li .madero-style .btn, .madero-style .timeline .dropdown-menu li .icon-nav label, .timeline .dropdown-menu li .icon-nav .madero-style label, .madero-style .icon-nav .timeline .dropdown-menu li label, .icon-nav .timeline .dropdown-menu li .madero-style label {
-  background: white;
-  border-width: 2px;
-  color: #4ab767;
-  border-color: #4ab767;
-  padding: 5px 12px; }
-
-.madero-style .radio {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  min-height: 25px; }
-
-.madero-style .radio label {
-  padding-left: 0px; }
-
-.madero-style input[type=radio] {
-  position: absolute;
-  top: auto;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px);
-  /* IE 6/7 */
-  clip: rect(1px, 1px, 1px, 1px);
-  width: 1px;
-  height: 1px;
-  white-space: nowrap; }
-
-.madero-style input[type=radio] + label {
-  display: block;
-  padding-top: 5px; }
-
-.madero-style input[type=radio] + label:before {
-  content: '';
-  background: #fff;
-  border: .15em solid #999999;
-  background-color: rgba(255, 255, 255, 0.8);
-  display: block;
-  box-sizing: border-box;
-  float: left;
-  width: 20px;
-  height: 20px;
-  vertical-align: top;
-  cursor: pointer;
-  text-align: center;
-  transition: all .1s ease-out; }
-
-.madero-style input[type=radio] + label:before {
-  border-radius: 100%;
-  margin-right: 10px; }
-
-.madero-style input[type=radio]:checked + label:before {
-  background-color: #107dda;
-  border: .15em solid #107dda;
-  box-shadow: inset 0 0 0 0.23em rgba(255, 255, 255, 0.95); }
-
-.madero-style.centered-modal::before {
-  display: inline-block;
-  vertical-align: middle;
-  content: " ";
-  height: 25%; }
-
-.madero-style.centered-modal {
-  text-align: center; }
-  .madero-style.centered-modal .modal-dialog {
-    display: inline-block;
-    vertical-align: middle; }
-
-@media screen and (min-width: 768px) {
+  .madero-style h4 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #020620; }
+  .madero-style p {
+    color: #020620;
+    font-size: 14px; }
+  .madero-style label {
+    color: #020620;
+    margin-bottom: 0px;
+    font-size: 12px; }
+  .madero-style .btn, .madero-style .icon-nav label, .icon-nav .madero-style label {
+    font-weight: bold;
+    min-height: 40px;
+    line-height: 18px; }
+  .madero-style .btn-default, .madero-style .timeline .dropdown-menu li .btn, .timeline .dropdown-menu li .madero-style .btn, .madero-style .timeline .dropdown-menu li .icon-nav label, .timeline .dropdown-menu li .icon-nav .madero-style label, .madero-style .icon-nav .timeline .dropdown-menu li label, .icon-nav .timeline .dropdown-menu li .madero-style label {
+    background: white;
+    border-width: 2px;
+    color: #4ab767;
+    border-color: #4ab767;
+    padding: 5px 12px; }
+  .madero-style .radio {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    min-height: 25px; }
+  .madero-style .radio label {
+    padding-left: 0px; }
+  .madero-style input[type=radio] {
+    position: absolute;
+    top: auto;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    /* IE 6/7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    width: 1px;
+    height: 1px;
+    white-space: nowrap; }
+  .madero-style input[type=radio] + label {
+    display: block;
+    padding-top: 5px; }
+  .madero-style input[type=radio] + label:before {
+    content: '';
+    background: #fff;
+    border: .15em solid #999999;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: block;
+    box-sizing: border-box;
+    float: left;
+    width: 20px;
+    height: 20px;
+    vertical-align: top;
+    cursor: pointer;
+    text-align: center;
+    transition: all .1s ease-out; }
+  .madero-style input[type=radio] + label:before {
+    border-radius: 100%;
+    margin-right: 10px; }
+  .madero-style input[type=radio]:checked + label:before {
+    background-color: #107dda;
+    border: .15em solid #107dda;
+    box-shadow: inset 0 0 0 0.23em rgba(255, 255, 255, 0.95); }
   .madero-style.centered-modal::before {
-    height: 100%; }
-  .madero-style.centered-modal .modal-dialog {
-    width: 460px; } }
-
-.madero-style .modal-content {
-  background: white; }
-  .madero-style .modal-content .modal-header {
-    background: inherit;
-    border-bottom: 0; }
-    .madero-style .modal-content .modal-header .close {
-      width: 20px;
-      height: 20px;
-      margin: 5px 5px -5px 0px; }
-      .madero-style .modal-content .modal-header .close svg {
-        fill: #999999; }
-    @media (max-width: 480px) {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 25%; }
+  .madero-style.centered-modal {
+    text-align: center; }
+    .madero-style.centered-modal .modal-dialog {
+      display: inline-block;
+      vertical-align: middle; }
+  @media screen and (min-width: 768px) {
+    .madero-style.centered-modal::before {
+      height: 100%; }
+    .madero-style.centered-modal .modal-dialog {
+      width: 460px; } }
+  .madero-style .modal-content {
+    background: white; }
+    .madero-style .modal-content .modal-header {
+      background: inherit;
+      border-bottom: 0; }
       .madero-style .modal-content .modal-header .close {
-        padding: inherit; } }
-  .madero-style .modal-content .modal-body {
-    padding: 0px 20px 15px 20px; }
-    .madero-style .modal-content .modal-body h4 {
-      margin-top: 0px;
-      margin-bottom: 5px; }
-    .madero-style .modal-content .modal-body p {
-      margin-bottom: 0px;
-      font-size: 12px; }
-  .madero-style .modal-content .modal-footer {
-    padding: 0px 20px 20px; }
-
-.madero-style.primary-btn-danger .modal-footer .btn-primary {
-  background: #d9534f;
-  border-color: #d9534f; }
-
-.madero-style.primary-btn-danger .modal-footer .btn-default, .madero-style.primary-btn-danger .modal-footer .timeline .dropdown-menu li .btn, .timeline .dropdown-menu li .madero-style.primary-btn-danger .modal-footer .btn, .madero-style.primary-btn-danger .modal-footer .timeline .dropdown-menu li .icon-nav label, .timeline .dropdown-menu li .icon-nav .madero-style.primary-btn-danger .modal-footer label, .madero-style.primary-btn-danger .modal-footer .icon-nav .timeline .dropdown-menu li label, .icon-nav .timeline .dropdown-menu li .madero-style.primary-btn-danger .modal-footer label {
-  color: white;
-  border-width: 1px;
-  background: #4ab767;
-  border-color: #4ab767;
-  padding: 6px 12px; }
+        width: 20px;
+        height: 20px;
+        margin: 5px 5px -5px 0px; }
+        .madero-style .modal-content .modal-header .close svg {
+          fill: #999999; }
+      @media (max-width: 480px) {
+        .madero-style .modal-content .modal-header .close {
+          padding: inherit; } }
+    .madero-style .modal-content .modal-body {
+      padding: 0px 20px 15px 20px; }
+      .madero-style .modal-content .modal-body h4 {
+        margin-top: 0px;
+        margin-bottom: 5px; }
+      .madero-style .modal-content .modal-body p {
+        margin-bottom: 0px;
+        font-size: 12px; }
+    .madero-style .modal-content .modal-footer {
+      padding: 0px 20px 20px; }
+  .madero-style.primary-btn-danger .modal-footer .btn-primary {
+    background: #d9534f;
+    border-color: #d9534f; }
+  .madero-style.primary-btn-danger .modal-footer .btn-default, .madero-style.primary-btn-danger .modal-footer .timeline .dropdown-menu li .btn, .timeline .dropdown-menu li .madero-style.primary-btn-danger .modal-footer .btn, .madero-style.primary-btn-danger .modal-footer .timeline .dropdown-menu li .icon-nav label, .timeline .dropdown-menu li .icon-nav .madero-style.primary-btn-danger .modal-footer label, .madero-style.primary-btn-danger .modal-footer .icon-nav .timeline .dropdown-menu li label, .icon-nav .timeline .dropdown-menu li .madero-style.primary-btn-danger .modal-footer label {
+    color: white;
+    border-width: 1px;
+    background: #4ab767;
+    border-color: #4ab767;
+    padding: 6px 12px; }
 
 .attribute-component .form-control {
   height: 40px;
