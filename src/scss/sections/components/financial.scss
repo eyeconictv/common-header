@@ -90,7 +90,7 @@
 }
 
 .instrument-row {
-  border-bottom: 1px solid rgb(242, 242, 242);
+  border-bottom: 1px solid #999999;
   margin-left: 20px;
   margin-right: 20px;
 }
@@ -237,6 +237,6 @@
   & > div {
     background: #FFF;
     padding: 18px 0 0 0;
-    border-top: 1px solid #e6e6e6;
+    border-top: 1px solid #999999;
   }
 }

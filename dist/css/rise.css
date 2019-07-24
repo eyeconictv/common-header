@@ -18118,8 +18118,11 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   .attribute-editor .component-header {
     font-size: 1.2em;
     font-weight: bold;
-    padding: 20px 0px 19px;
+    padding-bottom: 20px;
     margin: 0px 20px; }
+    @media (max-width: 768px) {
+      .attribute-editor .component-header {
+        padding-top: 20px; } }
     .attribute-editor .component-header.visible-bottom-rule {
       border-bottom: 1px solid #999999; }
     .attribute-editor .component-header svg {
@@ -18132,7 +18135,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   padding: 0px 20px;
   background-color: #FFF; }
   .template-editor-footer > div {
-    border-top: 2px solid #f2f2f2;
+    border-top: 1px solid #999999;
     padding: 10px 0; }
   .template-editor-footer .btn, .template-editor-footer .icon-nav label, .icon-nav .template-editor-footer label {
     margin: 10px 0px; }
@@ -19030,7 +19033,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   animation-fill-mode: forwards; }
 
 .instrument-row {
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 1px solid #999999;
   margin-left: 20px;
   margin-right: 20px; }
 
@@ -19136,7 +19139,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   .financial-action-button-bar > div {
     background: #FFF;
     padding: 18px 0 0 0;
-    border-top: 1px solid #e6e6e6; }
+    border-top: 1px solid #999999; }
 
 @media (min-width: 768px) {
   .image-component-container {
