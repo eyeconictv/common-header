@@ -17952,7 +17952,8 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   .template-editor-toolbar .toolbar-right {
     display: flex;
     margin-left: auto;
-    flex-wrap: nowrap; }
+    flex-wrap: nowrap;
+    align-items: center; }
     .template-editor-toolbar .toolbar-right .auto-saving-changes {
       position: relative;
       width: 120px;
@@ -18448,7 +18449,9 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   margin-bottom: 0px; }
 
 .madero-style .btn, .madero-style .icon-nav label, .icon-nav .madero-style label {
-  font-weight: bold; }
+  font-weight: bold;
+  min-height: 40px;
+  line-height: 18px; }
 
 .madero-style .btn-default, .madero-style .timeline .dropdown-menu li .btn, .timeline .dropdown-menu li .madero-style .btn, .madero-style .timeline .dropdown-menu li .icon-nav label, .timeline .dropdown-menu li .icon-nav .madero-style label, .madero-style .icon-nav .timeline .dropdown-menu li label, .icon-nav .timeline .dropdown-menu li .madero-style label {
   background: white;

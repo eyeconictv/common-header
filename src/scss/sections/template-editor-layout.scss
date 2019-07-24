@@ -112,6 +112,7 @@ $short-phone-height: 570px;
     display: flex;
     margin-left: auto;
     flex-wrap: nowrap;
+    align-items: center;
 
     .auto-saving-changes {
       position: relative;
@@ -807,6 +808,8 @@ $short-phone-height: 570px;
 
   .btn {
     font-weight: bold;
+    min-height: 40px;
+    line-height: 18px;
   }
 
   .btn-default {
