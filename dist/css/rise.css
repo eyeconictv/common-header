@@ -17870,11 +17870,12 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
 .template-editor {
   --common-header-height: 93px;
   --toolbar-height: 78px;
+  --toolbar-margin: 20px;
   --footer-height: 98px;
   --sidebar-width: 400px;
   --component-header-height: 63px;
   --preview-holder-height: 200px;
-  --body-height: calc(var(--common-header-height) + var(--toolbar-height));
+  --body-height: calc(var(--common-header-height) + var(--toolbar-height) + var(--toolbar-margin));
   --attribute-list-height: calc(100vh - var(--body-height));
   background-color: #FFF;
   height: calc(100vh - var(--common-header-height)); }
@@ -17904,7 +17905,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   align-items: center;
   z-index: 100;
   border-bottom: 1px solid #999999;
-  margin: 0px 20px 20px;
+  margin: 0px var(--toolbar-margin) var(--toolbar-margin);
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
