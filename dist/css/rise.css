@@ -18100,6 +18100,16 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
         font-size: 14px; } }
     .attribute-editor .attribute-desc a, .attribute-editor .attribute-desc .u_link {
       margin-right: 18px; }
+  .attribute-editor .streamline-component-icon {
+    top: 2px; }
+    @media (max-width: 768px) {
+      .attribute-editor .streamline-component-icon {
+        top: 1px; } }
+    .attribute-editor .streamline-component-icon svg {
+      height: 16px; }
+      @media (max-width: 768px) {
+        .attribute-editor .streamline-component-icon svg {
+          height: 12px; } }
   .attribute-editor .attribute-edit {
     color: #45b764;
     font-size: 14px;

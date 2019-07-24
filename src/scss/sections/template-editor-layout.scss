@@ -306,6 +306,22 @@ $madero-gray-color: #999999;
     }
   }
 
+  & .streamline-component-icon {
+    top: 2px;
+
+    @media (max-width: $screen-sm) {
+      top: 1px;
+    }
+
+    svg {
+      height: 16px;
+
+      @media (max-width: $screen-sm) {
+        height: 12px;
+      }
+    }
+  }
+
   & .attribute-edit {
     color: rgb(69, 183, 100);
     font-size: 14px;
