@@ -18310,7 +18310,13 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   background: white; }
   .storage-selector-action-button-bar .upload-files {
     padding: 18px 0 0 0;
-    border-top: 1px solid #e6e6e6; }
+    border-top: 1px solid #999999; }
+    .storage-selector-action-button-bar .upload-files label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      justify-content: center;
+      margin-bottom: 0; }
   .storage-selector-action-button-bar .add-selected {
     padding: 10px 0 0 0; }
     .storage-selector-action-button-bar .add-selected button {
