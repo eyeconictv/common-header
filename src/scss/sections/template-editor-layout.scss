@@ -330,13 +330,17 @@ $madero-gray-color: #999999;
   }
 
   & .component-header {
-    font-size: 1.2em;
+    font-size: 18px;
     font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     padding-bottom: 20px;
     margin: 0px 20px;
 
     @media (max-width: $screen-sm) {
-      padding-top: 20px;
+      padding-top: 15px;
+      padding-bottom: 15px;
     }
 
     &.visible-bottom-rule {
@@ -344,8 +348,8 @@ $madero-gray-color: #999999;
     }
 
     & svg {
-      fill: $dark-gray;
-      stroke: none;
+      height: 16px;
+      margin-left: 15px;
     }
   }
 

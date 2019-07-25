@@ -18116,18 +18116,22 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     font-weight: bold;
     letter-spacing: 0px; }
   .attribute-editor .component-header {
-    font-size: 1.2em;
+    font-size: 18px;
     font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     padding-bottom: 20px;
     margin: 0px 20px; }
     @media (max-width: 768px) {
       .attribute-editor .component-header {
-        padding-top: 20px; } }
+        padding-top: 15px;
+        padding-bottom: 15px; } }
     .attribute-editor .component-header.visible-bottom-rule {
       border-bottom: 1px solid #999999; }
     .attribute-editor .component-header svg {
-      fill: #4d4d4d;
-      stroke: none; }
+      height: 16px;
+      margin-left: 15px; }
   .attribute-editor .arrow-icon {
     line-height: 10px; }
 
