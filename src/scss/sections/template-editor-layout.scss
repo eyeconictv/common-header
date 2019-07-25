@@ -902,8 +902,8 @@ $madero-light-blue: #107DDA;
   }
 
   input[type=radio]:checked + label:before {
-    background-color: #107dda;
-    border: .15em solid #107dda;
+    background-color: $madero-light-blue;
+    border: .15em solid $madero-light-blue;
     box-shadow: inset 0 0 0 0.23em rgba(255, 255, 255, .95);
   }
 

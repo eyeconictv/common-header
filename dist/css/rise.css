@@ -18514,8 +18514,8 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     border-radius: 100%;
     margin-right: 10px; }
   .madero-style input[type=radio]:checked + label:before {
-    background-color: #107dda;
-    border: .15em solid #107dda;
+    background-color: #107DDA;
+    border: 0.15em solid #107DDA;
     box-shadow: inset 0 0 0 0.23em rgba(255, 255, 255, 0.95); }
   .madero-style.centered-modal::before {
     display: inline-block;
