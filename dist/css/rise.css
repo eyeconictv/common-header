@@ -18129,9 +18129,10 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
         padding-bottom: 15px; } }
     .attribute-editor .component-header.visible-bottom-rule {
       border-bottom: 1px solid #999999; }
-    .attribute-editor .component-header svg {
-      height: 16px;
+    .attribute-editor .component-header .component-icon {
       margin-left: 15px; }
+      .attribute-editor .component-header .component-icon svg {
+        height: 16px; }
   .attribute-editor .arrow-icon {
     line-height: 10px; }
 
@@ -18460,13 +18461,10 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   color: #020620; }
   .madero-style h4 {
     font-size: 18px;
-    font-weight: bold;
-    color: #020620; }
+    font-weight: bold; }
   .madero-style p {
-    color: #020620;
     font-size: 14px; }
   .madero-style label {
-    color: #020620;
     margin-bottom: 0px;
     font-size: 12px; }
   .madero-style .btn, .madero-style .icon-nav label, .icon-nav .madero-style label {

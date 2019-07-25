@@ -348,9 +348,11 @@ $madero-light-blue: #107DDA;
       border-bottom: 1px solid $madero-gray;
     }
 
-    & svg {
-      height: 16px;
+    & .component-icon {
       margin-left: 15px;
+      svg {
+        height: 16px;
+      }
     }
   }
 
@@ -827,16 +829,13 @@ $madero-light-blue: #107DDA;
   h4 {
     font-size: 18px;
     font-weight: bold;
-    color: $madero-black;
   }
 
   p {
-    color: $madero-black;
     font-size: 14px;
   }
 
   label {
-    color: $madero-black;
     margin-bottom: 0px;
     font-size: 12px;
   }
