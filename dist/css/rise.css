@@ -18199,7 +18199,10 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   animation-fill-mode: forwards; }
 
 .attribute-editor-component {
-  position: relative; }
+  position: relative;
+  margin-top: 20px; }
+  .attribute-editor-component .attribute-editor-row {
+    margin: 7.5px 20px 7.5px 20px; }
 
 @media (min-width: 768px) {
   .storage-selector-container {
@@ -18564,45 +18567,53 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     background: #4ab767;
     border-color: #4ab767;
     padding: 6px 12px; }
-
-.attribute-component .form-control {
-  height: 40px;
-  border-color: #999999; }
-  .attribute-component .form-control:focus {
-    border: 1px solid #107dda;
+  .madero-style .form-control {
+    height: 40px;
+    border-color: #999999;
+    color: #020620; }
+    .madero-style .form-control:focus {
+      border: 1px solid #107dda;
+      box-shadow: none; }
+  .madero-style .control-label {
+    font-weight: bold;
+    color: #020620; }
+  .madero-style .form-control-feedback {
+    top: 32px;
+    fill: #f2f2f2; }
+  .madero-style .has-error .control-label {
+    color: inherit; }
+  .madero-style .has-error .form-control {
+    border-color: #d9534f; }
+  .madero-style .has-error .overlay-icon {
+    fill: #d9534f; }
+  .madero-style .has-success .control-label {
+    color: inherit; }
+  .madero-style .has-success .overlay-icon {
+    fill: #45b764; }
+  .madero-style .input-group .form-control:not(:first-child):not(:last-child) {
+    border-left: none;
+    border-right: none; }
+  .madero-style .input-group .form-control:first-child {
+    border-right: none; }
+  .madero-style .input-group .form-control:last-child {
+    border-left: none; }
+  .madero-style .input-group .input-group-addon {
+    border-color: #999999;
+    background-color: #f2f2f2;
+    color: #020620; }
+    .madero-style .input-group .input-group-addon:first-child {
+      border-right: none; }
+    .madero-style .input-group .input-group-addon:last-child {
+      border-left: none; }
+  .madero-style .input-group:focus-within .input-group-addon {
+    border-color: #107dda;
     box-shadow: none; }
-
-.attribute-component .form-control-feedback {
-  top: 32px;
-  fill: #f2f2f2; }
-
-.attribute-component .has-error .control-label {
-  color: inherit; }
-
-.attribute-component .has-error .form-control {
-  border-color: #d9534f; }
-
-.attribute-component .has-error .overlay-icon {
-  fill: #d9534f; }
-
-.attribute-component .has-success .control-label {
-  color: inherit; }
-
-.attribute-component .has-success .overlay-icon {
-  fill: #45b764; }
-
-.attribute-component .input-group-addon {
-  border-color: #999999;
-  background-color: #f2f2f2;
-  color: #020620; }
-
-.attribute-component .input-duration {
-  width: 140px; }
-
-.attribute-component .icon-help {
-  fill: #45b764;
-  position: relative;
-  top: 3px; }
+  .madero-style .input-duration {
+    width: 140px; }
+  .madero-style .icon-help {
+    fill: #45b764;
+    position: relative;
+    top: 3px; }
 
 .streamline-component-icon {
   display: inline-block;

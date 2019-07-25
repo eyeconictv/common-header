@@ -444,6 +444,11 @@ $madero-gray-color: #999999;
 
 .attribute-editor-component {
   position: relative;
+  margin-top: 20px;
+
+  .attribute-editor-row {
+    margin: 7.5px 20px 7.5px 20px;
+  }
 }
 
 // Storage
@@ -987,16 +992,21 @@ $madero-gray-color: #999999;
       padding: 6px 12px;
     }
   }
-}
-.attribute-component {
+
   .form-control {
     height: 40px;
     border-color: $madero-gray-color;
+    color: $madero-black-color;
 
     &:focus {
       border: 1px solid #107dda;
       box-shadow: none;
     }
+  }
+
+  .control-label {
+    font-weight: bold;
+    color: $madero-black-color;
   }
 
   .form-control-feedback {
@@ -1025,10 +1035,41 @@ $madero-gray-color: #999999;
     }
   }
 
-  .input-group-addon {
-    border-color: $madero-gray-color;
-    background-color: #f2f2f2;
-    color: #020620;
+  .input-group {
+
+    .form-control {
+
+      &:not(:first-child):not(:last-child) {
+        border-left: none;
+        border-right: none;
+      }
+
+      &:first-child {
+        border-right: none;
+      }
+      &:last-child {
+        border-left: none;
+      }
+    }
+
+    .input-group-addon {
+      border-color: $madero-gray-color;
+      background-color: #f2f2f2;
+      color: $madero-black-color;
+
+      &:first-child {
+        border-right: none;
+      }
+
+      &:last-child {
+        border-left: none;
+      }
+    }
+
+    &:focus-within .input-group-addon {
+      border-color: #107dda;
+      box-shadow: none;
+    }
   }
 
   .input-duration {
