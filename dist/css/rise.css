@@ -18572,7 +18572,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     border-color: #999999;
     color: #020620; }
     .madero-style .form-control:focus {
-      border: 1px solid #107dda;
+      border: 1px solid #107DDA;
       box-shadow: none; }
   .madero-style .control-label {
     font-weight: bold;
@@ -18606,7 +18606,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     .madero-style .input-group .input-group-addon:last-child {
       border-left: none; }
   .madero-style .input-group:focus-within .input-group-addon {
-    border-color: #107dda;
+    border-color: #107DDA;
     box-shadow: none; }
   .madero-style .input-duration {
     width: 140px; }

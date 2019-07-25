@@ -1,6 +1,7 @@
 $short-phone-height: 570px;
-$madero-black-color: #020620;
-$madero-gray-color: #999999;
+$madero-black: #020620;
+$madero-gray: #999999;
+$madero-light-blue: #107DDA;
 
 .template-editor {
   --common-header-height: 93px;
@@ -49,7 +50,7 @@ $madero-gray-color: #999999;
   display: flex;
   align-items: center;
   z-index: 100;
-  border-bottom: 1px solid $madero-gray-color;
+  border-bottom: 1px solid $madero-gray;
   margin: 0px var(--toolbar-margin) var(--toolbar-margin);
   overflow: hidden;
   text-overflow: clip;
@@ -137,7 +138,7 @@ $madero-gray-color: #999999;
           margin-top: 0px;
 
           svg {
-            fill: $madero-black-color;
+            fill: $madero-black;
             stroke: none;
             position: absolute;
             margin-left: 5px;
@@ -267,7 +268,7 @@ $madero-gray-color: #999999;
   }
 
   & .attribute-row {
-    border-bottom: 1px solid $madero-gray-color;
+    border-bottom: 1px solid $madero-gray;
     min-height: 45px;
     display: flex;
     align-items: center;
@@ -344,7 +345,7 @@ $madero-gray-color: #999999;
     }
 
     &.visible-bottom-rule {
-      border-bottom: 1px solid $madero-gray-color;
+      border-bottom: 1px solid $madero-gray;
     }
 
     & svg {
@@ -363,7 +364,7 @@ $madero-gray-color: #999999;
   background-color: #FFF;
 
   & > div {
-    border-top: 1px solid $madero-gray-color;
+    border-top: 1px solid $madero-gray;
     padding: 10px 0;
   }
 
@@ -389,7 +390,7 @@ $madero-gray-color: #999999;
 
     .all-changes-saved-message {
       svg {
-        fill: $madero-black-color;
+        fill: $madero-black;
         stroke: none;
         position: absolute;
         margin-left: 5px;
@@ -821,21 +822,21 @@ $madero-gray-color: #999999;
 // Madero is the codename of the new style-guide
 .madero-style {
   font-family: Helvetica, Arial, sans-serif;
-  color: $madero-black-color;
+  color: $madero-black;
 
   h4 {
     font-size: 18px;
     font-weight: bold;
-    color: $madero-black-color;
+    color: $madero-black;
   }
 
   p {
-    color: $madero-black-color;
+    color: $madero-black;
     font-size: 14px;
   }
 
   label {
-    color: $madero-black-color;
+    color: $madero-black;
     margin-bottom: 0px;
     font-size: 12px;
   }
@@ -947,7 +948,7 @@ $madero-gray-color: #999999;
         height: 20px;
         margin: 5px 5px -5px 0px;
         & svg {
-          fill: $madero-gray-color;
+          fill: $madero-gray;
         }
       }
 
@@ -995,18 +996,18 @@ $madero-gray-color: #999999;
 
   .form-control {
     height: 40px;
-    border-color: $madero-gray-color;
-    color: $madero-black-color;
+    border-color: $madero-gray;
+    color: $madero-black;
 
     &:focus {
-      border: 1px solid #107dda;
+      border: 1px solid $madero-light-blue;
       box-shadow: none;
     }
   }
 
   .control-label {
     font-weight: bold;
-    color: $madero-black-color;
+    color: $madero-black;
   }
 
   .form-control-feedback {
@@ -1053,9 +1054,9 @@ $madero-gray-color: #999999;
     }
 
     .input-group-addon {
-      border-color: $madero-gray-color;
+      border-color: $madero-gray;
       background-color: #f2f2f2;
-      color: $madero-black-color;
+      color: $madero-black;
 
       &:first-child {
         border-right: none;
@@ -1067,7 +1068,7 @@ $madero-gray-color: #999999;
     }
 
     &:focus-within .input-group-addon {
-      border-color: #107dda;
+      border-color: $madero-light-blue;
       box-shadow: none;
     }
   }
