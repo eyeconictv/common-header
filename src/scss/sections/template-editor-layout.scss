@@ -1005,6 +1005,7 @@ $madero-light-blue: #107DDA;
     height: 40px;
     border-color: $madero-gray;
     color: $madero-black;
+    box-shadow: none;
 
     &:focus {
       border: 1px solid $madero-light-blue;
