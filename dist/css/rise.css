@@ -18365,7 +18365,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     flex-wrap: nowrap;
     align-items: center;
     padding: 10px 0px;
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid #999999;
     margin-left: 20px;
     margin-right: 20px; }
     .file-component-list .file-row .file-thumbnail {
@@ -18454,7 +18454,13 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   background: white; }
   .file-component-list-action-button-bar .upload-files {
     padding: 18px 0 0 0;
-    border-top: 1px solid #e6e6e6; }
+    border-top: 1px solid #999999; }
+    .file-component-list-action-button-bar .upload-files label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      font-size: 14px; }
   .file-component-list-action-button-bar .select-from-storage {
     padding: 10px 0 0 0; }
     .file-component-list-action-button-bar .select-from-storage button {
@@ -18505,7 +18511,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   .madero-style input[type=radio] + label:before {
     content: '';
     background: #fff;
-    border: .15em solid #999999;
+    border: 0.15em solid #999999;
     background-color: rgba(255, 255, 255, 0.8);
     display: block;
     box-sizing: border-box;

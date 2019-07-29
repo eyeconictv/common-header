@@ -605,9 +605,9 @@ $madero-light-blue: #107DDA;
   padding: 0px 20px;
   background: $white;
 
-  & .upload-files {
+  .upload-files {
     padding: 18px 0 0 0;
-    border-top: 1px solid #999999;
+    border-top: 1px solid $madero-gray;
 
     label {
       display: flex;
@@ -684,7 +684,7 @@ $madero-light-blue: #107DDA;
     flex-wrap: nowrap;
     align-items: center;
     padding: 10px 0px;
-    border-bottom: 1px solid $lighter-gray;
+    border-bottom: 1px solid $madero-gray;
     margin-left: 20px;
     margin-right: 20px;
 
@@ -815,7 +815,15 @@ $madero-light-blue: #107DDA;
 
   .upload-files {
     padding: 18px 0 0 0;
-    border-top: 1px solid $light-gray;
+    border-top: 1px solid $madero-gray;
+  
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      font-size: 14px;
+    }
   }
 
   .select-from-storage {
@@ -891,7 +899,7 @@ $madero-light-blue: #107DDA;
   input[type=radio] + label:before {
     content: '';
     background: #fff;
-    border: .15em solid #999999;
+    border: .15em solid $madero-gray;
     background-color: rgba(255, 255, 255, .8);
     display: block;
     box-sizing: border-box;
