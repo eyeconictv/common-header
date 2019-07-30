@@ -625,6 +625,7 @@ $madero-light-blue: #107DDA;
       background: $white;
       border-width: 2px;
       color: $rise-green;
+      border-color: $rise-green;
     }
   }
 }
@@ -833,6 +834,7 @@ $madero-light-blue: #107DDA;
       background: $white;
       border-width: 2px;
       color: $rise-green;
+      border-color: $rise-green;
     }
   }
 }
@@ -853,13 +855,17 @@ $madero-light-blue: #107DDA;
 
   label {
     margin-bottom: 0px;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .btn {
     font-weight: bold;
     min-height: 40px;
     line-height: 18px;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .btn-default {
@@ -868,6 +874,14 @@ $madero-light-blue: #107DDA;
     color: $rise-green;
     border-color: $rise-green;
     padding: 5px 12px;
+  }
+
+  .btn-primary {
+    &:hover, &:active, &:focus {
+      background-color: #4ab767;
+      border-color: #4ab767;
+      box-shadow: none;
+    }
   }
 
   .radio {

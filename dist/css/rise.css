@@ -18322,7 +18322,8 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     .storage-selector-action-button-bar .add-selected button {
       background: white;
       border-width: 2px;
-      color: #4ab767; }
+      color: #4ab767;
+      border-color: #4ab767; }
 
 .storage-upload-panel {
   margin-top: 5px; }
@@ -18466,7 +18467,8 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     .file-component-list-action-button-bar .select-from-storage button {
       background: white;
       border-width: 2px;
-      color: #4ab767; }
+      color: #4ab767;
+      border-color: #4ab767; }
 
 .madero-style {
   font-family: Helvetica, Arial, sans-serif;
@@ -18478,17 +18480,23 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     font-size: 14px; }
   .madero-style label {
     margin-bottom: 0px;
-    font-size: 12px; }
+    font-size: 14px; }
   .madero-style .btn, .madero-style .icon-nav label, .icon-nav .madero-style label {
     font-weight: bold;
     min-height: 40px;
     line-height: 18px; }
+    .madero-style .btn:focus, .madero-style .icon-nav label:focus, .icon-nav .madero-style label:focus {
+      outline: none; }
   .madero-style .btn-default, .madero-style .timeline .dropdown-menu li .btn, .timeline .dropdown-menu li .madero-style .btn, .madero-style .timeline .dropdown-menu li .icon-nav label, .timeline .dropdown-menu li .icon-nav .madero-style label, .madero-style .icon-nav .timeline .dropdown-menu li label, .icon-nav .timeline .dropdown-menu li .madero-style label {
     background: white;
     border-width: 2px;
     color: #4ab767;
     border-color: #4ab767;
     padding: 5px 12px; }
+  .madero-style .btn-primary:hover, .madero-style .btn-primary:active, .madero-style .btn-primary:focus {
+    background-color: #4ab767;
+    border-color: #4ab767;
+    box-shadow: none; }
   .madero-style .radio {
     margin-top: 0px;
     margin-bottom: 0px;
