@@ -18246,6 +18246,57 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
           font-weight: bold; }
     .storage-selector-component .storage-selector-list .file-entry {
       background: inherit; }
+    .storage-selector-component .storage-selector-list .video-entry {
+      text-align: center;
+      background-color: #f2f2f2;
+      margin-bottom: 5px;
+      width: var(--storage-column-width); }
+      .storage-selector-component .storage-selector-list .video-entry a, .storage-selector-component .storage-selector-list .video-entry .u_link {
+        display: block;
+        padding: 20px 10px; }
+        .storage-selector-component .storage-selector-list .video-entry a streamline-icon, .storage-selector-component .storage-selector-list .video-entry .u_link streamline-icon {
+          display: block;
+          height: 30px; }
+          .storage-selector-component .storage-selector-list .video-entry a streamline-icon svg, .storage-selector-component .storage-selector-list .video-entry .u_link streamline-icon svg {
+            fill: #999999;
+            width: 32px;
+            height: 30px; }
+        .storage-selector-component .storage-selector-list .video-entry a .video-name, .storage-selector-component .storage-selector-list .video-entry .u_link .video-name {
+          margin-top: 10px;
+          color: #999999;
+          font-size: 12px;
+          letter-spacing: 0px;
+          line-height: 18px;
+          height: 18px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap; }
+      .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry {
+        height: 100%;
+        background-color: #107DDA;
+        padding: 21px 10px 20px 10px;
+        text-align: center; }
+        .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry .overlay-icon {
+          position: relative;
+          left: initial;
+          top: initial; }
+          .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry .overlay-icon streamline-icon {
+            display: block;
+            height: 29px; }
+          .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry .overlay-icon svg {
+            width: 34px;
+            height: 29px; }
+        .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry .overlay-text {
+          position: relative;
+          left: initial;
+          bottom: initial;
+          width: auto;
+          margin-top: 10px;
+          font-size: 12px;
+          font-weight: normal;
+          letter-spacing: 0px;
+          line-height: 18px;
+          height: 18px; }
     .storage-selector-component .storage-selector-list .overlay-entry {
       position: absolute;
       top: 0;

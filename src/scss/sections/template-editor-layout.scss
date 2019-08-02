@@ -515,6 +515,77 @@ $madero-light-blue: #107DDA;
       background: inherit;
     }
 
+    .video-entry {
+      text-align: center;
+      background-color: $lighter-gray;
+      margin-bottom: 5px;
+      width: var(--storage-column-width);
+
+      a {
+        display: block;
+        padding: 20px 10px;
+
+        streamline-icon {
+          display: block;
+          height: 30px;
+
+          svg {
+            fill: $mid-gray;
+            width: 32px;
+            height: 30px;
+          }
+        }
+
+        .video-name {
+          margin-top: 10px;
+          color: $mid-gray;
+          font-size: 12px;
+          letter-spacing: 0px;
+          line-height: 18px;
+          height: 18px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      & ~ .overlay-entry {
+        height: 100%;
+        background-color: $madero-light-blue;
+        padding: 21px 10px 20px 10px;
+        text-align: center;
+
+        .overlay-icon {
+          position: relative;
+          left: initial;
+          top: initial;
+
+          streamline-icon {
+            display: block;
+            height: 29px;
+          }
+
+          svg {
+            width: 34px;
+            height: 29px;
+          }
+        }
+
+        .overlay-text {
+          position: relative;
+          left: initial;
+          bottom: initial;
+          width: auto;
+          margin-top: 10px;
+          font-size: 12px;
+          font-weight: normal;
+          letter-spacing: 0px;
+          line-height: 18px;
+          height: 18px;
+        }
+      }
+    }
+
     .overlay-entry {
       position: absolute;
       top: 0;
