@@ -18279,10 +18279,9 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
         .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry .overlay-icon {
           position: relative;
           left: initial;
-          top: initial; }
-          .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry .overlay-icon streamline-icon {
-            display: block;
-            height: 29px; }
+          top: initial;
+          display: block;
+          height: 29px; }
           .storage-selector-component .storage-selector-list .video-entry ~ .overlay-entry .overlay-icon svg {
             width: 34px;
             height: 29px; }
