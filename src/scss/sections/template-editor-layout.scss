@@ -684,26 +684,24 @@ $madero-light-blue: #107DDA;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    padding: 10px 0px;
+    padding: 4px 0px;
     border-bottom: 1px solid $madero-gray;
     margin-left: 20px;
     margin-right: 20px;
 
     .file-thumbnail {
-      width: 100px;
-      height: 75px;
+      display: flex;
+      justify-content: center;
+      width: var(--thumbnail-width);
+      height: 56px;
       overflow: hidden;
-
-      .file-helper {
-        display: inline-block;
-        width: 0;
-        height: 100%;
-        vertical-align: middle;
-      }
+      margin-right: 10px;
+      flex: 0 0 auto;
 
       img {
-        vertical-align: middle;
-        width: var(--thumbnail-width);
+        max-height: 100%;
+        max-width: 100%;
+        flex: 0;
         background-color: $lighter-gray;
         background-size: 12px 12px;
         background-position: 0 0, 6px 6px;
@@ -711,45 +709,39 @@ $madero-light-blue: #107DDA;
                           linear-gradient(45deg, $mid-gray 25%, transparent 25%, transparent 75%, $mid-gray 75%, $mid-gray);
       }
 
-      .broken-link {
-        display: inline-block;
-        text-align: center;
-        vertical-align: middle;
-        width: var(--thumbnail-width);
-        font-size: 40px;
-        background-color: $light-gray;
+      .broken-link, .video-placeholder {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        background-color: #f2f2f2;
         border-radius: 2px;
 
+        streamline-icon {
+          display: flex;
+        }
+
         svg {
-          vertical-align: middle;
-          transform: scale(.5);
+          width: 30px;
           fill: $mid-gray;
         }
       }
     }
 
     .file-entry {
-      width: calc(var(--sidebar-width) - var(--thumbnail-width) - 60px);
       display: flex;
+      flex: 1;
       align-items: center;
-
-      @media (max-width: $screen-sm) {
-        width: calc(100% - var(--thumbnail-width) - 50px);
-      }
+      overflow: hidden;
+      font-size: 12px;
+      line-height: 18px;
 
       .file-text {
-        display: inline-block;
-        width: calc(var(--sidebar-width) - var(--thumbnail-width) - 140px);
-        font-size: 12px;
-
-        @media (max-width: $screen-sm) {
-          flex-grow: 1;
-        }
+        flex: 1;
+        overflow: hidden;
 
         .file-name {
-          font-weight: bold;
-          color: $mid-gray;
-
+          color: $madero-black;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -757,18 +749,18 @@ $madero-light-blue: #107DDA;
 
         .file-not-available {
           color: $danger;
+          line-height: 14px;
         }
       }
 
       .file-remove {
-        display: inline-block;
-        width: 50px;
+        flex: 0;
 
         a {
           color: $danger;
           font-weight: bold;
-          text-decoration: none;
-          margin-left: 20px;
+          text-decoration: underline;
+          margin-left: 10px;
           vertical-align: middle;
 
           &:hover {
