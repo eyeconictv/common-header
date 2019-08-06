@@ -18412,6 +18412,9 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   overflow-x: hidden;
   overflow-y: auto;
   width: var(--sidebar-width); }
+  @media (max-width: 768px) {
+    .file-component-list {
+      width: 100%; } }
   .file-component-list .file-row {
     display: flex;
     flex-wrap: nowrap;
