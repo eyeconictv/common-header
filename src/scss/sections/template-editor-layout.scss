@@ -679,6 +679,7 @@ $madero-light-blue: #107DDA;
 
   overflow-x: hidden;
   overflow-y: auto;
+  width: var(--sidebar-width);
 
   .file-row {
     display: flex;
