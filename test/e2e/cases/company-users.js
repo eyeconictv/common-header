@@ -32,7 +32,7 @@
         });
       });
 
-      describe("Company Users", function () {
+      xdescribe("Company Users", function () {
         it("Opens Company Users Dialog and load company users", function() {
           companyUsersModalPage.openCompanyUsersModal();
 
