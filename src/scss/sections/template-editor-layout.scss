@@ -782,7 +782,7 @@ $madero-light-blue: #107DDA;
                           linear-gradient(45deg, $mid-gray 25%, transparent 25%, transparent 75%, $mid-gray 75%, $mid-gray);
       }
 
-      .broken-link, .video-placeholder {
+      .broken-link {
         display: flex;
         width: 100%;
         align-items: center;
@@ -795,7 +795,7 @@ $madero-light-blue: #107DDA;
         }
 
         svg {
-          width: 30px;
+          height: 30px;
           fill: $mid-gray;
         }
       }
