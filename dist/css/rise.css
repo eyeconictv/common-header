@@ -18493,7 +18493,11 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
       align-items: center;
       justify-content: center;
       margin-bottom: 0;
-      font-size: 14px; }
+      font-size: 14px;
+      background: white;
+      border-width: 2px;
+      color: #4ab767;
+      border-color: #4ab767; }
   .file-component-list-action-button-bar .select-from-storage {
     padding: 10px 0 0 0; }
     .file-component-list-action-button-bar .select-from-storage button {
