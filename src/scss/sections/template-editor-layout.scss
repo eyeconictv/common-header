@@ -648,6 +648,7 @@ $madero-light-blue: #107DDA;
 
   h2 {
     font-size: 14px;
+    font-weight: bold;
     line-height: 20px;
     padding: 0;
     margin-top: 0;
@@ -895,6 +896,12 @@ $madero-light-blue: #107DDA;
 
   p {
     font-size: 14px;
+
+    &.range-value {
+      font-weight: bold;
+      line-height: 20px;
+      text-align: center;
+    }
   }
 
   label {
