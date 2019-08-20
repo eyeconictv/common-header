@@ -471,6 +471,18 @@ $madero-light-blue: #107DDA;
   }
 }
 
+.storage-selector-component, .storage-selector-action-button-bar {
+  &.no-files {
+    @media (min-width: $screen-sm) {
+      --storage-selector-button-bar-height: 65px;
+    }
+
+    @media (max-width: $screen-sm) {
+      --storage-selector-button-bar-height: 70px;
+    }
+  }
+}
+
 .storage-selector-component {
   --storage-column-width: 100%;
 
