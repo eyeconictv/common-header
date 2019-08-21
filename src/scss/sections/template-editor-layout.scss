@@ -694,27 +694,11 @@ $madero-light-blue: #107DDA;
   padding: 0px 20px;
   background: $white;
 
-  .upload-files {
-    padding: 18px 0 0 0;
-    border-top: 1px solid $madero-gray;
-
-    label {
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      justify-content: center;
-      margin-bottom: 0;
-    }
-  }
-
   & .add-selected {
     padding: 10px 0 0 0;
 
     button {
-      background: $white;
       border-width: 2px;
-      color: $rise-green;
-      border-color: $rise-green;
     }
   }
 }
@@ -872,23 +856,6 @@ $madero-light-blue: #107DDA;
   padding: 0px 20px;
   background: $white;
 
-  .upload-files {
-    padding: 18px 0 0 0;
-    border-top: 1px solid $madero-gray;
-
-    label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0;
-      font-size: 14px;
-      background: $white;
-      border-width: 2px;
-      color: $rise-green;
-      border-color: $rise-green;
-    }
-  }
-
   .select-from-storage {
     padding: 10px 0 0 0;
 
@@ -945,9 +912,10 @@ $madero-light-blue: #107DDA;
   }
 
   .btn-primary {
-    &:hover, &:active, &:focus {
-      background-color: #4ab767;
-      border-color: #4ab767;
+    &, &:hover, &:active, &:focus {
+      color: $white !important;
+      background-color: $rise-green !important;
+      border-color: $rise-green !important;
       box-shadow: none;
     }
   }
@@ -1254,6 +1222,24 @@ $madero-light-blue: #107DDA;
     position: relative;
     top: 3px;
   }
+
+  .upload-files {
+    padding: 18px 0 0 0;
+    border-top: 1px solid $madero-gray;
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      font-size: 14px;
+      background: $white;
+      border-width: 2px;
+      color: $rise-green;
+      border-color: $rise-green;
+    }
+  }
+
 }
 
 .streamline-component-icon {

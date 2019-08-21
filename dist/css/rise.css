@@ -18370,22 +18370,10 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   height: var(--storage-selector-button-bar-height);
   padding: 0px 20px;
   background: white; }
-  .storage-selector-action-button-bar .upload-files {
-    padding: 18px 0 0 0;
-    border-top: 1px solid #999999; }
-    .storage-selector-action-button-bar .upload-files label {
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      justify-content: center;
-      margin-bottom: 0; }
   .storage-selector-action-button-bar .add-selected {
     padding: 10px 0 0 0; }
     .storage-selector-action-button-bar .add-selected button {
-      background: white;
-      border-width: 2px;
-      color: #4ab767;
-      border-color: #4ab767; }
+      border-width: 2px; }
 
 .storage-upload-panel {
   margin-top: 5px; }
@@ -18496,19 +18484,6 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
   height: var(--image-component-list-button-bar-height);
   padding: 0px 20px;
   background: white; }
-  .file-component-list-action-button-bar .upload-files {
-    padding: 18px 0 0 0;
-    border-top: 1px solid #999999; }
-    .file-component-list-action-button-bar .upload-files label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0;
-      font-size: 14px;
-      background: white;
-      border-width: 2px;
-      color: #4ab767;
-      border-color: #4ab767; }
   .file-component-list-action-button-bar .select-from-storage {
     padding: 10px 0 0 0; }
     .file-component-list-action-button-bar .select-from-storage button {
@@ -18544,9 +18519,10 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     color: #4ab767;
     border-color: #4ab767;
     padding: 5px 12px; }
-  .madero-style .btn-primary:hover, .madero-style .btn-primary:active, .madero-style .btn-primary:focus {
-    background-color: #4ab767;
-    border-color: #4ab767;
+  .madero-style .btn-primary, .madero-style .btn-primary:hover, .madero-style .btn-primary:active, .madero-style .btn-primary:focus {
+    color: white !important;
+    background-color: #4ab767 !important;
+    border-color: #4ab767 !important;
     box-shadow: none; }
   .madero-style .radio {
     margin-top: 0px;
@@ -18746,6 +18722,19 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     fill: #45b764;
     position: relative;
     top: 3px; }
+  .madero-style .upload-files {
+    padding: 18px 0 0 0;
+    border-top: 1px solid #999999; }
+    .madero-style .upload-files label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      font-size: 14px;
+      background: white;
+      border-width: 2px;
+      color: #4ab767;
+      border-color: #4ab767; }
 
 .streamline-component-icon {
   display: inline-block;
