@@ -19336,7 +19336,7 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
     border-left: 0; }
 
 .video-component-container {
-  --video-component-settings-height: 120px; }
+  --video-component-settings-height: 140px; }
 
 @media (min-width: 768px) {
   .video-component-container {
@@ -19350,6 +19350,8 @@ a.mfp-iframe:hover:after, .mfp-iframe.u_link:hover:after {
 
 .video-component-settings {
   height: var(--video-component-settings-height); }
+  .video-component-settings .video-component-volume + p {
+    font-size: 12px; }
 
 .video-component-list {
   height: calc(var(--video-component-body-height) - var(--video-component-list-button-bar-height)); }
