@@ -64,12 +64,12 @@ angular.module("risevision.common.components.purchase-flow")
         });
     };
 
-    $scope.validatePaymentMethod = function () {
+    $scope.validatePaymentMethod = function (element) {
       if (!_isFormValid()) {
         return;
       }
 
-      purchaseFactory.validatePaymentMethod()
+      purchaseFactory.validatePaymentMethod(element)
         .then($scope.setNextStep);
     };
 

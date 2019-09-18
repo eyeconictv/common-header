@@ -6,12 +6,19 @@ describe("Services: stripe service", function() {
   beforeEach(module(function ($provide) {
     $provide.service("$q", function() {return Q;});
     $provide.service("stripeLoader", function() {
+      var elements = {
+        create: sinon.spy()
+      };
+
       return function() {
         return Q.resolve(stripeClient = {
           card: {
             createToken: sinon.spy(function(obj, callback) {
               callback("status", createTokenResponse);
             })
+          },
+          elements: function() {
+            return elements;
           }
         });
       };
@@ -242,6 +249,13 @@ describe("Services: stripe service", function() {
 
     });
 
+    it("should create a stripe element", function(done) {
+      stripeService.createElement("cardNumber", {})
+      .then(function() {
+        stripeClient.elements().create.should.have.been.called;
 
+        done();
+      });
+    });
   });
 });

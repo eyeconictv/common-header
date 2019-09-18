@@ -55,42 +55,21 @@
           <div class="col-md-12">
             <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardNumber.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardNumber.$invalid }">
               <label for="new-card-number" class="control-label">Card Number *</label>
-              <input id="new-card-number" type="text" aria-required="true" tabindex="1" class="form-control" placeholder="0000 0000 0000 0000" name="cardNumber"  data-stripe="number" ng-model="paymentMethods.newCreditCard.number" autocomplete="cc-number" required>
+              <div id="new-card-number"></div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
             <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardExpiryMonth.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardExpiryMonth.$invalid }">
-              <label for="new-card-expiry-month" class="control-label">Expiry Month *</label>
-              <select id="new-card-expiry-month" aria-required="true" tabindex="1" class="form-control" name="cardExpiryMonth" data-stripe="exp-month" ng-model="paymentMethods.newCreditCard.expMonth" autocomplete="cc-exp-month" integer-parser required>
-                <option ng-show="false" value="">&lt; Select Month &gt;</option>
-                <option value="1">01</option>
-                <option value="2">02</option>
-                <option value="3">03</option>
-                <option value="4">04</option>
-                <option value="5">05</option>
-                <option value="6">06</option>
-                <option value="7">07</option>
-                <option value="8">08</option>
-                <option value="9">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardExpiryYear.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardExpiryYear.$invalid }">
-              <label for="expiry-year" class="control-label">Expiry Year *</label>
-              <year-selector id="new-card-expiry-year" class="form-control" name="cardExpiryYear" data-stripe="exp-year" ng-model="paymentMethods.newCreditCard.expYear" tabindex="1" autocomplete="cc-exp-year" integer-parser required>
-              </year-selector>
+              <label for="new-card-expiry" class="control-label">Expiry*</label>
+              <div id="new-card-expiry"></div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardCvc.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardCvc.$invalid }">
               <label for="new-card-cvc" class="control-label">Security Code *</label>
-              <input id="new-card-cvc" aria-required="true" tabindex="1" type="text" pattern="[0-9]*" class="form-control" name="cardCvc" data-stripe="cvc" ng-model="paymentMethods.newCreditCard.cvc" autocomplete="cc-csc" maxlength="4" required>
+              <div id="new-card-cvc"></div>
             </div>
           </div>
         </div>
@@ -189,7 +168,7 @@
     <div class="row">
       <div class="col-xs-12">
         <button id="backButton" type="button" aria-label="Go back to Shipping Address" class="btn btn-default pull-left" ng-click="setPreviousStep()" ng-hide="finalStep" tabindex="2" translate>common.back</button>
-        <button id="continueButton" type="submit" aria-label="Continue to Purchase Review" form="form.paymentMethodsForm" class="btn btn-primary pull-right" ng-click="validatePaymentMethod()" tabindex="1" translate>common.continue</button>
+        <button id="continueButton" type="submit" aria-label="Continue to Purchase Review" form="form.paymentMethodsForm" class="btn btn-primary pull-right" ng-click="validatePaymentMethod(cardNumber)" tabindex="1" translate>common.continue</button>
       </div>
     </div>
   </form>

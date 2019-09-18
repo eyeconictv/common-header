@@ -72,17 +72,15 @@
           });
         };
 
-        var _validateCard = function (card, isNew) {
-          card.validationErrors = stripeService.validateCard(card, isNew);
+        factory.initializeStripeElements = function (types) {
+          stripeService.prepareNewElementsGroup();
 
-          if (!card.validationErrors || card.validationErrors.length > 0) {
-            return false;
-          }
-
-          return true;
+          return $q.all(types.map(function (type) {
+            return stripeService.createElement(type);
+          }));
         };
 
-        factory.validatePaymentMethod = function () {
+        factory.validatePaymentMethod = function (element) {
           var paymentMethods = factory.purchase.paymentMethods;
           var deferred = $q.defer();
 
@@ -91,33 +89,38 @@
             deferred.resolve();
           } else if (paymentMethods.paymentMethod === "card") {
             if (!paymentMethods.selectedCard.isNew) {
-              if (_validateCard(paymentMethods.selectedCard, false)) {
-                // Existing Card selected
-                deferred.resolve();
-              } else {
-                deferred.reject();
-              }
+              deferred.resolve();
             } else {
-              if (_validateCard(paymentMethods.newCreditCard, true)) {
-                var address = paymentMethods.newCreditCard.address;
-                if (paymentMethods.newCreditCard.useBillingAddress) {
-                  address = paymentMethods.newCreditCard.billingAddress;
-                }
-
-                factory.loading = true;
-
-                return stripeService.createToken(paymentMethods.newCreditCard, address)
-                  .then(function (response) {
-                    paymentMethods.newCreditCard.id = response.id;
-                    paymentMethods.newCreditCard.last4 = response.card.last4;
-                    paymentMethods.newCreditCard.cardType = response.card.type;
-                  })
-                  .finally(function () {
-                    factory.loading = false;
-                  });
-              } else {
-                deferred.reject();
+              var address = paymentMethods.newCreditCard.address;
+              if (paymentMethods.newCreditCard.useBillingAddress) {
+                address = paymentMethods.newCreditCard.billingAddress;
               }
+
+              factory.loading = true;
+
+              var details = {
+                billing_details: {
+                  name: paymentMethods.newCreditCard.name,
+                  address: {
+                    city: address.city,
+                    country: address.country,
+                    postal_code: address.postalCode,
+                    state: address.province
+                  }
+                }
+              };
+
+              return stripeService.createPaymentMethod("card", element, details)
+                .then(function (response) {
+                  if (response.error) {
+                    deferred.reject(response.error);
+                  } else {
+                    paymentMethods.newCreditCard.paymentMethod = response.paymentMethod;
+                  }
+                })
+                .finally(function () {
+                  factory.loading = false;
+                });
             }
           }
           return deferred.promise;
