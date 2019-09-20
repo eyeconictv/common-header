@@ -1,5 +1,9 @@
 <!-- Step 4 -->
 <div id="checkout-payment-methods">
+  <div id="errorBox" class="alert alert-danger" role="alert" ng-show="purchase.checkoutError">
+    <strong>Payment Method Error</strong> {{purchase.checkoutError}}
+  </div>
+
   <form id="form.paymentMethodsForm" role="form" class="u_margin-md-top" name="form.paymentMethodsForm" novalidate>
     <!-- Alpha Release - Select New Card by default -->
     <div class="row u_margin-md-top">
@@ -46,7 +50,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardholderName.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardholderName.$invalid }">
-              <label for="new-card-name" lass="control-label">Cardholder Name *</label>
+              <label for="new-card-name" class="control-label">Cardholder Name *</label>
               <input id="new-card-name" aria-required="true" tabindex="1" type="text" class="form-control" name="cardholderName" data-stripe="name" ng-model="paymentMethods.newCreditCard.name" autocomplete="cc-name" required>
             </div>
           </div>
@@ -55,7 +59,7 @@
           <div class="col-md-12">
             <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardNumber.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardNumber.$invalid }">
               <label for="new-card-number" class="control-label">Card Number *</label>
-              <div id="new-card-number"></div>
+              <div id="new-card-number" tabindex="2"></div>
             </div>
           </div>
         </div>
@@ -63,13 +67,13 @@
           <div class="col-md-4">
             <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardExpiryMonth.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardExpiryMonth.$invalid }">
               <label for="new-card-expiry" class="control-label">Expiry*</label>
-              <div id="new-card-expiry"></div>
+              <div id="new-card-expiry" tabindex="3"></div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group" ng-class="{ 'has-error': (form.paymentMethodsForm.cardCvc.$dirty || form.paymentMethodsForm.$submitted) && form.paymentMethodsForm.cardCvc.$invalid }">
               <label for="new-card-cvc" class="control-label">Security Code *</label>
-              <div id="new-card-cvc"></div>
+              <div id="new-card-cvc" tabindex="4"></div>
             </div>
           </div>
         </div>

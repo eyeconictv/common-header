@@ -69,8 +69,18 @@ angular.module("risevision.common.components.purchase-flow")
         return;
       }
 
+      purchaseFactory.loading = true;
+
       purchaseFactory.validatePaymentMethod(element)
-        .then($scope.setNextStep);
+        .then($scope.preparePayment)
+        .then($scope.setNextStep)
+        .finally(function () {
+          purchaseFactory.loading = false;
+        });
+    };
+
+    $scope.preparePayment = function () {
+      return purchaseFactory.preparePaymentIntent();
     };
 
     $scope.completePayment = function () {

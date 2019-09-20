@@ -25,5 +25,11 @@ angular.module("risevision.common.components.purchase-flow")
           return els.create(type, options);
         });
       };
+
+      this.authenticate3ds = function (secret) {
+        return stripeLoader().then(function (stripeClient) {
+          return stripeClient.handleCardAction(secret);
+        });
+      };
     }
   ]);

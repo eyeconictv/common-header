@@ -80,9 +80,62 @@
           }));
         };
 
+        factory.authenticate3ds = function (intentSecret) {
+          return stripeService.authenticate3ds(intentSecret)
+            .then(function (result) {
+              if (result.error) {
+                factory.purchase.checkoutError = result.error;
+                return $q(function (res, rej) {
+                  rej(result.error);
+                });
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+              factory.purchase.checkoutError =
+                "Something went wrong, please retry or contact support@risevision.com";
+              return $q(function (res, rej) {
+                rej(error);
+              });
+            });
+        };
+
+        factory.preparePaymentIntent = function () {
+          var paymentMethods = factory.purchase.paymentMethods;
+          var deferred = $q.defer();
+
+          if (paymentMethods.paymentMethod === "invoice") {
+            deferred.resolve();
+          } else if (paymentMethods.paymentMethod === "card") {
+            var jsonData = _getOrderAsJson();
+
+            storeService.preparePurchase(jsonData)
+              .then(function (response) {
+                if (response.error) {
+                  factory.purchase.checkoutError = response.error;
+                  deferred.reject(response.error);
+                } else {
+                  paymentMethods.intentResponse = response;
+                  if (response.authenticationRequired) {
+                    deferred.resolve(factory.authenticate3ds(response.intentSecret));
+                  } else {
+                    deferred.resolve();
+                  }
+                }
+              })
+              .catch(function (error) {
+                factory.purchase.checkoutError = error.message || "Something went wrong, please retry";
+                deferred.reject(error);
+              });
+          }
+          return deferred.promise;
+        };
+
         factory.validatePaymentMethod = function (element) {
           var paymentMethods = factory.purchase.paymentMethods;
           var deferred = $q.defer();
+
+          factory.purchase.checkoutError = null;
 
           if (paymentMethods.paymentMethod === "invoice") {
             // TODO: Check Invoice credit (?)
@@ -96,8 +149,6 @@
                 address = paymentMethods.newCreditCard.billingAddress;
               }
 
-              factory.loading = true;
-
               var details = {
                 billing_details: {
                   name: paymentMethods.newCreditCard.name,
@@ -110,16 +161,14 @@
                 }
               };
 
-              return stripeService.createPaymentMethod("card", element, details)
+              stripeService.createPaymentMethod("card", element, details)
                 .then(function (response) {
                   if (response.error) {
                     deferred.reject(response.error);
                   } else {
-                    paymentMethods.newCreditCard.paymentMethod = response.paymentMethod;
+                    paymentMethods.paymentMethodResponse = response;
+                    deferred.resolve();
                   }
-                })
-                .finally(function () {
-                  factory.loading = false;
                 });
             }
           }
@@ -178,6 +227,7 @@
 
         var _getOrderAsJson = function () {
           //clean up items
+          var paymentMethods = factory.purchase.paymentMethods;
           var newItems = [{
             id: _getChargebeePlanId(),
             qty: factory.purchase.plan.displays
@@ -187,8 +237,9 @@
           }];
 
           var card = factory.purchase.paymentMethods.selectedCard;
-          var cardData = factory.purchase.paymentMethods.paymentMethod === "invoice" ? null : {
+          var cardData = paymentMethods.paymentMethod === "invoice" ? null : {
             cardId: card.id,
+            intentId: paymentMethods.intentResponse ? paymentMethods.intentResponse.intentId : null,
             isDefault: card.isDefault ? true : false
           };
 
@@ -196,8 +247,10 @@
             billTo: addressService.copyAddress(factory.purchase.billingAddress),
             shipTo: addressService.copyAddress(factory.purchase.shippingAddress),
             items: newItems,
-            purchaseOrderNumber: factory.purchase.paymentMethods.purchaseOrderNumber,
-            card: cardData
+            purchaseOrderNumber: paymentMethods.purchaseOrderNumber,
+            card: cardData,
+            paymentMethodId: paymentMethods.paymentMethodResponse ?
+              paymentMethods.paymentMethodResponse.paymentMethod.id : null
           };
 
           return JSON.stringify(obj);
