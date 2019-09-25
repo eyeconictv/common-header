@@ -436,20 +436,20 @@ angular.module("risevision.common.components.purchase-flow")
             if (!paymentMethods.selectedCard.isNew) {
               deferred.resolve();
             } else {
-              var address = paymentMethods.newCreditCard.address;
-              if (paymentMethods.newCreditCard.useBillingAddress) {
+              var address = paymentMethods.newCreditCard && paymentMethods.newCreditCard.address;
+              if (paymentMethods.newCreditCard && paymentMethods.newCreditCard.useBillingAddress) {
                 address = paymentMethods.newCreditCard.billingAddress;
               }
 
               var details = {
                 billing_details: {
-                  name: paymentMethods.newCreditCard.name,
-                  address: {
+                  name: paymentMethods.newCreditCard && paymentMethods.newCreditCard.name,
+                  address: address ? {
                     city: address.city,
                     country: address.country,
                     postal_code: address.postalCode,
                     state: address.province
-                  }
+                  } : {}
                 }
               };
 
