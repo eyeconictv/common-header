@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  queue: eddiewebb/queue@1.1.4
 
 commands:
   run_e2e_cases:
@@ -81,6 +83,9 @@ jobs:
     working_directory: ~/common-header
     docker: *BUILDIMAGE
     steps:
+      - queue/until_front_of_line:
+          only-on-branch: *
+          time: '10'
       - run_e2e_cases:
           casesfile: "test/e2e/common-header.scenarios.js"
   test_e2e:
