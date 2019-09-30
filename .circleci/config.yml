@@ -84,7 +84,7 @@ jobs:
     docker: *BUILDIMAGE
     steps:
       - queue/until_front_of_line:
-          only-on-branch: *
+          only-on-branch: '*'
           time: '10'
       - run_e2e_cases:
           casesfile: "test/e2e/common-header.scenarios.js"
