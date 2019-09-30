@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   queue: eddiewebb/queue@1.1.4
-
 commands:
   run_e2e_cases:
     description: "Runs a specific cases file as a workflow step"
