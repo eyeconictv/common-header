@@ -2,6 +2,15 @@ Rise Vision Common Header [![Circle CI](https://circleci.com/gh/Rise-Vision/comm
 ==============
 ![](screenshots/header.png)
 
+## Quickstart
+
+### Built With
+- Node 6.17.1
+- `npm install`
+- `npm intall -g bower`
+- `bower install`
+- `gulp build`
+
 ## Introduction
 
 A responsive AngularJS-based common header implementation to be used across Rise Vision web applications and pages.

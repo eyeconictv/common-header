@@ -179,7 +179,7 @@ gulp.task("pretty", function() {
     });
 });
 
-gulp.task("html", ["coerce-prod-env", "html-inject", "html2js", "lint"], function () {
+gulp.task("html", ["coerce-prod-env", "html-inject", "html2js"], function () {
   return es.concat(
     gulp.src("test/e2e/index.html")
     .pipe(usemin({ js: [], css: [] }))
