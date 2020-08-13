@@ -4,7 +4,7 @@
 
   angular.module("risevision.common.components.analytics", [])
 
-  .value("SEGMENT_API_KEY", "AFtY3tN10BQj6RbnfpDDp9Hx8N1modKN")
+  .value("SEGMENT_API_KEY", "")
     .value("GA_LINKER_USE_ANCHOR", true)
 
   .factory("segmentAnalytics", ["$rootScope", "$window", "$log", "$location",
