@@ -35,7 +35,7 @@
     "ng-core-api-client": "https://github.com/porcupine-plan/ng-core-api-client.git",
     "rv-common-style": "https://github.com/porcupine-plan/common-style.git#2.3.19",
     "rv-loading": "https://github.com/porcupine-plan/rv-loading.git",
-    "rv-common-app-components": "https://github.com/porcupine-plan/common-app-components.git",
+    "rv-common-app-components": "https://github.com/porcupine-plan/common-app-components.git#5.0.4",
     "rv-common-svg": "https://github.com/porcupine-plan/common-svg.git",
     "component-subscription-status": "https://github.com/porcupine-plan/component-subscription-status.git#master",
     "rv-common-i18n": "https://github.com/porcupine-plan/common-i18n.git",
