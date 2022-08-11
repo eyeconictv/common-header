@@ -1,7 +1,7 @@
 {
   "name": "common-header",
-  "version": "2.5.11",
-  "homepage": "https://github.com/Rise-Vision/common-header",
+  "version": "2.5.11-spread-sheet",
+  "homepage": "https://github.com/porcupine-plan/common-header",
   "authors": [
     "Xiyang Chen <settinghead@gmail.com>"
   ],
@@ -24,7 +24,7 @@
     "q": "1.0.1",
     "seiyria-bootstrap-slider": "~3.1.0",
     "select2": "~3.4",
-    "spectrum": "git://github.com/Rise-Vision/spectrum"
+    "spectrum": "git://github.com/porcupine-plan/spectrum"
   },
   "dependencies": {
     "angular": "~1.5.0",
@@ -43,7 +43,7 @@
     "ngstorage": "0.3.0",
     "ng-biscuit": "~0.2.1",
     "ng-csv": "~0.2.3",
-    "widget-settings-ui-components": "https://github.com/Rise-Vision/widget-settings-ui-components.git"
+    "widget-settings-ui-components": "https://github.com/porcupine-plan/widget-settings-ui-components.git"
   },
   "resolutions": {
     "angular": "~1.5.0",
