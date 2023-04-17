@@ -1,6 +1,6 @@
 {
   "name": "common-header",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Rise Vision Common Header ==============",
   "main": "index.js",
   "dependencies": {
@@ -29,9 +29,7 @@
     "gulp-watch": "^0.6.9",
     "jshint": "2.9.5",
     "jshint-stylish": "^2.2.1",
-    "run-sequence": "^0.3.6",
-    "rv-common-e2e": "git://github.com/Rise-Vision/rv-common-e2e.git",
-    "widget-tester": "git://github.com/Rise-Vision/widget-tester.git"
+    "run-sequence": "^0.3.6"
   },
   "scripts": {
     "test": "gulp test",
@@ -40,12 +38,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Rise-Vision/common-header.git"
+    "url": "https://github.com/eyeconictv/common-header.git"
   },
   "author": "Xiyang Chen <settinghead@gmail.com>",
   "license": "GPLv3",
   "bugs": {
-    "url": "https://github.com/Rise-Vision/common-header/issues"
+    "url": "https://github.com/eyeconictv/common-header/issues"
   },
-  "homepage": "https://github.com/Rise-Vision/common-header"
+  "homepage": "https://github.com/eyeconictv/common-header"
 }

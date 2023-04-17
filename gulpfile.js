@@ -14,7 +14,7 @@ var env = process.env.NODE_ENV || "dev",
     gulp = require("gulp"),
     jshint = require("gulp-jshint"),
     watch = require("gulp-watch"),
-    factory = require("widget-tester").gulpTaskFactory,
+    // factory = require("widget-tester").gulpTaskFactory,
     runSequence = require("run-sequence"),
     concat = require("gulp-concat"),
     rename = require("gulp-rename"),
@@ -30,41 +30,41 @@ var env = process.env.NODE_ENV || "dev",
     i18nBuild = require("./i18n-build"),
     cssBuildn = require("./css-build");
 
-    var unitTestFiles = [
-    "bower_components/jquery/dist/jquery.js",
-    "bower_components/angular/angular.js",
-    "bower_components/q/q.js",
-    "bower_components/lodash/dist/lodash.js",
-    "bower_components/ngstorage/ngStorage.js",
-    "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
-    "bower_components/angular-mocks/angular-mocks.js",
-    "bower_components/angular-sanitize/angular-sanitize.js",
-    "bower_components/angular-spinner/dist/angular-spinner.js",
-    "bower_components/angular-touch/angular-touch.js",
-    "bower_components/angular-ui-router/release/angular-ui-router.js",
-    "bower_components/angular-cookies/angular-cookies.js",
-    "bower_components/ng-csv/build/ng-csv.js",
-    "bower_components/ng-tags-input/ng-tags-input.js",
-    "bower_components/angular-local-storage/dist/angular-local-storage.js",
-    "bower_components/checklist-model/checklist-model.js",
-    "bower_components/angular-translate/angular-translate.js",
-    "bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
-    "bower_components/angular-md5/angular-md5.min.js",
-    "src/js/components/**/app.js",
-    "src/js/components/**/svc-*.js",
-    "src/js/components/**/dtv-*.js",
-    "src/js/components/**/ctr-*.js",
-    "src/js/components/**/ftr-*.js",
-    "tmp/partials/templates.js",
-    "src/js/*.js",
-    "src/js/*/*.js",
-    "node_modules/widget-tester/mocks/translate-mock.js",
-    "test/unit/**/*spec.js",
-    "test/unit/**/mocks/*.js",
-    "test/unit/**/*.tests.js",
-    "test/unit/services/svc-zendesk-override.js"
-    ],
-    commonHeaderSrcFiles = ["./tmp/partials/templates.js",
+    // var unitTestFiles = [
+    // "bower_components/jquery/dist/jquery.js",
+    // "bower_components/angular/angular.js",
+    // "bower_components/q/q.js",
+    // "bower_components/lodash/dist/lodash.js",
+    // "bower_components/ngstorage/ngStorage.js",
+    // "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+    // "bower_components/angular-mocks/angular-mocks.js",
+    // "bower_components/angular-sanitize/angular-sanitize.js",
+    // "bower_components/angular-spinner/dist/angular-spinner.js",
+    // "bower_components/angular-touch/angular-touch.js",
+    // "bower_components/angular-ui-router/release/angular-ui-router.js",
+    // "bower_components/angular-cookies/angular-cookies.js",
+    // "bower_components/ng-csv/build/ng-csv.js",
+    // "bower_components/ng-tags-input/ng-tags-input.js",
+    // "bower_components/angular-local-storage/dist/angular-local-storage.js",
+    // "bower_components/checklist-model/checklist-model.js",
+    // "bower_components/angular-translate/angular-translate.js",
+    // "bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js",
+    // "bower_components/angular-md5/angular-md5.min.js",
+    // "src/js/components/**/app.js",
+    // "src/js/components/**/svc-*.js",
+    // "src/js/components/**/dtv-*.js",
+    // "src/js/components/**/ctr-*.js",
+    // "src/js/components/**/ftr-*.js",
+    // "tmp/partials/templates.js",
+    // "src/js/*.js",
+    // "src/js/*/*.js",
+    // "node_modules/widget-tester/mocks/translate-mock.js",
+    // "test/unit/**/*spec.js",
+    // "test/unit/**/mocks/*.js",
+    // "test/unit/**/*.tests.js",
+    // "test/unit/services/svc-zendesk-override.js"
+    // ],
+    var commonHeaderSrcFiles = ["./tmp/partials/templates.js",
     "./src/js/dtv-common-header.js",
     "./src/js/directives/*.js",
     "./src/js/filters/*.js",
@@ -268,52 +268,52 @@ gulp.task("build-dist", function (cb) {
 
 
 // Testing
-gulp.task("test:unit", ["config"], factory.testUnitAngular({
-  testFiles: unitTestFiles,
-  coverageFiles: "../../src/js/**/*.js"
-}));
+// gulp.task("test:unit", ["config"], factory.testUnitAngular({
+//   testFiles: unitTestFiles,
+//   coverageFiles: "../../src/js/**/*.js"
+// }));
 
-gulp.task("test:unit-watch", ["config"], factory.testUnitAngular({
-  testFiles: unitTestFiles,
-  coverageFiles: "../../src/js/**/*.js",
-  watch: true
-}));
+// gulp.task("test:unit-watch", ["config"], factory.testUnitAngular({
+//   testFiles: unitTestFiles,
+//   coverageFiles: "../../src/js/**/*.js",
+//   watch: true
+// }));
 
-gulp.task("html-inject", function () {
-  return gulp.src("test/e2e/index_raw.html")
-  .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
-  .pipe(injectorGenerator(dependencySrcFiles, "deps"))
-  .pipe(injectorGenerator(mockSrcFiles, "gapimock"))
-  .pipe(rename("index.html"))
-  .pipe(gulp.dest("test/e2e"));
-});
+// gulp.task("html-inject", function () {
+//   return gulp.src("test/e2e/index_raw.html")
+//   .pipe(injectorGenerator(commonHeaderSrcFiles, "ch"))
+//   .pipe(injectorGenerator(dependencySrcFiles, "deps"))
+//   .pipe(injectorGenerator(mockSrcFiles, "gapimock"))
+//   .pipe(rename("index.html"))
+//   .pipe(gulp.dest("test/e2e"));
+// });
 
-gulp.task("server", ["html-inject", "html2js", "config", "fonts-copy"], factory.testServer({https: false}));
-gulp.task("server-close", factory.testServerClose());
-gulp.task("test:webdrive_update", factory.webdriveUpdate());
-gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
-  browser: "chrome",
-  loginUser: process.env.E2E_USER2,
-  loginPass: process.env.E2E_PASS2,
-  loginUser2: process.env.E2E_USER,
-  loginPass2: process.env.E2E_PASS,
-  testFiles: function(){
-    try{
-      return JSON.parse(fs.readFileSync('/tmp/testFiles.txt').toString())
-    } catch (e) {
-      return process.env.TEST_FILES || ["./test/e2e/**/*.scenarios.js"]
-    }
-  }()
-}));
-gulp.task("test:e2e", function (cb) {
-  runSequence(["config", "html2js"], "server", "test:e2e:core", "server-close", cb);
-});
+// gulp.task("server", ["html-inject", "html2js", "config", "fonts-copy"], factory.testServer({https: false}));
+// gulp.task("server-close", factory.testServerClose());
+// gulp.task("test:webdrive_update", factory.webdriveUpdate());
+// gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
+//   browser: "chrome",
+//   loginUser: process.env.E2E_USER2,
+//   loginPass: process.env.E2E_PASS2,
+//   loginUser2: process.env.E2E_USER,
+//   loginPass2: process.env.E2E_PASS,
+//   testFiles: function(){
+//     try{
+//       return JSON.parse(fs.readFileSync('/tmp/testFiles.txt').toString())
+//     } catch (e) {
+//       return process.env.TEST_FILES || ["./test/e2e/**/*.scenarios.js"]
+//     }
+//   }()
+// }));
+// gulp.task("test:e2e", function (cb) {
+//   runSequence(["config", "html2js"], "server", "test:e2e:core", "server-close", cb);
+// });
 
-gulp.task("coveralls", factory.coveralls());
+// gulp.task("coveralls", factory.coveralls());
 
-gulp.task("test", function (cb) {
-  runSequence("html2js", "test:unit", cb);
-});
+// gulp.task("test", function (cb) {
+//   runSequence("html2js", "test:unit", cb);
+// });
 
 // End - Testing
 

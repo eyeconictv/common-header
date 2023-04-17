@@ -1,7 +1,7 @@
 {
   "name": "common-header",
-  "version": "4.0.0",
-  "homepage": "https://github.com/Rise-Vision/common-header",
+  "version": "4.0.1",
+  "homepage": "https://github.com/eyeconictv/common-header",
   "authors": [
     "Xiyang Chen <settinghead@gmail.com>"
   ],
@@ -23,7 +23,7 @@
     "q": "1.0.1",
     "seiyria-bootstrap-slider": "~3.1.0",
     "select2": "~3.4",
-    "spectrum": "git://github.com/Rise-Vision/spectrum"
+    "spectrum": "git://github.com/eyeconictv/spectrum"
   },
   "dependencies": {
     "angular": "~1.7.0",
@@ -45,7 +45,7 @@
     "ngstorage": "~0.3.0",
     "ng-csv": "~0.3.6",
     "ng-tags-input": "^3.2.0",
-    "widget-settings-ui-components": "https://github.com/Rise-Vision/widget-settings-ui-components.git"
+    "widget-settings-ui-components": "https://github.com/eyeconictv/widget-settings-ui-components.git"
   },
   "resolutions": {
     "angular": "~1.7.0",
