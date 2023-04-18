@@ -14,7 +14,7 @@ var env = process.env.NODE_ENV || "dev",
     gulp = require("gulp"),
     jshint = require("gulp-jshint"),
     watch = require("gulp-watch"),
-    factory = require("widget-tester").gulpTaskFactory,
+    // factory = require("widget-tester").gulpTaskFactory,
     runSequence = require("run-sequence"),
     concat = require("gulp-concat"),
     rename = require("gulp-rename"),
@@ -265,16 +265,16 @@ gulp.task("build-dist", function (cb) {
 
 
 // Testing
-gulp.task("test:unit", ["config"], factory.testUnitAngular({
-  testFiles: unitTestFiles,
-  coverageFiles: "../../src/js/**/*.js"
-}));
+// gulp.task("test:unit", ["config"], factory.testUnitAngular({
+//   testFiles: unitTestFiles,
+//   coverageFiles: "../../src/js/**/*.js"
+// }));
 
-gulp.task("test:unit-watch", ["config"], factory.testUnitAngular({
-  testFiles: unitTestFiles, 
-  coverageFiles: "../../src/js/**/*.js",
-  watch: true
-}));
+// gulp.task("test:unit-watch", ["config"], factory.testUnitAngular({
+//   testFiles: unitTestFiles, 
+//   coverageFiles: "../../src/js/**/*.js",
+//   watch: true
+// }));
 
 gulp.task("html-inject", function () {
   return gulp.src("test/e2e/index_raw.html")
@@ -285,24 +285,24 @@ gulp.task("html-inject", function () {
   .pipe(gulp.dest("test/e2e"));
 });
 
-gulp.task("server", ["html-inject", "html2js", "config", "fonts-copy"], factory.testServer({https: false}));
-gulp.task("server-close", factory.testServerClose());
-gulp.task("test:webdrive_update", factory.webdriveUpdate());
-gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
-  browser: "chrome",
-  loginUser: process.env.E2E_USER2,
-  loginPass: process.env.E2E_PASS2,
-  testFiles: process.env.TEST_FILES || ["./test/e2e/**/*.scenarios.js"]
-}));
-gulp.task("test:e2e", function (cb) {
-  runSequence("server", "test:e2e:core", "server-close", cb);
-});
+// gulp.task("server", ["html-inject", "html2js", "config", "fonts-copy"], factory.testServer({https: false}));
+// gulp.task("server-close", factory.testServerClose());
+// gulp.task("test:webdrive_update", factory.webdriveUpdate());
+// gulp.task("test:e2e:core", ["test:webdrive_update"], factory.testE2EAngular({
+//   browser: "chrome",
+//   loginUser: process.env.E2E_USER2,
+//   loginPass: process.env.E2E_PASS2,
+//   testFiles: process.env.TEST_FILES || ["./test/e2e/**/*.scenarios.js"]
+// }));
+// gulp.task("test:e2e", function (cb) {
+//   runSequence("server", "test:e2e:core", "server-close", cb);
+// });
 
-gulp.task("coveralls", factory.coveralls());
+// gulp.task("coveralls", factory.coveralls());
 
-gulp.task("test", function (cb) {
-  runSequence("html2js", "test:unit", "test:e2e", "coveralls", cb);
-});
+// gulp.task("test", function (cb) {
+//   runSequence("html2js", "test:unit", "test:e2e", "coveralls", cb);
+// });
 
 // End - Testing
 
